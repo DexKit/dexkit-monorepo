@@ -56,15 +56,15 @@ export function TokenTradeConfigForm({
     if (onChange && formData) {
       onChange(formData);
     }
-  }, [formData, onChange]);
+  }, [formData]);
 
   return (
     <Container sx={{ pt: isMobile ? 1 : 2, px: isMobile ? 1 : 2, pb: 2 }}>
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isMobile ? (
             // Versión móvil: Checkboxes en columna
-            <Stack spacing={0.5} direction="column">
+            (<Stack spacing={0.5} direction="column">
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -113,10 +113,10 @@ export function TokenTradeConfigForm({
                   }
                 />
               </FormGroup>
-            </Stack>
+            </Stack>)
           ) : (
             // Versión desktop: Checkboxes en fila
-            <Stack spacing={1} direction={'row'}>
+            (<Stack spacing={1} direction={'row'}>
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -159,10 +159,10 @@ export function TokenTradeConfigForm({
                   }
                 />
               </FormGroup>
-            </Stack>
+            </Stack>)
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth size={isMobile ? "small" : "medium"}>
             <InputLabel id="trade-type">
               <FormattedMessage
@@ -180,7 +180,7 @@ export function TokenTradeConfigForm({
                 />
               }
               value={formData?.show}
-              onChange={(ev) =>
+              onChange={(ev: any) =>
                 setFormData({
                   ...formData,
                   show: ev.target.value as OrderMarketType,
@@ -202,10 +202,10 @@ export function TokenTradeConfigForm({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
             <Typography variant={isMobile ? "body2" : "body1"}>
               <FormattedMessage
@@ -215,14 +215,14 @@ export function TokenTradeConfigForm({
             </Typography>
           </Alert>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <Typography variant={isMobile ? "caption" : "body2"} sx={{ mb: 0.5 }}>
               <FormattedMessage id="network" defaultMessage="Network" />
             </Typography>
             <NetworkSelectDropdown
               onChange={(chainId) => {
-                setFormData((formData) => ({
+                setFormData((formData: any) => ({
                   ...formData,
                   baseTokenConfig: {
                     address: formData?.baseTokenConfig?.address,
@@ -231,7 +231,7 @@ export function TokenTradeConfigForm({
                 }));
               }}
               activeChainIds={
-                activeChainIds.filter((ch) =>
+                activeChainIds.filter((ch: any) =>
                   SUPPORTED_SWAP_CHAIN_IDS.includes(ch),
                 ) || []
               }
@@ -242,7 +242,7 @@ export function TokenTradeConfigForm({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SearchTokenAutocomplete
             label={
               <FormattedMessage
@@ -255,7 +255,7 @@ export function TokenTradeConfigForm({
             data={sellToken}
             chainId={formData?.baseTokenConfig?.chainId}
             onChange={(tk: any) => {
-              setFormData((formData) => ({
+              setFormData((formData: any) => ({
                 ...formData,
                 baseTokenConfig: {
                   address: tk.address,
@@ -267,13 +267,13 @@ export function TokenTradeConfigForm({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             label={<FormattedMessage id="slippage" defaultMessage="Slippage (%)" />}
             type="number"
             fullWidth
             value={formData?.slippage}
-            onChange={(ev) =>
+            onChange={(ev: any) =>
               setFormData({
                 ...formData,
                 slippage: Number(ev.target.value),

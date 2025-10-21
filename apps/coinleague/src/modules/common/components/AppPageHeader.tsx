@@ -57,7 +57,6 @@ export default function AppPageHeader({ breadcrumbs }: Props) {
           direction="row"
           spacing={1}
           alignItems="center"
-          alignContent="center"
         >
           <IconButton onClick={handleGoBack}>
             <ArrowBackIcon />

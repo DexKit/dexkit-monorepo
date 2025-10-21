@@ -12,7 +12,8 @@ import type {
   AppNotificationType,
   CreateAppNotificationParams,
 } from "@dexkit/ui/types";
-import React, { SetStateAction } from "react";
+import React from "react";
+import { createContext } from "react";
 
 export interface DexkitContextState {
   onChangeLocale: (locale: string) => void;
@@ -25,12 +26,12 @@ export interface DexkitContextState {
   clearNotifications: () => void;
   checkAllNotifications: () => void;
   hiddenAssets: { [key: string]: boolean };
-  setHiddenAssets: (update: SetStateAction<{ [key: string]: boolean }>) => void;
+  setHiddenAssets: (update: any) => void;
   notifications: AppNotification[];
   tokens: TokenWhitelabelApp[];
   currencyUser?: string;
-  setAssets: (update: SetStateAction<{ [key: string]: Asset }>) => void;
-  setTokens: (update: SetStateAction<TokenWhitelabelApp[]>) => void;
+  setAssets: (update: any) => void;
+  setTokens: (update: any) => void;
   userEventURL?: string;
   siteId?: number;
   widgetId?: number;
@@ -40,7 +41,7 @@ export interface DexkitContextState {
   activeChainIds: number[];
 }
 
-export const DexKitContext = React.createContext<DexkitContextState>({
+export const DexKitContext = createContext<DexkitContextState>({
   notificationTypes: {},
   notifications: [],
   transactions: {},
@@ -60,18 +61,18 @@ export const DexKitContext = React.createContext<DexkitContextState>({
     open: (type: string, values: Record<string, any>) => {},
     close: () => {},
     redirectUrl: "",
-    setRedirectUrl: (update?: SetStateAction<string | undefined>) => {},
+    setRedirectUrl: (update?: any) => {},
     error: undefined,
     hash: undefined,
     metadata: undefined,
     type: undefined,
     isOpen: false,
-    setHash: (update?: SetStateAction<string | undefined>) => {},
-    setType: (update?: SetStateAction<string | undefined>) => {},
-    setDialogIsOpen: (update: SetStateAction<boolean>) => {},
-    setError: (update?: SetStateAction<Error | undefined>) => {},
+    setHash: (update?: any) => {},
+    setType: (update?: any) => {},
+    setDialogIsOpen: (update: any) => {},
+    setError: (update?: any) => {},
     setMetadata: (
-      update?: SetStateAction<TransactionMetadata | undefined>
+      update?: any
     ) => {},
     showDialog: (
       open: boolean,

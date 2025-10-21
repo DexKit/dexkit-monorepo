@@ -77,7 +77,6 @@ export default function AddVersionFormDialog({
           error={mutationAddVersion.error}
         />
       )}
-
       <Dialog {...dialogProps}>
         <AppDialogTitle
           title={
@@ -107,11 +106,11 @@ export default function AddVersionFormDialog({
             helper.setSubmitting(false);
           }}
         >
-          {({ submitForm }) => (
+          {({ submitForm }: any) => (
             <Form>
               <DialogContent dividers>
                 <Grid container spacing={isMobile ? 1.5 : 2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack spacing={isMobile ? 1.5 : 2}>
                         <Field
@@ -139,7 +138,7 @@ export default function AddVersionFormDialog({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack spacing={isMobile ? 1.5 : 2}>
                         <Field
@@ -173,7 +172,7 @@ export default function AddVersionFormDialog({
               </DialogContent>
 
               <DialogActions>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     spacing={1}
                     direction={isMobile ? "column-reverse" : "row"}

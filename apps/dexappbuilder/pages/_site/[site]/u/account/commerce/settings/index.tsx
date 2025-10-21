@@ -19,7 +19,7 @@ export default function CommerceProductsPage() {
       <Stack spacing={2}>
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="h5">
                 <FormattedMessage id="settings" defaultMessage="Settings" />
               </Typography>
@@ -30,7 +30,7 @@ export default function CommerceProductsPage() {
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body1" fontWeight="bold">
                 <FormattedMessage
                   id="general.settings"
@@ -44,7 +44,7 @@ export default function CommerceProductsPage() {
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="warning">
                 <AlertTitle>
                   <FormattedMessage
@@ -60,10 +60,10 @@ export default function CommerceProductsPage() {
                 </Typography>
               </Alert>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CheckoutGeneralSettingsForm />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography variant="body1" fontWeight="bold">
@@ -85,7 +85,7 @@ export default function CommerceProductsPage() {
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CheckoutNetworksUpdateForm />
             </Grid>
           </Grid>

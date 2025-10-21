@@ -48,11 +48,11 @@ export type SwapState = {
     token?: Token | undefined
   ) => void;
   handleSelectToken: (token: Token) => void;
-  setBuyToken: React.Dispatch<Token | undefined>;
-  setQuoteFor: React.Dispatch<SwapSide | undefined>;
-  setSellToken: React.Dispatch<Token | undefined>;
-  setBuyAmount: React.Dispatch<BigNumber>;
-  setSellAmount: React.Dispatch<BigNumber>;
+  setBuyToken: any;
+  setQuoteFor: any;
+  setSellToken: any;
+  setBuyAmount: any;
+  setSellAmount: any;
   handleChangeSellAmount: (value: BigNumber) => void;
   handleChangeBuyAmount: (value: BigNumber) => void;
   handleSwapTokens: () => void;

@@ -102,7 +102,7 @@ export function CurrencyField({
       onChange={handleChange}
       onFocus={onFocus}
       onBlur={onBlur}
-      onClick={onClick}
+      {...({ onClick } as any)}
       placeholder="0"
     />
   );

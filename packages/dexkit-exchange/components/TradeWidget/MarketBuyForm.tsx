@@ -187,7 +187,7 @@ export default function MarketBuyForm({
 
   const handleApprove = async () => {
     await approveMutation.mutateAsync({
-      onSubmited: (hash: string) => {},
+      onSubmited: (hash: string) => { },
       amount: BigNumber.from(quote?.sellAmount),
       signer,
       spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
@@ -298,19 +298,19 @@ export default function MarketBuyForm({
       />
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="body2">
               <FormattedMessage id="available" defaultMessage="Available" />:{" "}
               {quoteTokenBalanceFormatted} {quoteToken.symbol.toUpperCase()}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack>
                 <Stack
@@ -335,7 +335,7 @@ export default function MarketBuyForm({
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {renderActionButton()}
           </Grid>
         </Grid>

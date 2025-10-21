@@ -1,9 +1,10 @@
 import {
+  Box,
   Card,
   CardContent,
   Divider,
-  Grid,
   Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
@@ -19,9 +20,9 @@ function Dashboard() {
   const { data: dataTotal, isLoading: isTotalLoading } = useTotalRevenue();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6">
+    <Stack spacing={3}>
+      <Box>
+        <Typography variant="h6" sx={{ mb: 1 }}>
           <FormattedMessage id="dashboard" defaultMessage="Dashboard" />
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -30,16 +31,19 @@ function Dashboard() {
             defaultMessage="Get an overview of your store and track key metrics."
           />
         </Typography>
-      </Grid>
-      <Grid item xs={12}>
+      </Box>
+      <Box>
         <EcommerceCredits />
-      </Grid>
+      </Box>
+      <Divider />
 
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
-      <Grid item xs={12} sm={3}>
-        <Card>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row' },
+        gap: 2,
+        flexWrap: 'wrap'
+      }}>
+        <Card sx={{ flex: { xs: '1 1 100%', sm: '1 1 200px' }, minWidth: '200px' }}>
           <CardContent>
             <Typography color="text.secondary" variant="caption">
               <FormattedMessage
@@ -52,9 +56,8 @@ function Dashboard() {
             </Typography>
           </CardContent>
         </Card>
-      </Grid>
-      <Grid item xs={12} sm={3}>
-        <Card>
+        
+        <Card sx={{ flex: { xs: '1 1 100%', sm: '1 1 200px' }, minWidth: '200px' }}>
           <CardContent>
             <Typography color="text.secondary" variant="caption">
               <FormattedMessage id="orders" defaultMessage="Orders" />
@@ -64,8 +67,8 @@ function Dashboard() {
             </Typography>
           </CardContent>
         </Card>
-      </Grid>
-    </Grid>
+      </Box>
+    </Stack>
   );
 }
 

@@ -27,6 +27,7 @@ export default function CopyIconButton(props: Props) {
       <IconButton
         {...(iconButtonProps as IconButtonProps)}
         onClick={handleClick}
+        sx={{ color: 'text.primary', ...iconButtonProps.sx }}
       >
         {children}
       </IconButton>

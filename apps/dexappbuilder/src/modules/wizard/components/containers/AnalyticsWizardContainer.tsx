@@ -65,12 +65,12 @@ export default function AnalyticsWizardContainer({
         helpers.resetForm();
       }}
     >
-      {({ submitForm, dirty }) => (
+      {({ submitForm, dirty }: any) => (
         <>
           <ListenDirty onHasChanges={onHasChanges} dirty={dirty} />
           <Form>
             <Grid container spacing={isMobile ? 1.5 : 3}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
                   <Typography
                     variant={isMobile ? 'h6' : 'h5'}
@@ -99,11 +99,11 @@ export default function AnalyticsWizardContainer({
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack spacing={isMobile ? 1 : 2}>
                   <Box>
                     <Field
@@ -134,10 +134,10 @@ export default function AnalyticsWizardContainer({
                 </Stack>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack spacing={1} direction="row" justifyContent="flex-end">
                   <Button
                     disabled={!dirty}

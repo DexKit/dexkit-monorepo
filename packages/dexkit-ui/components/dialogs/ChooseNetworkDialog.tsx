@@ -76,7 +76,7 @@ function ChooseNetworkDialog({
     }
 
     const lowercaseSearch = searchTerm.toLowerCase();
-    return availableNetworks.filter(({ network }) =>
+    return availableNetworks.filter(({ network }: { network: Network }) =>
       network.name.toLowerCase().includes(lowercaseSearch) ||
       network.symbol.toLowerCase().includes(lowercaseSearch)
     );
@@ -112,7 +112,7 @@ function ChooseNetworkDialog({
                   defaultMessage: "Search networks..."
                 })}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e: any) => setSearchTerm(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -135,7 +135,7 @@ function ChooseNetworkDialog({
             </Box>
           )}
           <List disablePadding>
-            {filteredNetworks.map(({ key, network }, index: number) => (
+            {filteredNetworks.map(({ key, network }: { key: string, network: Network }, index: number) => (
               <ListItemButton
                 selected={network.chainId === chainId}
                 key={index}

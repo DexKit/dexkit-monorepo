@@ -88,12 +88,15 @@ export default function SwapTokenFieldGlass({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const finalTextColor = textColor || (theme.palette.mode === 'dark' ? '#ffffff' : '#000000');
+  const finalTextColor = textColor || theme.palette.text.primary;
 
   const getBackgroundStyles = () => {
     if (disableBackground) return { background: 'transparent' };
 
-    const baseBackground = `rgba(255, 255, 255, ${glassOpacity})`;
+    const isDark = theme.palette.mode === 'dark';
+    const baseBackground = isDark
+      ? `rgba(0, 0, 0, ${glassOpacity})`
+      : `rgba(255, 255, 255, ${glassOpacity})`;
 
     switch (backgroundType) {
       case 'solid':
@@ -101,8 +104,8 @@ export default function SwapTokenFieldGlass({
           background: backgroundColor || baseBackground,
         };
       case 'gradient':
-        const startColor = gradientStartColor || '#ffffff';
-        const endColor = gradientEndColor || '#f0f0f0';
+        const startColor = gradientStartColor || (isDark ? '#000000' : '#ffffff');
+        const endColor = gradientEndColor || (isDark ? '#1a1a1a' : '#f0f0f0');
         const direction = gradientDirection || 'to bottom';
         return {
           background: `linear-gradient(${direction}, ${startColor}, ${endColor})`,
@@ -257,13 +260,13 @@ export default function SwapTokenFieldGlass({
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs="auto">
+            <Grid size="auto">
               {renderTokenButton()}
             </Grid>
 
-            <Grid item xs>
+            <Grid size="grow">
               <Box sx={{ textAlign: 'right' }}>
                 <CurrencyField
                   value={value}
@@ -312,9 +315,9 @@ export default function SwapTokenFieldGlass({
           </Grid>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container justifyContent="space-between" alignItems="center" spacing={1}>
-            <Grid item xs="auto">
+            <Grid size="auto">
               {showBalance && balance && token && (
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography
@@ -344,14 +347,20 @@ export default function SwapTokenFieldGlass({
                         },
                         fontWeight: theme.typography.fontWeightMedium,
                         color: finalTextColor,
-                        background: `rgba(128, 128, 128, ${glassOpacity * 0.7})`,
+                        background: theme.palette.mode === 'dark'
+                          ? `rgba(255, 255, 255, ${glassOpacity * 0.2})`
+                          : `rgba(128, 128, 128, ${glassOpacity * 0.7})`,
                         backdropFilter: `blur(${blurIntensity * 0.6}px)`,
                         WebkitBackdropFilter: `blur(${blurIntensity * 0.6}px)`,
-                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.35)})`,
+                        border: `1px solid ${theme.palette.divider}`,
                         borderRadius: theme.shape.borderRadius,
                         '&:hover': {
-                          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})`,
-                          borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.7)})`,
+                          background: theme.palette.mode === 'dark'
+                            ? `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.4)})`
+                            : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})`,
+                          borderColor: theme.palette.mode === 'dark'
+                            ? `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`
+                            : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.7)})`,
                           color: finalTextColor,
                           transform: 'scale(1.05)',
                         },
@@ -367,7 +376,7 @@ export default function SwapTokenFieldGlass({
               )}
             </Grid>
 
-            <Grid item xs="auto">
+            <Grid size="auto">
               {price && (
                 <Typography
                   variant={isSmallScreen ? "caption" : "body2"}

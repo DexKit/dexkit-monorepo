@@ -7,7 +7,6 @@ import {
   Alert,
   Card,
   CardContent,
-  Grid,
   Skeleton,
   Stack,
   Table,
@@ -17,6 +16,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Decimal from 'decimal.js';
 import moment from 'moment';
 import { useMemo, useState } from 'react';
@@ -100,7 +100,7 @@ export default function BillingSection() {
             {/* {subscriptionQuery.isSuccess && !subscriptionQuery.data && (
               <Grid container spacing={2}>
                 {planPricesQuery.data?.map((pp, key) => (
-                  <Grid item xs={12} sm={4} key={key}>
+                  <Grid size={{ xs: 12, sm: 4 }} key={key}>
                     <PlanCard
                       disabled={isLoading}
                       name={pp.name}
@@ -119,7 +119,7 @@ export default function BillingSection() {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="credits" defaultMessage="Credits" />
                 </Typography>
@@ -137,10 +137,10 @@ export default function BillingSection() {
                   )}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <AddCreditsButton />
               </Grid>
-              {/* <Grid item>
+              {/* <Grid>
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="plan" defaultMessage="Plan" />
                 </Typography>
@@ -152,7 +152,7 @@ export default function BillingSection() {
                   )}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="status" defaultMessage="Status" />
                 </Typography>
@@ -164,7 +164,7 @@ export default function BillingSection() {
                   )}
                 </Typography>
               </Grid> */}
-              {/* <Grid item>
+              {/* <Grid>
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="start" defaultMessage="Start" />
                 </Typography>
@@ -174,7 +174,7 @@ export default function BillingSection() {
                   )}{' '}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="end" defaultMessage="End" />
                 </Typography>
@@ -261,3 +261,5 @@ export default function BillingSection() {
     </>
   );
 }
+
+

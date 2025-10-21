@@ -21,7 +21,7 @@ export default function useUserOrderList(params: {
       }
 
       return (
-        await instance.get/*<{
+        await (instance as any).get/*<{
           items: Order[];
           totalItems: number;
           totalPages: number;

@@ -22,7 +22,7 @@ export const OrdersIndex: NextPage = () => {
       />
       <Container>
         <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader
               breadcrumbs={[
                 {
@@ -42,7 +42,7 @@ export const OrdersIndex: NextPage = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid size={{ xs: 12, sm: 5 }}>
             <CreateAssetOrderContainer />
           </Grid>
         </Grid>

@@ -153,7 +153,7 @@ function OrderComponent({ order }: OrderComponentProps) {
           </Stack>
           <Box>
             <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={8}>
+              <Grid size={8}>
                 <OrderDetailsCard order={order} />
                 <Box>
                   <TableContainer>

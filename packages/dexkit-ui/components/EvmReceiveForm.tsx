@@ -161,7 +161,7 @@ export default function EvmReceiveForm({
           fullWidth
           value={address}
           name="address"
-          onChange={(e) => {
+          onChange={(e: any) => {
             setAddress(e.currentTarget.value);
             setAddressTouched(true);
           }}

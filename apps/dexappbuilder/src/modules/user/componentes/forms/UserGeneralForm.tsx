@@ -365,7 +365,7 @@ export default function UserGeneralForm({
           }}
           validationSchema={initialValues ? EditFormSchema : FormSchema}
         >
-          {({ submitForm, isSubmitting, isValid, setFieldValue, values }) => (
+          {({ submitForm, isSubmitting, isValid, setFieldValue, values }: any) => (
             <form>
               {openMediaDialog && (
                 <MediaDialog
@@ -378,7 +378,7 @@ export default function UserGeneralForm({
                       setMediaFieldToEdit(undefined);
                     },
                   }}
-                  onConfirmSelectFile={(file) => {
+                  onConfirmSelectFile={(file: any) => {
                     if (mediaFieldToEdit && file) {
                       setFieldValue(mediaFieldToEdit, file.url);
                       if (mediaFieldToEdit === 'profileImageURL') {
@@ -501,7 +501,7 @@ export default function UserGeneralForm({
               />
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -515,7 +515,11 @@ export default function UserGeneralForm({
                     InputProps={{ disabled: initialValues ? true : false }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <Typography variant="body2">
                     <FormattedMessage
                       id="profileImage"
@@ -615,7 +619,11 @@ export default function UserGeneralForm({
                     </Typography>
                   )}
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <Typography variant="body2">
                     <FormattedMessage
                       id="backgroundImage"
@@ -645,7 +653,7 @@ export default function UserGeneralForm({
                     </Button>
                   </Box>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -658,7 +666,7 @@ export default function UserGeneralForm({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -667,10 +675,10 @@ export default function UserGeneralForm({
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button
                       disabled={

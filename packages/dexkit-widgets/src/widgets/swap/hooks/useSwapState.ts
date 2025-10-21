@@ -202,10 +202,10 @@ export function useSwapState({
       }),
       tradeSurplusRecipient: ZEROEX_AFFILIATE_ADDRESS,
     },
-    useGasless: canGasless,
+    useGasless: account ? canGasless : false,
     onSuccess: handleQuoteSuccess,
     onError: handleQuoteError,
-    //  isEnabled: account ? !insufficientBalance : true,
+    isEnabled: true,
   });
 
   const quoteQueryPrice = useSwapCurrencyPrice({

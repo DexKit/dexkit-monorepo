@@ -8,7 +8,7 @@ interface TabProps {
   value: number;
 }
 
-const Tab: React.FC<TabProps> = ({ config, value }) => {
+const Tab = ({ config, value }: TabProps) => {
   const {
     label,
     icon,
@@ -19,7 +19,7 @@ const Tab: React.FC<TabProps> = ({ config, value }) => {
     tabProps,
   } = config;
 
-  const IconComponent = icon && Icons[icon as keyof typeof Icons] as React.ComponentType;
+  const IconComponent = icon && Icons[icon as keyof typeof Icons] as any;
 
   const renderIcon = IconComponent ? <IconComponent /> : undefined;
 

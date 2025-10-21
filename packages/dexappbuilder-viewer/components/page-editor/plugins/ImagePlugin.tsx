@@ -3,9 +3,9 @@ import type { CellPlugin } from "@react-page/editor";
 
 import Link from "@dexkit/ui/components/AppLink";
 import { DEXKIT_BASE_FILES_HOST } from "@dexkit/ui/constants";
-import { Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Skeleton, Stack, useMediaQuery, useTheme } from "@mui/material";
 import Image from "next/legacy/image";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 type Data = {
   src: string;
@@ -29,40 +29,87 @@ const ImagePlugin: CellPlugin<Data> = {
   Renderer: ({ data, isEditMode }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const src = data?.src;
     const alt = data?.alt;
     const priority = data?.priority ? true : false;
     const openInNewWindow = data?.targetBlank;
+    const imageWidth = data.width ? data.width : 250;
+    const imageHeight = data.height ? data.height : 250;
+
     let image;
     if (src && src.startsWith(DEXKIT_BASE_FILES_HOST)) {
       image = (
-        <Image
-          alt={alt || "Image"}
-          style={{
-            borderRadius: data.borderRadius
-              ? `${data.borderRadius}%`
-              : undefined,
-          }}
-          src={src}
-          priority={priority}
-          height={data.height ? data.height : 250}
-          width={data.width ? data.width : 250}
-        />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          {!imageLoaded && !isEditMode && (
+            <Skeleton
+              variant="rectangular"
+              width={imageWidth}
+              height={imageHeight}
+              sx={{
+                borderRadius: data.borderRadius
+                  ? `${data.borderRadius}%`
+                  : undefined,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                zIndex: 1,
+              }}
+            />
+          )}
+          <Image
+            alt={alt || "Image"}
+            style={{
+              borderRadius: data.borderRadius
+                ? `${data.borderRadius}%`
+                : undefined,
+              opacity: imageLoaded || isEditMode ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out',
+            }}
+            src={src}
+            priority={priority}
+            height={imageHeight}
+            width={imageWidth}
+            onLoadingComplete={() => setImageLoaded(true)}
+          />
+        </div>
       );
     } else {
       image = (
-        <img
-          alt={alt || "Image"}
-          style={{
-            borderRadius: data.borderRadius
-              ? `${data.borderRadius}%`
-              : undefined,
-          }}
-          src={src}
-          height={data.height ? data.height : 250}
-          width={data.width ? data.width : 250}
-        />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          {!imageLoaded && !isEditMode && (
+            <Skeleton
+              variant="rectangular"
+              width={imageWidth}
+              height={imageHeight}
+              sx={{
+                borderRadius: data.borderRadius
+                  ? `${data.borderRadius}%`
+                  : undefined,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                zIndex: 1,
+              }}
+            />
+          )}
+          <img
+            alt={alt || "Image"}
+            style={{
+              borderRadius: data.borderRadius
+                ? `${data.borderRadius}%`
+                : undefined,
+              opacity: imageLoaded || isEditMode ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out',
+            }}
+            src={src}
+            height={imageHeight}
+            width={imageWidth}
+            loading={priority ? "eager" : "lazy"}
+            onLoad={() => setImageLoaded(true)}
+          />
+        </div>
       );
     }
 
@@ -93,7 +140,7 @@ const ImagePlugin: CellPlugin<Data> = {
           }}
         >
           <Link
-            onClick={isEditMode ? (e) => e.preventDefault() : undefined}
+            onClick={isEditMode ? (e: any) => e.preventDefault() : undefined}
             href={data?.href}
             target={openInNewWindow ? "_blank" : undefined}
             rel={openInNewWindow ? "noreferrer noopener" : undefined}
@@ -123,7 +170,7 @@ const ImagePlugin: CellPlugin<Data> = {
         >
           <Link
             href={data.pageUri}
-            onClick={isEditMode ? (e) => e.preventDefault() : undefined}
+            onClick={isEditMode ? (e: any) => e.preventDefault() : undefined}
             target={openInNewWindow ? "_blank" : undefined}
             rel={openInNewWindow ? "noreferrer noopener" : undefined}
           >

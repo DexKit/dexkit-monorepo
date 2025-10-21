@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import AddIcon from '@mui/icons-material/Add';
 import { useUpdateAtom } from 'jotai/utils';
-import { Key, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { AppCollection } from '@dexkit/ui/modules/wizard/types/config';
 import { collectionAtom } from '../../state';
@@ -38,7 +38,7 @@ export default function CollectionsSection({
   onSelectEdit,
   isMobile,
 }: Props) {
-  const setPreviewCollection = useUpdateAtom(collectionAtom);
+  const setPreviewCollection = useUpdateAtom(collectionAtom as any);
 
   const [showForm, setShowForm] = useState(false);
   const [showRemoveCollection, setShowRemoveCollection] = useState(false);
@@ -141,7 +141,7 @@ export default function CollectionsSection({
         {!showForm && collections !== undefined && collections?.length > 0 ? (
           <Stack spacing={currentIsMobile ? theme.spacing(1.5) : theme.spacing(2)}>
             {collections?.map(
-              (collection: AppCollection, index: Key | null | undefined) => (
+              (collection: AppCollection, index: any) => (
                 <CollectionsSectionItem
                   appUrl={appUrl}
                   key={index}
@@ -165,7 +165,7 @@ export default function CollectionsSection({
         )}
 
         {showForm && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper sx={{ p: currentIsMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
               <CollectionsSectionForm
                 initialValues={initialValues}

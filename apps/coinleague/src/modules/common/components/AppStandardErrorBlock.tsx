@@ -12,7 +12,6 @@ export default function AppStandardErrorBlock({ onTryAgain }: Props) {
         sx={{ py: 2 }}
         spacing={2}
         alignItems="center"
-        alignContent="center"
         justifyContent="center"
       >
         <Box>

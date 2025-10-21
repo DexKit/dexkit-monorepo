@@ -181,7 +181,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             <input
               type="color"
               value={hexValue}
-              onChange={(e) => onChange(e.target.value)}
+              onChange={(e: any) => onChange(e.target.value)}
               style={{
                 width: '100%',
                 height: '100%',
@@ -194,7 +194,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           </Paper>
           <TextField
             value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             placeholder={hexDefaultValue}
             size="small"
             sx={{
@@ -267,7 +267,6 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             defaultMessage="Background Image"
           />
         </Typography>
-
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
           <ButtonBase
             onClick={onOpenMediaDialog}
@@ -328,11 +327,14 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             </Button>
           )}
         </Box>
-
         {value && (
           <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>
                     <FormattedMessage
@@ -352,7 +354,11 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6
+                }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>
                     <FormattedMessage
@@ -387,7 +393,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
   return (
     <Container sx={{ pt: isMobile ? 1 : 2, px: isMobile ? 1 : 2 }}>
       <Grid container spacing={isMobile ? 2 : 2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
             <Typography variant={isMobile ? "body2" : "body1"}>
               <FormattedMessage
@@ -397,7 +403,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             </Typography>
           </Alert>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth size={isMobile ? "small" : "medium"}>
             <InputLabel shrink>
               <FormattedMessage id="variant" defaultMessage="Variant" />
@@ -409,7 +415,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               displayEmpty
               notched
               onChange={(e) => {
-                setFormData((form) => ({
+                setFormData((form: any) => ({
                   ...form,
                   variant:
                     e.target.value !== ''
@@ -436,10 +442,13 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               <MenuItem value={SwapVariant.Mobile}>
                 <FormattedMessage id="mobile" defaultMessage="Mobile - Touch-optimized with gestures" />
               </MenuItem>
+              {/* <MenuItem value={SwapVariant.Glass}>
+                <FormattedMessage id="glass" defaultMessage="Glass - Modern glassmorphism design" />
+              </MenuItem> */}
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <Typography variant={isMobile ? "caption" : "body2"} sx={{ mb: 0.5 }}>
               <FormattedMessage
@@ -451,7 +460,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               activeChainIds={activeChainIds}
               chainId={formData?.defaultChainId}
               onChange={(chainId) => {
-                setFormData((formData) => ({
+                setFormData((formData: any) => ({
                   ...formData,
                   defaultChainId: chainId,
                 }));
@@ -461,10 +470,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
             <Typography variant={isMobile ? "body2" : "body1"}>
               <FormattedMessage
@@ -474,7 +483,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             </Typography>
           </Alert>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <Typography variant={isMobile ? "caption" : "body2"} sx={{ mb: 0.5 }}>
               <FormattedMessage id="network" defaultMessage="Network" />
@@ -482,13 +491,13 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             <NetworkSelectDropdown
               onChange={(chainId) => {
                 setSelectedChainId(chainId);
-                setFormData((formData) => ({
+                setFormData((formData: any) => ({
                   ...formData,
                   defaultEditChainId: chainId,
                 }));
               }}
               activeChainIds={
-                activeChainIds.filter((ch) =>
+                activeChainIds.filter((ch: any) =>
                   SUPPORTED_SWAP_CHAIN_IDS.includes(ch),
                 ) || []
               }
@@ -498,7 +507,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SearchTokenAutocomplete
             label={
               <FormattedMessage
@@ -523,7 +532,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                   oldFormData = formData?.configByChain[selectedChainId];
                 }
 
-                setFormData((formData) => ({
+                setFormData((formData: any) => ({
                   ...formData,
                   configByChain: {
                     ...formData?.configByChain,
@@ -548,7 +557,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SearchTokenAutocomplete
             chainId={selectedChainId}
             disabled={selectedChainId === undefined}
@@ -572,7 +581,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                   oldFormData = formData?.configByChain[selectedChainId];
                 }
 
-                setFormData((formData) => ({
+                setFormData((formData: any) => ({
                   ...formData,
                   configByChain: {
                     ...formData?.configByChain,
@@ -596,7 +605,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             inputProps={{ type: 'number', min: 0, max: 50, step: 0.01 }}
             InputLabelProps={{ shrink: true }}
@@ -629,7 +638,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                   oldFormData = formData?.configByChain[selectedChainId];
                 }
 
-                setFormData((formData) => ({
+                setFormData((formData: any) => ({
                   ...formData,
                   configByChain: {
                     ...formData?.configByChain,
@@ -647,10 +656,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
 
         {false && (
           <>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider sx={{ my: 2 }} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card>
                 <CardContent>
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 'medium' }}>
@@ -670,7 +679,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                     <Slider
                       value={formData?.glassSettings?.blurIntensity || 40}
                       onChange={(_, value: number | number[]) => {
-                        setFormData((formData) => ({
+                        setFormData((formData: any) => ({
                           ...formData,
                           glassSettings: {
                             ...formData?.glassSettings,
@@ -700,7 +709,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                     <Slider
                       value={formData?.glassSettings?.glassOpacity || 0.10}
                       onChange={(_, value: number | number[]) => {
-                        setFormData((formData) => ({
+                        setFormData((formData: any) => ({
                           ...formData,
                           glassSettings: {
                             ...formData?.glassSettings,
@@ -725,8 +734,8 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       control={
                         <Switch
                           checked={formData?.glassSettings?.disableBackground || false}
-                          onChange={(e) => {
-                            setFormData((formData) => ({
+                          onChange={(e: any) => {
+                            setFormData((formData: any) => ({
                               ...formData,
                               glassSettings: {
                                 ...formData?.glassSettings,
@@ -756,7 +765,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       label="Text Color"
                       value={formData?.glassSettings?.textColor || theme.palette.text.primary}
                       onChange={(value) => {
-                        setFormData((formData) => ({
+                        setFormData((formData: any) => ({
                           ...formData,
                           glassSettings: {
                             ...formData?.glassSettings,
@@ -779,9 +788,9 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                         </Typography>
                         <RadioGroup
                           value={formData?.glassSettings?.backgroundType || "solid"}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const newType = e.target.value as 'solid' | 'gradient' | 'image';
-                            setFormData((formData) => {
+                            setFormData((formData: any) => {
                               const newGlassSettings = {
                                 ...formData?.glassSettings,
                                 backgroundType: newType,
@@ -847,7 +856,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                               label="Background Color"
                               value={formData?.glassSettings?.backgroundColor || theme.palette.background.default}
                               onChange={(value) => {
-                                setFormData((formData) => ({
+                                setFormData((formData: any) => ({
                                   ...formData,
                                   glassSettings: {
                                     ...formData?.glassSettings,
@@ -866,7 +875,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                               label="Gradient Start Color"
                               value={formData?.glassSettings?.gradientStartColor || theme.palette.background.default}
                               onChange={(value) => {
-                                setFormData((formData) => ({
+                                setFormData((formData: any) => ({
                                   ...formData,
                                   glassSettings: {
                                     ...formData?.glassSettings,
@@ -880,7 +889,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                               label="Gradient End Color"
                               value={formData?.glassSettings?.gradientEndColor || theme.palette.background.paper}
                               onChange={(value) => {
-                                setFormData((formData) => ({
+                                setFormData((formData: any) => ({
                                   ...formData,
                                   glassSettings: {
                                     ...formData?.glassSettings,
@@ -899,8 +908,8 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                               </InputLabel>
                               <Select
                                 value={formData?.glassSettings?.gradientDirection || "to bottom"}
-                                onChange={(e) => {
-                                  setFormData((formData) => ({
+                                onChange={(e: any) => {
+                                  setFormData((formData: any) => ({
                                     ...formData,
                                     glassSettings: {
                                       ...formData?.glassSettings,
@@ -955,7 +964,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                           <BackgroundImageSelector
                             value={formData?.glassSettings?.backgroundImage}
                             onChange={(url) => {
-                              setFormData((formData) => ({
+                              setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
@@ -965,7 +974,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                             }}
                             sizeValue={formData?.glassSettings?.backgroundSize}
                             onSizeChange={(size) => {
-                              setFormData((formData) => ({
+                              setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
@@ -975,7 +984,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                             }}
                             positionValue={formData?.glassSettings?.backgroundPosition}
                             onPositionChange={(position) => {
-                              setFormData((formData) => ({
+                              setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
@@ -985,7 +994,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                             }}
                             repeatValue={formData?.glassSettings?.backgroundRepeat}
                             onRepeatChange={(repeat) => {
-                              setFormData((formData) => ({
+                              setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
@@ -995,7 +1004,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                             }}
                             attachmentValue={formData?.glassSettings?.backgroundAttachment}
                             onAttachmentChange={(attachment) => {
-                              setFormData((formData) => ({
+                              setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
@@ -1016,7 +1025,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           </>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 4, fontStyle: 'italic' }}>
             <FormattedMessage
               id="glass.cards.inputs.note"

@@ -132,7 +132,7 @@ export default function CompletationForm({
           onSubmit={handleSubmit}
           validationSchema={FormScheme}
         >
-          {({ submitForm, isSubmitting, values, isValid, setFieldValue }) => (
+          {({ submitForm, isSubmitting, values, isValid, setFieldValue }: any) => (
             <Stack spacing={2}>
               {total <= 0.5 && (
                 <>

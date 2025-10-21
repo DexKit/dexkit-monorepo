@@ -1,5 +1,5 @@
 import { Box, Stack, useMediaQuery, useTheme } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import { SeoForm } from '../../types';
@@ -12,7 +12,7 @@ interface Props {
   pages: { [key: string]: AppPage };
   onSave: (form: SeoForm, slug: string) => void;
   onHasChanges: (hasChanges: boolean) => void;
-  setCurrentPage: Dispatch<SetStateAction<AppPage>>;
+  setCurrentPage: (page: AppPage) => void;
 }
 
 export default function SeoSection({

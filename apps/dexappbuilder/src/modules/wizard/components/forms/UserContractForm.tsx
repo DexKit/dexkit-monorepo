@@ -19,6 +19,8 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -46,6 +48,8 @@ export function UserContractForm({
   showSaveButton,
 }: Props) {
   const { account } = useWeb3React();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [query, setQuery] = useState<string>();
 
@@ -96,9 +100,9 @@ export function UserContractForm({
   }, [formId, hideFormInfo]);
 
   return (
-    <Box>
+    <Box sx={{ px: isMobile ? 2 : 0 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <LazyTextField
             TextFieldProps={{
               size: 'small',
@@ -114,7 +118,7 @@ export function UserContractForm({
             onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack direction="row" alignItems="center" alignContent="center">
             <FormControlLabel
               control={
@@ -139,10 +143,10 @@ export function UserContractForm({
             </Tooltip>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2}>
             {listFormsQuery.data?.map((form) => (
-              <Grid key={form.id} item xs={12}>
+              <Grid key={form.id} size={12}>
                 <UserContractFormCard
                   id={form.id}
                   description={form.description}
@@ -154,7 +158,7 @@ export function UserContractForm({
             ))}
             {listFormsQuery.isLoading &&
               new Array(5).fill(null).map((_, index) => (
-                <Grid item xs={12} key={index}>
+                <Grid key={index} size={12}>
                   <Card>
                     <CardContent>
                       <Typography variant="h5">
@@ -168,7 +172,7 @@ export function UserContractForm({
                 </Grid>
               ))}
             {listFormsQuery.data && listFormsQuery.data?.length === 0 && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box py={2}>
                   <Stack spacing={2} alignItems="center">
                     <TipsAndUpdatesIcon fontSize="large" />
@@ -207,7 +211,7 @@ export function UserContractForm({
         </Grid>
 
         {showSaveButton && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack
                 direction="row"

@@ -7,7 +7,7 @@ import Tabs from '@mui/material/Tabs';
 
 import { CellPluginOnChangeOptions } from '@react-page/editor';
 import { Formik, FormikHelpers } from 'formik';
-import { ReactNode, useState, useTransition } from 'react';
+import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
@@ -82,12 +82,8 @@ export default function ContractForm({
 
   const [selectedTab, setSelectedTab] = useState<TABS>('write');
 
-  const [isPending, startTransition] = useTransition();
-
   const handleChange = (event: React.SyntheticEvent, newValue: TABS) => {
-    startTransition(() => {
-      setSelectedTab(newValue);
-    });
+    setSelectedTab(newValue);
   };
 
   const handleChangeSearch = (value: string) => {
@@ -111,7 +107,7 @@ export default function ContractForm({
       validateOnChange
       validateOnBlur
     >
-      {({ values, submitForm, isValid }) => (
+      {({ values, submitForm, isValid }: any) => (
         <>
           {updateOnChange && (
             <ChangeListener
@@ -126,7 +122,7 @@ export default function ContractForm({
             />
           )}
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ContractInitialForm
                 abi={values.abi}
                 chainId={values.chainId}
@@ -134,9 +130,9 @@ export default function ContractForm({
               />
             </Grid>
             {values.abi.length > 0 && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Tabs value={selectedTab} onChange={handleChange}>
                       <Tab
                         value="write"
@@ -152,7 +148,7 @@ export default function ContractForm({
                       />
                     </Tabs>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Stack
                       spacing={2}
                       justifyContent="space-between"
@@ -193,10 +189,10 @@ export default function ContractForm({
                       </MuiSelect>
                     </Stack>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={2}>
-                      {isPending ? (
-                        <Grid item xs={12}>
+                      {false ? (
+                        <Grid size={12}>
                           <Box>
                             <Stack
                               sx={{ py: 2 }}
@@ -208,7 +204,7 @@ export default function ContractForm({
                           </Box>
                         </Grid>
                       ) : (
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <ContractFormFilteredFields
                             fieldVisibility={fieldVisibility}
                             query={query}
@@ -223,7 +219,7 @@ export default function ContractForm({
               </Grid>
             )}
             {showSaveButton && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack justifyContent="flex-end" direction="row" spacing={2}>
                   {onCancel && (
                     <Button onClick={onCancel}>

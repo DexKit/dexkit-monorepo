@@ -4,7 +4,7 @@ import type { GatedPageLayout, SiteMetadata } from ".";
 import type { AssetAPI } from "../../nft/types";
 import type { AppPageSection } from "./section";
 
-export type VideoEmbedType = "youtube" | "vimeo";
+export type VideoEmbedType = "youtube" | "vimeo" | "custom";
 
 export type SocialMediaTypes =
   | "instagram"

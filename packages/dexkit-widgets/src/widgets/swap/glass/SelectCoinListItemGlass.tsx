@@ -69,7 +69,7 @@ function SelectCoinListItemGlass({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const finalTextColor = textColor || (theme.palette.mode === 'dark' ? '#ffffff' : '#000000');
+  const finalTextColor = textColor || theme.palette.text.primary;
 
   const getTokenBalance = () => {
     if (!tokenBalances || !token) {
@@ -207,7 +207,7 @@ function SelectCoinListItemGlass({
       }}
     >
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs="auto">
+        <Grid size="auto">
           <ListItemAvatar
             sx={{
               minWidth: {
@@ -222,7 +222,7 @@ function SelectCoinListItemGlass({
           </ListItemAvatar>
         </Grid>
 
-        <Grid item xs>
+        <Grid size="grow">
           <ListItemText
             primary={
               <Typography
@@ -265,7 +265,7 @@ function SelectCoinListItemGlass({
           />
         </Grid>
 
-        <Grid item xs="auto">
+        <Grid size="auto">
           <Box
             sx={{
               minWidth: {

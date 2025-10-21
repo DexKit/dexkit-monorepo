@@ -58,7 +58,7 @@ export default function DKMDEditor({ setValue, value }: Props) {
                 defaultMessage: "Artificial Inteligence",
               }),
 
-              render: (command, disabled, executeCommand) => {
+              render: (command: any, disabled: any, executeCommand: any) => {
                 return (
                   <button
                     disabled={disabled}

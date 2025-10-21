@@ -77,7 +77,12 @@ export function WalletButton({ align }: WalletButtonProps) {
         <Stack direction="row" spacing={1} alignItems="center">
           {wallets && wallets.length ? (
             <WalletProvider id={wallets[0].id}>
-              <WalletIcon width={theme.spacing(2)} height={theme.spacing(2)} />
+              <WalletIcon
+                style={{
+                  width: theme.spacing(2),
+                  height: theme.spacing(2),
+                }}
+              />
             </WalletProvider>
           ) : (
             <Avatar
@@ -90,7 +95,7 @@ export function WalletButton({ align }: WalletButtonProps) {
             />
           )}
           <Box>
-            <Typography variant="caption" align="left" component="div">
+            <Typography variant="caption" align="left" component="div" color="text.primary">
               {isBalancesVisible
                 ? ENSName
                   ? ENSName
@@ -103,7 +108,7 @@ export function WalletButton({ align }: WalletButtonProps) {
               )}
             </div>
           </Box>
-          {showContent ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {showContent ? <ExpandLessIcon sx={{ color: 'text.primary' }} /> : <ExpandMoreIcon sx={{ color: 'text.primary' }} />}
         </Stack>
       </ButtonBase>
       {showContent && (

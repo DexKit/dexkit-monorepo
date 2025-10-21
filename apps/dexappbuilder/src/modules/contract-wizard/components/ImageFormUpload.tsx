@@ -47,7 +47,7 @@ export function ImageFormUpload(props: Props) {
               setOpenMediaDialog(false);
             },
           }}
-          onConfirmSelectFile={(file) => {
+          onConfirmSelectFile={(file: any) => {
             if (file) {
               onSelectFile(file.url);
             }

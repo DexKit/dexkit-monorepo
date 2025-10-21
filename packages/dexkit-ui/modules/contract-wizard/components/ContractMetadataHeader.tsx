@@ -112,7 +112,7 @@ export function ContractMetadataHeader({
   return (
     <Grid container spacing={isMobile ? 1 : 2}>
       {showPageHeader && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageHeader
             onGoBackCallbackMobile={onGoBack}
             useBackMenu={true}
@@ -131,9 +131,9 @@ export function ContractMetadataHeader({
         </Grid>
       )}
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Grid container spacing={isMobile ? 1 : 2}>
-          <Grid item xs={12} sm={3} md={2}>
+          <Grid size={{ xs: 12, sm: 3, md: 2 }}>
             <Box
               sx={{
                 display: "flex",
@@ -173,7 +173,7 @@ export function ContractMetadataHeader({
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} sm={9} md={10}>
+          <Grid size={{ xs: 12, sm: 9, md: 10 }}>
             <Stack spacing={isMobile ? 1 : 2}>
               <Stack
                 direction={isMobile ? "column" : "row"}
@@ -321,7 +321,7 @@ export function ContractMetadataHeader({
                 {isMobile ? (
                   <Box width="100%">
                     <Grid container spacing={0.5} sx={{ mb: 1 }}>
-                      <Grid item xs={getContractUrl(contractTypeV2 || metadata?.name) ? 6 : 12}>
+                      <Grid size={getContractUrl(contractTypeV2 || metadata?.name) ? 6 : 12}>
                         <Button
                           LinkComponent={Link}
                           href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
@@ -341,7 +341,7 @@ export function ContractMetadataHeader({
                       </Grid>
 
                       {getContractUrl(contractTypeV2 || metadata?.name) && (
-                        <Grid item xs={6}>
+                        <Grid size={6}>
                           <Button
                             size="small"
                             href={

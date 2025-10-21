@@ -3,8 +3,8 @@ import AppConfirmDialog from "@dexkit/ui/components/AppConfirmDialog";
 import ShareDialog from "@dexkit/ui/components/dialogs/ShareDialog";
 import FormInfoCard from "@dexkit/ui/modules/forms/components/FormInfoCard";
 import {
-    useCloseFormMutation,
-    useFormQuery,
+  useCloseFormMutation,
+  useFormQuery,
 } from "@dexkit/ui/modules/forms/hooks";
 import { UserContractPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -109,7 +109,7 @@ export default function UserContractSection({ section }: Props) {
       <Container sx={{ py: 2 }}>
         <Grid container spacing={2}>
           {!section?.hideFormInfo && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormInfoCard
                 onClone={handleCloneForm}
                 onEdit={handleEdit}
@@ -125,7 +125,7 @@ export default function UserContractSection({ section }: Props) {
               />
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             {formQuery.data?.params ? (
               <ContractFormView params={formQuery.data?.params} />
             ) : null}

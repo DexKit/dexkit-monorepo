@@ -14,11 +14,11 @@ interface CardsGridLayoutProps {
   editable?: boolean;
 }
 
-export const CardsGridLayout: React.FC<CardsGridLayoutProps> = ({
+export const CardsGridLayout = ({
   config,
   onLayoutChange,
   editable = false,
-}) => {
+}: CardsGridLayoutProps) => {
   const { cards, gridSettings, responsive } = config;
 
   const layouts = React.useMemo(() => {

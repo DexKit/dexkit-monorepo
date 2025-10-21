@@ -78,15 +78,15 @@ function SelectTokenBalanceDialog({
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               placeholder="Search for a token name"
               fullWidth
               value={value}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e: any) => setValue(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {tokenBalancesQuery.isLoading && (
               <List disablePadding>
                 {Array(5)
@@ -150,10 +150,10 @@ function SelectTokenBalanceDialog({
             ) : (
               <List disablePadding>
                 {tokens
-                  ?.filter((token) => {
+                  ?.filter((token: any) => {
                     return excludeToken !== token;
                   })
-                  ?.filter((token) => {
+                  ?.filter((token: any) => {
                     return (
                       token.name.toLowerCase().search(value.toLowerCase()) >
                         -1 ||

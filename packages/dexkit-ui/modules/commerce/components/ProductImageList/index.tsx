@@ -24,11 +24,11 @@ export default function ProductImageList({
   return (
     <Grid container spacing={2}>
       {images.map((img, key) => (
-        <Grid xs={3} item key={key}>
+        <Grid xs={3} key={key}>
           <CustomImage src={img} />
         </Grid>
       ))}
-      <Grid item xs={3}>
+      <Grid size={3}>
         <ButtonBase
           onClick={onClick}
           sx={(theme) => ({
@@ -36,7 +36,7 @@ export default function ProductImageList({
             width: "100%",
             hegiht: "100%",
             aspectRatio: "1/1",
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
             border: `1px solid ${theme.palette.grey[200]}`,
 
             backgroundColor: theme.palette.background.paper,

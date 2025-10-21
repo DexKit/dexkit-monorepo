@@ -23,7 +23,7 @@ function PageTemplatesTableRow({ pageTemplate, onMenu }: Props) {
           aria-label="more"
           id="long-button"
           aria-haspopup="true"
-          onClick={(e) => onMenu(e, pageTemplate)}
+          onClick={(e: any) => onMenu(e, pageTemplate)}
         >
           <MoreVertIcon />
         </IconButton>

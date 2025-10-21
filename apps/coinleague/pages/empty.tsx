@@ -1,4 +1,5 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import type { NextPage } from 'next';
 
 import Image from 'next/image';
@@ -12,9 +13,7 @@ const Empty: NextPage = (props: any) => {
       <Container>
         <Grid container alignItems="center" spacing={4}>
           <Grid
-            item
-            xs={12}
-            sm={6}
+            size={{ xs: 12, sm: 6 }}
             sx={{
               order: { xs: 2, sm: 1 },
             }}
@@ -38,9 +37,7 @@ const Empty: NextPage = (props: any) => {
             </Typography>
           </Grid>
           <Grid
-            item
-            xs={12}
-            sm={6}
+            size={{ xs: 12, sm: 6 }}
             sx={{
               order: { xs: 1, sm: 2 },
             }}
@@ -60,3 +57,4 @@ const Empty: NextPage = (props: any) => {
 };
 
 export default Empty;
+

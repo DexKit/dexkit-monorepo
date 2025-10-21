@@ -59,9 +59,8 @@ export function ContractCollectionDropContainer({ address, network }: Props) {
         network={network}
         address={address}
       />
-
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Button variant={'outlined'} onClick={() => setOpenMintDialog(true)}>
             <FormattedMessage defaultMessage={'Mint NFT'} id={'mint.nft'} />
           </Button>
@@ -73,7 +72,7 @@ export function ContractCollectionDropContainer({ address, network }: Props) {
           </Button>
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid size={3}>
           <TextField
             fullWidth
             size="small"
@@ -93,7 +92,7 @@ export function ContractCollectionDropContainer({ address, network }: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <NoSsr>
             <AppErrorBoundary
               fallbackRender={({ resetErrorBoundary, error }) => (

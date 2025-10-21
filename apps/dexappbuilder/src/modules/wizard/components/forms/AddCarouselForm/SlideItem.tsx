@@ -119,9 +119,8 @@ export default function SlideItem({
             defaultMessage="The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
           />
         </Alert>
-
         <Grid container spacing={isMobileHook ? theme.spacing(0.5) : theme.spacing(1)}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Field
               component={TextField}
               fullWidth
@@ -168,7 +167,11 @@ export default function SlideItem({
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Field
               component={TextField}
               fullWidth
@@ -214,7 +217,11 @@ export default function SlideItem({
             </Field>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Field
               component={TextField}
               fullWidth
@@ -269,13 +276,17 @@ export default function SlideItem({
             </Field>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>
               <FormattedMessage id="visual.effects" defaultMessage="Visual Effects" />
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Field
               component={TextField}
               fullWidth
@@ -328,7 +339,11 @@ export default function SlideItem({
             </Field>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Field
               component={TextField}
               fullWidth
@@ -365,7 +380,11 @@ export default function SlideItem({
             </Field>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Field
               component={TextField}
               fullWidth
@@ -402,7 +421,11 @@ export default function SlideItem({
             </Field>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Field
               component={TextField}
               fullWidth
@@ -446,7 +469,7 @@ export default function SlideItem({
           </Grid>
 
           {/* Image Preview */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box sx={{ mt: 2 }}>
               <Typography variant="subtitle2" gutterBottom>
                 <FormattedMessage id="image.preview" defaultMessage="Image Preview" />
@@ -517,7 +540,7 @@ export default function SlideItem({
             </Box>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Field
               component={TextField}
               fullWidth
@@ -545,7 +568,7 @@ export default function SlideItem({
               } : {}}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Field
               component={TextField}
               fullWidth
@@ -574,7 +597,7 @@ export default function SlideItem({
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormikMuiColorInput
               fullWidth
               label={
@@ -602,7 +625,7 @@ export default function SlideItem({
               } : {}}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormikMuiColorInput
               fullWidth
               label={
@@ -628,7 +651,7 @@ export default function SlideItem({
             />
           </Grid>
 
-          <Grid item xs={12} sx={{ mt: isMobileHook ? 0 : 1 }}>
+          <Grid sx={{ mt: isMobileHook ? 0 : 1 }} size={12}>
             <Box sx={{ px: theme.spacing(1) }}>
               <Typography variant="caption" sx={isMobileHook ? { fontSize: theme.typography.caption.fontSize } : {}}>
                 <FormattedMessage id="overlay.percentage" defaultMessage="Overlay percentage" />: {perProps.value || 0}%
@@ -646,7 +669,7 @@ export default function SlideItem({
             </Box>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Field
               component={TextField}
               fullWidth
@@ -679,7 +702,7 @@ export default function SlideItem({
               } : {}}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl
               fullWidth
               size={isMobileHook ? "small" : "medium"}
@@ -720,7 +743,7 @@ export default function SlideItem({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             {meta.value?.action?.type === 'page' ? (
               <FormControl
                 fullWidth
@@ -747,7 +770,7 @@ export default function SlideItem({
                     '& .MuiInputLabel-root': { fontSize: theme.typography.caption.fontSize }
                   } : {}}
                 >
-                  {allPages.map((page, key) => (
+                  {allPages.map((page: any, key: any) => (
                     <MenuItem key={key} value={page.uri}>
                       {page.page}
                     </MenuItem>
@@ -784,7 +807,7 @@ export default function SlideItem({
             )}
           </Grid>
 
-          <Grid item xs={12} sx={{ mt: theme.spacing(1) }}>
+          <Grid sx={{ mt: theme.spacing(1) }} size={12}>
             <Stack spacing={theme.spacing(1)} alignItems="center" direction="row">
               <Button
                 onClick={() => setIsEditing(false)}

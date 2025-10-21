@@ -64,7 +64,7 @@ function SelectTokenDialog({
       }
       
       const tokenExists = tokens.find(
-        (t) => t.address.toLowerCase() === data?.address.toLowerCase(),
+        (t: any) => t.address.toLowerCase() === data?.address.toLowerCase(),
       );
       if (tokenExists) {
         return tokens;
@@ -78,10 +78,10 @@ function SelectTokenDialog({
 
   const filteredTokens = useMemo(() => {
     return allTokens
-      ?.filter((token) => {
+      ?.filter((token: any) => {
         return excludeToken !== token;
       })
-      ?.filter((token) => {
+      ?.filter((token: any) => {
         return (
           token.name.toLowerCase().search(value.toLowerCase()) > -1 ||
           token.symbol.toLowerCase().search(value.toLowerCase()) > -1 ||
@@ -114,7 +114,7 @@ function SelectTokenDialog({
       <Divider />
       <DialogContent sx={{ px: 0 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box sx={{ px: 2 }}>
               <TextField
                 placeholder={
@@ -124,11 +124,11 @@ function SelectTokenDialog({
                 }
                 fullWidth
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e: any) => setValue(e.target.value)}
               />
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <List disablePadding>
               {filteredTokens.map((token: Token, index: number) => (
                 <ListItemButton key={index} onClick={() => onSelect(token)}>

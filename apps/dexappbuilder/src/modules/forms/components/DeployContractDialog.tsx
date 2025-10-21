@@ -79,7 +79,7 @@ export default function DeployContractDialog({
       <DialogContent>
         <Grid container spacing={theme.spacing(2)}>
           {contractAddress && deployChainId && templateId && tx ? (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card variant="outlined">
                 <CardContent>
                   <Stack spacing={theme.spacing(2)} justifyContent="center">
@@ -129,7 +129,7 @@ export default function DeployContractDialog({
               </Card>
             </Grid>
           ) : (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ContractDeployForm
                 abi={abi}
                 contractType=""

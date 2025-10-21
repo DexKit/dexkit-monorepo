@@ -4,10 +4,10 @@ import {
   Box,
   Button,
   CircularProgress,
-  Grid,
   Stack,
   TextField,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -96,18 +96,18 @@ export default function GenerateTab({
         submitForm,
         isSubmitting,
         isValid,
-      }) => (
+      }: any) => (
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Box>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Box sx={{ px: { xs: 1, sm: 0 } }}>
                 <Stack spacing={2}>
                   <TextField
                     placeholder={formatMessage({
                       id: "ex.an.image.of.a.cat",
                       defaultMessage: "ex. An image of a cat",
                     })}
-                    onChange={(e) => setFieldValue("prompt", e.target.value)}
+                    onChange={(e: any) => setFieldValue("prompt", e.target.value)}
                     value={values.prompt}
                     fullWidth
                     error={Boolean(errors.prompt)}
@@ -117,6 +117,11 @@ export default function GenerateTab({
                     rows={6}
                     multiline
                     disabled={isImagesLoading || disabled || isSubmitting}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        paddingRight: { xs: 1, sm: 1 },
+                      },
+                    }}
                   />
                   <TextField
                     label={formatMessage({
@@ -124,7 +129,7 @@ export default function GenerateTab({
                       defaultMessage: "Num. of Images",
                     })}
                     disabled={isImagesLoading || disabled || isSubmitting}
-                    onChange={(e) =>
+                    onChange={(e: any) =>
                       setFieldValue("amount", parseInt(e.target.value))
                     }
                     value={values.amount === 0 ? "" : values.amount}
@@ -135,42 +140,51 @@ export default function GenerateTab({
                     }
                     type="number"
                   />
-                  <Button
-                    disabled={
-                      !isValid || isImagesLoading || disabled || isSubmitting
-                    }
-                    onClick={submitForm}
-                    variant="outlined"
-                    startIcon={
-                      isImagesLoading ? (
-                        <CircularProgress size="1rem" color="inherit" />
-                      ) : undefined
-                    }
-                  >
-                    {isImagesLoading ? (
-                      <FormattedMessage
-                        id="generating"
-                        defaultMessage="Generating"
-                      />
-                    ) : (
-                      <FormattedMessage
-                        id="generate"
-                        defaultMessage="Generate"
-                      />
-                    )}
-                  </Button>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', pt: 1 }}>
+                    <Button
+                      disabled={
+                        !isValid || isImagesLoading || disabled || isSubmitting
+                      }
+                      onClick={submitForm}
+                      variant="contained"
+                      size="large"
+                      startIcon={
+                        isImagesLoading ? (
+                          <CircularProgress size="1rem" color="inherit" />
+                        ) : undefined
+                      }
+                      sx={{
+                        minWidth: { xs: '200px', sm: 'auto' },
+                        px: { xs: 4, sm: 2 },
+                      }}
+                    >
+                      {isImagesLoading ? (
+                        <FormattedMessage
+                          id="generating"
+                          defaultMessage="Generating"
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id="generate"
+                          defaultMessage="Generate"
+                        />
+                      )}
+                    </Button>
+                  </Box>
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <VariantsGrid
-                amount={values.amount}
-                gridSize={gridSize}
-                images={data || []}
-                isLoading={isImagesLoading}
-                disabled={isImagesLoading}
-                onMenuOption={onMenuOption}
-              />
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Box sx={{ px: { xs: 1, sm: 0 } }}>
+                <VariantsGrid
+                  amount={values.amount}
+                  gridSize={gridSize}
+                  images={data || []}
+                  isLoading={isImagesLoading}
+                  disabled={isImagesLoading}
+                  onMenuOption={onMenuOption}
+                />
+              </Box>
             </Grid>
           </Grid>
         </Box>

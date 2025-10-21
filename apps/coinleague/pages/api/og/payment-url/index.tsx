@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 //@ts-ignore
 import qrcode from 'yaqrcode';
 export const config = {
-  runtime: 'experimental-edge',
+  runtime: 'edge',
 };
 
 export default async function handler(request: NextRequest) {

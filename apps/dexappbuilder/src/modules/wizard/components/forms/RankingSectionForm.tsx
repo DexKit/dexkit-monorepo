@@ -15,6 +15,8 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { useCallback, useEffect, useState } from 'react';
@@ -42,6 +44,8 @@ export function RankingSectionForm({
   showSaveButton,
 }: Props) {
   const { editSiteId } = useEditSiteId();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -117,9 +121,9 @@ export function RankingSectionForm({
   }, [section]);
 
   return (
-    <Box>
+    <Box sx={{ px: isMobile ? 2 : 0 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <LazyTextField
             TextFieldProps={{
               size: 'small',
@@ -136,10 +140,10 @@ export function RankingSectionForm({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2}>
             {listRankingQuery.data?.data.map((ranking) => (
-              <Grid key={ranking.id} item xs={12}>
+              <Grid key={ranking.id} size={12}>
                 <RankingFormCard
                   id={ranking.id}
                   description={ranking?.description}
@@ -151,7 +155,7 @@ export function RankingSectionForm({
             ))}
             {listRankingQuery.data &&
               listRankingQuery.data?.data.length === 0 && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Pagination
                     count={
                       (listRankingQuery.data.total || 0) /
@@ -165,7 +169,7 @@ export function RankingSectionForm({
 
             {listRankingQuery.isLoading &&
               new Array(5).fill(null).map((_, index) => (
-                <Grid item xs={12} key={index}>
+                <Grid key={index} size={12}>
                   <Card>
                     <CardContent>
                       <Typography variant="h5">
@@ -180,7 +184,7 @@ export function RankingSectionForm({
               ))}
             {listRankingQuery.data &&
               listRankingQuery.data?.data.length === 0 && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box py={2}>
                     <Stack spacing={2} alignItems="center">
                       <TipsAndUpdatesIcon fontSize="large" />
@@ -221,7 +225,7 @@ export function RankingSectionForm({
         </Grid>
 
         {showSaveButton && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack
                 direction="row"

@@ -18,37 +18,16 @@ import {
   Typography
 } from "@mui/material";
 import axios from "axios";
-import { Component, ErrorInfo, ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { SafeAssetCard } from "./SafeAssetCard";
 
-class NftErrorBoundary extends Component<{
-  children: ReactNode;
-  fallback?: ReactNode;
-}> {
-  state = { hasError: false, error: null };
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Error rendering NFT:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || (
-        <Box sx={{ p: 2, textAlign: 'center', bgcolor: 'background.paper', borderRadius: 1 }}>
-          <Typography variant="body2" color="error">
-            <FormattedMessage id="error.loading.nft" defaultMessage="Error loading NFT" />
-          </Typography>
-        </Box>
-      );
-    }
-
-    return this.props.children;
-  }
+function NftErrorBoundary({ children, fallback }: { children: ReactNode; fallback?: ReactNode }) {
+  return (
+    <>
+      {children}
+    </>
+  );
 }
 
 interface NftSelectorProps {
@@ -110,7 +89,7 @@ export function NftSelector({ open, onClose, onSelect, selectedNft }: NftSelecto
   }, [open, account, chainId]);
 
   const filteredNfts = useMemo(() => {
-    return nfts.filter((nft) => {
+    return nfts.filter((nft: any) => {
       if (!searchTerm) return true;
       
       const searchLower = searchTerm.toLowerCase();
@@ -131,7 +110,13 @@ export function NftSelector({ open, onClose, onSelect, selectedNft }: NftSelecto
   const renderSafeNft = (nft: Asset, index: number) => {
     try {
       return (
-        <Grid item xs={12} sm={6} md={4} key={`nft-${index}`}>
+        <Grid
+          key={`nft-${index}`}
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4
+          }}>
           <Box 
             sx={{
               cursor: "pointer",
@@ -187,7 +172,7 @@ export function NftSelector({ open, onClose, onSelect, selectedNft }: NftSelecto
             fullWidth
             placeholder="Search NFTs..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => setSearchTerm(e.target.value)}
             InputProps={{
               startAdornment: <SearchIcon color="action" sx={{ mr: 1 }} />
             }}
@@ -217,7 +202,7 @@ export function NftSelector({ open, onClose, onSelect, selectedNft }: NftSelecto
             </Box>
           ) : (
             <Grid container spacing={2}>
-              {filteredNfts.map((nft, index) => renderSafeNft(nft, index))}
+              {filteredNfts.map((nft: any, index: number) => renderSafeNft(nft, index))}
             </Grid>
           )}
         </Stack>

@@ -3,10 +3,10 @@ import {
   AlertTitle,
   Box,
   Divider,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { FormattedMessage } from "react-intl";
 import { EcommerceCredits } from "../EcommerceCredits";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -20,7 +20,7 @@ export default function SettingsContainer() {
       <Stack spacing={2}>
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="h5">
                 <FormattedMessage id="settings" defaultMessage="Settings" />
               </Typography>
@@ -31,15 +31,15 @@ export default function SettingsContainer() {
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <EcommerceCredits />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography
                     color="text.secondary"
                     variant="body2"
@@ -51,7 +51,7 @@ export default function SettingsContainer() {
                     />
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Alert severity="warning">
                     <AlertTitle sx={{ fontWeight: "bold" }}>
                       <FormattedMessage
@@ -67,12 +67,12 @@ export default function SettingsContainer() {
                     </Typography>
                   </Alert>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <CheckoutGeneralSettingsForm />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Typography
                   variant="body1"
@@ -93,10 +93,10 @@ export default function SettingsContainer() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CheckoutNetworksUpdateForm />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Typography
                   variant="body1"
@@ -117,7 +117,7 @@ export default function SettingsContainer() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CheckoutWebhookSettingsForm />
             </Grid>
           </Grid>

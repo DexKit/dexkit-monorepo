@@ -2,7 +2,11 @@ export type * from "./blockchain";
 export type * from "./coin";
 export type * from "./nft";
 
-import { Dispatch, SetStateAction } from "react";
+// import { Dispatch, SetStateAction } from "react";
+
+// Define types locally to avoid import issues
+type Dispatch<A> = (value: A) => void;
+type SetStateAction<S> = S | ((prevState: S) => S);
 import type { ChainId, TransactionStatus, TransactionType } from "../constants";
 import type { TransactionMetadata } from "./blockchain";
 

@@ -1,4 +1,4 @@
-import { Grid, Skeleton } from "@mui/material";
+import { Box, Grid, Skeleton } from "@mui/material";
 import { useAsset } from "../hooks";
 import { AssetDetails } from "./AssetDetails";
 import { AssetMedia } from "./AssetMedia";
@@ -14,14 +14,33 @@ export function AssetLeftSection({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {asset ? (
           <AssetMedia asset={asset} enableImageLightbox={true} />
         ) : (
-          <Skeleton />
+          <Box
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+              paddingTop: { xs: "60%", sm: "100%" },
+            }}
+          >
+            <Skeleton
+              variant="rectangular"
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                display: "block",
+                width: "100%",
+                height: "100%",
+                borderRadius: "inherit"
+              }}
+            />
+          </Box>
         )}
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <AssetDetails address={address} id={id} />
       </Grid>
     </Grid>

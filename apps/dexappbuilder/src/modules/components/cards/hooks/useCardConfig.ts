@@ -48,7 +48,7 @@ export function useCardConfig(initialConfig?: Partial<MultiCardConfig>) {
       },
     };
 
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       cards: [...prev.cards, newCard],
     }));
@@ -57,42 +57,42 @@ export function useCardConfig(initialConfig?: Partial<MultiCardConfig>) {
   }, []);
 
   const updateCard = useCallback((cardId: string, updates: Partial<CardGridItem>) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
-      cards: prev.cards.map(card =>
+      cards: prev.cards.map((card: any) =>
         card.id === cardId ? { ...card, ...updates } : card
       ),
     }));
   }, []);
 
   const removeCard = useCallback((cardId: string) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
-      cards: prev.cards.filter(card => card.id !== cardId),
+      cards: prev.cards.filter((card: any) => card.id !== cardId),
     }));
   }, []);
 
   const updateCardLayout = useCallback((cardId: string, layout: CardGridItem['layout']) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
-      cards: prev.cards.map(card =>
+      cards: prev.cards.map((card: any) =>
         card.id === cardId ? { ...card, layout } : card
       ),
     }));
   }, []);
 
   const updateGridSettings = useCallback((updates: Partial<MultiCardConfig['gridSettings']>) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       gridSettings: { ...prev.gridSettings, ...updates },
     }));
   }, []);
 
   const onLayoutChange = useCallback((layout: GridLayout[]) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
-      cards: prev.cards.map(card => {
-        const layoutItem = layout.find(l => l.i === card.id);
+      cards: prev.cards.map((card: any) => {
+        const layoutItem = layout.find((l: any) => l.i === card.id);
         if (layoutItem) {
           return {
             ...card,
@@ -111,7 +111,7 @@ export function useCardConfig(initialConfig?: Partial<MultiCardConfig>) {
   }, []);
 
   const getGridLayout = useCallback((): GridLayout[] => {
-    return config.cards.map(card => ({
+    return config.cards.map((card: any) => ({
       i: card.id,
       x: card.layout.x,
       y: card.layout.y,

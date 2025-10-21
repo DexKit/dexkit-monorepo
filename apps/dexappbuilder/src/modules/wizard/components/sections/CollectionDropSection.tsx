@@ -352,7 +352,7 @@ export function CollectionDropSection({ section }: Props) {
   return (
     <Box py={4}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant={'h6'}>
             <FormattedMessage
               id={'drop.details'}
@@ -360,7 +360,7 @@ export function CollectionDropSection({ section }: Props) {
             />{' '}
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={2} direction={'row'}>
             <Typography>
               <FormattedMessage
@@ -409,7 +409,7 @@ export function CollectionDropSection({ section }: Props) {
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Card>
             <CardContent>
               {dropNotReady ? (

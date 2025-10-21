@@ -104,7 +104,7 @@ export default function PageSection({
   const [isVisible, setVisible] = useState(false);
 
   const handleToggleVisibility = () => {
-    setVisible((value) => !value);
+    setVisible((value: any) => !value);
   };
 
   const [isEdit, setIsEdit] = useState(false);
@@ -180,7 +180,7 @@ export default function PageSection({
             : undefined,
           transform: CSS.Translate.toString(transform),
           zIndex: isDragging ? theme.zIndex.snackbar + 1 : undefined,
-          borderRadius: theme.shape.borderRadius / 8,
+          borderRadius: Number(theme.shape.borderRadius) / 8,
           mb: theme.spacing(0.5),
           width: '100%',
           mx: 0,
@@ -228,9 +228,9 @@ export default function PageSection({
                     >
                       <TextField
                         value={name}
-                        inputRef={(ref) => (inputRef.current = ref)}
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={(e) => setName(e.target.value)}
+                        inputRef={(ref: any) => (inputRef.current = ref)}
+                        onClick={(e: any) => e.stopPropagation()}
+                        onChange={(e: any) => setName(e.target.value)}
                         variant="standard"
                         size="small"
                         onKeyDown={handleKeyDown}

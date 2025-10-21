@@ -259,10 +259,10 @@ export default function SwapMobile({
       </Stack>
 
       <Paper
-        elevation={4}
+        elevation={0}
         sx={{
           overflow: 'hidden',
-          background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.action.hover} 100%)`,
+          background: 'transparent',
         }}
       >
         <Stack spacing={0}>

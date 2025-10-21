@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Grid,
   Paper,
@@ -79,7 +80,7 @@ export default function FeaturedSectionForm({
 
   const handleSubmitItem = (item: SectionItem) => {
     if (selectedItemIndex > -1) {
-      setItems((value) => {
+      setItems((value: any) => {
         const newItems = [...value];
 
         newItems[selectedItemIndex] = item;
@@ -87,7 +88,7 @@ export default function FeaturedSectionForm({
         return newItems;
       });
     } else {
-      setItems((value) => [...value, item]);
+      setItems((value: any) => [...value, item]);
     }
 
     setSelectedItemIndex(-1);
@@ -140,99 +141,101 @@ export default function FeaturedSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={isMobile ? 1.5 : 2}>
-        <Grid item xs={12}>
-          <CompletationProvider
-            onCompletation={(output: string) => {
-              formik.setFieldValue('title', output);
-            }}
-            initialPrompt={formik.values.title}
-          >
-            {({ inputAdornment, ref }) => (
-              <TextField
-                name="title"
-                onChange={formik.handleChange}
+      <Box sx={{ px: isMobile ? 2 : 0 }}>
+        <Grid container spacing={isMobile ? 1.5 : 2}>
+          <Grid size={12}>
+            <CompletationProvider
+              onCompletation={(output: string) => {
+                formik.setFieldValue('title', output);
+              }}
+              initialPrompt={formik.values.title}
+            >
+              {({ inputAdornment, ref }) => (
+                <TextField
+                  name="title"
+                  onChange={formik.handleChange}
+                  fullWidth
+                  size={isMobile ? "small" : "medium"}
+                  value={formik.values.title}
+                  label={<FormattedMessage id="title" defaultMessage="Title" />}
+                  error={Boolean(formik.errors.title)}
+                  helperText={
+                    Boolean(formik.errors.title) ? formik.errors.title : undefined
+                  }
+                  inputRef={ref}
+                  InputProps={{ endAdornment: inputAdornment('end') }}
+                />
+              )}
+            </CompletationProvider>
+          </Grid>
+          {!showAddItem &&
+            items.map((item: any, index: any) => (
+              <Grid key={index} sx={{ mb: isMobile ? 0.5 : 1 }} size={12}>
+                <PageSectionItem
+                  item={item}
+                  length={items.length}
+                  onRemove={handleRemoveItem}
+                  onEdit={handleEditItem}
+                  onSwap={handleSwapItem}
+                  index={index}
+                />
+              </Grid>
+            ))}
+          {showAddItem ? (
+            <Grid size={12}>
+              <Paper sx={{ p: isMobile ? 1 : 2 }}>
+                <AddItemForm
+                  key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
+                  item={
+                    selectedItemIndex === -1
+                      ? undefined
+                      : items[selectedItemIndex]
+                  }
+                  onCancel={handleCancelItem}
+                  onSubmit={handleSubmitItem}
+                />
+              </Paper>
+            </Grid>
+          ) : (
+            <Grid size={12}>
+              <Button
+                onClick={handleAddItem}
+                startIcon={<AddIcon />}
+                variant="outlined"
                 fullWidth
                 size={isMobile ? "small" : "medium"}
-                value={formik.values.title}
-                label={<FormattedMessage id="title" defaultMessage="Title" />}
-                error={Boolean(formik.errors.title)}
-                helperText={
-                  Boolean(formik.errors.title) ? formik.errors.title : undefined
-                }
-                inputRef={ref}
-                InputProps={{ endAdornment: inputAdornment('end') }}
-              />
-            )}
-          </CompletationProvider>
-        </Grid>
-        {!showAddItem &&
-          items.map((item, index) => (
-            <Grid item xs={12} key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
-              <PageSectionItem
-                item={item}
-                length={items.length}
-                onRemove={handleRemoveItem}
-                onEdit={handleEditItem}
-                onSwap={handleSwapItem}
-                index={index}
-              />
-            </Grid>
-          ))}
-        {showAddItem ? (
-          <Grid item xs={12}>
-            <Paper sx={{ p: isMobile ? 1 : 2 }}>
-              <AddItemForm
-                key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
-                item={
-                  selectedItemIndex === -1
-                    ? undefined
-                    : items[selectedItemIndex]
-                }
-                onCancel={handleCancelItem}
-                onSubmit={handleSubmitItem}
-              />
-            </Paper>
-          </Grid>
-        ) : (
-          <Grid item xs={12}>
-            <Button
-              onClick={handleAddItem}
-              startIcon={<AddIcon />}
-              variant="outlined"
-              fullWidth
-              size={isMobile ? "small" : "medium"}
-              sx={{
-                '& .MuiButton-startIcon': {
-                  marginRight: isMobile ? 2 : 4,
-                  "& > *:nth-of-type(1)": {
-                    fontSize: isMobile ? 16 : 20,
+                sx={{
+                  '& .MuiButton-startIcon': {
+                    marginRight: isMobile ? 2 : 4,
+                    "& > *:nth-of-type(1)": {
+                      fontSize: isMobile ? 16 : 20,
+                    }
                   }
-                }
-              }}
-            >
-              <FormattedMessage id="add.item" defaultMessage="Add item" />
-            </Button>
-          </Grid>
-        )}
+                }}
+              >
+                <FormattedMessage id="add.item" defaultMessage="Add item" />
+              </Button>
+            </Grid>
+          )}
 
-        <Grid item xs={12}>
-          <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
-            <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
-              <FormattedMessage id="cancel" defaultMessage="Cancel" />
-            </Button>
-            <Button
-              disabled={!formik.isValid}
-              type="submit"
-              variant="contained"
-              color="primary"
-              size={isMobile ? "small" : "medium"}
-            >
-              <FormattedMessage id="save" defaultMessage="Save" />
-            </Button>
-          </Stack>
+          <Grid size={12}>
+            <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
+              <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
+                <FormattedMessage id="cancel" defaultMessage="Cancel" />
+              </Button>
+              <Button
+                disabled={!formik.isValid}
+                type="submit"
+                variant="contained"
+                color="primary"
+                size={isMobile ? "small" : "medium"}
+              >
+                <FormattedMessage id="save" defaultMessage="Save" />
+              </Button>
+            </Stack>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </form>
   );
 }

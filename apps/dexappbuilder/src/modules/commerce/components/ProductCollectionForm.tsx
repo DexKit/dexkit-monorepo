@@ -17,7 +17,7 @@ export default function ProductCollectionForm({
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field
             label={<FormattedMessage id="name" defaultMessage="Name" />}
             component={TextField}
@@ -26,13 +26,13 @@ export default function ProductCollectionForm({
             disabled={disabled}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ProductCollectionFormProducts />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box>
             <Stack justifyContent="flex-end" direction="row" spacing={2}>
               <Button

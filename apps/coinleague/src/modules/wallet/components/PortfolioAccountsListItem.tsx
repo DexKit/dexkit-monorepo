@@ -52,9 +52,9 @@ function PortfolioAccountsListItem({
     if (balance) {
       const amount =
         balance.balances[
-          coin.coinType === CoinTypes.EVM_ERC20
-            ? coin.contractAddress
-            : ethers.constants.AddressZero
+        coin.coinType === CoinTypes.EVM_ERC20
+          ? coin.contractAddress
+          : ethers.constants.AddressZero
         ];
 
       if (amount) {
@@ -69,9 +69,9 @@ function PortfolioAccountsListItem({
     if (isErc20Coin || isEvmNativeCoin) {
       const total =
         balance.balances[
-          coin.coinType === CoinTypes.EVM_ERC20
-            ? coin.contractAddress
-            : ethers.constants.AddressZero
+        coin.coinType === CoinTypes.EVM_ERC20
+          ? coin.contractAddress
+          : ethers.constants.AddressZero
         ];
 
       if (coin.network.chainId) {
@@ -79,7 +79,7 @@ function PortfolioAccountsListItem({
 
         const coinPrice =
           chainPrices[
-            isErc20Coin ? coin.contractAddress : ethers.constants.AddressZero
+          isErc20Coin ? coin.contractAddress : ethers.constants.AddressZero
           ] || {};
 
         const ratio = coinPrice[currency];
@@ -101,15 +101,15 @@ function PortfolioAccountsListItem({
     return accounts.find((a) => isAddressEqual(a.address, account));
   }, [accounts, account]);
 
-  
+
 
   return (
     <ListItem
       sx={
         isActive
           ? (theme) => ({
-              backgroundColor: alpha(theme.palette.success.main, 0.2),
-            })
+            backgroundColor: alpha(theme.palette.success.main, 0.2),
+          })
           : undefined
       }
     >
@@ -120,10 +120,9 @@ function PortfolioAccountsListItem({
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             spacing={1}
           >
-             {truncateAddress(account)}
+            {truncateAddress(account)}
           </Stack>
         }
       />

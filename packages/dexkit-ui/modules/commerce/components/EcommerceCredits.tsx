@@ -5,8 +5,9 @@ import {
   useSubscription,
 } from "@dexkit/ui/hooks/payments";
 import Alert from "@mui/material/Alert";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Decimal from "decimal.js";
 import { useEffect, useMemo } from "react";
@@ -41,51 +42,42 @@ export function EcommerceCredits() {
   }, [subscriptionQuery.data]);
 
   return (
-    <>
-      <Grid item xs={12}>
-        <Grid
-          container
-          spacing={2}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Grid item>
-            <Typography variant="caption" color="text.secondary">
-              <FormattedMessage id="credits" defaultMessage="Credits" />
-            </Typography>
-            <Typography variant="body1">
-              {subscriptionQuery.data ? (
-                <FormattedNumber
-                  style="currency"
-                  currencyDisplay="narrowSymbol"
-                  currency="USD"
-                  value={credits}
-                  minimumFractionDigits={4}
-                />
-              ) : (
-                <Skeleton />
-              )}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <AddCreditsButton />
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} container spacing={2}>
-        <Grid item>
-          <AddCreditsButton />
-        </Grid>
-        <Grid item xs={12}>
-          <Alert severity="warning">
-            <FormattedMessage
-              id="ecommerce.price.per.order"
-              defaultMessage="To process each order make sure you have at least {price} usd credits per order"
-              values={{ price: ECOMMERCE_PRICE }}
-            />
-          </Alert>
-        </Grid>
-      </Grid>
-    </>
+    <Stack spacing={2}>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: 2
+      }}>
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            <FormattedMessage id="credits" defaultMessage="Credits" />
+          </Typography>
+          <Typography variant="body1">
+            {subscriptionQuery.data ? (
+              <FormattedNumber
+                style="currency"
+                currencyDisplay="narrowSymbol"
+                currency="USD"
+                value={credits}
+                minimumFractionDigits={4}
+              />
+            ) : (
+              <Skeleton />
+            )}
+          </Typography>
+        </Box>
+        <AddCreditsButton />
+      </Box>
+
+      <Alert severity="warning">
+        <FormattedMessage
+          id="ecommerce.price.per.order"
+          defaultMessage="To process each order make sure you have at least {price} usd credits per order"
+          values={{ price: ECOMMERCE_PRICE }}
+        />
+      </Alert>
+    </Stack>
   );
 }

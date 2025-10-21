@@ -56,7 +56,7 @@ export default function ContractConstructor({
     return inputs.map((input, key) => {
       if (input.type === "address[]") {
         return (
-          <Grid item xs={12} key={key}>
+          <Grid size={12} key={key}>
             <Field
               component={Autocomplete}
               freeSolo
@@ -84,7 +84,7 @@ export default function ContractConstructor({
       }
 
       return (
-        <Grid item xs={12} key={key}>
+        <Grid size={12} key={key}>
           <Field
             component={TextField}
             size="small"
@@ -174,7 +174,7 @@ export default function ContractConstructor({
       {({ submitForm, isValid }) => (
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body1">
                 <FormattedMessage
                   id="select.the.network.you.want.to.deploy.this.contract"
@@ -182,7 +182,7 @@ export default function ContractConstructor({
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Select
                 renderValue={(value) => {
                   return (
@@ -229,7 +229,7 @@ export default function ContractConstructor({
                   ))}
               </Select>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body1">
                 <FormattedMessage
                   id="pass.contract.contructor.arguments"
@@ -238,7 +238,7 @@ export default function ContractConstructor({
               </Typography>
             </Grid>
             {renderInputs()}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 startIcon={
                   isLoading && <CircularProgress color="inherit" size="1rem" />

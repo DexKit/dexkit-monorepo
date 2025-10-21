@@ -11,6 +11,6 @@ export default function useUpdateOrder() {
       throw new Error('no instance');
     }
 
-    return (await instance?.put(`/orders/${data?.id}`, data)).data;
+    return (await (instance as any)?.put(`/orders/${data?.id}`, data)).data;
   });
 }

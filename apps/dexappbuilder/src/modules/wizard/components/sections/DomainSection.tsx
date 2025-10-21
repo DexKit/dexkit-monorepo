@@ -64,7 +64,7 @@ export default function DomainSection({
       <Stack>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 sx={{ maxWidth: '400px' }}
                 fullWidth
@@ -85,10 +85,10 @@ export default function DomainSection({
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={1} direction="row" justifyContent="flex-end">
                 <Button
                   disabled={!formik.isValid || !formik.dirty || disableForm}

@@ -9,7 +9,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { useField } from 'formik';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import useProduct from '../hooks/useProduct';
 import useProductList from '../hooks/useProductList';
 
@@ -35,7 +35,7 @@ export default function ProductAutocomplete({
 
   const { data: product } = useProduct({ id: props.value });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 

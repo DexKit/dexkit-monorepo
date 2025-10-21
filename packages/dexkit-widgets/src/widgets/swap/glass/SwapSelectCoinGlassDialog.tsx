@@ -106,7 +106,7 @@ export default function SwapSelectCoinGlassDialog({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const finalTextColor = textColor || (theme.palette.mode === 'dark' ? '#ffffff' : '#000000');
+  const finalTextColor = textColor || theme.palette.text.primary;
 
   const handleClose = () => {
     if (onClose) {
@@ -256,9 +256,11 @@ export default function SwapSelectCoinGlassDialog({
                       aria-disabled={disableNetworkChange || disableNetworkSelector}
                       sx={{
                         color: finalTextColor,
-                        borderRadius: theme.shape.borderRadius / 2,
-                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-                        background: `rgba(255, 255, 255, ${glassOpacity * 0.3})`,
+                        borderRadius: (theme.shape.borderRadius as any) / 2,
+                        border: `1px solid ${theme.palette.divider}`,
+                        background: theme.palette.mode === 'dark'
+                          ? `rgba(255, 255, 255, ${glassOpacity * 0.1})`
+                          : `rgba(255, 255, 255, ${glassOpacity * 0.3})`,
                         backdropFilter: `blur(${blurIntensity * 0.4}px)`,
                         WebkitBackdropFilter: `blur(${blurIntensity * 0.4}px)`,
                         px: theme.spacing(1.5),
@@ -320,8 +322,10 @@ export default function SwapSelectCoinGlassDialog({
                       size="small"
                       sx={{
                         color: finalTextColor,
-                        borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-                        background: `rgba(255, 255, 255, ${glassOpacity * 0.3})`,
+                        borderColor: theme.palette.divider,
+                        background: theme.palette.mode === 'dark'
+                          ? `rgba(255, 255, 255, ${glassOpacity * 0.1})`
+                          : `rgba(255, 255, 255, ${glassOpacity * 0.3})`,
                         backdropFilter: `blur(${blurIntensity * 0.4}px)`,
                         WebkitBackdropFilter: `blur(${blurIntensity * 0.4}px)`,
                         px: theme.spacing(2),
@@ -371,7 +375,7 @@ export default function SwapSelectCoinGlassDialog({
         }}
       >
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <LazyTextField
               value=""
               onChange={handleChangeQuery}
@@ -434,10 +438,10 @@ export default function SwapSelectCoinGlassDialog({
           </Grid>
 
           {featuredTokens && featuredTokens.length > 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={1}>
                 {featuredTokens.map((token, index) => (
-                  <Grid item key={index} xs="auto">
+                  <Grid key={index} size="auto">
                     <Chip
                       label={token.symbol.toUpperCase()}
                       clickable
@@ -465,10 +469,12 @@ export default function SwapSelectCoinGlassDialog({
                       }
                       onClick={() => onSelect(token)}
                       sx={{
-                        background: `rgba(255, 255, 255, ${glassOpacity * 0.4})`,
+                        background: theme.palette.mode === 'dark'
+                          ? `rgba(255, 255, 255, ${glassOpacity * 0.1})`
+                          : `rgba(255, 255, 255, ${glassOpacity * 0.4})`,
                         backdropFilter: `blur(${blurIntensity * 0.3}px)`,
                         WebkitBackdropFilter: `blur(${blurIntensity * 0.3}px)`,
-                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                        border: `1px solid ${theme.palette.divider}`,
                         borderRadius: theme.shape.borderRadius,
                         color: finalTextColor,
                         height: {
@@ -551,7 +557,7 @@ export default function SwapSelectCoinGlassDialog({
                     }}
                   >
                     <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
-                      <Grid item xs="auto">
+                      <Grid size="auto">
                         <ListSubheader
                           sx={{
                             p: 0,
@@ -574,7 +580,7 @@ export default function SwapSelectCoinGlassDialog({
                         </ListSubheader>
                       </Grid>
 
-                      <Grid item xs="auto">
+                      <Grid size="auto">
                         <Button
                           onClick={onClearRecentTokens}
                           size="small"
@@ -613,7 +619,7 @@ export default function SwapSelectCoinGlassDialog({
                 tokens={recentTokens}
                 tokenBalances={tokenBalances.data}
                 onSelect={handleSelect}
-                isLoading={tokenBalances.isLoading}
+                isLoading={account ? tokenBalances.isLoading : false}
                 showDash={!account}
                 blurIntensity={blurIntensity}
                 glassOpacity={glassOpacity}
@@ -644,7 +650,7 @@ export default function SwapSelectCoinGlassDialog({
                 ? tokenBalances.isLoading ||
                 fetchTokenData.isLoading ||
                 isLoadingSearch
-                : fetchTokenData.isLoading || isLoadingSearch
+                : false
             }
             blurIntensity={blurIntensity}
             glassOpacity={glassOpacity}

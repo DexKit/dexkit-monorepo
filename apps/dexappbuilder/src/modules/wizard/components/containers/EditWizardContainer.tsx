@@ -46,7 +46,6 @@ import { TourProvider, useTour } from '@reactour/tour';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { ErrorBoundary } from 'react-error-boundary';
 import { BuilderKit } from '../../constants';
 import { OnboardBuilderSteps } from '../../constants/onboard/steps';
 import SiteWizardProvider from '../../providers/SiteWizardProvider';
@@ -161,11 +160,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 function TourButton() {
@@ -395,15 +394,15 @@ export function EditWizardContainer({ site }: Props) {
         onChangeSidebar: setOpenMenu,
       })}
       styles={{
-        popover: (base) => ({
+        popover: (base: any) => ({
           ...base,
           background: theme.palette.background.default,
         }),
-        maskWrapper: (base) => ({
+        maskWrapper: (base: any) => ({
           ...base,
           zIndex: 20000,
         }),
-        badge: (base) => ({ ...base, color: 'blue' }),
+        badge: (base: any) => ({ ...base, color: 'blue' }),
       }}
     >
       <Drawer open={isMenuOpen} onClose={handleCloseMenu}>
@@ -431,7 +430,6 @@ export function EditWizardContainer({ site }: Props) {
           <Box sx={{ p: theme.spacing(2) }}>{renderMenu()}</Box>
         </Box>
       </Drawer>
-
       <NextSeo
         title={formatMessage({
           id: 'app.builder.setup',
@@ -475,7 +473,6 @@ export function EditWizardContainer({ site }: Props) {
           />
         </Typography>
       </AppConfirmDialog>
-
       <AppConfirmDialog
         DialogProps={{
           open: showConfirmSendConfig,
@@ -521,7 +518,7 @@ export function EditWizardContainer({ site }: Props) {
           container
           spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}
         >
-          <Grid item xs={12}>
+          <Grid size={12}>
             {!isMobile && (
               <Stack
                 direction="row"
@@ -561,12 +558,16 @@ export function EditWizardContainer({ site }: Props) {
               </Stack>
             )}
           </Grid>
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <div className={'welcome-dex-app-builder'}>
               <WelcomeMessage />
             </div>
           </Grid> */}
-          <Grid item xs={12} sm={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <Stack direction={'row'} justifyContent={'space-between'}>
               {!isMobile ? (
                 <Stack
@@ -601,7 +602,11 @@ export function EditWizardContainer({ site }: Props) {
               )} */}
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <Stack
               direction={'row'}
               spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
@@ -635,7 +640,7 @@ export function EditWizardContainer({ site }: Props) {
               </Stack>
             </Stack>
           </Grid>
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <Stack spacing={theme.spacing(2)} direction={'row'} alignItems={'center'}>
               <Typography variant="body2" sx={{ maxWidth: theme.spacing(37.5) }}>
                 <FormattedMessage
@@ -652,35 +657,26 @@ export function EditWizardContainer({ site }: Props) {
                 </Stack>
           </Grid>*/}
 
-          <Grid item xs={12} sm={2} sx={{}}>
+          <Grid
+            sx={{}}
+            size={{
+              xs: 12,
+              sm: 2
+            }}>
             {!isMobile && renderMenu()}
           </Grid>
-          <Grid item xs={12} sm={0.1}></Grid>
-          <Grid item xs={12} sm={9.8}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 0.1
+            }}></Grid>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 9.8
+            }}>
             <Box>
-              <ErrorBoundary
-                fallbackRender={({ error, resetErrorBoundary }) => (
-                  <Stack justifyContent="center" alignItems="center">
-                    <Typography variant="h6">
-                      <FormattedMessage
-                        id="something.went.wrong"
-                        defaultMessage="Oops, something went wrong"
-                        description="Something went wrong error message"
-                      />
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      {String(error)}
-                    </Typography>
-                    <Button color="primary" onClick={resetErrorBoundary}>
-                      <FormattedMessage
-                        id="try.again"
-                        defaultMessage="Try again"
-                        description="Try again"
-                      />
-                    </Button>
-                  </Stack>
-                )}
-              >
+              <div>
                 <SiteWizardProvider siteId={site?.id}>
                   <Stack spacing={theme.spacing(2)} className={'builder-forms'}>
                     <CommerceContainerRenderer
@@ -701,7 +697,7 @@ export function EditWizardContainer({ site }: Props) {
                     {activeMenu === ActiveMenu.AppVersion &&
                       config &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <AppVersionWizardContainer site={site} />
                       )}
 
@@ -725,7 +721,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Team &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <TeamWizardContainer site={site} />
                       )}
 
@@ -810,7 +806,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Rankings &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <RankingWizardContainer siteId={site?.id} />
                       )}
 
@@ -875,7 +871,7 @@ export function EditWizardContainer({ site }: Props) {
                     {/*DexContract*/}
                     {activeMenu === ActiveMenu.CreateContract && (
                       <CreateContractContainer
-                        onGoToContract={({ address, network }) => {
+                        onGoToContract={({ address, network }: any) => {
                           setContractAddress(address);
                           setContractNetwork(network);
                           setActiveMenu(ActiveMenu.ManageContract);
@@ -900,10 +896,10 @@ export function EditWizardContainer({ site }: Props) {
                     )}
                   </Stack>
                 </SiteWizardProvider>
-              </ErrorBoundary>
+              </div>
             </Box>
             {/*false && theme && (
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ThemeProvider theme={selectedTheme ? selectedTheme : theme}>
                 <Container>
                   <PagePreviewPaper

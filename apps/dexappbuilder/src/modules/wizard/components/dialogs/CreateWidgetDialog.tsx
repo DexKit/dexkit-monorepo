@@ -68,11 +68,11 @@ export default function CreateWidgetDialog({
         }}
         validationSchema={WidgetSchema}
       >
-        {({ submitForm, isSubmitting, isValid }) => (
+        {({ submitForm, isSubmitting, isValid }: any) => (
           <Form>
             <DialogContent dividers>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box py={2}>
                     <Field
                       component={TextField}

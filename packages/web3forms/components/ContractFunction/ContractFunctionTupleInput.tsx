@@ -21,11 +21,11 @@ export default function ContractFunctionTupleInput({
   const inputParams = useMemo(() => {
     const inputParams =
       input.name &&
-      name &&
-      params.fields[name] &&
-      params.fields[name].input &&
-      params.fields[name].input[input.name] &&
-      params.fields[name].input[input.name]
+        name &&
+        params.fields[name] &&
+        params.fields[name].input &&
+        params.fields[name].input[input.name] &&
+        params.fields[name].input[input.name]
         ? params.fields[name].input[input.name]
         : undefined;
 
@@ -35,11 +35,11 @@ export default function ContractFunctionTupleInput({
   return (
     <Paper sx={{ p: 2 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {inputParams?.label ? inputParams.label : input.name}
         </Grid>
         {input.components.map((component, key) => (
-          <Grid item xs={12} key={key}>
+          <Grid size={12} key={key}>
             <ContractFunctionInput
               objectName={
                 index !== undefined ? `${input.name}[${index}]` : input.name

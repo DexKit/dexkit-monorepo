@@ -166,7 +166,7 @@ export function DrawerMenuItem({
             flexDirection: "row",
             pl: disablePadding ? depth * 2 : undefined,
           }}
-          onClick={() => setOpen((value) => !value)}
+          onClick={() => setOpen((value: boolean) => !value)}
           ref={(btnRef: HTMLElement | null) => {
             ref.current = btnRef;
           }}

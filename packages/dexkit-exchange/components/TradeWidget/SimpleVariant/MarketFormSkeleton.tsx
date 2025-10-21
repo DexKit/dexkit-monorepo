@@ -14,20 +14,20 @@ export default function MarketFormSkeleton() {
     <Skeleton>
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Skeleton />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Skeleton>
               <Typography variant="body2">
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
               </Typography>
             </Skeleton>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack>
                 <Stack
@@ -48,7 +48,7 @@ export default function MarketFormSkeleton() {
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Skeleton>
               <Button size="large" fullWidth variant="contained">
                 <FormattedMessage

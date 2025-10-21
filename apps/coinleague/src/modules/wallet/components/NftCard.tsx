@@ -59,7 +59,7 @@ export default function NftCard({ nft, onSelect }: Props) {
           }}
         >
           {nft?.imageUrl ? (
-            <img src={getNormalizedUrl(nft?.imageUrl)} />
+            <img src={getNormalizedUrl(nft?.imageUrl)} alt={nft?.name || 'NFT'} />
           ) : (
             <Skeleton
               variant="rectangular"

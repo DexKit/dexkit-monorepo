@@ -112,7 +112,13 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
         disableColumnMenu: true,
         field: "title",
         headerName: formatMessage({ id: "title", defaultMessage: "Title" }),
-        renderCell: ({ row }) => <Typography>{row.title}</Typography>,
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.title}</Typography>
+          </Box>
+        ),
+        headerAlign: 'left',
+        align: 'left',
       },
       {
         sortable: false,
@@ -123,7 +129,13 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
           id: "description",
           defaultMessage: "Description",
         }),
-        renderCell: ({ row }) => <Typography>{row.description}</Typography>,
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.description}</Typography>
+          </Box>
+        ),
+        headerAlign: 'left',
+        align: 'left',
       },
       {
         field: "actions",
@@ -132,25 +144,29 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
         disableColumnMenu: true,
         headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
         renderCell: ({ row }) => (
-          <Stack direction="row">
-            <IconButton
-              onClick={(e) => {
-                e.stopPropagation();
+          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <Stack direction="row">
+              <IconButton
+                onClick={(e: any) => {
+                  e.stopPropagation();
 
-                onShare(`${getWindowUrl()}/c/${row.id}`);
-              }}
-            >
-              <Tooltip
-                title={<FormattedMessage id="share" defaultMessage="Share" />}
+                  onShare(`${getWindowUrl()}/c/${row.id}`);
+                }}
               >
-                <Share />
-              </Tooltip>
-            </IconButton>
-            <IconButton onClick={handleDelete(row.id ?? "", row?.title ?? "")}>
-              <Delete color="error" />
-            </IconButton>
-          </Stack>
+                <Tooltip
+                  title={<FormattedMessage id="share" defaultMessage="Share" />}
+                >
+                  <Share />
+                </Tooltip>
+              </IconButton>
+              <IconButton onClick={handleDelete(row.id ?? "", row?.title ?? "")}>
+                <Delete color="error" />
+              </IconButton>
+            </Stack>
+          </Box>
         ),
+        headerAlign: 'center',
+        align: 'center',
       },
     ] as GridColDef<CheckoutFormType>[];
   }, []);
@@ -203,11 +219,11 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.totalItems}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
-          onRowClick={({ row }, e) => {
+          onRowClick={({ row }: any, e: any) => {
             setContainer("commerce.checkouts.edit", { id: row.id });
           }}
           sx={{
@@ -246,10 +262,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
           filterModel={filterModel}
           slotProps={{
             toolbar: {
-              placeholder: formatMessage({
-                id: "search.products",
-                defaultMessage: "Search products",
-              }),
+              showQuickFilter: true,
             },
           }}
           slots={{

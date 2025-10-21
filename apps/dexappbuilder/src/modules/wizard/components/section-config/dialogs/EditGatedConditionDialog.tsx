@@ -125,7 +125,7 @@ export default function EditGatedConditionDialog({
         values,
         setFieldValue,
         errors,
-      }) => (
+      }: any) => (
         <Dialog {...DialogProps}>
           <AppDialogTitle
             onClose={handleClose}
@@ -147,7 +147,7 @@ export default function EditGatedConditionDialog({
           <DialogContent sx={{ px: 4 }} dividers>
             <Grid container spacing={2}>
               {index !== undefined && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack
                       direction="row"
@@ -171,7 +171,11 @@ export default function EditGatedConditionDialog({
               )}
 
               {!isFirst && (
-                <Grid item xs={12} sm={3}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 3
+                  }}>
                   <FormControl fullWidth variant="filled">
                     <InputLabel shrink>
                       <FormattedMessage
@@ -199,9 +203,13 @@ export default function EditGatedConditionDialog({
                   </FormControl>
                 </Grid>
               )}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <FormControl fullWidth>
                       <InputLabel shrink>
                         <FormattedMessage id="type" defaultMessage="Type" />
@@ -231,7 +239,11 @@ export default function EditGatedConditionDialog({
                     </FormControl>
                   </Grid>
                   {values.condition.type === 'collection' && (
-                    <Grid item xs={12} sm>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: "grow"
+                      }}>
                       <CollectionItemAutocomplete
                         onChange={async (coll: any) => {
                           setFieldValue(
@@ -253,7 +265,11 @@ export default function EditGatedConditionDialog({
                     </Grid>
                   )}
                   {values.condition?.type === 'coin' && (
-                    <Grid item xs={12} sm>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: "grow"
+                      }}>
                       <SearchTokenAutocomplete
                         label="Search coin"
                         tokens={featuredTokens}
@@ -275,7 +291,11 @@ export default function EditGatedConditionDialog({
                   )}
 
                   {values.condition?.protocol === 'ERC1155' && (
-                    <Grid item xs={12} sm={3}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: 3
+                      }}>
                       <Field
                         component={TextField}
                         name="condition.tokenId"
@@ -296,7 +316,11 @@ export default function EditGatedConditionDialog({
                     </Grid>
                   )}
 
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <Field
                       component={TextField}
                       name="condition.amount"

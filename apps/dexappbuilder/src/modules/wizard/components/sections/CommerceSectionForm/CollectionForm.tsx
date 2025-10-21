@@ -22,7 +22,7 @@ export default function CollectionForm() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <CollectionsAutocomplete
           onChange={(value) => {
             setFieldValue('id', value ?? '');

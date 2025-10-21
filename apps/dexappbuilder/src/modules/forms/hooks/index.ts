@@ -203,14 +203,14 @@ export function useListFormsQuery({
 
       return data.map(
         (form: any) =>
-          ({
+          (({
             id: form.id,
             name: form.name,
             description: form.description,
             creatorAddress: form.creatorAddress,
             params: JSON.parse(form.rawData),
-            templateId: form.template?.id,
-          }) as ContractFormData,
+            templateId: form.template?.id
+          }) as ContractFormData),
       );
     },
   );
@@ -242,14 +242,14 @@ export function useListFormTemplatesQuery({
 
       return data.map(
         (template: any) =>
-          ({
+          (({
             id: template.id,
             creatorAddress: template.creatorAddress,
             abi: JSON.parse(template.abi),
             bytecode: template.bytecode,
             description: template.description,
-            name: template.name,
-          }) as FormTemplate,
+            name: template.name
+          }) as FormTemplate),
       );
     },
     { enabled: creatorAddress !== undefined },

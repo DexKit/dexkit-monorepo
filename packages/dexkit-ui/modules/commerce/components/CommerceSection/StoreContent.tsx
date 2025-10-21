@@ -45,9 +45,9 @@ export const DEFAULT_FILTERS = {
   sort: "",
 };
 
-export interface StoreContentProps {}
+export interface StoreContentProps { }
 
-export default function StoreContent({}: StoreContentProps) {
+export default function StoreContent({ }: StoreContentProps) {
   const { formatMessage } = useIntl();
 
   const [filters, setFilters] = useState<{
@@ -185,7 +185,7 @@ export default function StoreContent({}: StoreContentProps) {
       <Container>
         <Grid container spacing={2} alignItems="stretch">
           {showFilters && (
-            <Grid item xs={12} sm={3}>
+            <Grid size={{ xs: 12, sm: 3 }}>
               <Box sx={{ height: "100%" }}>
                 <FiltersSection
                   categories={categories?.items ?? []}
@@ -196,10 +196,10 @@ export default function StoreContent({}: StoreContentProps) {
               </Box>
             </Grid>
           )}
-          <Grid item xs={12} sm={showFilters ? 9 : 12}>
+          <Grid size={{ xs: 12, sm: showFilters ? 9 : 12 }}>
             <Box sx={{ position: "relative" }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack direction="row" justifyContent="flex-end">
                       <IconButton onClick={handleToggleFilters}>
@@ -231,7 +231,7 @@ export default function StoreContent({}: StoreContentProps) {
                     </Stack>
                   </Box>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack direction="row" justifyContent="flex-end">
                       <Select
@@ -261,11 +261,11 @@ export default function StoreContent({}: StoreContentProps) {
                     </Stack>
                   </Box>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid container spacing={2}>
                     {products && products?.totalItems > 0 ? (
                       products?.items?.map((product: any, key: number) => (
-                        <Grid key={key} item xs={12} sm={3}>
+                        <Grid key={key} size={{ xs: 12, sm: 3 }}>
                           <ProductCard
                             isOnWinshlist={isOnWishlist(product.id)}
                             product={product}
@@ -279,7 +279,7 @@ export default function StoreContent({}: StoreContentProps) {
                         </Grid>
                       ))
                     ) : (
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Box>
                           <Stack sx={{ py: 2 }}>
                             <Typography textAlign="center" variant="h5">
@@ -304,7 +304,7 @@ export default function StoreContent({}: StoreContentProps) {
                     )}
                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TablePagination
                     component="div"
                     count={products?.totalItems ?? 0}

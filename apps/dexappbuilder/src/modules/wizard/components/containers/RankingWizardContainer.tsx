@@ -1,7 +1,5 @@
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import {
   Alert,
   AlertTitle,
@@ -84,17 +82,30 @@ function ExpandableCell({ value }: GridRenderCellParams) {
         overflowWrap: 'break-word',
         whiteSpace: 'initial',
         width: '100%',
-        py: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        minHeight: '100%',
+        gap: 0.5,
       }}
     >
-      {expanded ? value : value.slice(0, 20)}&nbsp;
+      <Box sx={{ width: '100%' }}>
+        {expanded ? value : value.slice(0, 20)}
+      </Box>
       {value.length > 20 && (
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <Link
           type="button"
           component="button"
-          sx={{ fontSize: 'inherit' }}
-          onClick={(e) => {
+          sx={{
+            fontSize: '0.75rem',
+            textDecoration: 'underline',
+            color: 'primary.main',
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'primary.dark',
+            }
+          }}
+          onClick={(e: any) => {
             e.stopPropagation();
             setExpanded(!expanded);
           }}
@@ -179,6 +190,7 @@ function AppRankingList({
     query: lazyQuery,
   });
 
+
   const [rowCountState, setRowCountState] = useState((data?.total as any) || 0);
 
   useEffect(() => {
@@ -230,8 +242,16 @@ function AppRankingList({
       {
         field: 'createdAt',
         headerName: 'Created at',
-        valueGetter: ({ row }) => {
-          return new Date(row.createdAt).toLocaleString();
+        renderCell: ({ row }: any) => {
+          if (!row || !row.createdAt) {
+            return 'N/A';
+          }
+          try {
+            return new Date(row.createdAt).toLocaleString();
+          } catch (error) {
+            console.error('Error formatting date:', error);
+            return 'Invalid Date';
+          }
         },
         flex: isMobile ? 0.5 : 1,
         minWidth: isMobile ? 80 : 150,
@@ -260,7 +280,7 @@ function AppRankingList({
             <Stack direction="row" spacing={isMobile ? 0.5 : 1}>
               <IconButton
                 size={isMobile ? 'small' : 'medium'}
-                onClick={async (e) => {
+                onClick={async (e: any) => {
                   e.stopPropagation();
 
                   onClickPreview({ ranking: row });
@@ -277,7 +297,7 @@ function AppRankingList({
               </IconButton>
               <IconButton
                 size={isMobile ? 'small' : 'medium'}
-                onClick={async (e) => {
+                onClick={async (e: any) => {
                   e.stopPropagation();
 
                   onClickExport({ ranking: row });
@@ -296,7 +316,7 @@ function AppRankingList({
               <IconButton
                 size={isMobile ? 'small' : 'medium'}
                 color={'error'}
-                onClick={async (e) => {
+                onClick={async (e: any) => {
                   e.stopPropagation();
                   onClickDelete({ ranking: row });
                   await refetch();
@@ -323,6 +343,7 @@ function AppRankingList({
 
   const rows = (data?.data as any) || [];
 
+
   const [rowSelection, setRowSelection] = useState<GridRowSelectionModel>([]);
 
   return (
@@ -337,7 +358,7 @@ function AppRankingList({
           noRowsOverlay: EmptyRankings,
           noResultsOverlay: EmptyRankings,
         }}
-        onRowClick={({ row }) => {
+        onRowClick={({ row }: any) => {
           onClickEdit({ ranking: row });
         }}
         rows={rows}
@@ -356,7 +377,7 @@ function AppRankingList({
             showQuickFilter: true,
             quickFilterProps: {
               value: query,
-              onChange: (e) => {
+              onChange: (e: any) => {
                 setQuery(e.target.value);
               },
             },
@@ -372,7 +393,7 @@ function AppRankingList({
         loading={isLoading}
         rowSelectionModel={rowSelection}
         disableRowSelectionOnClick
-        onRowSelectionModelChange={(rows) => setRowSelection(rows)}
+        onRowSelectionModelChange={(rows: any) => setRowSelection(rows)}
         sx={{
           '& .MuiDataGrid-cell:focus': {
             outline: 'none',
@@ -605,7 +626,6 @@ export default function RankingWizardContainer({
           rankingId={selectedRanking?.id}
         />
       )}
-
       {openExportRanking && (
         <ExportRankingDialog
           dialogProps={{
@@ -619,7 +639,6 @@ export default function RankingWizardContainer({
           rankingId={selectedRanking?.id}
         />
       )}
-
       {openConfirmRemove && (
         <AppConfirmDialog
           DialogProps={{
@@ -673,10 +692,9 @@ export default function RankingWizardContainer({
           />
         </AppConfirmDialog>
       )}
-
       <Box>
         <Grid container spacing={isMobile ? 1.5 : 3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
               <Typography
                 variant={isMobile ? 'h6' : 'h5'}
@@ -705,12 +723,12 @@ export default function RankingWizardContainer({
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
 
           {!selectedEditRanking && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack
                   direction="row"
@@ -740,7 +758,7 @@ export default function RankingWizardContainer({
             </Grid>
           )}
           {!selectedEditRanking && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <AppRankingList
                 siteId={siteId}
                 onClickDelete={handleClickDelete}
@@ -752,9 +770,9 @@ export default function RankingWizardContainer({
             </Grid>
           )}
           {selectedEditRanking && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <div>
                     <LeaderboardHeader
                       key={selectedEditRanking.title}
@@ -777,7 +795,11 @@ export default function RankingWizardContainer({
                     />
                   </div>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <Alert severity="info">
                     <AlertTitle sx={{ fontWeight: 'bold' }}>
                       <Typography fontWeight="inherit" variant="body2">
@@ -795,7 +817,7 @@ export default function RankingWizardContainer({
                     </Typography>
                   </Alert>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                       <TabList

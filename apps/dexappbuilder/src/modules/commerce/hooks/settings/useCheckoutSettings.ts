@@ -15,7 +15,7 @@ export default function useCheckoutSettings() {
       }
 
       const result = (
-        await instance.get('/checkouts/settings')
+        await (instance as any).get('/checkouts/settings')
       ).data;
 
       return result;

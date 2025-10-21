@@ -120,7 +120,7 @@ export default function PaymentCard() {
   useEffect(() => {
     if (cartItems.length > 0) {
       const items = cartItems.reduce(
-        (prev, curr) => {
+        (prev: any, curr: any) => {
           prev[curr.productId] = { price: curr.price, quantity: curr.quantity };
           return prev;
         },
@@ -135,7 +135,7 @@ export default function PaymentCard() {
 
   const total = useMemo(() => {
     if (cartItems.length > 0) {
-      return cartItems.reduce((prev, curr) => {
+      return cartItems.reduce((prev: any, curr: any) => {
         return prev.add(new Decimal(curr.price).mul(curr.quantity));
       }, new Decimal("0"));
     }
@@ -285,7 +285,7 @@ export default function PaymentCard() {
             id="switch.to.network.network"
             defaultMessage="Switch to {network} network"
             values={{
-              network: networks.find((n) => n.chainId === chainId)?.name,
+              network: networks.find((n: any) => n.chainId === chainId)?.name,
             }}
           />
         </Button>
@@ -431,7 +431,7 @@ export default function PaymentCard() {
                       >
                         <Avatar
                           src={ipfsUriToUrl(
-                            networks.find((n) => n.chainId === chainId)
+                            networks.find((n: any) => n.chainId === chainId)
                               ?.imageUrl || ""
                           )}
                           style={{ width: "1rem", height: "1rem" }}

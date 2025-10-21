@@ -90,7 +90,7 @@ export default function SeoSectionForm({
           initialValues={initialValues}
           validationSchema={FormSchema}
         >
-          {({ submitForm, isValid, values, setFieldValue, dirty }) => (
+          {({ submitForm, isValid, values, setFieldValue, dirty }: any) => (
             <>
               <ListenDirty onHasChanges={onHasChanges} dirty={dirty} />
               <MediaDialog
@@ -117,7 +117,7 @@ export default function SeoSectionForm({
                 maxWidth: isMobile ? '100%' : undefined,
               }}>
                 <Grid container spacing={isMobile ? 1.5 : 2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <CompletationProvider
                       onCompletation={(output) => setFieldValue('title', output)}
                       initialPrompt={values.title}
@@ -153,7 +153,7 @@ export default function SeoSectionForm({
                       )}
                     </CompletationProvider>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <CompletationProvider
                       onCompletation={(output) =>
                         setFieldValue('description', output)
@@ -197,7 +197,7 @@ export default function SeoSectionForm({
                       )}
                     </CompletationProvider>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography variant={isMobile ? "body2" : "body1"} sx={{ mb: 1 }}>
                       <FormattedMessage
                         id="share.image"
@@ -221,11 +221,11 @@ export default function SeoSectionForm({
                       </Button>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Divider />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Stack spacing={1} direction="row" justifyContent="flex-end">
                       <Button
                         startIcon={<Check fontSize={isMobile ? "small" : "medium"} />}

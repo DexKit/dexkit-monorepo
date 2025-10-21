@@ -41,7 +41,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
-    setOpen((value) => !value);
+    setOpen((value: any) => !value);
   };
 
   if (input.type.startsWith('tuple')) {
@@ -51,7 +51,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
       <Box>
         <Paper>
           <Grid container>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box sx={{ p: 2 }}>
                 <Stack
                   alignItems="center"
@@ -71,7 +71,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
               </Box>
             </Grid>
             {open && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider />
                 <Collapse in>
                   <Box sx={{ p: 2 }}>
@@ -95,12 +95,12 @@ export default function ContractFormInputType({ values, input, func }: Props) {
                           : undefined;
 
                         return (
-                          <Grid item xs={12} key={index}>
+                          <Grid key={index} size={12}>
                             <Grid container spacing={2}>
-                              <Grid item xs={12}>
+                              <Grid size={12}>
                                 <Box>
                                   <Grid container spacing={2}>
-                                    <Grid item xs={12}>
+                                    <Grid size={12}>
                                       <FastField
                                         component={Select}
                                         name={`fields.${func.name}.input.${input.name}.tupleParams.${component.name}.inputType`}
@@ -154,7 +154,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
                                     </Grid>
                                     {inputType === 'decimal' && (
                                       <>
-                                        <Grid item xs={12}>
+                                        <Grid size={12}>
                                           <FastField
                                             component={TextField}
                                             name={`fields.${func.name}.input.${input.name}.tupleParams.${component.name}.decimals`}
@@ -179,7 +179,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
                                             inputType={inputType}
                                           />
                                         </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid size={12}>
                                           <Divider />
                                         </Grid>
                                       </>
@@ -187,7 +187,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
 
                                     {inputType === 'address' && comp && (
                                       <>
-                                        <Grid item xs={12}>
+                                        <Grid size={12}>
                                           <AddressInput
                                             componentName={component.name}
                                             addresses={comp.addresses}
@@ -199,7 +199,7 @@ export default function ContractFormInputType({ values, input, func }: Props) {
                                             inputType={inputType}
                                           />
                                         </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid size={12}>
                                           <Divider />
                                         </Grid>
                                       </>

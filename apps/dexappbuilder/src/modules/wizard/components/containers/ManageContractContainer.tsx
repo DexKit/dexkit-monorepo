@@ -30,7 +30,7 @@ export default function ManageContractContainer({
     <ThirdwebV4Provider chainId={NETWORK_FROM_SLUG(network as string)?.chainId}>
       <Container>
         <Grid container spacing={isMobile ? 1.5 : 3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
               <Typography
                 variant={isMobile ? 'h6' : 'h5'}
@@ -59,10 +59,10 @@ export default function ManageContractContainer({
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractContainer
               address={address as string}
               network={network as string}

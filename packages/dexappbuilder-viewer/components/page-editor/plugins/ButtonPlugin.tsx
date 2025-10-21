@@ -112,7 +112,7 @@ const ButtonPlugin: CellPlugin<Data> = {
                   boxShadow: isMobile ? theme.shadows[4] : theme.shadows[2],
                 }
               }}
-              onClick={isEditMode ? (e) => e.preventDefault() : undefined}
+              onClick={isEditMode ? (e: any) => e.preventDefault() : undefined}
             >
               {data.text ? data.text : "Button"}
             </Button>
@@ -138,7 +138,7 @@ const ButtonPlugin: CellPlugin<Data> = {
                 boxShadow: isMobile ? theme.shadows[4] : theme.shadows[2],
               }
             }}
-            onClick={isEditMode ? (e) => e.preventDefault() : undefined}
+              onClick={isEditMode ? (e: any) => e.preventDefault() : undefined}
           >
             {data.text ? data.text : "Button"}
           </Button>

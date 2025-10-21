@@ -53,7 +53,7 @@ export function useStepperConfig({
   const [config, setConfig] = useState<MultiStepperConfig>(createDefaultConfig);
 
   const updateConfig = useCallback((updates: Partial<MultiStepperConfig>) => {
-    setConfig(prev => {
+    setConfig((prev: any) => {
       const newConfig = { ...prev, ...updates };
       onChange?.(newConfig);
       return newConfig;
@@ -79,10 +79,10 @@ export function useStepperConfig({
   }, [config.steps, createStep, updateConfig]);
 
   const removeStep = useCallback((stepId: string) => {
-    const stepIndex = config.steps.findIndex(step => step.id === stepId);
+    const stepIndex = config.steps.findIndex((step: any) => step.id === stepId);
     if (stepIndex === -1) return;
 
-    const updatedSteps = config.steps.filter(step => step.id !== stepId);
+    const updatedSteps = config.steps.filter((step: any) => step.id !== stepId);
 
     let newActiveStep = config.activeStep || 0;
     if (newActiveStep >= updatedSteps.length) {
@@ -91,13 +91,13 @@ export function useStepperConfig({
       newActiveStep = newActiveStep - 1;
     }
 
-    const updatedCompletedSteps = (config.completedSteps || []).filter(index => {
+    const updatedCompletedSteps = (config.completedSteps || []).filter((index: any) => {
       return index < updatedSteps.length && index !== stepIndex;
-    }).map(index => index > stepIndex ? index - 1 : index);
+    }).map((index: any) => index > stepIndex ? index - 1 : index);
 
-    const updatedSkippedSteps = (config.skippedSteps || []).filter(index => {
+    const updatedSkippedSteps = (config.skippedSteps || []).filter((index: any) => {
       return index < updatedSteps.length && index !== stepIndex;
-    }).map(index => index > stepIndex ? index - 1 : index);
+    }).map((index: any) => index > stepIndex ? index - 1 : index);
 
     updateConfig({
       steps: updatedSteps,
@@ -108,7 +108,7 @@ export function useStepperConfig({
   }, [config, updateConfig]);
 
   const updateStep = useCallback((stepId: string, updates: Partial<StepItem>) => {
-    const stepIndex = config.steps.findIndex(step => step.id === stepId);
+    const stepIndex = config.steps.findIndex((step: any) => step.id === stepId);
     if (stepIndex === -1) return;
 
     const updatedSteps = [...config.steps];
@@ -118,7 +118,7 @@ export function useStepperConfig({
   }, [config.steps, updateConfig]);
 
   const duplicateStep = useCallback((stepId: string) => {
-    const stepIndex = config.steps.findIndex(step => step.id === stepId);
+    const stepIndex = config.steps.findIndex((step: any) => step.id === stepId);
     if (stepIndex === -1) return;
 
     const originalStep = config.steps[stepIndex];
@@ -297,11 +297,11 @@ export function useStepperConfig({
   }, [getTotalSteps, getCompletedStepsCount]);
 
   const getStepById = useCallback((stepId: string) => {
-    return config.steps.find(step => step.id === stepId);
+    return config.steps.find((step: any) => step.id === stepId);
   }, [config.steps]);
 
   const getStepIndex = useCallback((stepId: string) => {
-    return config.steps.findIndex(step => step.id === stepId);
+    return config.steps.findIndex((step: any) => step.id === stepId);
   }, [config.steps]);
 
   return {

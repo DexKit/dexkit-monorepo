@@ -2,7 +2,6 @@ import { TipsAndUpdates, Visibility, VisibilityOff } from '@mui/icons-material';
 import Send from '@mui/icons-material/Send';
 import {
   Box,
-  Grid,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -11,6 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useSnackbar } from 'notistack';
 import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -201,7 +201,7 @@ export default function NftGrid({
       </Menu>
       <Grid container spacing={2}>
         {nfts?.map((nft: DkApiAsset, index: number) => (
-          <Grid key={index} item xs={6} sm={2}>
+          <Grid key={index} size={{ xs: 6, sm: 2 }}>
             <NftCard nft={nft} onSelect={handleSelect} />
           </Grid>
         ))}
@@ -209,3 +209,4 @@ export default function NftGrid({
     </>
   );
 }
+

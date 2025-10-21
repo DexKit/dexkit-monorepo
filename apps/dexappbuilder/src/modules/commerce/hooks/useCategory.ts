@@ -19,7 +19,7 @@ export default function useCategory(params: { id?: string }) {
       }
 
       return (
-        await instance.get(`/product-category/${params.id}`)
+        await (instance as any).get(`/product-category/${params.id}`)
       ).data;
     },
     {

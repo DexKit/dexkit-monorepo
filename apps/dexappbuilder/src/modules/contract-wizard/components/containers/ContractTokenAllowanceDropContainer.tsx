@@ -164,7 +164,6 @@ export default function ContractTokenAllowanceDropContainer({
           }}
         />
       )}
-
       <EvmTransferCoinDialog
         dialogProps={{
           open: showTransfer,
@@ -183,14 +182,14 @@ export default function ContractTokenAllowanceDropContainer({
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TokenDropSummary contract={contract} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs value={currTab} onChange={handleChange}>
             <Tab
               value="token"
@@ -218,16 +217,16 @@ export default function ContractTokenAllowanceDropContainer({
           </Tabs>
         </Grid>
         {currTab === 'claim-conditions' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ClaimConditionsContainer address={address} network={network} />
           </Grid>
         )}
         {currTab === 'token' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
               {tokenOwner?.toLowerCase() !== account?.toLowerCase() && (
                 <>
-                  <Grid item>
+                  <Grid>
                     <Alert severity={'info'}>
                       {' '}
                       {
@@ -244,7 +243,7 @@ export default function ContractTokenAllowanceDropContainer({
 
               {tokenOwner?.toLowerCase() === account?.toLowerCase() && (
                 <>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography>
                       {' '}
                       <FormattedMessage
@@ -258,7 +257,7 @@ export default function ContractTokenAllowanceDropContainer({
                     </Typography>
                   </Grid>
 
-                  <Grid item>
+                  <Grid>
                     <Button
                       onClick={handleShowApprove}
                       variant="contained"
@@ -273,12 +272,12 @@ export default function ContractTokenAllowanceDropContainer({
           </Grid>
         )}
         {currTab === 'metadata' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractMetadataTab address={address} />
           </Grid>
         )}
         {currTab === 'admin' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractAdminTab address={address} />
           </Grid>
         )}

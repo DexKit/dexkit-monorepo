@@ -96,7 +96,7 @@ export default function IpfsMediaDialog({
       <input
         type="file"
         style={{ display: "none" }}
-        ref={(ref) => (fileInputRef.current = ref)}
+        ref={fileInputRef}
         onChange={handleFileSelected}
         accept="image/*"
       />
@@ -114,7 +114,7 @@ export default function IpfsMediaDialog({
         )}
         <DialogContent>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="info">
                 <FormattedMessage
                   id="all.files.here.are.stored.on.ipfs"
@@ -124,7 +124,7 @@ export default function IpfsMediaDialog({
             </Grid>
             {images.length > 0 && (
               <>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Button
                     disabled={ipfsFileUploadMutation.isLoading}
                     startIcon={<UploadIcon />}
@@ -135,14 +135,14 @@ export default function IpfsMediaDialog({
                   </Button>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
               </>
             )}
 
             {images.length === 0 ? (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack
                     spacing={2}
@@ -177,7 +177,7 @@ export default function IpfsMediaDialog({
               </Grid>
             ) : (
               images.map((img, index) => (
-                <Grid item xs={6} sm={3} key={index}>
+                <Grid size={{ xs: 6, sm: 3 }} key={index}>
                   <Card
                     sx={{
                       borderColor: (theme) =>
@@ -204,7 +204,7 @@ export default function IpfsMediaDialog({
               ))
             )}
             {hasMore && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   disabled={isLoading}
                   startIcon={

@@ -18,7 +18,7 @@ export default function useUserOrder(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get/*<Order>*/(`/orders/user-orders/${params.id}`))
+      return (await (instance as any).get/*<Order>*/(`/orders/user-orders/${params.id}`))
         .data;
     },
     {

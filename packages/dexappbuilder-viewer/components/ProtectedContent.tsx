@@ -72,12 +72,11 @@ export default function ProtectedContent({
   });
 
   const handleRetry = () => {
-    setRetryCount((prev) => prev + 1);
+    setRetryCount((prev: any) => prev + 1);
     setShowError(false);
     refetch();
   };
 
-  // Retrasar la visualización del error para evitar parpadeos
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (
@@ -107,11 +106,10 @@ export default function ProtectedContent({
     );
   }
 
-  // Siempre mostrar las condiciones mientras se verifica
   return (
     <Container>
       <Grid container justifyContent="center">
-        <Grid item xs={12} sm={8}>
+        <Grid size={{ xs: 12, sm: 8 }}>
           {showError &&
             hasError(protectedConfigResponse) &&
             account &&
@@ -120,8 +118,8 @@ export default function ProtectedContent({
                 <Alert severity="error" sx={{ width: "100%" }}>
                   <Typography variant="body1">
                     {conditionsData &&
-                    "errorMessage" in conditionsData &&
-                    conditionsData.errorMessage ? (
+                      "errorMessage" in conditionsData &&
+                      conditionsData.errorMessage ? (
                       conditionsData.errorMessage
                     ) : (
                       <FormattedMessage

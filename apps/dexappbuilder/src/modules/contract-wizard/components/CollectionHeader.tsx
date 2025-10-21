@@ -26,9 +26,9 @@ export function ContractCollectionHeader(props: Props) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               sx={{
                 display: 'flex',
@@ -63,7 +63,7 @@ export function ContractCollectionHeader(props: Props) {
               )}
             </Box>
           </Grid>
-          <Grid item xs>
+          <Grid size="grow">
             <Typography
               sx={{
                 display: 'block',
@@ -78,7 +78,7 @@ export function ContractCollectionHeader(props: Props) {
             </Typography>
           </Grid>
           {collection?.description && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography
                 sx={{
                   display: 'block',

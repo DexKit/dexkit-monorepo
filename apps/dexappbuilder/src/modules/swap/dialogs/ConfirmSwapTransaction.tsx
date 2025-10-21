@@ -66,14 +66,14 @@ function ConfirmSwapTransaction({
       <DialogContent>
         <Grid container spacing={2}>
           {errorMessage && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="error">{String(errorMessage)}</Alert>
             </Grid>
           )}
 
           {quote && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -92,7 +92,7 @@ function ConfirmSwapTransaction({
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -114,7 +114,7 @@ function ConfirmSwapTransaction({
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -168,7 +168,7 @@ function ConfirmSwapTransaction({
                 </Stack>
               </Grid>
               {appConfig.swapFees?.amount_percentage !== undefined && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     alignItems="center"

@@ -144,7 +144,7 @@ export default function ShowCaseFormItem({
       >
         {imgMeta.error}
         <Grid container spacing={theme.spacing(2)}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl fullWidth>
               <Field
                 fullWidth
@@ -170,9 +170,9 @@ export default function ShowCaseFormItem({
             </FormControl>
           </Grid>
           {itemMeta.value.type === 'image' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={theme.spacing(2)}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     fullWidth
                     component={TextField}
@@ -197,7 +197,7 @@ export default function ShowCaseFormItem({
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     fullWidth
                     component={TextField}
@@ -207,7 +207,7 @@ export default function ShowCaseFormItem({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     fullWidth
                     component={TextField}
@@ -220,7 +220,7 @@ export default function ShowCaseFormItem({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControl fullWidth>
                     <Field
                       fullWidth
@@ -244,10 +244,10 @@ export default function ShowCaseFormItem({
                 </Grid>
                 {itemMeta.value?.actionType === 'page' ? (
                   <>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <FormControl fullWidth>
                         <MuiSelect value={auxPage} onChange={handleChangePage}>
-                          {allPages.map((page, key) => (
+                          {allPages.map((page: any, key: any) => (
                             <MenuItem key={key} value={page.uri}>
                               {page.title || ' '}
                             </MenuItem>
@@ -255,7 +255,7 @@ export default function ShowCaseFormItem({
                         </MuiSelect>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       {isCustomPage && (
                         <Field
                           component={TextField}
@@ -269,7 +269,7 @@ export default function ShowCaseFormItem({
                     </Grid>
                   </>
                 ) : (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       fullWidth
@@ -279,13 +279,17 @@ export default function ShowCaseFormItem({
                   </Grid>
                 )}
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
                     <FormattedMessage id="custom.styling" defaultMessage="Custom Styling" />
                   </Typography>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -320,7 +324,11 @@ export default function ShowCaseFormItem({
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -364,7 +372,11 @@ export default function ShowCaseFormItem({
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -405,7 +417,11 @@ export default function ShowCaseFormItem({
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -437,7 +453,11 @@ export default function ShowCaseFormItem({
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <Box sx={{ px: 2 }}>
                     <Typography variant="body2" sx={{ mb: 1 }}>
                       <FormattedMessage
@@ -482,7 +502,11 @@ export default function ShowCaseFormItem({
                   </Box>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -511,7 +535,11 @@ export default function ShowCaseFormItem({
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <Box sx={{ px: 2 }}>
                     <Typography variant="body2" sx={{ mb: 1 }}>
                       <FormattedMessage
@@ -536,7 +564,11 @@ export default function ShowCaseFormItem({
                   </Box>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <Box sx={{ px: 2 }}>
                     <Typography variant="body2" sx={{ mb: 1 }}>
                       <FormattedMessage
@@ -581,7 +613,11 @@ export default function ShowCaseFormItem({
                   </Box>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -653,7 +689,11 @@ export default function ShowCaseFormItem({
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <Box sx={{ px: 2 }}>
                     <Typography variant="body2" sx={{ mb: 1 }}>
                       <FormattedMessage
@@ -663,7 +703,7 @@ export default function ShowCaseFormItem({
                     </Typography>
                     <Switch
                       checked={itemProps.value.type === 'image' ? (itemProps.value.showTextBelow !== false) : false}
-                      onChange={(event) => {
+                      onChange={(event: any) => {
                         if (itemProps.value.type === 'image') {
                           itemHelpers.setValue({
                             ...itemProps.value,
@@ -676,7 +716,11 @@ export default function ShowCaseFormItem({
                   </Box>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -705,9 +749,9 @@ export default function ShowCaseFormItem({
             </Grid>
           )}
           {itemMeta.value.type === 'asset' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={theme.spacing(2)}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -763,7 +807,7 @@ export default function ShowCaseFormItem({
                     </Field>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -776,7 +820,7 @@ export default function ShowCaseFormItem({
                     name={`items[${index}].contractAddress`}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -793,9 +837,9 @@ export default function ShowCaseFormItem({
             </Grid>
           )}
           {itemMeta.value.type === 'collection' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={theme.spacing(2)}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     fullWidth
                     component={TextField}
@@ -820,7 +864,7 @@ export default function ShowCaseFormItem({
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     fullWidth
                     component={TextField}
@@ -830,7 +874,7 @@ export default function ShowCaseFormItem({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     fullWidth
                     component={TextField}
@@ -843,7 +887,7 @@ export default function ShowCaseFormItem({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -899,7 +943,7 @@ export default function ShowCaseFormItem({
                     </Field>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -915,7 +959,7 @@ export default function ShowCaseFormItem({
               </Grid>
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack spacing={theme.spacing(1)} alignItems="center" direction="row">
                 <Button

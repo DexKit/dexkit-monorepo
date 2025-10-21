@@ -6,23 +6,50 @@ import { useContractMetadata } from '@thirdweb-dev/react';
 import { SmartContract, Token } from '@thirdweb-dev/sdk';
 import { BigNumber, ethers } from 'ethers';
 
-const formatTransactionError = (errorMessage: string): string => {
-  if (errorMessage.includes('IPFS') || errorMessage.includes('timed out')) {
-    return 'IPFS connection timeout. The network might be congested. Please try again.';
-  } else if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
-            errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
-    return 'Transaction was cancelled.';
-  } else if (errorMessage.includes('MetaMask Tx Signature')) {
-    return 'Transaction was cancelled.';
-  } else if (errorMessage.includes('TRANSACTION ERROR') || errorMessage.includes('TRANSACTION INFORMATION')) {
+export const formatTransactionError = (errorMessage: string): string => {
+  if (errorMessage.includes('user denied') || errorMessage.includes('User denied') ||
+    errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected') ||
+    errorMessage.includes('User denied transaction signature') ||
+    errorMessage.includes('MetaMask Tx Signature: User den')) {
+    return 'Transaction was cancelled by user.';
+  }
+
+  if (errorMessage.includes('MetaMask Tx Signature')) {
+    return 'Transaction was cancelled by user.';
+  }
+
+  if (errorMessage.includes('TRANSACTION ERROR') || errorMessage.includes('TRANSACTION INFORMATION')) {
     if (errorMessage.includes('User denied transaction signature')) {
-      return 'Transaction was cancelled.';
+      return 'Transaction was cancelled by user.';
     } else {
       const reasonMatch = errorMessage.match(/Reason: (.+?)(?=\s*╔|$)/);
-      return reasonMatch ? reasonMatch[1].trim() : 'Transaction failed. Please try again.';
+      if (reasonMatch) {
+        const reason = reasonMatch[1].trim();
+        if (reason.includes('User denied') || reason.includes('user denied')) {
+          return 'Transaction was cancelled by user.';
+        }
+        return reason;
+      }
+      return 'Transaction failed. Please try again.';
     }
   }
-  
+
+  if (errorMessage.includes('IPFS') || errorMessage.includes('timed out')) {
+    return 'Network timeout. The network might be congested. Please try again.';
+  }
+
+  if (errorMessage.includes('insufficient funds') || errorMessage.includes('Insufficient funds')) {
+    return 'Insufficient funds to complete the transaction.';
+  }
+
+  if (errorMessage.includes('gas') && errorMessage.includes('estimate')) {
+    return 'Unable to estimate gas. Please try again or increase gas limit.';
+  }
+
+  if (errorMessage.includes('execution reverted')) {
+    return 'Transaction failed. The contract execution was reverted.';
+  }
+
   return errorMessage;
 };
 
@@ -51,9 +78,9 @@ export function useWithdrawRewardsMutation({
       if (!contract) {
         throw new Error('Could not access the contract');
       }
-      
+
       const call = contract.prepare('withdrawRewardTokens', [amount]);
-      
+
       if (!call) {
         throw new Error('Could not prepare the transaction');
       }
@@ -70,18 +97,18 @@ export function useWithdrawRewardsMutation({
 
         watchTransactionDialog.watch(tx.hash);
       }
-      
+
       return await tx?.wait();
     } catch (err: any) {
       console.error('Error in withdrawal of rewards:', err.message || err);
       let errorMessage = err.message || 'Unknown error during withdrawal';
-      
+
       errorMessage = formatTransactionError(errorMessage);
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     } finally {
     }
-    
+
     return null;
   });
 }
@@ -101,11 +128,11 @@ export function useDepositRewardTokensMutation({
     let tokenName = '';
     let tokenSymbol = '';
     let contractName = '';
-    
+
     try {
       if (metadata?.name) {
         contractName = metadata.name;
-      } 
+      }
       else if (contract) {
         try {
           const contractInfo = await contract.call('name', []);
@@ -116,13 +143,13 @@ export function useDepositRewardTokensMutation({
           console.warn('Error getting contract name:', nameError);
         }
       }
-      
+
       if (!contractName) {
         contractName = 'Staking Contract';
       }
-      
+
       const rewardTokenAddress = await contract?.call('rewardToken', []);
-      
+
       if (rewardTokenAddress && provider) {
         try {
           const tokenContract = new ethers.Contract(
@@ -130,7 +157,7 @@ export function useDepositRewardTokensMutation({
             ['function name() view returns (string)', 'function symbol() view returns (string)'],
             provider
           );
-          
+
           tokenName = await tokenContract.name();
           tokenSymbol = await tokenContract.symbol();
         } catch (tokenError) {
@@ -140,7 +167,7 @@ export function useDepositRewardTokensMutation({
     } catch (contractError) {
       console.warn('Error getting reward token address:', contractError);
     }
-    
+
     let values = {
       amount: formatUnits(amount, rewardDecimals),
       contractName: contractName,
@@ -154,9 +181,9 @@ export function useDepositRewardTokensMutation({
       if (!contract) {
         throw new Error('Could not access the contract');
       }
-      
+
       const call = await contract.prepare('depositRewardTokens', [amount]);
-      
+
       if (!call) {
         throw new Error('Could not prepare the transaction');
       }
@@ -173,30 +200,30 @@ export function useDepositRewardTokensMutation({
 
         watchTransactionDialog.watch(tx.hash);
       }
-      
+
       return await tx?.wait();
     } catch (err: any) {
       console.error('Error in deposit of rewards:', err.message || err);
       let errorMessage = err.message || 'Unknown error during deposit';
-      
+
       if (errorMessage.includes('insufficient allowance')) {
         errorMessage = 'Insufficient allowance. Please approve tokens first.';
-        
+
         watchTransactionDialog.close();
-        
+
         return {
           success: false,
           requiresApproval: true,
           message: 'Additional approval required'
         };
       }
-      
+
       errorMessage = formatTransactionError(errorMessage);
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     } finally {
     }
-    
+
     return null;
   });
 }
@@ -216,9 +243,9 @@ export function useThirdwebApprove({
     if (!address || !contract) {
       return null;
     }
-    
+
     let metadata: any = { name: '', symbol: '' };
-    
+
     try {
       try {
         const tokenInfo = await contract.get();
@@ -231,7 +258,7 @@ export function useThirdwebApprove({
       } catch (tokenError) {
         console.warn('Error in getting basic token information:', tokenError);
       }
-      
+
       if (!metadata.name && !metadata.symbol) {
         const metadataPromise = contract?.metadata.get();
         const timeoutPromise = new Promise<never>((_, reject) => {
@@ -239,7 +266,7 @@ export function useThirdwebApprove({
             reject(new Error('Timeout in getting contract metadata.'));
           }, 10000);
         });
-        
+
         metadata = await Promise.race([metadataPromise, timeoutPromise])
           .catch(error => {
             console.warn('Error in getting metadata:', error.message);
@@ -255,12 +282,12 @@ export function useThirdwebApprove({
       name: metadata?.name || 'ERC20',
       symbol: metadata?.symbol || 'Tokens',
     };
-    
+
     let currentAllowance = BigNumber.from(0);
     try {
       const allowance = await contract.allowance(address);
       currentAllowance = BigNumber.from(allowance.value);
-      
+
       if (currentAllowance.gte(BigNumber.from(amount))) {
         return { success: true, message: 'Sufficient approval already exists' };
       }
@@ -269,12 +296,12 @@ export function useThirdwebApprove({
     }
 
     const safeMaxApprovalAmount = "115792089237316195423570985008687907853269984665640564039457000000000000000000";
-    
+
     watchTransactionDialog.open('approve', values);
 
     try {
       const call = await contract.erc20.setAllowance.prepare(address, safeMaxApprovalAmount);
-      
+
       if (!call) {
         throw new Error('Could not prepare the approval transaction');
       }
@@ -295,13 +322,13 @@ export function useThirdwebApprove({
     } catch (err: any) {
       console.error('Error in approval:', err.message || err);
       let errorMessage = err.message || 'Unknown error during approval';
-      
+
       if (errorMessage.includes('out-of-bounds') || errorMessage.includes('overflow')) {
         try {
           const smallerApprovalAmount = "1000000000000000000000000000000000000";
           const newCall = await contract.erc20.setAllowance.prepare(address, smallerApprovalAmount);
           const newTx = await newCall.send();
-          
+
           if (newTx?.hash && chainId) {
             createNotification({
               type: 'transaction',
@@ -311,7 +338,7 @@ export function useThirdwebApprove({
             });
             watchTransactionDialog.watch(newTx.hash);
           }
-          
+
           return await newTx?.wait();
         } catch (retryErr: any) {
           console.error('Error in second attempt of approval:', retryErr.message || retryErr);
@@ -320,9 +347,9 @@ export function useThirdwebApprove({
           return null;
         }
       }
-      
+
       errorMessage = formatTransactionError(errorMessage);
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     } finally {
     }
@@ -343,7 +370,7 @@ export function useSetRewardsPerUnitTime({
 
   return useMutation(async ({ unitTime }: { unitTime: string }) => {
     let metadata: any = { name: '' };
-    
+
     try {
       try {
         const contractInfo = await contract?.call('name', []);
@@ -353,7 +380,7 @@ export function useSetRewardsPerUnitTime({
       } catch (nameError) {
         console.warn('Error in getting contract name:', nameError);
       }
-      
+
       if (!metadata.name) {
         const metadataPromise = contract?.metadata.get();
         const timeoutPromise = new Promise((_, reject) => {
@@ -361,7 +388,7 @@ export function useSetRewardsPerUnitTime({
             reject(new Error('Timeout in getting contract metadata.'));
           }, 10000);
         });
-        
+
         metadata = await Promise.race([metadataPromise, timeoutPromise])
           .catch(error => {
             console.warn('Error in getting metadata:', error.message);
@@ -379,7 +406,7 @@ export function useSetRewardsPerUnitTime({
 
     try {
       const call = contract?.prepare(isEdition ? 'setDefaultRewardsPerUnitTime' : 'setRewardsPerUnitTime', [unitTime]);
-      
+
       if (!call) {
         throw new Error('Could not prepare the transaction');
       }
@@ -401,9 +428,9 @@ export function useSetRewardsPerUnitTime({
     } catch (err: any) {
       console.error('Error in setting reward per unit time:', err.message || err);
       let errorMessage = err.message || 'Unknown error during operation';
-      
+
       errorMessage = formatTransactionError(errorMessage);
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     } finally {
     }
@@ -423,7 +450,7 @@ export function useSetDefaultTimeUnit({
 
   return useMutation(async ({ timeUnit }: { timeUnit: string }) => {
     let metadata: any = { name: '' };
-    
+
     try {
       try {
         const contractInfo = await contract?.call('name', []);
@@ -433,7 +460,7 @@ export function useSetDefaultTimeUnit({
       } catch (nameError) {
         console.warn('Error in getting contract name:', nameError);
       }
-      
+
       if (!metadata.name) {
         const metadataPromise = contract?.metadata.get();
         const timeoutPromise = new Promise((_, reject) => {
@@ -441,7 +468,7 @@ export function useSetDefaultTimeUnit({
             reject(new Error('Timeout in getting contract metadata.'));
           }, 10000);
         });
-        
+
         metadata = await Promise.race([metadataPromise, timeoutPromise])
           .catch(error => {
             console.warn('Error in getting metadata:', error.message);
@@ -462,7 +489,7 @@ export function useSetDefaultTimeUnit({
         isAltVersion ? 'setTimeUnit' : 'setDefaultTimeUnit',
         [timeUnit],
       );
-      
+
       if (!call) {
         throw new Error('Could not prepare the transaction');
       }
@@ -484,9 +511,9 @@ export function useSetDefaultTimeUnit({
     } catch (err: any) {
       console.error('Error in setting default time unit:', err.message || err);
       let errorMessage = err.message || 'Unknown error during operation';
-      
+
       errorMessage = formatTransactionError(errorMessage);
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     } finally {
     }
@@ -507,7 +534,7 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
       denominator: string;
     }) => {
       let metadata: any = { name: '' };
-      
+
       try {
         try {
           const contractInfo = await contract?.call('name', []);
@@ -517,7 +544,7 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
         } catch (nameError) {
           console.warn('Error in getting contract name:', nameError);
         }
-        
+
         if (!metadata.name) {
           const metadataPromise = contract?.metadata.get();
           const timeoutPromise = new Promise((_, reject) => {
@@ -525,7 +552,7 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
               reject(new Error('Timeout in getting contract metadata.'));
             }, 10000);
           });
-          
+
           metadata = await Promise.race([metadataPromise, timeoutPromise])
             .catch(error => {
               console.warn('Error in getting metadata:', error.message);
@@ -550,7 +577,7 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
           numerator,
           denominator,
         ]);
-        
+
         if (!call) {
           throw new Error('Could not prepare the transaction');
         }
@@ -572,9 +599,9 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
       } catch (err: any) {
         console.error('Error in setting reward ratio:', err.message || err);
         let errorMessage = err.message || 'Unknown error during operation';
-        
+
         errorMessage = formatTransactionError(errorMessage);
-        
+
         watchTransactionDialog.setError(new Error(errorMessage));
       } finally {
       }
@@ -595,7 +622,7 @@ export function useApproveForAll({
 
   return useMutation(async () => {
     let metadata: any = { name: '' };
-    
+
     try {
       try {
         const contractInfo = await contract?.call('name', []);
@@ -605,7 +632,7 @@ export function useApproveForAll({
       } catch (nameError) {
         console.warn('Error in getting contract name:', nameError);
       }
-      
+
       if (!metadata.name) {
         const metadataPromise = contract?.metadata.get();
         const timeoutPromise = new Promise((_, reject) => {
@@ -613,7 +640,7 @@ export function useApproveForAll({
             reject(new Error('Timeout in getting contract metadata.'));
           }, 10000);
         });
-        
+
         metadata = await Promise.race([metadataPromise, timeoutPromise])
           .catch(error => {
             console.warn('Error in getting metadata:', error.message);
@@ -633,7 +660,7 @@ export function useApproveForAll({
 
     try {
       const call = await contract?.prepare('setApprovalForAll', [address, true]);
-      
+
       if (!call) {
         throw new Error('Could not prepare the approval transaction');
       }
@@ -655,13 +682,13 @@ export function useApproveForAll({
     } catch (err: any) {
       console.error('Error in approval for all NFTs:', err.message || err);
       let errorMessage = err.message || 'Unknown error during approval';
-      
+
       errorMessage = formatTransactionError(errorMessage);
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     } finally {
     }
-    
+
     return null;
   });
 }

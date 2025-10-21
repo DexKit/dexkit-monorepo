@@ -3,7 +3,6 @@ import MediaDialog from '@dexkit/ui/components/mediaDialog';
 import { AccountFile } from '@dexkit/ui/modules/file/types';
 import Image from '@mui/icons-material/Image';
 import {
-  alpha,
   Box,
   Button,
   ButtonBase,
@@ -182,7 +181,6 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
           />
         </AppConfirmDialog>
       )}
-
       <MediaDialog
         onConfirmSelectFile={handleSelectFile}
         dialogProps={{
@@ -192,20 +190,24 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4
+          }}>
           <ButtonBase
             onClick={handleSelectOpen}
             sx={{
               position: 'relative',
               p: 2,
-              borderRadius: (theme) => theme.shape.borderRadius / 2,
+              borderRadius: (theme: any) => theme.shape.borderRadius / 2,
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
-              backgroundColor: (theme) =>
+              backgroundColor: (theme: any) =>
                 theme.palette.mode === 'light'
                   ? 'rgba(0,0,0, 0.2)'
-                  : alpha(theme.palette.common.white, 0.1),
+                  : theme.alpha(theme.palette.common.white, 0.1),
 
               backgroundImage: values.imageUrl
                 ? `url("${values.imageUrl}")`
@@ -227,20 +229,24 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                   theme.palette.getContrastText(
                     theme.palette.mode === 'light'
                       ? 'rgba(0,0,0, 0.2)'
-                      : alpha(theme.palette.common.white, 0.1),
+                      : theme.alpha(theme.palette.common.white, 0.1),
                   ),
               }}
             >
               {!values.imageUrl && (
                 // eslint-disable-next-line jsx-a11y/alt-text
-                <Image fontSize="large" />
+                (<Image fontSize="large" />)
               )}
             </Stack>
           </ButtonBase>
         </Grid>
-        <Grid item xs={12} sm={8}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 8
+          }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button onClick={handleShowPreview} startIcon={<Visibility />}>
                 <FormattedMessage
                   id="preview.in.store"
@@ -248,7 +254,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 />
               </Button>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="name"
@@ -257,7 +263,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="description"
@@ -272,7 +278,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 rows={3}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ProductCollectionsAutocomplete
                 value={values.collections ? values.collections : []}
                 onChange={(value: ProductCollectionType[]) => {
@@ -281,7 +287,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 collections={collections?.items ?? []}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ProductCategoryAutocomplete
                 value={values.category ?? null}
                 onChange={(value: ProductCategoryType | null) => {
@@ -290,7 +296,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 categories={categories?.items ?? []}
               />
             </Grid>
-            <Grid item>
+            <Grid>
               <FormikDecimalInput
                 name="price"
                 TextFieldProps={{
@@ -304,7 +310,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 decimals={6}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl>
                 <FormControlLabel
                   label={
@@ -316,7 +322,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                   control={
                     <Switch
                       checked={showPublishedAt}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         if (!e.target.checked) {
                           setFieldValue('publishedAt', null);
                         } else {
@@ -335,7 +341,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControlLabel
                 label={
                   <FormattedMessage
@@ -346,7 +352,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 control={
                   <Switch
                     checked={values.digital}
-                    onChange={(e) => {
+                      onChange={(e: any) => {
                       setFieldValue('digital', e.target.checked);
                     }}
                   />
@@ -360,10 +366,10 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
               </FormHelperText>
             </Grid>
             {values.digital && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <MDEditor
                   value={values.content ?? ''}
-                  onChange={(value) => setFieldValue('content', value)}
+                  onChange={(value: any) => setFieldValue('content', value)}
                   commands={[
                     ...commands.getCommands(),
                     {
@@ -373,7 +379,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                         defaultMessage: 'Artificial Inteligence',
                       }),
 
-                      render: (command, disabled, executeCommand) => {
+                      render: (command: any, disabled: any, executeCommand: any) => {
                         return (
                           <button
                             disabled={disabled}
@@ -398,7 +404,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
             )}
 
             {values.id && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   onClick={handleDelete}
                   variant="contained"
@@ -412,10 +418,10 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack
                   direction="row"

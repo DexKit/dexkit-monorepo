@@ -504,7 +504,7 @@ export default function GlassScanWalletQrCodeDialog({
               variant="outlined"
               fullWidth
             >
-              {cameras.map((camera) => (
+              {cameras.map((camera: any) => (
                 <MenuItem key={camera.id} value={camera.id}>
                   {camera.label}
                 </MenuItem>

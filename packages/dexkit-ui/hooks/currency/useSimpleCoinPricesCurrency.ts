@@ -47,7 +47,7 @@ export const useSimpleCoinPricesQuery = ({
       if (tokens.length === 0) {
         return prices;
       }
-      const contractAddresses = tokens.map((t) => t.address);
+      const contractAddresses = tokens.map((t: any) => t.address);
       const wrapped_address = WRAPPED_TOKEN_ADDRESSES[chain]?.toLowerCase() || ' ';
       // Our API returns native as the wrapped coin
       if (includeNative) {

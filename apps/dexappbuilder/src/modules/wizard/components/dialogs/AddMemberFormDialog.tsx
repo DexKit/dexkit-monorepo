@@ -62,7 +62,6 @@ export default function AddMemberFormDialog({ dialogProps, siteId }: Props) {
           error={mutationAddMember.error}
         />
       )}
-
       <Dialog {...dialogProps}>
         <AppDialogTitle
           title={
@@ -93,11 +92,11 @@ export default function AddMemberFormDialog({ dialogProps, siteId }: Props) {
             helper.setSubmitting(false);
           }}
         >
-          {({ submitForm }) => (
+          {({ submitForm }: any) => (
             <Form>
               <DialogContent dividers>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack spacing={2}>
                         <Field
@@ -117,7 +116,7 @@ export default function AddMemberFormDialog({ dialogProps, siteId }: Props) {
               </DialogContent>
 
               <DialogActions>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button
                       variant="contained"

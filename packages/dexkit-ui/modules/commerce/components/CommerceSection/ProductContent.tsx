@@ -184,28 +184,28 @@ export default function ProductContent({
       )}
       <Grid container spacing={2}>
         {!disableHeader && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContentHeader
               title={product?.name ?? <Skeleton />}
               onBack={() => setProduct(undefined)}
             />
           </Grid>
         )}
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Image
                 src={
                   imageUrl !== undefined ? imageUrl : product?.imageUrl ?? ""
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ProductImagesSlide onSelectImage={handleSelectImage} images={images ?? []} />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Box>
             <Stack alignItems="flex-start" spacing={2}>
               <Stack direction="row" alignItems="center" spacing={1}>

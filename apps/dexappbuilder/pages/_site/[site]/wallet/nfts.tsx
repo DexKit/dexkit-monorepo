@@ -1,26 +1,19 @@
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import TableSkeleton from '@dexkit/ui/modules/nft/components/tables/TableSkeleton';
 import HiddenAssetsSection from '@dexkit/ui/modules/wallet/components/HiddenAssetsSection';
 import WalletAssetsFilter from '@dexkit/ui/modules/wallet/components/WalletAssetsFilter';
 import WalletAssetsSection from '@dexkit/ui/modules/wallet/components/WalletAssetsSection';
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Box,
-    Button,
-    Container,
-    Drawer,
-    Grid,
-    Paper,
-    Stack,
-    Tabs,
-    Typography,
+  Box,
+  Container,
+  Drawer,
+  Grid,
+  Tabs
 } from '@mui/material';
 import Tab from '@mui/material/Tab';
-import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import dynamic from 'next/dynamic';
-import { Suspense, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import MainLayout from '../../../../src/components/layouts/main';
@@ -46,7 +39,7 @@ const WalletNFTsPage: NextPage = () => {
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChangeTab = (event: any, newValue: number) => {
     setActiveTab(newValue);
   };
 
@@ -79,7 +72,7 @@ const WalletNFTsPage: NextPage = () => {
 
   const [showImportAsset, setShowImportAsset] = useState(false);
 
-  const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
+  const handleToggleImportAsset = () => setShowImportAsset((value: boolean) => !value);
 
   return (
     <>
@@ -97,7 +90,7 @@ const WalletNFTsPage: NextPage = () => {
       <MainLayout noSsr>
         <Container>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <PageHeader
                 breadcrumbs={[
                   {
@@ -122,7 +115,7 @@ const WalletNFTsPage: NextPage = () => {
                 ]}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs
                   value={activeTab}
@@ -160,53 +153,17 @@ const WalletNFTsPage: NextPage = () => {
               </Box>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               {activeTab === 0 && (
-                <QueryErrorResetBoundary>
-                  {({ reset }) => (
-                    <ErrorBoundary
-                      onReset={reset}
-                      fallbackRender={({ resetErrorBoundary, error }) => (
-                        <Paper sx={{ p: 1 }}>
-                          <Stack justifyContent="center" alignItems="center">
-                            <Typography variant="h6">
-                              <FormattedMessage
-                                id="something.went.wrong"
-                                defaultMessage="Oops, something went wrong"
-                                description="Something went wrong error message"
-                              />
-                            </Typography>
-                            <Typography variant="body1" color="textSecondary">
-                              {String(error)}
-                            </Typography>
-                            <Button
-                              color="primary"
-                              onClick={resetErrorBoundary}
-                            >
-                              <FormattedMessage
-                                id="try.again"
-                                defaultMessage="Try again"
-                                description="Try again"
-                              />
-                            </Button>
-                          </Stack>
-                        </Paper>
-                      )}
-                    >
-                      <Suspense fallback={<TableSkeleton rows={4} />}>
-                        <WalletAssetsSection
-                          filters={{ ...filters, account: account }}
-                          onOpenFilters={handleOpenDrawer}
-                          onImport={handleToggleImportAsset}
-                          setFilters={setFilters}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )}
-                </QueryErrorResetBoundary>
+                <WalletAssetsSection
+                  filters={{ ...filters, account: account }}
+                  onOpenFilters={handleOpenDrawer}
+                  onImport={handleToggleImportAsset}
+                  setFilters={setFilters}
+                />
               )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {activeTab === 1 && (
                 <FavoriteAssetsSection
                   filters={filters}
@@ -215,48 +172,12 @@ const WalletNFTsPage: NextPage = () => {
                 />
               )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {activeTab === 2 && (
-                <QueryErrorResetBoundary>
-                  {({ reset }) => (
-                    <ErrorBoundary
-                      onReset={reset}
-                      fallbackRender={({ resetErrorBoundary, error }) => (
-                        <Paper sx={{ p: 1 }}>
-                          <Stack justifyContent="center" alignItems="center">
-                            <Typography variant="h6">
-                              <FormattedMessage
-                                id="something.went.wrong"
-                                defaultMessage="Oops, something went wrong"
-                                description="Something went wrong error message"
-                              />
-                            </Typography>
-                            <Typography variant="body1" color="textSecondary">
-                              {String(error)}
-                            </Typography>
-                            <Button
-                              color="primary"
-                              onClick={resetErrorBoundary}
-                            >
-                              <FormattedMessage
-                                id="try.again"
-                                defaultMessage="Try again"
-                                description="Try again"
-                              />
-                            </Button>
-                          </Stack>
-                        </Paper>
-                      )}
-                    >
-                      <Suspense fallback={<TableSkeleton rows={4} />}>
-                        <HiddenAssetsSection
-                          filters={filters}
-                          onOpenFilters={handleOpenDrawer}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )}
-                </QueryErrorResetBoundary>
+                <HiddenAssetsSection
+                  filters={filters}
+                  onOpenFilters={handleOpenDrawer}
+                />
               )}
             </Grid>
           </Grid>

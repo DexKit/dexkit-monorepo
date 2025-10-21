@@ -24,10 +24,10 @@ export default function CollectionItemForm({
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item>
+        <Grid>
           <ImageFormUpload
             value={values.items[itemIndex]?.file || ''}
-            onSelectFile={(file) =>
+            onSelectFile={(file: any) =>
               setFieldValue(`items[${itemIndex}].file`, file)
             }
             error={Boolean(
@@ -43,7 +43,7 @@ export default function CollectionItemForm({
             />
             </Box>*/}
         </Grid>
-        <Grid item xs>
+        <Grid size="grow">
           <Stack spacing={2}>
             {allowMultipleQuantity === true && (
               <Field
@@ -106,7 +106,7 @@ export default function CollectionItemForm({
               <Box>
                 <Stack spacing={2}>
                   {values.items[itemIndex].attributes?.map(
-                    (_, index: number) => (
+                    (_: any, index: number) => (
                       <CollectionItemAttributeForm
                         key={index}
                         index={index}
@@ -121,7 +121,7 @@ export default function CollectionItemForm({
             <Box>
               <FieldArray
                 name={`items[${itemIndex}].attributes`}
-                render={(arrayHelper) => (
+                render={(arrayHelper: any) => (
                   <Button
                     variant="outlined"
                     onClick={() => arrayHelper.push({})}

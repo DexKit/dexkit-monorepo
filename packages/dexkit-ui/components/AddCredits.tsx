@@ -4,7 +4,8 @@ import {
   useSubscription,
 } from "@dexkit/ui/hooks/payments";
 import Alert from "@mui/material/Alert";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import Decimal from "decimal.js";
@@ -50,19 +51,20 @@ export function AddCredits({
   }, [subscriptionQuery.data]);
 
   return (
-    <>
-      <Grid item xs={12}>
-        <Grid
-          container
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* Credits Section */}
+      <Box>
+        <Stack
+          direction="row"
           spacing={2}
           alignItems="center"
           justifyContent="space-between"
         >
-          <Grid item>
+          <Box>
             <Typography variant="caption" color="text.secondary">
               <FormattedMessage id="credits" defaultMessage="Credits" />
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
               {subscriptionQuery.data ? (
                 <FormattedNumber
                   style="currency"
@@ -75,17 +77,21 @@ export function AddCredits({
                 <Skeleton />
               )}
             </Typography>
-          </Grid>
-          <Grid item>
+          </Box>
+          <Box>
             <AddCreditsButton />
-          </Grid>
-        </Grid>
-      </Grid>
+          </Box>
+        </Stack>
+      </Box>
+      
+      {/* Warning Alert */}
       {alertWarningMessage && (
-        <Grid item xs={12}>
-          <Alert severity="warning">{alertWarningMessage}</Alert>
-        </Grid>
+        <Box>
+          <Alert severity="warning" sx={{ borderRadius: 2 }}>
+            {alertWarningMessage}
+          </Alert>
+        </Box>
       )}
-    </>
+    </Box>
   );
 }

@@ -36,10 +36,10 @@ function ColorSchemePicker({
 }) {
   const { mode, setMode } = useColorScheme();
   useEffect(() => {
-    if (selectedThemeMode) {
+    if (selectedThemeMode && setMode) {
       setMode(selectedThemeMode);
     }
-  }, [selectedThemeMode]);
+  }, [selectedThemeMode, setMode]);
   return <></>;
 }
 
@@ -60,12 +60,12 @@ export default function ThemePreview({
   }, []);
 
   return (
-    <div id="theme-preview-container">
+    <div id="theme-preview-container" data-theme-preview>
       <CssVarsProvider
         theme={selectedTheme}
         colorSchemeNode={node || null}
         disableNestedContext={true}
-        colorSchemeSelector="#theme-preview-container"
+        colorSchemeSelector="[data-theme-preview]"
         colorSchemeStorageKey="theme-preview-color-scheme"
         modeStorageKey="theme-preview-mode"
       >
@@ -80,7 +80,7 @@ export default function ThemePreview({
               <SwapWidget />
             ) : (
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <AssetFromApi
                     chainId={ChainId.Polygon}
                     contractAddress={KITTYGOTCHI_CONTRACT}
@@ -88,7 +88,7 @@ export default function ThemePreview({
                     disabled={true}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <AssetFromApi
                     chainId={ChainId.Polygon}
                     contractAddress={KITTYGOTCHI_CONTRACT}

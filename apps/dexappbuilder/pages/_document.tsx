@@ -3,13 +3,15 @@ import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { getInitColorSchemeScript } from '@mui/material/styles';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Script from 'next/script';
 import createEmotionCache from '../src/createEmotionCache';
+import '../src/polyfills/react-polyfills';
 
 export default class MyDocument extends Document {
+  props: any;
   render() {
-    const { appConfig } = ((this.props as any).pageProps as {
+    const { appConfig } = ((this as any).props?.pageProps as {
       appConfig: AppConfig;
     }) || { appConfig: {} };
 
@@ -23,9 +25,9 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
-          {appConfig?.font && (
+          {(appConfig as any)?.font && (
             <link
-              href={`https://fonts.googleapis.com/css2?family=${appConfig.font.family}&display=swap`}
+              href={`https://fonts.googleapis.com/css2?family=${(appConfig as any).font.family}&display=swap`}
               rel="stylesheet"
             />
           )}
@@ -33,10 +35,66 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" />
-          {(this.props as any).emotionStyleTags}
+          {(this as any).props?.emotionStyleTags || null}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                if (typeof window !== 'undefined' && typeof require !== 'undefined') {
+                  try {
+                    const originalRequire = require;
+                    const Module = require('module');
+                    const originalResolveFilename = Module._resolveFilename;
+                    
+                    Module._resolveFilename = function (request, parent, isMain) {
+                      if (request === 'react-dom') {
+                        const reactDom = originalRequire('react-dom');
+                        
+                        if (!reactDom.findDOMNode) {
+                          const React = originalRequire('react');
+                          
+                          reactDom.findDOMNode = (instance) => {
+                            if (instance == null) {
+                              return null;
+                            }
+                            
+                            if (instance.nodeType === 1) {
+                              return instance;
+                            }
+                            
+                            if (instance._reactInternalFiber || instance._reactInternalInstance) {
+                              const fiber = instance._reactInternalFiber || instance._reactInternalInstance;
+                              if (fiber && fiber.stateNode) {
+                                return fiber.stateNode;
+                              }
+                            }
+                            
+                            if (instance.refs && instance.refs.current) {
+                              return instance.refs.current;
+                            }
+                            
+                            if (typeof instance.getDOMNode === 'function') {
+                              return instance.getDOMNode();
+                            }
+                            
+                            return null;
+                          };
+                        }
+                        
+                        return 'react-dom';
+                      }
+                      
+                      return originalResolveFilename.call(this, request, parent, isMain);
+                    };
+                  } catch (e) {
+                    console.warn('React polyfill failed:', e);
+                  }
+                }
+              `,
+            }}
+          />
           <Script
             id="google-analytics-script"
-            src={`https://www.googletagmanager.com/gtag/js?id=${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
+            src={`https://www.googletagmanager.com/gtag/js?id=${(appConfig as any)?.analytics?.gtag || 'G-LYRHJH7JLJ'
               }`}
             strategy="afterInteractive"
           />
@@ -45,13 +103,13 @@ export default class MyDocument extends Document {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());    
-              gtag('config', '${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'}');
+              gtag('config', '${(appConfig as any)?.analytics?.gtag || 'G-LYRHJH7JLJ'}');
           
         `}
           </Script>
         </Head>
         <body>
-          {getInitColorSchemeScript()}
+          <InitColorSchemeScript />
           <Main />
           <NextScript />
         </body>
@@ -96,10 +154,10 @@ MyDocument.getInitialProps = async (ctx) => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App: any) =>
-        function EnhanceApp(props) {
+        (function EnhanceApp(props: any) {
           pageProps = props.pageProps;
           return <App emotionCache={cache} {...props} />;
-        },
+        }),
     });
 
   const initialProps = await Document.getInitialProps(ctx);

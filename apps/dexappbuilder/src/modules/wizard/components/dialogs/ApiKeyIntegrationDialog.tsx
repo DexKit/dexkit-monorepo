@@ -45,7 +45,7 @@ export default function ApiKeyIntegrationDialog({
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="subtitle1" fontWeight="bold">
               <FormattedMessage id="0x.api" defaultMessage="0x API" />
             </Typography>
@@ -69,7 +69,7 @@ export default function ApiKeyIntegrationDialog({
               </Link>
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Suspense fallback={<Typography>loading</Typography>}>
               <ZrxForm dialog siteId={siteId} />
             </Suspense>

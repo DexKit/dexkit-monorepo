@@ -57,16 +57,21 @@ export function CollectionsSection({ section, disabled }: Props) {
           px: { xs: isExtraSmall ? 0.5 : 0.75, sm: 2, md: 3 },
         }}
       >
-        <Grid container spacing={isExtraSmall ? 0.5 : isMobile ? 1 : 4}>
-          <Grid item xs={12} sx={{ mb: isExtraSmall ? 0.5 : isMobile ? 0.75 : 0 }}>
-            <Grid
-              container
-              justifyContent="space-between"
-              alignItems="center"
-              spacing={isMobile ? 0.5 : 0}
-              direction={isMobile ? "column" : "row"}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: isExtraSmall ? 0.5 : isMobile ? 1 : 4 }}>
+          <Box sx={{ mb: isExtraSmall ? 0.5 : isMobile ? 0.75 : 0 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                flexDirection: 'row',
+                gap: 0
+              }}
             >
-              <Grid item xs={12} sm="auto" sx={{ mb: isMobile ? 0.25 : 0, textAlign: isMobile ? "center" : "left" }}>
+              <Box sx={{ 
+                textAlign: "left",
+                width: 'auto'
+              }}>
                 <Typography
                   variant={isExtraSmall ? "subtitle1" : isMobile ? "h6" : "h5"}
                   sx={{
@@ -84,31 +89,39 @@ export function CollectionsSection({ section, disabled }: Props) {
                     />
                   )}
                 </Typography>
-              </Grid>
-              <Grid item xs={12} sm="auto" sx={{ textAlign: isMobile ? "center" : "right", mb: isExtraSmall ? 0.5 : isMobile ? 0.75 : 0 }}>
-                <Button
-                  LinkComponent={Link}
-                  href={disabled ? "javascript:void(0)" : "/collections"}
-                  variant="contained"
-                  color="primary"
-                  size={isExtraSmall ? "small" : isMobile ? "medium" : "medium"}
-                  sx={{
-                    minWidth: isMobile ? '100%' : 'auto',
-                    fontSize: { xs: isExtraSmall ? '0.7rem' : '0.75rem', sm: '0.875rem' },
-                    py: { xs: isExtraSmall ? 0.25 : 0.5, sm: 1 },
-                    minHeight: { xs: isExtraSmall ? 28 : 32, sm: 36 }
-                  }}
-                >
-                  <FormattedMessage id="see.all" defaultMessage="See all" />
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
+              </Box>
+            </Box>
+          </Box>
 
-          <Grid item xs={12}>
+          <Box>
             {renderVariant()}
-          </Grid>
-        </Grid>
+          </Box>
+
+          <Box sx={{ 
+            textAlign: "center", 
+            mt: isExtraSmall ? 0.5 : isMobile ? 1 : 2
+          }}>
+            <Button
+              LinkComponent={Link}
+              href={disabled ? "javascript:void(0)" : "/collections"}
+              variant="contained"
+              color="primary"
+              size={isExtraSmall ? "small" : isMobile ? "medium" : "medium"}
+              sx={{
+                minWidth: isMobile ? '100%' : 'auto',
+                fontSize: { xs: isExtraSmall ? '0.7rem' : '0.75rem', sm: '0.875rem' },
+                py: { xs: isExtraSmall ? 0.25 : 0.5, sm: 1 },
+                minHeight: { xs: isExtraSmall ? 28 : 32, sm: 36 },
+                color: 'white !important',
+                '&:hover': {
+                  color: 'white !important'
+                }
+              }}
+            >
+              <FormattedMessage id="see.all" defaultMessage="See all" />
+            </Button>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

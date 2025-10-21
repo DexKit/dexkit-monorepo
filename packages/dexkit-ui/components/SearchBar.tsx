@@ -33,10 +33,10 @@ export function SearchBar(props: Props) {
   const collections = hideCollections
     ? []
     : appConfig.collections
-        ?.filter((c) =>
+        ?.filter((c: any) =>
           chainId ? (c.chainId === chainId ? true : false) : true
         )
-        .map((value) => {
+        .map((value: any) => {
           return {
             name: value.name,
             type: "Collections",
@@ -49,7 +49,7 @@ export function SearchBar(props: Props) {
 
   const tokenOptions = hideTokens
     ? []
-    : tokens?.map((value) => {
+    : tokens?.map((value: any) => {
         return {
           name: value.name,
           type: "Tokens",
@@ -71,7 +71,7 @@ export function SearchBar(props: Props) {
       options={options}
       autoHighlight
       freeSolo={true}
-      getOptionLabel={(op) => (typeof op === "string" ? op : op.name)}
+      getOptionLabel={(op: any) => (typeof op === "string" ? op : op.name)}
       onChange={(_change, value) => {
         if (!(typeof value === "string") && value) {
           if (value?.type === "Tokens") {

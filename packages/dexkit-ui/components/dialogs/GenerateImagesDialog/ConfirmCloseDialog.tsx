@@ -63,15 +63,15 @@ export default function ConfirmCloseDialog({
       />
       <DialogContent dividers>
         <Grid container spacing={2}>
-          {unsavedImages.map((img) => (
-            <Grid item xs={3}>
+          {unsavedImages.map((img: string) => (
+            <Grid size={3}>
               <Img
                 src={img}
                 sx={{
                   aspectRatio: "1/1",
                   width: "100%",
                   height: "100%",
-                  borderRadius: (theme) => theme.shape.borderRadius / 2,
+                  borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                 }}
               />
             </Grid>

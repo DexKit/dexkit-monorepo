@@ -28,11 +28,11 @@ export function AppDialogTitle({ title, icon, onClose, disableClose }: Props) {
         alignContent="center"
       >
         {icon}
-        <Typography variant="inherit">{title}</Typography>
+        <Typography component="span" variant="inherit">{title}</Typography>
       </Stack>
       {onClose && (
         <IconButton disabled={disableClose} onClick={onClose}>
-          <CloseIcon />
+          <CloseIcon sx={{ color: 'text.primary' }} />
         </IconButton>
       )}
     </DialogTitle>

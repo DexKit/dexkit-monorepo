@@ -92,7 +92,6 @@ export default function AffiliateHistoryTable({ account, chainId }: Props) {
                   sx={{ py: 2 }}
                   spacing={2}
                   alignItems="center"
-                  alignContent="center"
                 >
                   <Box>
                     <Typography align="center" variant="h5">

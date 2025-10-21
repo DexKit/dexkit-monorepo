@@ -44,7 +44,7 @@ export default function CollectionsSectionItem({
     <Card>
       <Box sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2), m: 0 }}>
         <Grid container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <Box
               sx={{
                 position: 'relative',
@@ -65,7 +65,7 @@ export default function CollectionsSectionItem({
               />
             </Box>
           </Grid>
-          <Grid item xs={8}>
+          <Grid size={8}>
             <Stack spacing={isMobile ? theme.spacing(0.75) : theme.spacing(1)} alignItems="flex-start">
               <Box>
                 <Typography variant={isMobile ? "subtitle1" : "h5"} sx={{ fontWeight: isMobile ? theme.typography.fontWeightBold : undefined }}>
@@ -137,7 +137,7 @@ export default function CollectionsSectionItem({
               </Stack>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               sx={{ display: { xs: 'flex', sm: 'none' } }}
               direction="row"

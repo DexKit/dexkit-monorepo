@@ -112,7 +112,7 @@ export default function DexGeneratorNFTDropForm({
     if (!inputValue || inputValue.trim() === '') {
       return allFonts; // Show ALL fonts when no search
     }
-    return allFonts.filter((option) =>
+    return allFonts.filter((option: any) =>
       option.toLowerCase().includes(inputValue.toLowerCase())
     );
   }, [allFonts]);
@@ -312,12 +312,12 @@ export default function DexGeneratorNFTDropForm({
           }
         }
       }
-      onSubmit={handleSubmit}
-      validate={handleValidate}
+      onSubmit={handleSubmit as any}
+      validate={handleValidate as any}
     >
-      {({ values }) => (
+      {({ values }: any) => (
         <Grid container spacing={2} sx={{ pt: 2 }}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl fullWidth>
               <InputLabel shrink>
                 <FormattedMessage id="variant" defaultMessage="Variant" />
@@ -344,7 +344,7 @@ export default function DexGeneratorNFTDropForm({
           </Grid>
           {values.variant === 'premium' && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   component={TextField}
                   name="customTitle"
@@ -367,7 +367,7 @@ export default function DexGeneratorNFTDropForm({
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   component={TextField}
                   name="customSubtitle"
@@ -391,7 +391,7 @@ export default function DexGeneratorNFTDropForm({
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="h6" gutterBottom>
                   <FormattedMessage
                     id="custom.chips"
@@ -406,7 +406,7 @@ export default function DexGeneratorNFTDropForm({
                 </Typography>
 
                 <Grid container spacing={2} sx={{ mb: 2 }}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       name="customChipsTitle"
@@ -432,11 +432,15 @@ export default function DexGeneratorNFTDropForm({
                 </Grid>
 
                 <FieldArray name="customChips">
-                  {({ push, remove }) => (
+                  {({ push, remove }: any) => (
                     <Box>
-                      {(values.customChips || []).map((chip, index) => (
+                      {(values.customChips || []).map((chip: any, index: any) => (
                         <Grid container spacing={2} key={index} sx={{ mb: 2, alignItems: 'center' }}>
-                          <Grid item xs={12} sm={2}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              sm: 2
+                            }}>
                             <Field
                               component={TextField}
                               name={`customChips.${index}.emoji`}
@@ -451,7 +455,11 @@ export default function DexGeneratorNFTDropForm({
                               inputProps={{ maxLength: 2 }}
                             />
                           </Grid>
-                          <Grid item xs={12} sm={5}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              sm: 5
+                            }}>
                             <Field
                               component={TextField}
                               name={`customChips.${index}.text`}
@@ -468,7 +476,11 @@ export default function DexGeneratorNFTDropForm({
                               fullWidth
                             />
                           </Grid>
-                          <Grid item xs={12} sm={4}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              sm: 4
+                            }}>
                             <Field name={`customChips.${index}.color`}>
                               {({ field }: { field: any }) => (
                                 <FormControl fullWidth>
@@ -498,7 +510,11 @@ export default function DexGeneratorNFTDropForm({
                               )}
                             </Field>
                           </Grid>
-                          <Grid item xs={12} sm={1}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              sm: 1
+                            }}>
                             <IconButton
                               onClick={() => remove(index)}
                               color="error"
@@ -530,7 +546,7 @@ export default function DexGeneratorNFTDropForm({
                 </FieldArray>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Accordion sx={{ mt: 2 }}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -546,7 +562,7 @@ export default function DexGeneratorNFTDropForm({
                   </AccordionSummary>
                   <AccordionDetails>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom>
                           <FormattedMessage
                             id="visual.customization"
@@ -555,7 +571,11 @@ export default function DexGeneratorNFTDropForm({
                         </Typography>
                       </Grid>
 
-                      <Grid item xs={12} sm={6}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 6
+                        }}>
                         <FormControl fullWidth>
                           <InputLabel shrink>
                             <FormattedMessage id="background.type" defaultMessage="Background Type" />
@@ -580,7 +600,11 @@ export default function DexGeneratorNFTDropForm({
                       </Grid>
 
                       {values.customStyles?.backgroundColor?.type === 'solid' && (
-                        <Grid item xs={6} sm={3}>
+                        <Grid
+                          size={{
+                            xs: 6,
+                            sm: 3
+                          }}>
                           <Field
                             component={TextField}
                             name="customStyles.backgroundColor.solid"
@@ -599,7 +623,11 @@ export default function DexGeneratorNFTDropForm({
 
                       {values.customStyles?.backgroundColor?.type === 'gradient' && (
                         <>
-                          <Grid item xs={6} sm={3}>
+                          <Grid
+                            size={{
+                              xs: 6,
+                              sm: 3
+                            }}>
                             <Field
                               component={TextField}
                               name="customStyles.backgroundColor.gradient.from"
@@ -614,7 +642,11 @@ export default function DexGeneratorNFTDropForm({
                               type="color"
                             />
                           </Grid>
-                          <Grid item xs={6} sm={3}>
+                          <Grid
+                            size={{
+                              xs: 6,
+                              sm: 3
+                            }}>
                             <Field
                               component={TextField}
                               name="customStyles.backgroundColor.gradient.to"
@@ -629,7 +661,11 @@ export default function DexGeneratorNFTDropForm({
                               type="color"
                             />
                           </Grid>
-                          <Grid item xs={12} sm={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              sm: 6
+                            }}>
                             <FormControl fullWidth>
                               <InputLabel shrink>
                                 <FormattedMessage id="gradient.direction" defaultMessage="Gradient Direction" />
@@ -676,7 +712,7 @@ export default function DexGeneratorNFTDropForm({
                         </>
                       )}
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="input.colors"
@@ -707,7 +743,7 @@ export default function DexGeneratorNFTDropForm({
                         </Box>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="button.colors"
@@ -738,7 +774,7 @@ export default function DexGeneratorNFTDropForm({
                         </Box>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="text.colors"
@@ -819,7 +855,7 @@ export default function DexGeneratorNFTDropForm({
                         </Box>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="statistics.colors"
@@ -850,7 +886,7 @@ export default function DexGeneratorNFTDropForm({
                         </Box>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="phase.colors"
@@ -937,7 +973,7 @@ export default function DexGeneratorNFTDropForm({
                         </Box>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="total.cost.colors"
@@ -958,7 +994,7 @@ export default function DexGeneratorNFTDropForm({
                         </Box>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1 }}>
                           <FormattedMessage
                             id="typography.styling"
@@ -967,7 +1003,11 @@ export default function DexGeneratorNFTDropForm({
                         </Typography>
                       </Grid>
 
-                      <Grid item xs={12} sm={6}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 6
+                        }}>
                         <Field name="customStyles.fontFamily">
                           {({ field, form }: any) => (
                             <Autocomplete
@@ -1027,7 +1067,11 @@ export default function DexGeneratorNFTDropForm({
                         </Field>
                       </Grid>
 
-                      <Grid item xs={12} sm={6}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 6
+                        }}>
                         <Field
                           component={TextField}
                           name="customStyles.borderRadius"

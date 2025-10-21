@@ -50,9 +50,9 @@ export default function OrdersContainer() {
 
   return (
     <DashboardLayout page="orders">
-      <Stack spacing={2}>
+      <Stack spacing={3}>
         <Box>
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ mb: 1 }}>
             <FormattedMessage id="orders" defaultMessage="Orders" />
           </Typography>
           <Typography variant="body1" color="text.secondary">
@@ -62,52 +62,68 @@ export default function OrdersContainer() {
             />
           </Typography>
         </Box>
+
         <Divider />
-        <Stack direction="row" alignItems="baseline" spacing={2}>
-          <Stack direction="row" alignItems="baseline" spacing={2}>
-            <LazyTextField
-              TextFieldProps={{
-                size: "small",
-                variant: "outlined",
-                placeholder: formatMessage({
-                  id: "search.for.a.product",
-                  defaultMessage: "Search for an order",
-                }),
-                InputProps: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                },
-              }}
-              onChange={handleChange}
-            />
-          </Stack>
-          <Select
-            value={status}
-            onChange={(e) => setStatus(e.target.value ?? "")}
-            variant="outlined"
-            displayEmpty
-            size="small"
+
+        <Box>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            alignItems={{ xs: 'stretch', sm: 'center' }} 
+            spacing={2}
+            sx={{ mb: 2 }}
           >
-            <MenuItem value="">
-              <FormattedMessage id="all.status" defaultMessage="All status" />
-            </MenuItem>
-            {Object.keys(statusText)
-              .map((key) => ({ ...statusText[key], key }))
-              .sort((a, b) => a.defaultMessage.localeCompare(b.defaultMessage))
-              .map((n) => (
-                <MenuItem key={n.key} value={n.key}>
-                  <FormattedMessage
-                    id={n.id}
-                    defaultMessage={n.defaultMessage}
-                  />
+            <Box sx={{ flex: 1, minWidth: '200px' }}>
+              <LazyTextField
+                TextFieldProps={{
+                  size: "small",
+                  variant: "outlined",
+                  placeholder: formatMessage({
+                    id: "search.for.a.product",
+                    defaultMessage: "Search for an order",
+                  }),
+                  fullWidth: true,
+                  InputProps: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+                onChange={handleChange}
+              />
+            </Box>
+            <Box sx={{ minWidth: '150px' }}>
+              <Select
+                value={status}
+                onChange={(e) => setStatus(e.target.value ?? "")}
+                variant="outlined"
+                displayEmpty
+                size="small"
+                fullWidth
+              >
+                <MenuItem value="">
+                  <FormattedMessage id="all.status" defaultMessage="All status" />
                 </MenuItem>
-              ))}
-          </Select>
-        </Stack>
-        <OrdersTable query={query} status={status} />
+                {Object.keys(statusText)
+                  .map((key) => ({ ...statusText[key], key }))
+                  .sort((a, b) => a.defaultMessage.localeCompare(b.defaultMessage))
+                  .map((n) => (
+                    <MenuItem key={n.key} value={n.key}>
+                      <FormattedMessage
+                        id={n.id}
+                        defaultMessage={n.defaultMessage}
+                      />
+                    </MenuItem>
+                  ))}
+              </Select>
+            </Box>
+          </Stack>
+        </Box>
+
+        <Box>
+          <OrdersTable query={query} status={status} />
+        </Box>
       </Stack>
     </DashboardLayout>
   );

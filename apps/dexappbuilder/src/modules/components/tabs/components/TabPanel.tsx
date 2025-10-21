@@ -2,13 +2,13 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import type { TabPanelProps } from '../types/tabs';
 
-const TabPanel: React.FC<TabPanelProps> = ({
+const TabPanel = ({
   children,
   value,
   index,
   orientation = 'horizontal',
   ...other
-}) => {
+}: TabPanelProps) => {
   return (
     <div
       role="tabpanel"

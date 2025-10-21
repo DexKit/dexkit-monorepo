@@ -61,7 +61,7 @@ export function useSwitchNetwork() {
 
   const openDialog = function (chainId: number | undefined) {
     setOpenSwitchNetwork(true);
-    setNetworkChainId(chainId);
+    (setNetworkChainId as any)(chainId);
   };
 
   return {
@@ -106,14 +106,14 @@ export function useExecuteTransactionsDialog() {
   const handleClose = useCallback(() => {
     setShow(false);
     setTransactions([]);
-    setOptions(undefined);
+    (setOptions as any)(undefined);
   }, []);
 
   const execute = useCallback(
     (transactions: TxDialogTransaction[], opts?: TxDialogOptions) => {
       setShow(true);
       setTransactions(transactions);
-      setOptions(opts);
+      (setOptions as any)(opts);
     },
     []
   );

@@ -17,8 +17,8 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
   SupportedColorScheme,
+  ThemeProvider,
 } from '@mui/material/styles';
 import dynamic from 'next/dynamic';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -250,7 +250,7 @@ export default function Pages({
   const renderPreviewDialog = () => {
     if (showPreview && selectedKey) {
       return (
-        <CssVarsProvider theme={theme}>
+        <ThemeProvider theme={theme || {}}>
           <PreviewPageDialog
             dialogProps={{
               open: showPreview,
@@ -265,7 +265,7 @@ export default function Pages({
             site={site}
             layout={pages[selectedKey].layout}
           />
-        </CssVarsProvider>
+        </ThemeProvider>
       );
     }
   };
@@ -287,7 +287,7 @@ export default function Pages({
         {renderPageLayoutDialog()}
         <Grid container spacing={2}>
           {isEditPage && (
-            <Grid item xs={12} sx={{ pl: 0, pr: 0 }}>
+            <Grid sx={{ pl: 0, pr: 0 }} size={12}>
               <PageSections
                 onAddSection={handleAdd(selectedKey)}
                 onAddCustomSection={handleAdd(selectedKey, true)}
@@ -318,14 +318,14 @@ export default function Pages({
       {renderPageLayoutDialog()}
       <Box
         sx={{
-          px: { xs: 0, sm: 0 },
-          ml: isMobile ? -2 : 0,
-          mr: isMobile ? 4 : 0,
-          maxWidth: isMobile ? 'calc(100% - 16px)' : '100%',
+          px: { xs: 1, sm: 0 },
+          ml: isMobile ? 0 : 0,
+          mr: isMobile ? 0 : 0,
+          maxWidth: '100%',
         }}
       >
         <Grid container spacing={isMobile ? 0.25 : 0.5}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               variant="contained"
               onClick={onAddPage}
@@ -333,8 +333,9 @@ export default function Pages({
               startIcon={<Add fontSize={isMobile ? 'small' : 'medium'} />}
               sx={{
                 my: isMobile ? 0.25 : 0.5,
-                ml: isMobile ? -0.5 : -0.5,
-                px: isMobile ? 1 : 1,
+                ml: 0,
+                px: isMobile ? 1.5 : 1,
+                width: isMobile ? '100%' : 'auto',
                 '& .MuiButton-startIcon': {
                   marginRight: isMobile ? 0.25 : 0.5,
                   '& > *:nth-of-type(1)': {
@@ -346,7 +347,7 @@ export default function Pages({
               <FormattedMessage id="New.page" defaultMessage="New page" />
             </Button>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box sx={{ pr: isMobile ? 1 : 0 }}>
               <Stack
                 direction="row"
@@ -392,7 +393,7 @@ export default function Pages({
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box sx={{ pr: isMobile ? 1 : 0 }}>
               <Grid
                 container
@@ -404,13 +405,11 @@ export default function Pages({
                   pl: 0,
                 }}
               >
-                {pageList.map((pageKey, index) => (
+                {pageList.map((pageKey: any, index: any) => (
                   <Grid
-                    item
-                    xs={12}
                     key={index}
                     sx={{ mb: isMobile ? 1 : 0.5, pr: isMobile ? 1 : 0 }}
-                  >
+                    size={12}>
                     <Page
                       pageKey={pageKey}
                       page={pages[pageKey]}
@@ -427,11 +426,7 @@ export default function Pages({
               </Grid>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
+          <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} size={12}>
             <Box sx={{ width: '100%', pr: isMobile ? 1 : 0 }}>
               <PagesPagination
                 pageSize={pageSize}

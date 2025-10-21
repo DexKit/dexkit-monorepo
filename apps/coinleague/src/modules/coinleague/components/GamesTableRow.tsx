@@ -4,13 +4,16 @@ import Crown from '@/modules/common/components/icons/Crown';
 import { ChainId } from '@/modules/common/constants/enums';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import {
+  Box,
   Button,
-  Grid,
   Stack,
   TableCell,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { BigNumber, ethers } from 'ethers';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -34,6 +37,8 @@ export default function GamesTableRow({
   affiliate,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const coinToPlay = useCoinToPlay(chainId, game?.coinToPlay);
 
   const entry = ethers.utils.formatUnits(
@@ -53,7 +58,6 @@ export default function GamesTableRow({
             spacing={1}
             direction="row"
             alignItems="center"
-            alignContent="center"
           >
             {game.title && <Crown fontSize="small" />}
             <Typography>#{game.id}</Typography>
@@ -64,7 +68,6 @@ export default function GamesTableRow({
             spacing={1}
             direction="row"
             alignItems="center"
-            alignContent="center"
           >
             {game?.type === 'Bull' ? <ArrowUpSquare /> : <ArrowDownSquare />}
 
@@ -92,30 +95,51 @@ export default function GamesTableRow({
         </TableCell>
 
         <TableCell>
-          <Button
-            href={`/game/${getNetworkSlugFromChainId(chainId)}/${
-              game.id
-            }${affiliate ? '?affiliate=' + affiliate : ''}`}
-            color="primary"
-            variant="contained"
-            sx={{
-              fontWeight: 600,
-              maxWidth: 250,
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography variant="inherit">
-              {game?.startedAt ? (
-                <FormattedMessage id="view.game" defaultMessage="View Game" />
-              ) : (
-                <FormattedMessage id="join.game" defaultMessage="Join Game" />
+          <Box>
+            <Button
+              href={`/game/${getNetworkSlugFromChainId(chainId)}/${game.id
+                }${affiliate ? '?affiliate=' + affiliate : ''}`}
+              color="primary"
+              variant="contained"
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontWeight: 600,
+                maxWidth: isMobile ? 90 : 250,
+                minWidth: isMobile ? 0 : undefined,
+                display: 'flex',
+                justifyContent: isMobile ? 'center' : 'space-between',
+                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                px: isMobile ? 1 : 2,
+              }}
+            >
+              <Typography variant="inherit">
+                {game?.startedAt ? (
+                  <FormattedMessage id="view.game" defaultMessage="View Game" />
+                ) : (
+                  <FormattedMessage id="join.game" defaultMessage="Join Game" />
+                )}
+              </Typography>
+              {!isMobile && (
+                <Typography variant="inherit">
+                  {entry} {coinToPlay?.symbol}
+                </Typography>
               )}
-            </Typography>
-            <Typography variant="inherit">
-              {entry} {coinToPlay?.symbol}
-            </Typography>
-          </Button>
+            </Button>
+            {isMobile && (
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                align="center"
+                sx={{
+                  display: 'block',
+                  mt: 0.5,
+                  fontSize: '0.7rem'
+                }}
+              >
+                {entry} {coinToPlay?.symbol}
+              </Typography>
+            )}
+          </Box>
         </TableCell>
 
         {/*<TableCell>
@@ -128,7 +152,7 @@ export default function GamesTableRow({
         <TableRow>
           <TableCell colSpan={4}>
             <Grid container spacing={2}>
-              <Grid item xs>
+              <Grid size="grow">
                 <Typography variant="caption"></Typography>
                 <Typography variant="body2"></Typography>
               </Grid>
@@ -139,3 +163,5 @@ export default function GamesTableRow({
     </>
   );
 }
+
+

@@ -653,10 +653,10 @@
     "defaultMessage": "Clear all"
   },
   "clear.filters": {
-    "defaultMessage": "Clear filters to see nft's"
+    "defaultMessage": "Clear filters to see NFTs"
   },
   "clear.filters.to.see.nft.drops": {
-    "defaultMessage": "Clear filters to see nft drop's"
+    "defaultMessage": "Clear filters to see NFT drops"
   },
   "click.on.nft.to.manage.and.set.claim.conditions.": {
     "defaultMessage": "Click on NFTs to start manage and set claim conditons."

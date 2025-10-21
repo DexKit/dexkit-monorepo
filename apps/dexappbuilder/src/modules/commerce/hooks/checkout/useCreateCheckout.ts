@@ -11,6 +11,6 @@ export default function useCreateCheckout() {
       throw new Error('no instance');
     }
 
-    return (await instance?.post('/checkouts/', data)).data;
+    return (await (instance as any)?.post('/checkouts/', data)).data;
   });
 }

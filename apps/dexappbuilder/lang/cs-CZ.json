@@ -1,1370 +1,1364 @@
 {
+  "description.markdown.helper": {
+    "defaultMessage": "Můžete použít markdown formátování pro bohaté textové popisy"
+  },
   ".step.theme.info": {
-    "defaultMessage": "Choose swap app theme and font."
+    "defaultMessage": "Vyberte motiv aplikace a písmo."
   },
   "0x.api": {
-    "defaultMessage": "0x API"
+    "defaultMessage": "API 0x"
   },
   "0x.dashboard": {
-    "defaultMessage": "0x Dashboard"
+    "defaultMessage": "Řídicí panel 0x"
   },
   "0x.is.a.decentralized.exchange.protocol.description": {
-    "defaultMessage": "0x is a decentralized exchange protocol on Ethereum, enabling peer-to-peer trading of various digital assets through open standards and smart contracts. This API key is used for the swap and limit order features."
+    "defaultMessage": "0x je decentralizovaný protokol na síti Ethereum, který umožňuje peer-to-peer obchodování digitálních aktiv pomocí otevřených standardů a chytrých kontraktů. API klíč se používá pro funkce směnárny a liminálních objednávek."
   },
   "Airdrop": {
-    "defaultMessage": "Airdrop"
+    "defaultMessage": "Rozdávání"
   },
   "Airdrop token": {
-    "defaultMessage": "Airdrop token"
+    "defaultMessage": "Airdrop tokenu"
   },
   "Airdropped token": {
-    "defaultMessage": "Airdropped Token"
+    "defaultMessage": "Token"
   },
   "Allow.list.file": {
-    "defaultMessage": "Allow list file"
+    "defaultMessage": "Soubor povolených položek"
   },
   "Amount": {
-    "defaultMessage": "Amount"
+    "defaultMessage": "Částka"
   },
   "Amount in": {
-    "defaultMessage": "Amount In"
+    "defaultMessage": "Částka In"
   },
   "Amount.nft": {
-    "defaultMessage": "Amount NFT"
+    "defaultMessage": "Počet NFT"
   },
   "Choose app font": {
-    "defaultMessage": "Choose app font"
+    "defaultMessage": "Vyberte písmo aplikace"
   },
   "Claiming not available": {
-    "defaultMessage": "Claiming not available"
+    "defaultMessage": "Odměna není k dispozici"
   },
   "Create forms": {
-    "defaultMessage": "Create forms"
+    "defaultMessage": "Vytvořit formuláře"
   },
   "Create.Order": {
-    "defaultMessage": "Create Order"
+    "defaultMessage": "Vytvořit objednávku"
   },
   "Created": {
-    "defaultMessage": "Created"
+    "defaultMessage": "Vytvořeno"
   },
   "Deploy": {
-    "defaultMessage": "Deploy"
+    "defaultMessage": "Spustit"
   },
   "Edit claimers": {
-    "defaultMessage": "Edit claimers"
+    "defaultMessage": "Upravit claimers"
   },
   "Export": {
-    "defaultMessage": "Export"
+    "defaultMessage": "Exportovat"
   },
   "Free": {
-    "defaultMessage": "Free"
+    "defaultMessage": "Zdarma"
   },
   "From": {
-    "defaultMessage": "From"
+    "defaultMessage": "Od"
   },
   "New.page": {
-    "defaultMessage": "New page"
+    "defaultMessage": "Nová stránka"
   },
   "Open.claim": {
-    "defaultMessage": "Open claim"
+    "defaultMessage": "Otevřít nárok"
   },
   "Price": {
-    "defaultMessage": "Price"
+    "defaultMessage": "Cena"
   },
   "Save": {
-    "defaultMessage": "Save"
+    "defaultMessage": "Uložit"
   },
   "Switch Network": {
-    "defaultMessage": "Switch Network"
+    "defaultMessage": "Přepnout síť"
   },
   "Update": {
-    "defaultMessage": "Update"
+    "defaultMessage": "Aktualizovat"
   },
   "You.are.not.eligible.to.mint.at.this.time.": {
-    "defaultMessage": "You are not eligible to mint at this time."
+    "defaultMessage": "Momentálně nejste oprávněni k mintu."
   },
   "abi": {
     "defaultMessage": "ABI"
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Access darkblock to get more information"
-  },
   "access.requirements": {
-    "defaultMessage": "Access Requirements"
+    "defaultMessage": "Požadavky pro přístup"
   },
   "access.requirements.description.gated.view.conditions": {
-    "defaultMessage": "To access this private page, please ensure that you meet all the conditions below, as defined by the page owner:"
+    "defaultMessage": "Pro přístup na tuto stránku zkontrolujte, jestli splňujete níže uvedené podmínky:"
   },
   "access.requirements.message": {
-    "defaultMessage": "Access requirements message"
+    "defaultMessage": "Zpráva o požadavcích na přístup"
   },
   "access.the.0x.dashboard.to.get.your.api.key": {
-    "defaultMessage": "Access the 0x dashboard to get your API Key"
+    "defaultMessage": "Pro získání API klíče se připojte do řídicího panelu 0x"
   },
   "account": {
-    "defaultMessage": "Account"
+    "defaultMessage": "Účet"
   },
   "account.which.you.signed.message.to.authenticate.to.app": {
-    "defaultMessage": "Account which you signed message to authenticate to app"
+    "defaultMessage": "Účet, který jste použili k oveření aplikace"
   },
   "accounts": {
-    "defaultMessage": "Accounts"
+    "defaultMessage": "Účty"
   },
   "action.type": {
-    "defaultMessage": "Action type"
+    "defaultMessage": "Typ akce"
   },
   "add.accounts.and.manage.their.permissions": {
-    "defaultMessage": "Add accounts and manage their permissions"
+    "defaultMessage": "Přidat účty a spravujte jejich oprávnění"
   },
   "add.addresses.to.airdrop": {
-    "defaultMessage": "Add addresses to airdrop"
+    "defaultMessage": "Přidat adresy peněženek pro airdrop"
   },
   "add.app.ranking": {
-    "defaultMessage": "Add app ranking"
+    "defaultMessage": "Přidat hodnocení aplikace"
   },
   "add.app.version": {
-    "defaultMessage": "Add app version"
+    "defaultMessage": "Přidat verzi aplikace"
   },
   "add.claim.condition": {
-    "defaultMessage": "Add claim condition"
+    "defaultMessage": "Přidat podmínku nároku"
   },
   "add.collection.to.your.app": {
-    "defaultMessage": "Add collection to your app"
+    "defaultMessage": "Přidat kolekci do aplikace"
   },
   "add.condition": {
-    "defaultMessage": "Add condition"
+    "defaultMessage": "Přidat podmínku"
   },
   "add.custom": {
-    "defaultMessage": "Add Custom"
+    "defaultMessage": "Přidat vlastní"
   },
   "add.gated.conditions": {
-    "defaultMessage": "Add gated conditions"
+    "defaultMessage": "Přidat gated podmínky"
   },
   "add.items": {
-    "defaultMessage": "Add items"
+    "defaultMessage": "Přidat položky"
   },
   "add.leaderboard": {
-    "defaultMessage": "Add leaderboard"
+    "defaultMessage": "Přidat žebříček"
   },
   "add.leaderboards.to.your.app": {
-    "defaultMessage": "Add leaderboards to your app"
+    "defaultMessage": "Přidat žebříček do aplikace"
   },
   "add.member": {
-    "defaultMessage": "Add member"
+    "defaultMessage": "Přidat člena"
   },
   "add.network": {
-    "defaultMessage": "Add Network"
+    "defaultMessage": "Přidat síť"
   },
   "add.networks": {
-    "defaultMessage": "Add Networks"
+    "defaultMessage": "Přidat sítě"
   },
   "add.payment.method": {
-    "defaultMessage": "Add Payment Method"
+    "defaultMessage": "Přidat způsob platby"
   },
   "add.ref.to.track.referrals": {
-    "defaultMessage": "Append ref to your url to track referrals on your events. Ex: yourSite.com?ref=your-referral"
+    "defaultMessage": "Přidat ref k adrese URL, aby jste mohli sledovat své doporučení. Např: vaseaplikace.cz?ref=vas-ref"
   },
   "add.rule": {
-    "defaultMessage": "Add rule"
+    "defaultMessage": "Přidat podmínku"
   },
   "add.team.members.to.read.and.do.updates": {
-    "defaultMessage": "Add team members to update your app"
+    "defaultMessage": "Přidat členy týmu pro správu a aktualizace aplikace"
   },
   "add.versions.to.your.app": {
-    "defaultMessage": "Add versions to your app"
+    "defaultMessage": "Přidat verze aplikace"
   },
   "add.versions.to.your.app.for.backup.and.to.enable.rollback": {
-    "defaultMessage": "Add versions to your app for backup and to enable rollback"
+    "defaultMessage": "Přidejte do aplikace verze pro zálohování a povolení obnovení"
   },
   "adding.app.ranking": {
-    "defaultMessage": "Adding app ranking"
+    "defaultMessage": "Přidávání hodnocení aplikace"
   },
   "adding.app.version": {
-    "defaultMessage": "Adding app version"
+    "defaultMessage": "Přidávání verze aplikace"
   },
   "adding.member": {
-    "defaultMessage": "Adding Member"
+    "defaultMessage": "Přidávání člena"
   },
   "adding.ranking": {
-    "defaultMessage": "Adding ranking"
+    "defaultMessage": "Přidávání hodnocení"
   },
   "adding.version": {
-    "defaultMessage": "Adding version"
+    "defaultMessage": "Přidávání verze"
   },
   "address": {
-    "defaultMessage": "Address"
+    "defaultMessage": "Adresa"
   },
   "addresses": {
-    "defaultMessage": "Addresses"
+    "defaultMessage": "Adresy"
   },
   "adjust.marketplace.fees.title": {
-    "defaultMessage": "Adjust your app's Marketplace fees"
+    "defaultMessage": "Upravit poplatky za NFT tržiště"
   },
   "adjust.your.app.swap.fees.title": {
-    "defaultMessage": "Adjust your app's Swap fees"
+    "defaultMessage": "Upravit poplatky za swap"
   },
   "admin.setup.description": {
-    "defaultMessage": "Start your own crypto site/marketplace in seconds. Start now being a crypto enterpreneur in two steps: create wallet, fill name of your marketplace and you are ready to go."
+    "defaultMessage": "Vytvořte svoji krypto stránku/tržiště v řádu vteřin a staňte se krypto-podnikatelem ve dvou krocích."
   },
   "ai.assistant": {
-    "defaultMessage": "AI Assistant"
+    "defaultMessage": "AI Asistent"
   },
   "airdrop": {
-    "defaultMessage": "Airdrop"
+    "defaultMessage": "Rozdávání"
   },
   "airdrop.claim.token.seo.title.message": {
-    "defaultMessage": "Airdrop of {tokenSymbol} on {network}"
+    "defaultMessage": "Airdrop tokenu {tokenSymbol} na síti {network}"
   },
   "airdrop.claimable.contract": {
-    "defaultMessage": "Airdrop Claimable Contract"
+    "defaultMessage": "Kontrakt s airdropem"
   },
   "airdrop.requirements": {
-    "defaultMessage": "Airdrop requirements"
+    "defaultMessage": "Požadavky airdropu"
   },
   "airdrop.token.seo.description.message": {
-    "defaultMessage": "Claim aidrop of {tokenSymbol} on {network}"
+    "defaultMessage": "Získat airdrop tokenu {tokenSymbol} na síti {network}"
   },
   "airdrop.user.info": {
-    "defaultMessage": "Airdrop for users that complete profile and connect to both Discord and Twitter"
+    "defaultMessage": "Airdrop pro uživatele, kteří dokončí svůj profil a propojí ho s Discordem a Twitterem."
   },
   "airdrop.user.info.completed": {
-    "defaultMessage": "Airdrop campaign completed"
+    "defaultMessage": "Kampaň airdropu u konce."
   },
   "airdrop.user.info.web.submmit": {
-    "defaultMessage": "Note: You need to be on Rio de Janeiro to claim this airdrop"
+    "defaultMessage": "Upozornění: Pro uplatnění airdropu musíte být v Rio de Janeiro."
   },
   "align.items": {
-    "defaultMessage": "Align Items"
+    "defaultMessage": "Seřadit položky"
   },
   "all": {
-    "defaultMessage": "All"
+    "defaultMessage": "Všechny"
   },
   "amount": {
-    "defaultMessage": "Amount"
+    "defaultMessage": "Množství"
   },
   "amount.exceeds.the.amount.staked": {
-    "defaultMessage": "Amount exceeds the amount staked"
+    "defaultMessage": "Množství převyšuje množství stakovaných tokenů"
   },
   "amount.exceeds.the.balance": {
-    "defaultMessage": "Amount exceeds the balance"
+    "defaultMessage": "Částka převyšuje zůstatek"
   },
   "amount.exceeds.the.nft.balance": {
-    "defaultMessage": "amount exceeds the NFT balance"
+    "defaultMessage": "Množství převyšuje zůstatek NFT"
   },
   "amount.nfts.selected.to.stake": {
-    "defaultMessage": "NFTs {tokens} are selected to stake"
+    "defaultMessage": "NFTs {tokens} vybrané ke stakování"
   },
   "amount.of.tokenId.is.selected.to.unstake": {
-    "defaultMessage": "{amount} of \"#{tokenId}\" is selected to unstake"
+    "defaultMessage": "{amount} z \"#{tokenId}\" je vybrané k odstakování."
   },
   "amount.tokens.selected.to.stake": {
-    "defaultMessage": "NFTs \"{tokens}\" is selected to stake"
+    "defaultMessage": "NFTs \"{tokens}\" je vybrané ke stakování."
   },
   "analytics.wizard.description": {
-    "defaultMessage": "Add Google Analytics to your app"
+    "defaultMessage": "Přidat Google Analytics do aplikace"
   },
   "and": {
-    "defaultMessage": "And"
+    "defaultMessage": "Přidat"
   },
   "animation.url": {
-    "defaultMessage": "Animation URL"
+    "defaultMessage": "URL Animace"
   },
   "api.key": {
-    "defaultMessage": "API Key"
+    "defaultMessage": "API Klíč"
   },
   "app.builder.setup": {
-    "defaultMessage": "App Builder Setup"
+    "defaultMessage": "Nastavení app builderu"
   },
   "app.leaderboard.removed": {
-    "defaultMessage": "App leaderboard removed"
+    "defaultMessage": "žebříček aplikace je odstraněn"
   },
   "app.leaderboard.updated": {
-    "defaultMessage": "App leaderboard updated"
+    "defaultMessage": "žebříček aplikace je aktualizovný"
   },
   "app.name": {
-    "defaultMessage": "App name"
+    "defaultMessage": "Název aplikace"
   },
   "app.ranking": {
-    "defaultMessage": "App ranking"
+    "defaultMessage": "Hodnocení aplikace"
   },
   "app.ranking.updated": {
-    "defaultMessage": "App ranking updated"
+    "defaultMessage": "Hodnocení aplikace je aktualizované"
   },
   "app.removed": {
-    "defaultMessage": "App removed"
+    "defaultMessage": "Aplikace je odstraněna"
   },
   "app.version": {
-    "defaultMessage": "App version"
+    "defaultMessage": "Verze aplikace"
   },
   "app.version.removed": {
-    "defaultMessage": "App version removed"
+    "defaultMessage": "Verze aplikace byla odstraněna"
   },
   "app.version.set": {
-    "defaultMessage": "App version set"
+    "defaultMessage": "Verze aplikace byla nastavena"
   },
   "app.version.updated": {
-    "defaultMessage": "App version updated"
+    "defaultMessage": "Verze aplikace byla aktualizovaná"
   },
   "app.versions": {
-    "defaultMessage": "App versions"
+    "defaultMessage": "Verze aplikace"
   },
   "approve": {
-    "defaultMessage": "Approve"
+    "defaultMessage": "Schválit"
   },
   "apps": {
-    "defaultMessage": "Apps"
+    "defaultMessage": "Aplikace"
   },
   "are.you.sure.you.want.to.delete.this.account": {
-    "defaultMessage": "Account to remove: {account}"
+    "defaultMessage": "Účet k odstranění: {account}"
   },
   "artificial.inteligence": {
-    "defaultMessage": "Artificial Inteligence"
+    "defaultMessage": "Umělá inteligence"
   },
   "available.amount": {
-    "defaultMessage": "Available Amount"
+    "defaultMessage": "Dostupný zůstatek"
   },
   "available.balance.amount": {
-    "defaultMessage": "Available amount: {amount}"
+    "defaultMessage": "Dostupný zůstatek: {amount}"
   },
   "available.to.sell": {
-    "defaultMessage": "Available to sell: {quantity}"
+    "defaultMessage": "K dispozici na prodej: {quantity}"
   },
   "availclaimableable.rewards": {
-    "defaultMessage": "Claimable rewards"
+    "defaultMessage": "Nárokovatelné odměny"
   },
   "back.to.home": {
-    "defaultMessage": "Back to Home"
+    "defaultMessage": "Domů"
   },
   "back.to.leaderboard.list": {
-    "defaultMessage": "Back to leaderboard List"
+    "defaultMessage": "Zpět na žebříček"
   },
   "back.to.nft.list": {
-    "defaultMessage": "Back to NFT List"
+    "defaultMessage": "Zpět na seznam NFT"
   },
   "background.color": {
-    "defaultMessage": "Background Color"
+    "defaultMessage": "Barva pozadí"
   },
   "backgroundImage": {
-    "defaultMessage": "Background Image"
+    "defaultMessage": "Obrázek na pozadí"
   },
   "billing": {
-    "defaultMessage": "Billing"
+    "defaultMessage": "Fakturace"
   },
   "bio": {
-    "defaultMessage": "Bio"
+    "defaultMessage": "Bios"
   },
   "block.explorer": {
-    "defaultMessage": "Block explorer"
+    "defaultMessage": "Průzkumník bloků"
   },
   "border.radius": {
-    "defaultMessage": "Border Radius"
+    "defaultMessage": "Poloměr okraje"
   },
   "builder.kits.description": {
-    "defaultMessage": "Select a kit to preview features for building your app."
+    "defaultMessage": "Vyberte sadu pro náhled funkcí k vytvoření vaší aplikace."
   },
   "burn": {
-    "defaultMessage": "Burn"
+    "defaultMessage": "Spálit"
   },
   "burn.token": {
-    "defaultMessage": "Burn Token"
+    "defaultMessage": "Spálit token"
   },
   "button.cation": {
-    "defaultMessage": "Button caption"
+    "defaultMessage": "Popisek tlačítka"
   },
   "buy.and.sell": {
-    "defaultMessage": "Buy and sell"
+    "defaultMessage": "Nákup a prodej"
   },
   "buy.app": {
-    "defaultMessage": "Buy App"
+    "defaultMessage": "Koupit aplikaci"
   },
   "buy.token.page": {
-    "defaultMessage": "Buy token page"
+    "defaultMessage": "Stránka pro nákup tokenu"
   },
   "bytecode": {
-    "defaultMessage": "Bytecode"
+    "defaultMessage": "Bajtkód"
   },
   "call.label": {
-    "defaultMessage": "Call label"
+    "defaultMessage": "Popisek Call"
   },
   "call.on.view": {
-    "defaultMessage": "Call on view"
+    "defaultMessage": "Call na zobrazení"
   },
   "carousel": {
-    "defaultMessage": "Carousel"
+    "defaultMessage": "Slider"
   },
   "carousel.image.aspectRatio": {
-    "defaultMessage": "The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
+    "defaultMessage": "Aby se obrázek ve slideru správně zobrazil, musí mít poměr stran 16/9."
   },
   "center": {
-    "defaultMessage": "Center"
+    "defaultMessage": "Střed"
   },
   "changelog-dev": {
-    "defaultMessage": "Dev Changelog"
+    "defaultMessage": "Změny vývoje"
   },
   "changes.unsaved": {
-    "defaultMessage": "Changes unsaved"
+    "defaultMessage": "Změny nebyly uloženy"
   },
   "check.out.our.dev.changelog.for.more.technical.updates": {
-    "defaultMessage": "Checkout dev changelog for more technical updates"
+    "defaultMessage": "Pro další technické aktualizace navštivte dev changelog."
   },
   "check.out.our.video.changelog.from.dexappbuilder.with.last.updates": {
-    "defaultMessage": "Checkout video changelog with last updates"
+    "defaultMessage": "Podívejte se na changelog video s posledními aktualizacemi"
   },
   "checking.eligibility": {
-    "defaultMessage": "Checking eligibility..."
+    "defaultMessage": "Kontrola způsobilosti..."
   },
   "checkout": {
-    "defaultMessage": "Checkout"
+    "defaultMessage": "Pokladna"
   },
   "choose.app.theme.color.for.each.mode ": {
-    "defaultMessage": "Choose app theme color for each mode"
+    "defaultMessage": "Vyberte barvu motivu aplikace pro každý režim"
   },
   "choose.default.settings.for.exchange.interface": {
-    "defaultMessage": "Choose default settings for exchange interface"
+    "defaultMessage": "Vyberte výchozí nastavení pro rozhraní aplikace"
   },
   "choose.default.settings.for.swap.interface": {
-    "defaultMessage": "Choose default settings for swap interface"
+    "defaultMessage": "Vyberte výchozí nastavení pro rozhraní swapu"
   },
   "choose.default.tokens.on.wallet.app": {
-    "defaultMessage": "Choose default tokens on your wallet app."
+    "defaultMessage": "Vyberte výchozí tokeny pro aplikaci peněženky."
   },
   "choose.network": {
-    "defaultMessage": "Choose Network"
+    "defaultMessage": "Zvolte síť"
   },
   "claim.airdrop": {
-    "defaultMessage": "Claim airdrop"
+    "defaultMessage": "Získat odměny"
   },
   "claim.amount": {
-    "defaultMessage": "Claim amount"
+    "defaultMessage": "Získat množství"
   },
   "claim.conditions": {
-    "defaultMessage": "claim.conditions"
+    "defaultMessage": "Podmínky pro získání"
   },
   "claim.erc20.tokens.from.contractName": {
-    "defaultMessage": "Claim ERC20 Tokens from {contractName}"
+    "defaultMessage": "Získejte ERC20 tokeny z {contractName}"
   },
   "claim.erc721.tokens.from.contractName": {
-    "defaultMessage": "Claim ERC721 Tokens from {contractName}"
+    "defaultMessage": "Získejte ERC721 tokeny z {contractName}"
   },
   "claim.free": {
-    "defaultMessage": "Claim free"
+    "defaultMessage": "Získejte zdarma"
   },
   "claim.kit.airdrop": {
-    "defaultMessage": "Claim KIT airdrop"
+    "defaultMessage": "Získejte airdrop tokenu KIT"
   },
   "claim.nfts": {
-    "defaultMessage": "Claim NFTs"
+    "defaultMessage": "Získejte NFTs"
   },
   "claim.rewards": {
-    "defaultMessage": "Claim rewards"
+    "defaultMessage": "Získejte odměny"
   },
   "claim.submitted.wait.for.transaction.confirm.onchain.to.receive.airdropped.kit": {
-    "defaultMessage": "Your claim has been submitted. Please wait for the transaction to be confirmed on the blockchain to receive your airdropped KIT!"
+    "defaultMessage": "Váš požadavek byl odeslán. Vyčkejte na potvrzení transakce na blockchainu, aby jste dostali airdrop tokenu KIT!"
   },
   "claim.tokens": {
-    "defaultMessage": "Claim tokens"
+    "defaultMessage": "Získat tokeny"
   },
   "claimable.rewards": {
-    "defaultMessage": "Claimable rewards"
+    "defaultMessage": "Dostupné odměny"
   },
   "claimed": {
-    "defaultMessage": "Claimed"
+    "defaultMessage": "Získané"
   },
   "claimed.supply": {
-    "defaultMessage": "Claimed supply"
+    "defaultMessage": "Získaná dodávka"
   },
   "claiming.not.available": {
-    "defaultMessage": "Claiming not available"
+    "defaultMessage": "Odměny nejsou k dispozici"
   },
   "clain.priceToMint": {
-    "defaultMessage": "Claim ({priceToMint})"
+    "defaultMessage": "Získat ({priceToMint})"
   },
   "clear.filters.to.see.nft.drops": {
-    "defaultMessage": "Clear filters to see nft drop's"
+    "defaultMessage": "Pro zobrazení NFT dropů vymažte filtry"
   },
   "click.on.nft.to.manage.and.set.claim.conditions.": {
-    "defaultMessage": "Click on NFTs to start manage and set claim conditons."
+    "defaultMessage": "Klikněte na NFT pro správu a nastavení podmínek."
   },
   "clone": {
-    "defaultMessage": "Clone"
+    "defaultMessage": "Duplikovat"
   },
   "code": {
-    "defaultMessage": "Code"
+    "defaultMessage": "Kód"
   },
   "coin": {
-    "defaultMessage": "Coin"
+    "defaultMessage": "Mince"
   },
   "collapse": {
-    "defaultMessage": "Collapse"
+    "defaultMessage": "Rozbalit"
   },
   "collected": {
-    "defaultMessage": "Collected"
+    "defaultMessage": "Vlastněné"
   },
   "collection.address": {
-    "defaultMessage": "Collection address"
+    "defaultMessage": "Adresa kolekce"
   },
   "collection.without.orders": {
-    "defaultMessage": "Collection without listings. Came back later!"
+    "defaultMessage": "Kolekce nemá žádné prodejní nabídky. Zkuste to později!"
   },
   "coming.soon": {
-    "defaultMessage": "Coming soon"
+    "defaultMessage": "Již brzy"
   },
   "complete.profile": {
-    "defaultMessage": "Complete Profile"
+    "defaultMessage": "Vyplnit profil"
   },
   "complete.profile.info": {
-    "defaultMessage": "Please complete your profile by clicking on complete profile"
+    "defaultMessage": "Vyplňte prosím svůj profil kliknutím na vyplnit profil"
   },
   "complete.socials info": {
-    "defaultMessage": "Please connect your socials medias"
+    "defaultMessage": "Připojte prosím své sociální sítě"
   },
   "complete.user.profile": {
-    "defaultMessage": "Complete user profile"
+    "defaultMessage": "Doplnit uživatelský profil"
   },
   "condition": {
-    "defaultMessage": "Condition"
+    "defaultMessage": "Podmínka"
   },
   "condition.amount": {
-    "defaultMessage": "Condition amount"
+    "defaultMessage": "Částka podmínky"
   },
   "condition.amount.in": {
-    "defaultMessage": "Condition amount in"
+    "defaultMessage": "Podmíněné vstupní množství"
   },
   "condition.amount.nft": {
-    "defaultMessage": "Condition amount NFT"
+    "defaultMessage": "Podmíněné množství NFT"
   },
   "condition.amount.out": {
-    "defaultMessage": "Condition amount out"
+    "defaultMessage": "Podmíněné výstupní množství"
   },
   "condition.index.value": {
-    "defaultMessage": "Condition {index}"
+    "defaultMessage": "Podmínka {index}"
   },
   "config.sent": {
-    "defaultMessage": "Config sent"
+    "defaultMessage": "Nastavení odeslané"
   },
   "configure.0x.text": {
-    "defaultMessage": "Ensure a smooth experience by configuring your 0x API key for access to our swap and exchange services."
+    "defaultMessage": "Pro přístup k funkci SWAPu použijte Váš 0x API klíč"
   },
   "confirm.transaction": {
-    "defaultMessage": "Confirm Transaction"
+    "defaultMessage": "Potvrdit transakci"
   },
   "congrats.you.claimed.your.kit.airdrop": {
-    "defaultMessage": "Congrats you claimed your KIT airdrop"
+    "defaultMessage": "Získali jste airdrop tokenu KIT. Gratulujeme."
   },
   "connect.account": {
-    "defaultMessage": "Connect account"
+    "defaultMessage": "Připojit účet"
   },
   "connect.discord": {
-    "defaultMessage": "Connect Discord"
+    "defaultMessage": "Připojit Discord"
   },
   "connect.social.media": {
-    "defaultMessage": "Connect social media"
+    "defaultMessage": "Připojit sociální sítě"
   },
   "connect.socials": {
-    "defaultMessage": "Connect socials"
+    "defaultMessage": "Připojit sociální sítě"
   },
   "connect.twitter": {
-    "defaultMessage": "Connect Twitter"
+    "defaultMessage": "Připojit twitter"
   },
   "connect.wallet.to.see.apps.associated.with.your.account": {
-    "defaultMessage": "Connect wallet to see apps associated with your account"
+    "defaultMessage": "Připojte peněženku, abyste viděli aplikace spojené s vaším účtem"
   },
   "connect.wallet.to.see.contracts.associated.with.your.account": {
-    "defaultMessage": "Connect wallet to see contracts associated with your account"
+    "defaultMessage": "Připojte peněženku, abyste viděli chytré kontrakty spojené s vaším účtem"
   },
   "connect.wallet.to.start.create.collections": {
-    "defaultMessage": "Connect wallet to start create collections"
+    "defaultMessage": "Připojte peněženku a začněte vytvářet kolekce"
   },
   "connected.wallet.not.authorized.to.access.this.account.switch.to.account.that.owns.this.account": {
-    "defaultMessage": "Connected wallet not authorized to access this app. Switch to account that owns this app and login"
+    "defaultMessage": "Připojená peněženka nemá oprávnění pro přístup k této aplikaci. Přepněte na účet, který vlastní tuto aplikaci a přihlaste se."
   },
   "contract": {
-    "defaultMessage": "Contract"
+    "defaultMessage": "Chytrý kontrakt"
   },
   "contract.deployed": {
-    "defaultMessage": "Contract deployed"
+    "defaultMessage": "Chytrý kontrakt spuštěn"
   },
   "contract.deployed.succefully": {
-    "defaultMessage": "Contract deployed successfully"
+    "defaultMessage": "Chytrý kontrakt úspěšně spuštěn"
   },
   "contract.deployed.successfully": {
-    "defaultMessage": "Contract deployed successfully"
+    "defaultMessage": "Chytrý kontrakt úspěšně spuštěn"
   },
   "contract.generator": {
-    "defaultMessage": "Contract generator"
+    "defaultMessage": "Generátor chytrých kontraktů"
   },
   "contract.instances": {
-    "defaultMessage": "Contract instances"
+    "defaultMessage": "Instance chytrého kontraktu"
   },
   "contract.is.not.supported.yet": {
-    "defaultMessage": "Contract not supported yet"
+    "defaultMessage": "Chytrý kontrakt zatím není podporovaný"
   },
   "contract.not.supported": {
-    "defaultMessage": "Contract not supported"
+    "defaultMessage": "Chytrý kontrakt není podporovaný"
   },
   "contract.templates": {
-    "defaultMessage": "Contract Templates"
+    "defaultMessage": "Vzory chytrých kontraktů"
   },
   "contract.type": {
-    "defaultMessage": "Contract Type"
+    "defaultMessage": "Typ chytrého kontraktu"
   },
   "contract.wizard": {
-    "defaultMessage": "Contract Wizard"
+    "defaultMessage": "Průvodce chytrým kontraktem"
   },
   "contract.wizard.description": {
-    "defaultMessage": "Easily create your digital collectibles (NFTs) using AI image generation tools and create them on the blockchain of your choice in one click."
+    "defaultMessage": "Snadno vytvořte své NFTs pomocí AI generátoru obrázků a vymintujte je na blockchainu na jedno kliknutí"
   },
   "contracts": {
-    "defaultMessage": "Contracts"
+    "defaultMessage": "Chytré kontrakty"
   },
   "contracts.you.deployed": {
-    "defaultMessage": "Contracts you deployed"
+    "defaultMessage": "Chytré kontrakty, které jste spustili"
   },
   "copy.address": {
-    "defaultMessage": "Copy address",
+    "defaultMessage": "Zkopírovat adresu",
     "description": "Copy text"
   },
   "create.a.form.to.interact.with.your.new.contract": {
-    "defaultMessage": "Create a form to interact with your new contract"
+    "defaultMessage": "Vytvořit formulář pro interakci s novým chytrým kontraktem"
   },
   "create.an.exchange.with.our.quick.app.builder.in.seconds": {
-    "defaultMessage": "Create an advanced crypto limit order exchange app in seconds using our quick app builder"
+    "defaultMessage": "Vytvořte aplikaci kryptosměnárny během několika sekund prostřednictvím našeho nástroje pro tvorbu aplikací"
   },
   "create.and.manage.your.collections": {
-    "defaultMessage": "Create and manage your collections"
+    "defaultMessage": "Vytvářejte a spravujte své NFT kolekce"
   },
   "create.app": {
-    "defaultMessage": "Create app"
+    "defaultMessage": "Vytvořit aplikaci"
   },
   "create.claim.conditions": {
-    "defaultMessage": "Create claim conditions"
+    "defaultMessage": "Vytvořit podmínky pro získání"
   },
   "create.custom.form": {
-    "defaultMessage": "Create custom form"
+    "defaultMessage": "Vytvořit vlastní formulář"
   },
   "create.form": {
-    "defaultMessage": "Create form"
+    "defaultMessage": "Vytvořit formulář"
   },
   "create.forms.to interact.with.contracts": {
-    "defaultMessage": "Create forms to interact with contracts"
+    "defaultMessage": "Vytvořit formulář pro interakci s chytrými kontrakty"
   },
   "create.image": {
-    "defaultMessage": "Generate AI Image"
+    "defaultMessage": "Vygenerujte AI obrázek"
   },
   "create.leaderboards.and.gamify.your.app": {
-    "defaultMessage": "Create leaderboards from your events and gamify your app"
+    "defaultMessage": "Vytvářejte žebříčky a gamifikujte svou aplikaci"
   },
   "create.marketplace.title": {
-    "defaultMessage": "Create your crypto site/marketplace in seconds."
+    "defaultMessage": "Vytvořte si svůj kryptoměnový web/aplikaci během několika sekund."
   },
   "create.metadata": {
-    "defaultMessage": "Create metadata"
+    "defaultMessage": "Vytvořit metadata"
   },
   "create.nft.order": {
-    "defaultMessage": "Create NFT order"
+    "defaultMessage": "Vytvořit objednávku NFT"
   },
   "create.nft.store.app": {
-    "defaultMessage": "Create nft store app"
+    "defaultMessage": "Vytvořit aplikaci NFT tržiště"
   },
   "create.one.to.start.selling.NFTs.or.crypto": {
-    "defaultMessage": "Create one App to start trade NFTs or crypto"
+    "defaultMessage": "Vytvořte jednu aplikaci a začněte obchodovat NFTs nebo kryptoměny"
   },
   "create.order": {
-    "defaultMessage": "Create Order"
+    "defaultMessage": "Vytvořit objednávku"
   },
   "create.swap.app": {
-    "defaultMessage": "Create swap app"
+    "defaultMessage": "Vytvořit aplikaci SWAP"
   },
   "create.swap.title": {
-    "defaultMessage": "Create your crypto site/swap in seconds."
+    "defaultMessage": "Vytvořte swap kryptoměn během několika sekund."
   },
   "create.template.pages": {
-    "defaultMessage": "Create template pages"
+    "defaultMessage": "Vytvořit šablonu stránky"
   },
   "create.user.profile": {
-    "defaultMessage": "Create user profile"
+    "defaultMessage": "Vytvořit uživatelský profil"
   },
   "create.wallet.app": {
-    "defaultMessage": "Create wallet app"
+    "defaultMessage": "Vytvořit aplikaci peněženky"
   },
   "create.your.app": {
-    "defaultMessage": "Create your App"
+    "defaultMessage": "Vytvořte vlastní aplikaci"
   },
   "created.by.address": {
-    "defaultMessage": "Created by: {address}"
+    "defaultMessage": "Vytvořil: {address}"
   },
   "creating.nft": {
-    "defaultMessage": "Creating NFT"
+    "defaultMessage": "Vytváření NFT"
   },
   "creating.nft.on.server": {
-    "defaultMessage": "Creating NFT on chain and saving metadata"
+    "defaultMessage": "Vytváření NFT na blockchainu a ukládání metadat"
   },
   "creating.site.metadata": {
-    "defaultMessage": "Creating site metadata"
+    "defaultMessage": "Vytváření metadat stránky"
   },
   "creating.user.profile": {
-    "defaultMessage": "Creating user profile"
+    "defaultMessage": "Vytváření uživatelského profilu"
   },
   "creator": {
-    "defaultMessage": "Creator"
+    "defaultMessage": "Tvůrce"
   },
   "creator.address": {
-    "defaultMessage": "Creator: {address}"
+    "defaultMessage": "Tvůrce: {address}"
   },
   "credit.history": {
-    "defaultMessage": "Credit History"
+    "defaultMessage": "Historie kreditu"
   },
   "credited": {
-    "defaultMessage": "Credited"
+    "defaultMessage": "Připsané"
   },
   "credits": {
-    "defaultMessage": "Credits"
+    "defaultMessage": "Kredity"
   },
   "credits.below0.50": {
-    "defaultMessage": "Your credits are now below $0.50. Please consider adding more credits to continue using our services."
+    "defaultMessage": "Vaš kredit je nižší, než 0,50 $. Chcete-li naše služby nadále používat, vložte prosím další kredity."
   },
   "credits.expire.oneYear": {
-    "defaultMessage": "Your added credits will expire one year from the date of addition. Please utilize them before expiry."
+    "defaultMessage": "Platnost Vašich kreditů je jeden rok od data přidání. Využijte je prosím před vypršením jejich platnosti. "
   },
   "crypto.app.setup": {
-    "defaultMessage": "Crypto App Setup"
+    "defaultMessage": "Nastavení krypto aplikace"
   },
   "csv.file.to.import.on.aidrop.contract": {
-    "defaultMessage": "CSV file to be imported on airdrop contracts"
+    "defaultMessage": "Import CSV souboru pro airdrop chytrého kontraktu"
   },
   "current.app.version": {
-    "defaultMessage": "Current app version"
+    "defaultMessage": "Aktuální verze aplikace"
   },
   "current.phase": {
-    "defaultMessage": "Current phase"
+    "defaultMessage": "Aktuální fáze"
   },
   "current.phase.ends.in": {
-    "defaultMessage": "Current phase ends in"
+    "defaultMessage": "Aktuální fáze končí v"
   },
   "custom": {
-    "defaultMessage": "Custom"
-  },
-  "darkblock": {
-    "defaultMessage": "Darkblock"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock is a decentralized protocol that allows content creators to publish and distribute exclusive content to their fans without the need for centralized token-gating platforms. This integration is utilized on the Asset page for the networks supported by Darkblock."
+    "defaultMessage": "Vlastní"
   },
   "default.amount.to.send.to.the.contract": {
-    "defaultMessage": "Default amount to send to the contract"
+    "defaultMessage": "Výchozí částka k odeslání do chytrého kontraktu"
   },
   "default.currency": {
-    "defaultMessage": "Default currency"
+    "defaultMessage": "Výchozí měna"
   },
   "default.network": {
-    "defaultMessage": "Default network"
+    "defaultMessage": "Výchozí síť"
   },
   "default.network.info.swap.form": {
-    "defaultMessage": "Default network when wallet is not connected"
+    "defaultMessage": "Výchozí síť, pokud není připojená peněženka"
   },
   "default.slippage.percentage": {
-    "defaultMessage": "Default slippage (0-50%)"
+    "defaultMessage": "Výchozí proklouznutí (0–50 %)"
   },
   "default.theme.mode": {
-    "defaultMessage": "Default Theme mode"
+    "defaultMessage": "Výchozí motiv"
   },
   "default.value": {
-    "defaultMessage": "Default value"
+    "defaultMessage": "Výchozí hodnota"
   },
   "delete": {
-    "defaultMessage": "Delete"
+    "defaultMessage": "Odstranit"
   },
   "delete.account.from.user": {
-    "defaultMessage": "Delete account from user"
+    "defaultMessage": "Odstranit účet od uživatele"
   },
   "delete.app.leaderboard": {
-    "defaultMessage": "Delete app leaderboard"
+    "defaultMessage": "Odstranit žebříček aplikace"
   },
   "delete.app.version": {
-    "defaultMessage": "Delete app version"
+    "defaultMessage": "Odstranit verzi aplikace"
   },
   "denominator": {
-    "defaultMessage": "Denominator"
+    "defaultMessage": "Jmenovatel"
   },
   "deploy.a.collection.to.see.it.here": {
-    "defaultMessage": "Deploy a collection to see it here"
+    "defaultMessage": "Pro zobrazení kolekce ji nejprve vytvořte"
   },
   "deploy.contract.template": {
-    "defaultMessage": "Deploy Contract Template"
+    "defaultMessage": "Spustit šablonu chytrého kontraktu"
   },
   "deploy.your.own.contract": {
-    "defaultMessage": "Deploy your own contract"
+    "defaultMessage": "Spustit vlastní chytrý kontrakt"
   },
   "deploying.contract": {
-    "defaultMessage": "Deploying Contract"
+    "defaultMessage": "Spoštění chytrého kontraktu"
   },
   "deposit": {
-    "defaultMessage": "Update"
+    "defaultMessage": "Aktualizace"
   },
   "deposit.reward": {
-    "defaultMessage": "Deposit Reward"
+    "defaultMessage": "Vložit odměnu"
   },
   "detailed": {
-    "defaultMessage": "Detailed"
+    "defaultMessage": "Detailní"
   },
   "dev.changelog": {
-    "defaultMessage": "Dev changelog"
+    "defaultMessage": "Seznam změn"
   },
   "dex.generator": {
-    "defaultMessage": "DexContracts"
+    "defaultMessage": "DEX Generátor"
   },
   "dexappbuilder.ann.app.bar2": {
-    "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
+    "defaultMessage": "Podpořte nás na {Giveth}, aby naše služba byla pro všechny zdarma. Každý příspěvek se shoduje s ENS."
   },
   "disable.burn": {
-    "defaultMessage": "Disable Burn"
+    "defaultMessage": "Zakáz pálení"
   },
   "disable.info": {
-    "defaultMessage": "Disable Info"
+    "defaultMessage": "Zakáz informací"
   },
   "disable.proxy": {
-    "defaultMessage": "Disable proxy"
+    "defaultMessage": "Zákaz proxy"
   },
   "disable.secondary.sells": {
-    "defaultMessage": "Disable secondary sells"
+    "defaultMessage": "Zákaz sekundárních prodejů"
   },
   "disable.transfer": {
-    "defaultMessage": "Disable Transfer"
+    "defaultMessage": "Zákaz převodů"
   },
   "discord.username": {
-    "defaultMessage": "Discord username"
+    "defaultMessage": "Uživatelské jméno Discordu"
   },
   "do.you.really.want.to.clone.this.form": {
-    "defaultMessage": "Do you really want to clone this form?"
+    "defaultMessage": "Opravdu chcete duplikovat tento formulář?"
   },
   "do.you.really.want.to.create.a.nft.info": {
-    "defaultMessage": "Do you really want to create a NFT representing ownership of this app? After you create this NFT you are not able to delete anymore the app! You can sell or transfer this NFT, if you do so, you lose ownership of the app."
+    "defaultMessage": "Opravdu chcete vytvořit NFT pro vlastnictví této aplikace? Po vytvoření NFT nemůžete aplikaci smazat! Toto NFT můžete prodat, nebo převést. Vlastník NFT bude vlastníkem aplikace."
   },
   "do.you.really.want.to.create.a.nft.store.app": {
-    "defaultMessage": "Do you really want to create a nft store app?"
+    "defaultMessage": "Opravdu chcete vytvořit aplikaci NFT tržiště?"
   },
   "do.you.really.want.to.create.a.swap.app": {
-    "defaultMessage": "Do you really want to create a swap app?"
+    "defaultMessage": "Opravdu chcete vytvořit aplikaci SWAPU?"
   },
   "do.you.really.want.to.create.a.wallet.app": {
-    "defaultMessage": "Do you really want to create a wallet app?"
+    "defaultMessage": "Opravdu chcete vytvořit aplikaci peněženky?"
   },
   "do.you.really.want.to.create.this.form": {
-    "defaultMessage": "Do you really want to create this form?"
+    "defaultMessage": "Opravdu chcete vytvořit tento formulář?"
   },
   "do.you.really.want.to.create.this.token": {
-    "defaultMessage": "Do you really want to create this token?"
+    "defaultMessage": "Opravdu chcete vytvořit tento token"
   },
   "do.you.really.want.to.create.your.user.profile": {
-    "defaultMessage": "Do you really want to create your user profile?"
+    "defaultMessage": "Opravdu chcete vytvořit svůj uživatelský profil?"
   },
   "do.you.really.want.to.remove.this.app": {
-    "defaultMessage": "Do you really want to remove this app"
+    "defaultMessage": "Opravdu chcete tuto aplikaci odstranit?"
   },
   "do.you.really.want.to.remove.this.app.leaderboard": {
-    "defaultMessage": "Do you really want to remove this app leaderboard {title}"
+    "defaultMessage": "Opravdu chcete odstranit žebříček aplikace {title}?"
   },
   "do.you.really.want.to.remove.this.app.version": {
-    "defaultMessage": "Do you really want to remove this app version {version}"
+    "defaultMessage": "Opravdu chcete odstranit verzi {version} aplikace?"
   },
   "do.you.really.want.to.remove.this.condition": {
-    "defaultMessage": "Do you really want to remove this Condition?"
+    "defaultMessage": "Opravdu chcete odstranit tuto podmínku?"
   },
   "do.you.really.want.to.remove.this.form": {
-    "defaultMessage": "Do you really want to remove this form?"
+    "defaultMessage": "Opravdu chcete tento formulář odstranit?"
   },
   "do.you.really.want.to.remove.this.member": {
-    "defaultMessage": "Do you really want to remove this member {member}"
+    "defaultMessage": "Opravdu chcete člena {member} odebrat?"
   },
   "do.you.really.want.to.send.this.app.settings": {
-    "defaultMessage": "Do you really want to send it?"
+    "defaultMessage": "Opravdu to chcete odeslat?"
   },
   "do.you.really.want.to.set.to.this.app.version": {
-    "defaultMessage": "Do you really want to set this app to version {version}. Make sure you backup any changes in a new version."
+    "defaultMessage": "Opravdu chcete tuto aplikaci nastavit na verzi {version}? Ujistěte se, že máte zálohu veškerých změn v nové verzi. "
   },
   "do.you.really.want.to.update.a.nft.info": {
-    "defaultMessage": "Do you really want to update this NFT representing ownership of this app?"
+    "defaultMessage": "Opravdu chcete aktualizovat toto NFT, které představuje vlastnictví této aplikace?"
   },
   "do.you.really.want.to.update.this.form": {
-    "defaultMessage": "Do you really want to update this form?"
+    "defaultMessage": "Opravdu chcete aktualizovat tento formulář?"
   },
   "domain": {
-    "defaultMessage": "Domain"
+    "defaultMessage": "Doména"
   },
   "drop": {
-    "defaultMessage": "Drop"
+    "defaultMessage": "Seskupení"
   },
   "drop.details": {
-    "defaultMessage": "Drop details"
+    "defaultMessage": "Detaily dropu"
   },
   "drop.is.starting.soon. Please check back later.": {
-    "defaultMessage": "Drop is starting soon. Please check back later."
+    "defaultMessage": "Drop startuje brzy. Zkuste to prosím později."
   },
   "drop.is.starting.soon.please.check.back.later": {
-    "defaultMessage": "Drop is starting soon. Please check back later."
+    "defaultMessage": "Drop startuje brzy. Zkuste to prosím později."
   },
   "drop.not.ready.to.mint.yet": {
-    "defaultMessage": "This drop is not ready to be minted yet."
+    "defaultMessage": "Tento drop zatím není připravený na mint."
   },
   "drops": {
-    "defaultMessage": "Drops"
+    "defaultMessage": "Dropy"
   },
   "drops.are.not.available.for.this.contract": {
-    "defaultMessage": "Drops are not available for this contract"
+    "defaultMessage": "Dropy nejsou k dispozici pro tento kontrakt."
   },
   "drops.not.found": {
-    "defaultMessage": "Drop's not found"
+    "defaultMessage": "Dropy nebyly nalezeny."
   },
   "drops.of.same.collection": {
-    "defaultMessage": "Drops of same collection"
+    "defaultMessage": "Dropy stejné kolekce"
   },
   "edit.app": {
-    "defaultMessage": "Edit App"
+    "defaultMessage": "Upravit aplikaci"
   },
   "edit.claim.conditions": {
-    "defaultMessage": "Edit claim conditions"
+    "defaultMessage": "Upravid podmínky odměny"
   },
   "edit.claimers": {
-    "defaultMessage": "Edit claimers"
+    "defaultMessage": "Upravit nároky"
   },
   "edit.leaderboard": {
-    "defaultMessage": "Edit leaderboard"
+    "defaultMessage": "Upravit žebříček"
   },
   "edit.name": {
-    "defaultMessage": "Edit \"{name}\""
+    "defaultMessage": "Upravit \"{name}\""
   },
   "edit.name.name": {
-    "defaultMessage": "Edit \"{name}\""
+    "defaultMessage": "Upravit \"{name}\""
   },
   "edit.profile": {
-    "defaultMessage": "Edit profile"
+    "defaultMessage": "Upravit profil"
   },
   "edit.social.description": {
-    "defaultMessage": "Add social media related to your app"
+    "defaultMessage": "Přidat socílní sítě"
   },
   "edit.templateName": {
-    "defaultMessage": "Edit: {templateName}"
+    "defaultMessage": "Upravit: {templateName}"
   },
   "edit.user.profile": {
-    "defaultMessage": "Edit user profile: {username}"
+    "defaultMessage": "Upravit uživatelský profil: {username}"
   },
   "edit.version": {
-    "defaultMessage": "Edit version"
+    "defaultMessage": "Upravit verzi"
   },
   "editing.site.metadata": {
-    "defaultMessage": "Editing site metadata"
+    "defaultMessage": "Upravuji metadata stránky"
   },
   "email.verified": {
-    "defaultMessage": "Email verified"
+    "defaultMessage": "Email byl potvrzený"
   },
   "email.verified.with.success": {
-    "defaultMessage": "Email verified with success"
+    "defaultMessage": "Email byl úspěšně potvrzený"
   },
   "empty": {
-    "defaultMessage": "Empty"
+    "defaultMessage": "Prázné"
   },
   "empty.leaderboard": {
-    "defaultMessage": "Empty leaderboard"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Enable Darkblock Asset"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Enable Darkblock Collection"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Enable Darkblock on Asset page"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Enable Darkblock on Collection page"
+    "defaultMessage": "Prázdný žebříček"
   },
   "enable.drop": {
-    "defaultMessage": "Enable Darkblock"
+    "defaultMessage": "Povolit Darkblock"
   },
   "enable.fiat": {
-    "defaultMessage": "Enable Fiat"
+    "defaultMessage": "Povolit Fiat měnu"
   },
   "enable.searchbar": {
-    "defaultMessage": "Enable searchbar"
+    "defaultMessage": "Povolit vyhledávání"
   },
   "end": {
-    "defaultMessage": "End"
+    "defaultMessage": "Konec"
   },
   "enter.amount.to.claim": {
-    "defaultMessage": "Enter amount to claim"
+    "defaultMessage": "Vložte množství k získání odměn"
   },
   "error.404": {
-    "defaultMessage": "Error 404"
+    "defaultMessage": " Chyba 404"
   },
   "error.color": {
-    "defaultMessage": "Error color"
+    "defaultMessage": "Barva chyby"
   },
   "error.generating.image": {
-    "defaultMessage": "Error generating image"
+    "defaultMessage": "Při generování obrázku došlo k chybě"
   },
   "error.reason": {
-    "defaultMessage": "Error reason: {value}"
+    "defaultMessage": "Důvod chyby: {value}"
   },
   "error.removing.app.leaderboard": {
-    "defaultMessage": "Error on removing app leaderboard"
+    "defaultMessage": "Při odstraňování žebříčku došlo k chybě"
   },
   "error.removing.app.version": {
-    "defaultMessage": "Error on removing app version"
+    "defaultMessage": "Při odstraňování aplikace došlo k chybě"
   },
   "error.removing.member": {
-    "defaultMessage": "Error on removing member"
+    "defaultMessage": "Při odebírání člena došlo k chybě"
   },
   "error.set.app.version": {
-    "defaultMessage": "Error on set app version"
+    "defaultMessage": "Při nastavování verze aplikace došlo k chybě"
   },
   "error.updating.app.leaderboard": {
-    "defaultMessage": "Error on updating app leaderboard"
+    "defaultMessage": "Při aktualizaci aplikace došlo k chybě"
   },
   "error.while.deploying.contract": {
-    "defaultMessage": "Error while deploying contract"
+    "defaultMessage": "Při spouštění chytrého kontraktu došlo k chybě"
   },
   "error.while.minting": {
-    "defaultMessage": "Error while minting"
+    "defaultMessage": "Při mintování NFT došlo k chybě"
   },
   "error.while.switching.network": {
-    "defaultMessage": "Error while switching network"
+    "defaultMessage": "Při přepínání sítě došlo k chybě"
   },
   "error.while.tranfer": {
-    "defaultMessage": "Error while transfer"
+    "defaultMessage": "Při přenosu došlo k chybě"
   },
   "events": {
-    "defaultMessage": "Events"
+    "defaultMessage": "Události"
   },
   "exchange": {
-    "defaultMessage": "Exchange"
+    "defaultMessage": "Směnárna"
   },
   "exchange.app.builder": {
-    "defaultMessage": "Exchange App Builder"
+    "defaultMessage": "Aplikace směnárny"
   },
   "expire.at": {
-    "defaultMessage": "Expire at"
+    "defaultMessage": "Expirace"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Explore our new tool: DexContracts"
+    "defaultMessage": "Vyzkoušejte náš nový nástroj: DexContracts"
   },
   "explorer": {
-    "defaultMessage": "Explorer"
+    "defaultMessage": "Prohlížeč"
   },
   "export.leaderboard": {
-    "defaultMessage": "Export leaderboard"
+    "defaultMessage": "Export žebříčku"
   },
   "export.leaderboard.as.csv": {
-    "defaultMessage": "Export leaderboard as CSV"
+    "defaultMessage": "Exportovat žebříček ve formátu CSV"
   },
   "export.leaderboard.as.json": {
-    "defaultMessage": "Export leaderboard as JSON"
+    "defaultMessage": "Exportovat žebříček ve formátu JSON"
   },
   "export.leaderboard.csv ": {
-    "defaultMessage": "Export leaderboard csv"
+    "defaultMessage": "Exportovat žebříček jako CSV"
   },
   "external.url": {
-    "defaultMessage": "External URL"
+    "defaultMessage": "Externí URL"
   },
   "facebook": {
     "defaultMessage": "Facebook"
   },
   "favicon.helper.explainer": {
-    "defaultMessage": "Small icon that represents a website and is displayed in the browser tab"
+    "defaultMessage": "Malá ikona, která představuje webovou stránku a zobrazuje se na kartě prohlížeče"
   },
   "favorites": {
-    "defaultMessage": "Favorites"
+    "defaultMessage": "Oblíbené"
   },
   "feature": {
-    "defaultMessage": "Feature"
+    "defaultMessage": "Funkce"
   },
   "field.is.invalid": {
-    "defaultMessage": "{field} is invalid"
+    "defaultMessage": "{field} je neplatný"
   },
   "field.is.invalid.address": {
-    "defaultMessage": "{field} is invalid address"
+    "defaultMessage": "{field} je neplatná adresa"
   },
   "field.is.required": {
-    "defaultMessage": "{field} is required"
+    "defaultMessage": "{field} je požadované"
   },
   "filled": {
-    "defaultMessage": "Filled"
+    "defaultMessage": "Naplněno"
   },
   "filter": {
-    "defaultMessage": "Filter"
+    "defaultMessage": "Filtr"
   },
   "filter.by.data": {
-    "defaultMessage": "Filter by date"
+    "defaultMessage": "Filtrovat podle data"
   },
   "filters": {
-    "defaultMessage": "Filters"
+    "defaultMessage": "Filtry"
+  },
+  "filter.by": {
+    "defaultMessage": "Filtrovat podle {variable}"
+  },
+  "filter.all": {
+    "defaultMessage": "Všechny"
+  },
+  "filter.recent": {
+    "defaultMessage": "Nedávné (30 dní)"
+  },
+  "filter.active": {
+    "defaultMessage": "Aktivní (7 dní)"
+  },
+  "filter.popular": {
+    "defaultMessage": "Populární"
   },
   "finish": {
-    "defaultMessage": "Finish"
+    "defaultMessage": "Dokončit"
   },
   "font": {
-    "defaultMessage": "Font"
+    "defaultMessage": "Písmo"
   },
   "footer.wizard.description": {
-    "defaultMessage": "Create and edit your app's footer"
+    "defaultMessage": "Vytvořte a upravte menu v zápatí"
   },
   "forbidden": {
-    "defaultMessage": "Forbidden"
+    "defaultMessage": "Zakázaný"
   },
   "form.created.successfully": {
-    "defaultMessage": "Fomr created successfully"
+    "defaultMessage": "Formulář byl úspěšně vytvořen"
   },
   "form.deleted.successfully": {
-    "defaultMessage": "Form deleted successfully"
+    "defaultMessage": "Formulář byl úspěšně odstraněný"
   },
   "form.name": {
-    "defaultMessage": "Form: {name}"
+    "defaultMessage": "Formulář: {name}"
   },
   "form.preview": {
-    "defaultMessage": "Form Preview"
+    "defaultMessage": "Náhled formuláře"
   },
   "form.updated": {
-    "defaultMessage": "Form updated"
+    "defaultMessage": "Formulář byl aktualizovaný"
   },
   "formatted.decimal": {
-    "defaultMessage": "Formatted decimal"
+    "defaultMessage": "Naformátovaný decimal"
   },
   "forms": {
-    "defaultMessage": "Forms"
+    "defaultMessage": "Formuláře"
   },
   "front.image": {
-    "defaultMessage": "Front Image"
+    "defaultMessage": "Obrázek na popředí"
   },
   "front.image.size": {
-    "defaultMessage": "Front image size"
+    "defaultMessage": "Velikost obrázku na popředí"
   },
   "function.name": {
-    "defaultMessage": "Function name"
+    "defaultMessage": "Název funkce"
   },
   "gated.conditions": {
-    "defaultMessage": "Gated conditions"
+    "defaultMessage": "Uzavřené podmínky"
   },
   "general.information.description": {
-    "defaultMessage": "Input your app's general details"
+    "defaultMessage": "Zadejte obecné informace o aplikaci"
   },
   "generating.image": {
-    "defaultMessage": "Generating Image..."
+    "defaultMessage": "Generování obrázku..."
   },
   "height.for.desktop": {
-    "defaultMessage": "Height for desktop"
+    "defaultMessage": "Výška pro počítače"
   },
   "height.for.mobile": {
-    "defaultMessage": "Height for mobile"
+    "defaultMessage": "Výška pro mobilní zařízení"
   },
   "height.px": {
-    "defaultMessage": "Height (px)"
+    "defaultMessage": "Výška (px)"
   },
   "hidden": {
-    "defaultMessage": "Hidden"
+    "defaultMessage": "Skryté"
   },
   "hide.assets": {
-    "defaultMessage": "Hide Assets"
+    "defaultMessage": "Skrýt aktiva"
   },
   "hide.collections.on.search": {
-    "defaultMessage": "Hide collections on search"
+    "defaultMessage": "Skrýt kolekce ve vyhledávání"
   },
   "hide.drops": {
-    "defaultMessage": "Hide Drops"
+    "defaultMessage": "Skrýt dropy"
   },
   "hide.filters": {
-    "defaultMessage": "Hide Filters"
+    "defaultMessage": "Skrýt filtry"
   },
   "hide.form.info.tooltip": {
-    "defaultMessage": "Hide form info like: contract address, description and name from the section"
+    "defaultMessage": "Skrýt informace formuláře. Např.: Adresa kontraktu, popis a název sekce"
   },
   "hide.header": {
-    "defaultMessage": "Hide Header"
+    "defaultMessage": "Skrýt záhlaví"
   },
   "hide.header.form.info": {
-    "defaultMessage": "Hide header form info"
+    "defaultMessage": "Skrýt informace o formuláři záhlaví"
   },
   "hide.inputs": {
-    "defaultMessage": "Hide inputs"
+    "defaultMessage": "Skrýt vstupy"
   },
   "hide.label": {
-    "defaultMessage": "Hide label"
+    "defaultMessage": "Skrýt štítek"
   },
   "hide.on.desktop": {
-    "defaultMessage": "Hide on desktop"
+    "defaultMessage": "Skrýt na počítači"
   },
   "hide.on.mobile": {
-    "defaultMessage": "Hide on mobile"
+    "defaultMessage": "Skrýt na mobilním zařízení"
   },
   "hide.powered.by.dexkit": {
-    "defaultMessage": "Hide Powered by DexKit"
+    "defaultMessage": "Odstranit používá technologii DexKit"
   },
   "hide.tokens.on.search": {
-    "defaultMessage": "Hide tokens on search"
+    "defaultMessage": "Nezobrazovat tokeny ve vyhledávání"
   },
   "hold.kit": {
-    "defaultMessage": "Hold KIT"
+    "defaultMessage": "Držet KIT"
   },
   "holding.kit.info": {
-    "defaultMessage": "You need to hold 1000 KIT on one of supported networks (ETH, BSC and Polygon) to use this feature!"
+    "defaultMessage": "Pro aktivaci této funkce musíte mít minimálně 1000 tokenů KIT v peněžence na jedné z podporovaných sítí (ETH, BSC, nebo POLYGON)!"
   },
   "image": {
-    "defaultMessage": "Image"
+    "defaultMessage": "Obrázek"
   },
   "in.milliseconds": {
-    "defaultMessage": "In milliseconds"
+    "defaultMessage": "V milisekundách"
   },
   "info.about.custom.section": {
-    "defaultMessage": "Instead of using pre-defined sections, you have the freedom to create a personalized section by effortlessly dragging and dropping functional blocks to design your ideal layout."
+    "defaultMessage": "Místo použití předdefinovaných sekcí můžete vytvořit vlastní sekce jednoduchým přetažením bloků."
   },
   "info.alert.description.gated.form.modal": {
-    "defaultMessage": "As the owner of this private web page, please enter the specific conditions that users must meet to access your page. By defining these conditions, you ensure that only eligible users are granted access."
+    "defaultMessage": "Zadejte podmínky, které musí uživatelé splnit, aby dostali přístup na tuto stránku. Definováním těchto podmínek zajistíte přístup pouze uživatelům, kteří splní týto podmínky."
   },
   "info.alert.title.filter.ranking.points": {
-    "defaultMessage": "Define and attribute points to each user event to build a ranking"
+    "defaultMessage": "Pro vytvoření hodnocení definujte a přiřaďte body pro každou aktivitu uživatele"
   },
   "info.alert.title.gated.form.modal": {
-    "defaultMessage": "Define access conditions for your private page"
+    "defaultMessage": "Definujte podmínky pro získání přístupu na soukromou stránku"
   },
   "info.color": {
-    "defaultMessage": "Info Color"
+    "defaultMessage": "Barva informace"
   },
   "info.create.collection.page": {
-    "defaultMessage": "Create a collection of NFT's easily using our contract wizard. You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
+    "defaultMessage": "Vytvořte snadno vlastní NFT kolekci prostřednictvím našeho průvodce. Nyný můžete využít funkci AI generátoru pro vytvoření obrázku Vaší kolekce. Nezapomeňte, že musíte vlastnit minimálně {holdAmount} tokenů KIT na jedné z podporovaných sítí (BSC, Polygon a nebo Ethereum). Můžete vygenerovat maximálně 50 obrázků za měsíc. Nejprve popište obrázek, který chcete vytvořit a následně jej vygenerujte. Pokud potřebujete podporu, nebo větší množství vygenerovaných obrázků, kontaktujte nás na našem Discordu a nebo emailem na info@dexkit.com"
   },
   "info.quick.wizard.store.account": {
-    "defaultMessage": "Fill first your store account with the address from where you want to sell your NFTs."
+    "defaultMessage": "Nejprve vyplňte adresu svého účtu, kde chcete prodávat své NFTs."
   },
   "input.type": {
-    "defaultMessage": "Input Type"
+    "defaultMessage": "Typ vstupu"
   },
   "inputs": {
-    "defaultMessage": "Inputs"
+    "defaultMessage": "Vstupy"
   },
   "insufficient.balance": {
-    "defaultMessage": "Insufficient balance"
+    "defaultMessage": "Nedostatečný zůstatek"
   },
   "integrations": {
-    "defaultMessage": "Integrations"
+    "defaultMessage": "Integrace"
   },
   "interval": {
-    "defaultMessage": "Interval"
+    "defaultMessage": "Proměřený"
   },
   "invalid.address": {
-    "defaultMessage": "Invalid address"
+    "defaultMessage": "Neplatná adresa"
   },
   "items.spacing": {
-    "defaultMessage": "Items spacing"
+    "defaultMessage": "Mezery položek"
   },
   "kit.airdrop": {
-    "defaultMessage": "KIT Airdrop"
+    "defaultMessage": "KIT Rozdávání"
   },
   "kit.claim.submitted": {
-    "defaultMessage": "KIT claim submitted"
+    "defaultMessage": "Žádost o získání odměn KIT odeslána"
   },
   "label": {
-    "defaultMessage": "Label"
+    "defaultMessage": "Označení"
   },
   "last.version.set": {
-    "defaultMessage": "Last version set"
+    "defaultMessage": "Poslední verze"
   },
   "leaderboard": {
-    "defaultMessage": "Leaderboard"
+    "defaultMessage": "Žebříček"
   },
   "leaderboard.preview": {
-    "defaultMessage": "Leaderboard preview"
+    "defaultMessage": "Náhled žebříčku"
   },
   "left": {
-    "defaultMessage": "Left"
+    "defaultMessage": "V levo"
   },
   "link": {
-    "defaultMessage": "Link"
+    "defaultMessage": "Odkaz"
   },
   "linkedin.company": {
-    "defaultMessage": "Linkedin company"
+    "defaultMessage": "Linkedin"
   },
   "listing.price.per.item": {
-    "defaultMessage": "Listing price per item"
+    "defaultMessage": "Prodejní cena za položku"
   },
   "loading": {
-    "defaultMessage": "Loading"
+    "defaultMessage": "Načítání"
   },
   "lock.inputs": {
-    "defaultMessage": "Lock inputs"
+    "defaultMessage": "Uzamknout vstupy"
   },
   "logged": {
-    "defaultMessage": "Logged"
+    "defaultMessage": "Přihlášeno"
   },
   "login": {
-    "defaultMessage": "Login"
+    "defaultMessage": "Přihlášení"
   },
   "login.app": {
-    "defaultMessage": "Login app"
+    "defaultMessage": "Přihlášení do aplikace"
   },
   "login.app.to.edit.your.user.profile.you.just.need.to.sign.a.message.with.your.wallet": {
-    "defaultMessage": "Login to app to edit your user profile. You just need to sign a message with your wallet"
+    "defaultMessage": "Pro upravení uživatelského profilu se přihlašte do aplikace podepsáním zprávy ve Vaší peněžence."
   },
   "login.by.connect.wallet": {
-    "defaultMessage": "Login with your wallet. You will need to sign a message"
+    "defaultMessage": "Přihlašte do aplikace připojením peněženky a podepsáním zprávy."
   },
   "logo.for.dark.mode": {
-    "defaultMessage": "Logo for dark mode"
+    "defaultMessage": "Logo pro tmavý motiv"
   },
   "logo.for.light.mode": {
-    "defaultMessage": "Logo for light mode"
+    "defaultMessage": "Logo pro světlý motiv"
   },
   "logo.on.desktop": {
-    "defaultMessage": "Logo on desktop"
+    "defaultMessage": "Logo na počítači"
   },
   "logo.on.mobile": {
-    "defaultMessage": "Logo on mobile"
+    "defaultMessage": "Logo na mobilním zařízení"
   },
   "made.with.love.by": {
-    "defaultMessage": "made with ❤️ by",
+    "defaultMessage": "Vytvořeno s ❤️ od",
     "description": "made with ❤️ by"
   },
   "make.at.least.one.form.field.visible.to.see.a.preview": {
-    "defaultMessage": "Make at least one form field visible to see a preview"
+    "defaultMessage": "Chcete-li zobrazit náhled formuláře, zviditelněte minimálně jedno pole"
   },
   "manage": {
-    "defaultMessage": "Manage"
+    "defaultMessage": "Spravovat"
   },
   "manage.contract": {
-    "defaultMessage": "Manage Contract"
+    "defaultMessage": "Spravovat chytré kontrakty"
   },
   "manage.networks.for.your.app": {
-    "defaultMessage": "Manage networks for your app"
+    "defaultMessage": "Spravovat sítě pro Vaši aplikaci"
   },
   "markdown": {
-    "defaultMessage": "Markdown"
+    "defaultMessage": "Snížení"
   },
   "marketplace.fees.menu.container": {
-    "defaultMessage": "Marketplace Fees"
+    "defaultMessage": "Poplatky NFT tržiště"
   },
   "marketplace.fees.title": {
-    "defaultMessage": "Marketplace Fees"
+    "defaultMessage": "Poplatky NFT tržiště"
   },
   "max.quantity": {
-    "defaultMessage": "Max quantity"
+    "defaultMessage": "Maximální množství"
   },
   "max.supply": {
-    "defaultMessage": "Max Supply"
+    "defaultMessage": "Maximální zásoba"
   },
   "member": {
-    "defaultMessage": "Member"
+    "defaultMessage": "Uživatel"
   },
   "member.added": {
-    "defaultMessage": "Member added"
+    "defaultMessage": "Uživatel byl přidán"
   },
   "member.permission": {
-    "defaultMessage": "Member permissions"
+    "defaultMessage": "Práva uživatele"
   },
   "member.permissions.updated": {
-    "defaultMessage": "Member permissions updated"
+    "defaultMessage": "Práva uživatele byla aktualizovaná"
   },
   "member.removed": {
-    "defaultMessage": "Member removed"
+    "defaultMessage": "Uživatel byl odstraněn"
   },
   "metadata": {
     "defaultMessage": "Metadata"
@@ -1373,1728 +1367,1749 @@
     "defaultMessage": "Mint"
   },
   "mint.free": {
-    "defaultMessage": "Mint (Free)"
+    "defaultMessage": "Mint (Zdarma)"
   },
   "mint.nft": {
-    "defaultMessage": "Mint NFT"
+    "defaultMessage": "Vymintovat NFT"
   },
   "mint.price.value": {
-    "defaultMessage": "Mint ({priceToMint})"
+    "defaultMessage": "Ražba ({priceToMint})"
   },
   "mint.priceToMint": {
-    "defaultMessage": "Mint {priceToMint}"
+    "defaultMessage": "Ražba {priceToMint}"
   },
   "mismatch.account.admin.view": {
-    "defaultMessage": "You are connected to {account} but logged as {loggedAccount}. If you want to see apps associated with current connected account, click on"
+    "defaultMessage": "Jste připojeni k účtu {account}, ale přihlášeni jako {loggedAccount}. Pokud chcete zobrazit aplikace spojené s aktuálně připojeným účtem, klikněte na"
   },
   "must.have": {
-    "defaultMessage": "Must have"
+    "defaultMessage": "Musíte mít"
   },
   "my.collections": {
-    "defaultMessage": "My Collections"
+    "defaultMessage": "Moje kolekce"
   },
   "my.contracts": {
-    "defaultMessage": "My contracts"
+    "defaultMessage": "Moje chytré kontrakty"
   },
   "my.nfts": {
-    "defaultMessage": "My NFTs"
+    "defaultMessage": "Moje NFTs"
   },
   "my.wallet": {
-    "defaultMessage": "My Wallet"
+    "defaultMessage": "Moje peněženka"
   },
   "name.of.your.app": {
-    "defaultMessage": "Name of your app"
+    "defaultMessage": "Název Vaší aplikace"
   },
   "navbar": {
-    "defaultMessage": "Navbar"
+    "defaultMessage": "Navigace"
   },
   "navbar.wizard.description": {
-    "defaultMessage": "Organize your app navbar. You can edit menus and searchbar"
+    "defaultMessage": "Upravte si navigaci aplikace. Můžete upravovat nabídky a vyhledávací panel"
   },
   "network": {
-    "defaultMessage": "Network"
+    "defaultMessage": "Síť"
   },
   "network.info": {
-    "defaultMessage": "Network info"
+    "defaultMessage": "Informace o síti"
   },
   "network.swap.options.info": {
-    "defaultMessage": "Choose the default tokens and slippage for each network."
+    "defaultMessage": "Vyberte výchozí tokeny a míru proklouznutí pro každou síť."
   },
   "network.switched": {
-    "defaultMessage": "Network changed"
+    "defaultMessage": "Síť byla změněná"
   },
   "new.ai.features": {
-    "defaultMessage": "New AI Features"
+    "defaultMessage": "Nové AI funkce"
   },
   "nft": {
     "defaultMessage": "NFT"
   },
   "nft.amount.of.tokenId.is.selected.to.stake": {
-    "defaultMessage": "{amount} of \"#{tokenId}\" is selected to stake"
+    "defaultMessage": "{amount} z \"#{tokenId}\" je vybráno ke stakování"
   },
   "nft.attributes": {
-    "defaultMessage": "NFT attributes"
+    "defaultMessage": "Atributy NFT"
   },
   "nft.collection.airdrop": {
-    "defaultMessage": "NFT Collection Airdrop"
+    "defaultMessage": "Airdrop NFT kolekce"
   },
   "nft.created": {
-    "defaultMessage": "NFT created"
+    "defaultMessage": "NFT vytvořeno"
   },
   "nft.description": {
-    "defaultMessage": "NFT description"
+    "defaultMessage": "Popis NFT"
   },
   "nft.detail": {
-    "defaultMessage": "NFT detail"
+    "defaultMessage": "Detaily NFT"
   },
   "nft.drop": {
-    "defaultMessage": "NFT Drop"
+    "defaultMessage": "NFT Rozdávání"
   },
   "nft.edition.airdrop": {
-    "defaultMessage": "NFT Edition Airdrop"
+    "defaultMessage": "Airdrop NFT edice"
   },
   "nft.metadata": {
     "defaultMessage": "NFT metadata"
   },
   "nft.name": {
-    "defaultMessage": "NFT name"
+    "defaultMessage": "Název NFT"
   },
   "nft.store": {
-    "defaultMessage": "NFT store"
+    "defaultMessage": "NFT tržiště"
   },
   "nft.store.quick.builder": {
-    "defaultMessage": "NFT store quick builder"
+    "defaultMessage": "Rychlé vytvoření NFT tržiště"
   },
   "nfts.created.close.modal": {
-    "defaultMessage": "NFT created! Close modal"
+    "defaultMessage": "NFT bylo vytvořeno! Zavřít okno"
   },
   "nfts.staked": {
-    "defaultMessage": "NFTs staked"
+    "defaultMessage": "NFTs jsou stakované"
   },
   "no.app.leaderboards": {
-    "defaultMessage": "No app leaderboards"
+    "defaultMessage": "Žádný žebříček aplikace"
   },
   "no.app.versions": {
-    "defaultMessage": "No app versions"
+    "defaultMessage": "Žádné verze aplikace"
   },
   "no.apps": {
-    "defaultMessage": "No Apps"
+    "defaultMessage": "Žádné aplikace"
   },
   "no.collections": {
-    "defaultMessage": "No collections"
+    "defaultMessage": "Žádné kolekce"
   },
   "no.contracts.found": {
-    "defaultMessage": "No contracts found"
+    "defaultMessage": "Chytré kontrakty nebyly nalezeny"
   },
   "no.description": {
-    "defaultMessage": "no description"
+    "defaultMessage": "Žádný popis"
   },
   "no.forms.yet": {
-    "defaultMessage": "No forms yet"
+    "defaultMessage": "Žádné formuláře"
   },
   "no.networks": {
-    "defaultMessage": "No networks"
+    "defaultMessage": "Žádné sítě"
   },
   "no.networks.are.available": {
-    "defaultMessage": "No networks are available"
+    "defaultMessage": "Žádné sítě nejsou k dispozici"
   },
   "no.nfts": {
-    "defaultMessage": "No NFTs"
+    "defaultMessage": "Žádné NFTs"
   },
   "no.page.templates": {
-    "defaultMessage": "No page templates"
+    "defaultMessage": "Žádné šablony stránky"
   },
   "no.results": {
-    "defaultMessage": "No results",
+    "defaultMessage": "Žádné výsledky",
     "description": "No Available offers message"
   },
   "no.selected.networks": {
-    "defaultMessage": "No selected networks"
+    "defaultMessage": "Nebyly vybrány žádné sítě"
   },
   "no.team.members": {
-    "defaultMessage": "No team members"
+    "defaultMessage": "Žádní členové týmu"
   },
   "no.templates.found.for.this.usecase": {
-    "defaultMessage": "No templates found for this usecase"
+    "defaultMessage": "Pro tento účel nebyly nalezeny žádné šablony"
   },
   "no.usage": {
-    "defaultMessage": "No usage"
+    "defaultMessage": "Žádné využití"
   },
   "no.user.with.this.name": {
-    "defaultMessage": "No user with this name"
+    "defaultMessage": "Uživatel s tímto jménem neexistuje"
   },
   "no.wallet.connected": {
-    "defaultMessage": "No Wallet connected"
+    "defaultMessage": "Není připojena žádná peněženka"
   },
   "not.available": {
-    "defaultMessage": "Not available"
+    "defaultMessage": "Není k dispozici"
   },
   "not.enough.kit": {
-    "defaultMessage": "Not enough KIT"
+    "defaultMessage": "Nedostatek KIT tokenů"
   },
   "notification.email": {
-    "defaultMessage": "Notification email"
+    "defaultMessage": "Notifikační e-mail"
   },
   "numerator": {
-    "defaultMessage": "Rewards per Unit Time"
+    "defaultMessage": "Odměny za čas"
   },
   "offchain.events": {
-    "defaultMessage": "Offchain events"
+    "defaultMessage": "Události mimo blockchain"
   },
   "onboarding.builder.collections": {
-    "defaultMessage": "Add your highlighted collections to appear on your app's collection page and NFT sections. By featuring collections, you can draw attention to specific NFTs and increase the visibility and sales of these items. This can help promote your app and generate revenue for your business."
+    "defaultMessage": ""
   },
   "onboarding.builder.domain": {
-    "defaultMessage": "Deploy your app on your own domain to make it accessible to a wider audience. To do so, you'll need to configure your domain settings and follow our step-by-step guide to ensure a smooth deployment process. Once complete, your app will be up and running on your very own domain!"
+    "defaultMessage": "Přidejte své oblíbené NFT kolekce na stránku kolekcí ve vaší aplikaci."
   },
   "onboarding.builder.footer.menu": {
-    "defaultMessage": "Customize your app's footer to provide additional information and improve navigation for your users. You can use page links to direct users to specific pages within your app, or external links to connect users to related resources or information outside of your app. By customizing your footer, you can create a more complete and user-friendly experience for your audience."
+    "defaultMessage": "Přizpůsobte si zápatí Vaší aplikace a přidejte další informace, aby jste zlepšili navigaci pro vaše uživatele. Můžete použít odkazy na specifické stránky ve vaší aplikaci a nebo externí odkazy. Přizpůsobením zápatí můžete pro své uživatele vytvořit kompletnější a přívětivější prostředí."
   },
   "onboarding.builder.general": {
-    "defaultMessage": "Customize your app by editing its name and logos, as well as defining your default currency and language. These settings not only help make your app unique, but also ensure a seamless user experience for your audience."
+    "defaultMessage": "Upravte název a logo Vaší aplikace a definujte její výchozí měnu i jazyk. Tato nastavení udělají Vaši aplikaci originální a vytvoříte dojem na její uživatele."
   },
   "onboarding.builder.marketplace.fees": {
-    "defaultMessage": "Set your marketplace fees that will be added on top of NFT sales or offers. By setting fees, you can earn a commission on each sale made on your app's marketplace. This can help generate revenue and sustain the growth and development of your app over time."
+    "defaultMessage": "Nastavte poplatky vašeho tržiště, které budou přidané k prodejům a nabídkám NFT. Nastavením poplatků získáte provizi z každého prodeje, který bude provedený prostřednictvím Vaší aplikace."
   },
   "onboarding.builder.menu": {
-    "defaultMessage": "Customize your app's navbar menu links to improve navigation and highlight key features of your app. You can use page links to direct users to specific pages within your app, or external links to connect users to related resources or information outside of your app. By customizing your navbar menu links, you can create a more intuitive and user-friendly experience for your audience"
+    "defaultMessage": "Přizpůsobte navigaci Vaší aplikace. Můžete použít odkazy na konkrétní stránky v aplikaci a nebo externí odkazy. Přizpůsobením navigace vytvoříte intuitivnější a uživatelsky přívětivější prostředí."
   },
   "onboarding.builder.menu.kits": {
-    "defaultMessage": "Use our KITs to filter tools based on your needs. Choose from ALL to see all available tools, NFT to see non-fungible token-related tools, or Swap to see tools related to swapping. With our KITs, you have the flexibility to customize your app-building experience to your preferences."
+    "defaultMessage": "Použijte naše přednastavené balíčky funkcí přizbůsobené Vašim potřebám. Vyberte si ze všech dostupných funkcí a nástrojů. S přednastavenými balíčky máte možnost vytvořit aplikaci podle svých preferencí."
   },
   "onboarding.builder.ownership": {
-    "defaultMessage": "Get ownership of your app content by creating a non-fungible token (NFT) associated with your app. An NFT is a unique digital asset that represents ownership of a specific piece of content, such as your app. By creating an NFT for your app, you can establish its uniqueness and ownership, helping to protect your intellectual property and increase its value."
+    "defaultMessage": "Vytvořte NFT, které bude reprezentovat vlasnictví Vaší aplikace. Vytvořením NFT pro vaši aplikaci můžete jednoduše prokázat její vlastnictví a také chránit vaše autorské práva."
   },
   "onboarding.builder.pages": {
-    "defaultMessage": "Build pages using our Web3 KITs, which provide you with pre-built templates and components for creating swap interfaces, NFT marketplaces, NFT stores, or even generic pages. With our KITs, you can easily customize your pages and create a unique user experience that aligns with your app's goals and objectives."
+    "defaultMessage": "Vytvořte stránky pomocí našich Web3 balíčků, které obsahují předem vytvořené šablony a komponenty pro vytvoření SWAPU, NFT tržišť a nebo generických stránek."
   },
   "onboarding.builder.preview.app.button": {
-    "defaultMessage": "Preview your app in a modal right after saving your changes. This allows you to see your updates in real time and make any necessary adjustments before publishing your app."
+    "defaultMessage": "Po uložení změn máte k dispozici náhled aplikace ve vyskakovacím okně. Díky tomu můžete vidět aktualizace v reálném čase a provést případné úpravy před zveřejněním aplikace."
   },
   "onboarding.builder.preview.app.link": {
-    "defaultMessage": "Preview your app on the associated DexKit domain, which can be used for both testing and production. This provides you with a unique URL where you can view your app in a web browser and share it with others for feedback or to showcase your finished product. It's a great way to see how your app looks and functions in a real-world environment."
+    "defaultMessage": "Prohlédněte si svou aplikaci v přidělené DexKit doméně, kterou lze použít pro testování i produkci. Získáte unikátní URL adresu, na které si můžete prohlížet svou aplikaci a sdílet ji s ostatními pro zpětnou vazbu nebo ji používat pro svůj hotový produkt."
   },
   "onboarding.builder.seo": {
-    "defaultMessage": "Customize the SEO fields for each page to improve your app's visibility and search engine rankings. By optimizing fields such as page titles, and descriptions, you can help search engines understand the content of your pages and rank them higher in search results. By customizing your SEO fields, you can attract more traffic to your app and increase your chances of success"
+    "defaultMessage": "Upravte SEO nastavení pro každou stránku, aby jste zlepšíli viditelnost aplikace a získali lepší pozice ve vyhledávačích. Optimalizací názvů stránek a jejich popisů můžete pomoci vyhledávačům porozumět obsahu vašich stránek."
   },
   "onboarding.builder.social.media": {
-    "defaultMessage": "Set up your social media profiles for your app to increase its visibility and connect with your audience. By creating a strong social media presence, you can promote your app, build a community around it, and receive valuable feedback from your users."
+    "defaultMessage": "Nastavte profily sociálních sítí pro Vaši aplikaci, aby jste zvýšili její viditelnost a spojili se se svým publikem. Vytvořením silné prezentace na sociálních sítích můžete propagovat svou aplikaci, vybudovat kolem ní komunitu a získat cennou zpětnou vazbu od svých uživatelů."
   },
   "onboarding.builder.swap.fees": {
-    "defaultMessage": "Set your swap fees that will be added on top of swap trades. By setting fees, you can earn a commission on each swap trade made on your app's interface. This can help generate revenue and sustain the growth and development of your app over time"
+    "defaultMessage": "Nastavte poplatky SWAPU, které budou přidané ke každé transakci. Nastavením poplatků získáte provizi za každý uskutečněný obchod prostřednictvím Vaší aplikace."
   },
   "onboarding.builder.theme": {
-    "defaultMessage": "Select your global theme and font for your app to ensure a consistent and visually appealing experience for your users. By choosing a theme and font that aligns with your brand identity, you can create a cohesive look and feel that strengthens your brand recognition and credibility."
+    "defaultMessage": "Zvolte motiv a písmo pro Vaši aplikaci, aby jste uživatelům zajistili vizuálně příjemný zážitek. Výběrem motivu a písma, které jsou v souladu s Vaším brandingem můžete vytvořit soudržný vzhled a dojem, který posílí důvěryhodnost vaší značky."
   },
   "onboarding.builder.tokens": {
-    "defaultMessage": "Add tokens to be featured on your app's swap component. By featuring tokens, you can draw attention to specific tokens and increase their visibility and trading volume. This can help promote your app and generate revenue for your business."
+    "defaultMessage": "Přidejte tokeny, které se budou zobrazovat ve Vaší aplikaci SWAPU. Přidáním tokenů do aplikace můžete zacílit aplikaci na konkrétní token(y) a zvýšit jejich objem obchodování. "
   },
   "onboarding.welcome.dexappbuilder": {
-    "defaultMessage": "'Welcome to DexAppBuilder, the powerful tool that makes it easy to build and edit your own app! With our intuitive interface and robust feature set, you'll be up and running in no time. Whether you're a seasoned developer or just starting out, our comprehensive documentation and dedicated support team are here to help you every step of the way. So let's get started and see all that DexAppBuilder has to offer!"
+    "defaultMessage": "Vítejte v DexAppBuilderu, výkonném nástroji, který usnadňuje tvorbu a správu Vašich vlastních aplikací. Intutivní rozhrání a velká sada funkcí a nástrojů Vám umožní spustit Vaši vlastní aplikaci během pár vteřin. Ať už jste začátečník, nebo zkušený vývojář, naše kompletní dokumentace a specializovaný tým podpory Vám se vším pomůžou. Pojďme na to!"
   },
   "onchain.events": {
-    "defaultMessage": "Onchain events"
+    "defaultMessage": "Události na blockchainu"
   },
   "only.visible": {
-    "defaultMessage": "Only visible"
+    "defaultMessage": "Pouze viditelné"
   },
   "oop.page.not.found": {
-    "defaultMessage": "Oops, page not found"
+    "defaultMessage": "Jejda, stránka nebyla nenalezena"
   },
   "open.file": {
-    "defaultMessage": "Open file"
+    "defaultMessage": "Otevřít soubor"
   },
   "open.in.new.page": {
-    "defaultMessage": "Open in new page"
+    "defaultMessage": "Otevřít na nové stránce"
   },
   "open.url": {
-    "defaultMessage": "Open url"
+    "defaultMessage": "Otevřít URL"
   },
   "order.type": {
-    "defaultMessage": "Order type"
+    "defaultMessage": "Typ nabídky"
   },
   "orders": {
-    "defaultMessage": "Orders"
+    "defaultMessage": "Nabídky"
   },
   "output": {
-    "defaultMessage": "Output"
+    "defaultMessage": "Výstup"
   },
   "output.type": {
-    "defaultMessage": "Output Type"
+    "defaultMessage": "Typ výstupu"
   },
   "overlay.color": {
-    "defaultMessage": "Overlay color"
+    "defaultMessage": "Barva překrytí"
   },
   "owner": {
-    "defaultMessage": "Owner"
+    "defaultMessage": "Vlastník"
   },
   "ownership": {
-    "defaultMessage": "Ownership"
+    "defaultMessage": "Vlastnictví"
   },
   "ownership.explainer": {
-    "defaultMessage": "This NFT represents app ownership and editing rights. You can sell or transfer your app ownership through this NFT, hosted on Polygon. Who owns this NFT can edit it."
+    "defaultMessage": "Toto NFT představuje vlastnictví aplikace. Prostřednictvím tohoto NFT na síti Polygon můžete převést vlastnictví své aplikace na jiného majitele. Kdo vlastní toto NFT, vlastní tuto aplikaci."
   },
   "ownership.nft.info": {
-    "defaultMessage": "To access this feature, simply hold 1000 KIT tokens on one of our supported networks: ETH, BSC, or Polygon. Note: NFT-associated apps are not clonable."
+    "defaultMessage": "Pro přístup k této funkci musíte vlastnit minimálně 1000 KIT tokenů na jedné z podporovaných sítí (ETH, BSC nebo Polygon). Poznámka: Aplikace vlastněné prostřednictvím NFT nelze klonovat."
   },
   "ownership.settings.description": {
-    "defaultMessage": "Associate an NFT with your app for ownership control and update site metadata for marketing"
+    "defaultMessage": "Přidružte NFT ke své aplikaci pro její vlastnictví a aktualizace."
   },
   "padding.bottom": {
-    "defaultMessage": "Padding bottom"
+    "defaultMessage": "Padding spodní okraj"
   },
   "padding.top": {
-    "defaultMessage": "Padding top"
+    "defaultMessage": "Padding horní okraj"
   },
   "page.template": {
-    "defaultMessage": "Page Template"
+    "defaultMessage": "Šablona stránky"
   },
   "pages.wizard.description": {
-    "defaultMessage": "Create and manage your app's pages"
+    "defaultMessage": "Vytvářejte a spravujte stránky Vaší aplikace"
   },
   "paper.color": {
-    "defaultMessage": "Paper Color"
+    "defaultMessage": "Barva karty"
   },
   "paste": {
-    "defaultMessage": "Paste"
+    "defaultMessage": "Vložit"
   },
   "pay.amount.symbol": {
-    "defaultMessage": "Pay {amount} {tokenSymbol}"
+    "defaultMessage": "Zaplatit {amount} {tokenSymbol}"
   },
   "payment.confirmed": {
-    "defaultMessage": "Payment expired"
+    "defaultMessage": "Platba byla potvrzena"
   },
   "payment.pending": {
-    "defaultMessage": "Payment Pending"
+    "defaultMessage": "Čekání na platbu"
   },
   "payments": {
-    "defaultMessage": "Payments"
+    "defaultMessage": "Platby"
   },
   "per.wallet": {
-    "defaultMessage": "per wallet"
+    "defaultMessage": "Na peněženku"
   },
   "phases": {
-    "defaultMessage": "Phases"
+    "defaultMessage": "Fáze"
   },
   "plan.details": {
-    "defaultMessage": "Plan details"
+    "defaultMessage": "Podrobnosti plánu"
   },
   "please.confirm.the.transaction.in.your.wallet.and.wait.for.confirmation": {
-    "defaultMessage": "Please, confirm the transaction in your wallet and wait for confirmation"
+    "defaultMessage": "Potvrďte prosím transakci ve své peněžence a počkejte"
   },
   "please.connect.your.wallet.to.see.balance": {
-    "defaultMessage": "Please, connect your wallet to see your balance"
+    "defaultMessage": "Chcete-li zobrazit zůstatek, připojte peněženku"
   },
   "please.create.a.form.to.start.using.it.here": {
-    "defaultMessage": "Please, create a form to start using it here"
+    "defaultMessage": "Nejprve vytvořte formulář"
   },
   "please.create.a.leaderboard.to.start.using.it.here": {
-    "defaultMessage": "Please, create a leaderboard to start using it here"
+    "defaultMessage": "Nejprve vytvořte žebříček"
   },
   "points": {
-    "defaultMessage": "Points"
+    "defaultMessage": "Body"
   },
   "powered.by.dexkit.info": {
-    "defaultMessage": "To remove the \"Powered by DexKit\" branding, click \"Create NFT\" to associate an NFT with your app."
+    "defaultMessage": "Pro odstranění značky DexKit v zápatí klikněte na vytvořit NFT a přířaďte ho k Vaší aplikaci."
   },
   "preview.app": {
-    "defaultMessage": "Preview App"
+    "defaultMessage": "Náhled aplikace"
   },
   "preview.app.leaderboard": {
-    "defaultMessage": "Preview app leaderboard"
+    "defaultMessage": "Náhled žebříčku aplikace"
   },
   "preview.app.version": {
-    "defaultMessage": "Preview app version"
+    "defaultMessage": "Náhled verze aplikace"
   },
   "preview.section": {
-    "defaultMessage": "Preview section"
+    "defaultMessage": "Náhled sekce"
   },
   "price.in.next.phase": {
-    "defaultMessage": "Price in next phase"
+    "defaultMessage": "Cena v další fázi"
   },
   "price.per.item": {
-    "defaultMessage": "Price per item",
+    "defaultMessage": "Cena za položku",
     "description": "Price label per item"
   },
   "primary.color": {
-    "defaultMessage": "Primary color"
+    "defaultMessage": "Primární barva"
   },
   "profile.image": {
-    "defaultMessage": "Profile Image"
+    "defaultMessage": "Profilová fotka"
   },
   "profileImage": {
-    "defaultMessage": "Profile Image"
+    "defaultMessage": "Profilová fotka"
   },
   "published.by.publisher": {
-    "defaultMessage": "Published by: {publisher}"
+    "defaultMessage": "Zveřejnil: {publisher}"
   },
   "quantity": {
-    "defaultMessage": "Quantity"
+    "defaultMessage": "Množství"
   },
   "quick.exchange.builder": {
-    "defaultMessage": "Quick Exchange Builder"
+    "defaultMessage": "Nástroj pro Rychlou tvorbu aplikace směnárny"
   },
   "quick.exchange.builder.description": {
-    "defaultMessage": "Elevate your cryptocurrency trading game with our Quick Builder for exchanges. Effortlessly create your exchange platform, tailor it to your needs, and embark on a journey of financial innovation. Explore the possibilities and redefine the way you build exchanges."
+    "defaultMessage": "Rychle a bez námahy vytvořte svou platformu pro směnu kryptoměn a přizpůsobte ji svým potřebám."
   },
   "quick.nft.store.builder": {
-    "defaultMessage": "Quick NFT store builder"
+    "defaultMessage": "Nástroj pro Rychlou tvorbu NFT tržiště"
   },
   "quick.store.builder.title": {
-    "defaultMessage": "Create a NFT store app in seconds using our quick app builder"
+    "defaultMessage": "Vytvořte si vlastní NFT tržiště během několika sekund pomocí našeho nástroje pro tvorbu aplikací"
   },
   "quick.swap.builder": {
-    "defaultMessage": "Quick swap builder"
+    "defaultMessage": "Nástroj pro tvorbu aplikace SWAPU"
   },
   "quick.swap.builder.description": {
-    "defaultMessage": "Create a crypto wallet for your token. You can configure it to match the brand of your project"
+    "defaultMessage": "Vytvořte kryptopeněženku pro svůj token. Můžete ji nakonfigurovat tak, aby odpovídala Vašemu brandingu."
   },
   "quick.swap.builder.title": {
-    "defaultMessage": "Create a crypto aggregator app in seconds using our quick app builder"
+    "defaultMessage": "Vytvořte vlastní krypto agregátor během několika sekund pomocí našeho nástroje pro tvorbu aplikací"
   },
   "quick.swap.wizard.description": {
-    "defaultMessage": "Create a NFT store for your account. Share your store to users easily buy the offers you post. A dedicated store to show your NFTs"
+    "defaultMessage": "Vytvořte NFT tržiště pro Váš účet a sdílejte ho s uživateli, kteří mohou snadno koupit Vaše NFTs."
   },
   "quick.wallet.builder.title": {
-    "defaultMessage": "Create a crypto wallet in seconds using our quick app builder"
+    "defaultMessage": "Vytvořte si kryptopeněženku během několika sekund pomocí našeho nástroje pro tvorbu aplikací"
   },
   "quick.waççet.builder": {
-    "defaultMessage": "Quick wallet builder"
+    "defaultMessage": "Nástroj pro tvorbu krypto peněženky"
   },
   "quick.wizard.nft.store.welcome.index.message": {
-    "defaultMessage": "Welcome to DexAppBuilder! Here you can quick start your NFT store. If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+    "defaultMessage": "Vítejte v DexAppBuilderu! Tady můžete jednoduše a rychle vytvořit vlastní NFT tržiště. Pokud potřebujete funkce, které nejsou součástí DexAppBuilderu, kontaktujte nás emailem na <b>info@dextrit.com</b>!"
   },
   "quick.wizard.swap.welcome.index.message": {
-    "defaultMessage": "Welcome to DexAppBuilder! Here you can quick start your crypto aggregator If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+    "defaultMessage": "Vítejte v DexAppBuilderu! Tady můžete jednoduše a rychle vytvořit vlastní SWAP kryptoměn. Pokud potřebujete funkce, které nejsou součástí DexAppBuilderu, kontaktujte nás emailem na <b>info@dextrit.com</b>"
   },
   "quick.wizard.wallet.welcome.index.message": {
-    "defaultMessage": "Welcome to DexAppBuilder! Here you can quick start your wallet. If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+    "defaultMessage": "Vítejte v DexAppBuilderu! Tady můžete jednoduše a rychle vytvořit vlastní kryptopeněženku. Pokud potřebujete funkce, které nejsou součástí DexAppBuilderu, kontaktujte nás emailem na <b>info@dextrit.com</b>"
   },
   "ranking.added": {
-    "defaultMessage": "Ranking added"
+    "defaultMessage": "Žebříček byl přidaný"
   },
   "ranking.created": {
-    "defaultMessage": "Ranking created"
+    "defaultMessage": "Žebříček byl vytvořený"
   },
   "read": {
-    "defaultMessage": "Read"
+    "defaultMessage": "Přečíst"
   },
   "receive": {
-    "defaultMessage": "Receive"
+    "defaultMessage": "Obdržet"
   },
   "reddit": {
     "defaultMessage": "Reddit"
   },
   "ref.period": {
-    "defaultMessage": "Ref. period"
+    "defaultMessage": "Ref. doba"
   },
   "remove.account.from.user": {
-    "defaultMessage": "Remove account from user"
+    "defaultMessage": "Odstranit účet od uživatele"
   },
   "remove.condition": {
-    "defaultMessage": "Remove condition"
+    "defaultMessage": "Odstranit podmínku"
   },
   "remove.member": {
-    "defaultMessage": "Remove member"
+    "defaultMessage": "Odstranit člena"
   },
   "required.field": {
-    "defaultMessage": "required field"
+    "defaultMessage": "Povinné pole"
   },
   "reset": {
-    "defaultMessage": "Reset"
+    "defaultMessage": "Restartovat"
   },
   "reward.per.time.unit": {
-    "defaultMessage": "Reward per time Unit"
+    "defaultMessage": "Odměna za jednotku času"
   },
   "reward.per.unit.time": {
-    "defaultMessage": "Reward per Unit Time"
+    "defaultMessage": "Odměna za jednotku času"
   },
   "reward.ratio": {
-    "defaultMessage": "Reward Ratio"
+    "defaultMessage": "Poměr odměn"
   },
   "reward.time": {
-    "defaultMessage": "Reward time"
+    "defaultMessage": "Čas odměny"
   },
   "rewards": {
-    "defaultMessage": "Rewards"
+    "defaultMessage": "Odměny"
   },
   "rewards.second": {
-    "defaultMessage": "Rewards/second"
+    "defaultMessage": "Odměny/sekundu"
   },
   "right": {
-    "defaultMessage": "Right"
+    "defaultMessage": "V pravo"
   },
   "rule.index.value": {
-    "defaultMessage": "Rule {index}"
+    "defaultMessage": "Pravidlo {index}"
   },
   "rules": {
-    "defaultMessage": "Rules"
+    "defaultMessage": "Pravidla"
   },
   "save.payment": {
-    "defaultMessage": "Save payment"
+    "defaultMessage": "Uložit platbu"
   },
   "save.your.row.changes.before.confirm": {
-    "defaultMessage": "Save your row changes before confirm"
+    "defaultMessage": "Před potvrzením uložte změny"
   },
   "saved.successfully": {
-    "defaultMessage": "Saved successfully"
+    "defaultMessage": "Úspěšně uloženo"
   },
   "scan": {
-    "defaultMessage": "Scan"
+    "defaultMessage": "Sken"
   },
   "scan.code": {
-    "defaultMessage": "Scan code",
+    "defaultMessage": "Naskenovat kód",
     "description": "Select currency"
   },
   "scan.using.crypto.mobile.app": {
-    "defaultMessage": "Scan QR code using crypto mobile app like Metamask or Trust"
+    "defaultMessage": "Naskenujte QR kód pomocí aplikace kryptopeněženky, jako je Metamask nebo Trust Wallet"
   },
   "search.default.base.token": {
-    "defaultMessage": "Search default base token"
+    "defaultMessage": "Vyhledat výchozí token"
+  },
+  "search.sites": {
+    "defaultMessage": "Hledat weby..."
   },
   "search.default.input.token": {
-    "defaultMessage": "Search default input token"
+    "defaultMessage": "Vyhledat výchozí vstupní token"
   },
   "search.default.output.token": {
-    "defaultMessage": "Search default output token"
+    "defaultMessage": "Vyhledat výchozí výstupní token"
   },
   "search.for.a.contract": {
-    "defaultMessage": "Search for a contract"
+    "defaultMessage": "Vyhledat adresu chytrého kontraktu"
   },
   "search.in.collection": {
-    "defaultMessage": "Search in collection"
+    "defaultMessage": "Vyhledat v kolekci"
   },
   "search.in.store": {
-    "defaultMessage": "Search in store"
+    "defaultMessage": "Vyhledat v obchodě"
   },
   "search.not.returned.results": {
-    "defaultMessage": "Search not returned results. Try other search words."
+    "defaultMessage": "Nebyly nalezeny žádné výsledky."
   },
   "search.token": {
-    "defaultMessage": "Search token"
+    "defaultMessage": "Vyhledat token"
   },
   "search.token.in": {
-    "defaultMessage": "Search token in"
+    "defaultMessage": "Hledat token v"
   },
   "search.token.out": {
-    "defaultMessage": "Search token out"
+    "defaultMessage": "Vyhledat token"
   },
   "searchbar": {
-    "defaultMessage": "Searchbar"
+    "defaultMessage": "Vyhledávání"
   },
   "secondary.color": {
-    "defaultMessage": "Secondary color"
+    "defaultMessage": "Sekundární barva"
   },
   "section.addItemsPrompt": {
-    "defaultMessage": "Please add items to the section below."
+    "defaultMessage": "Přidejte položky do sekce níže."
   },
   "select.a.edition": {
-    "defaultMessage": "Select a edition"
+    "defaultMessage": "Vyberte vydání"
   },
   "select.a.token.for.your.airdrop": {
-    "defaultMessage": "Select a token for your airdrop"
+    "defaultMessage": "Vyberte token pro Váš Airdrop"
   },
   "select.a.token.to.pay": {
-    "defaultMessage": "Select a token to pay"
+    "defaultMessage": "Vyberte token, kterým chcete zaplatit"
   },
   "select.an.nft": {
-    "defaultMessage": "Select an NFT"
+    "defaultMessage": "Vyberte NFT"
   },
   "select.collection": {
-    "defaultMessage": "Select collection"
+    "defaultMessage": "Vyberte kolekci"
   },
   "select.collections.to.display.in.your.app": {
-    "defaultMessage": "Select collections to display in your app"
+    "defaultMessage": "Vyberte kolekce, které chcete zobrazit ve Vaší aplikaci"
   },
   "select.nfts": {
-    "defaultMessage": "Select NFTs"
+    "defaultMessage": "Vyberte NFTs"
   },
   "select.nfts.to.unstake": {
-    "defaultMessage": "Select NFTs to unstake"
+    "defaultMessage": "Vyberte NFTs, které chcete odstakovat"
   },
   "select.or.import.nft": {
-    "defaultMessage": "Select or import a NFT to create an order"
+    "defaultMessage": "Pro vytvoření objednávky vyberte, nebo importujte NFT"
   },
   "select.or.import.tokens.for.your.app": {
-    "defaultMessage": "Select or import tokens for your app"
+    "defaultMessage": "Vyberte, nebo importujte tokeny pro Vaši aplikaci"
   },
   "select.page": {
-    "defaultMessage": "Select page"
+    "defaultMessage": "Vybrat stránku"
   },
   "select.plan": {
-    "defaultMessage": "Select Plan"
+    "defaultMessage": "Vybrat plán"
   },
   "select.recipients": {
-    "defaultMessage": "Select"
+    "defaultMessage": "Vybrat"
   },
   "select.type": {
-    "defaultMessage": "All"
+    "defaultMessage": "Všechny"
   },
   "selected.addresses.amount": {
-    "defaultMessage": "Selected addresses: {amount}"
+    "defaultMessage": "Vybrané adresy: {amount}"
   },
   "sell.token.page": {
-    "defaultMessage": "Sell token page"
+    "defaultMessage": "Stránka prodeje tokenu"
   },
   "send": {
-    "defaultMessage": "Send"
+    "defaultMessage": "Odeslat"
   },
   "sending.airdrop.to.your.wallet": {
-    "defaultMessage": "Sending airdrop to your wallet"
+    "defaultMessage": "Odesílání airdropu do vaší peněženky"
   },
   "sending.app.settings": {
-    "defaultMessage": "Sending app settings"
+    "defaultMessage": "Odesílání nastavení aplikace"
   },
   "sending.user.profile.data": {
-    "defaultMessage": "Complete profile data"
+    "defaultMessage": "Doplňte informace profilu"
   },
   "sent.successfully.be.aware.info": {
-    "defaultMessage": "Sent successfully. Be aware that it takes several minutes to update and reflect on the live site."
+    "defaultMessage": "Aktualizace byla odeslaná. Berte prosím na vědomí, že aktualizace se projeví až během několika minut."
   },
   "seo.wizard.description": {
-    "defaultMessage": "Configure your app's SEO"
+    "defaultMessage": "Nastavte SEO Vaší aplikace"
   },
   "set.api.key": {
-    "defaultMessage": "Set api key"
+    "defaultMessage": "Nastavte API klíč"
   },
   "set.app.to.this.version": {
-    "defaultMessage": "Set app to this version"
+    "defaultMessage": "Nastavte aplikaci na tuto verzi"
   },
   "set.claim.conditions.to.enable.drop.info": {
-    "defaultMessage": "Set claim conditions to enable the drop. You can edit anytime the claim conditions."
+    "defaultMessage": "Nastavte podmínky aidropu pro jeho aktivaci. Podmínky můžete kdykoliv upravit."
   },
   "set.custom.domain.container.description": {
-    "defaultMessage": "Set a custom domain for your app"
+    "defaultMessage": "Nastavte vlastní doménu Vaší aplikace"
   },
   "set.integrations.settings.for.your.app": {
-    "defaultMessage": "Integration settings for your app."
+    "defaultMessage": "Nastavení integrace pro Vaši aplikaci."
   },
   "set.up": {
-    "defaultMessage": "Set up"
+    "defaultMessage": "Nastavit"
   },
   "settings.to.configure.store": {
-    "defaultMessage": "Settings to configure your NFT Store"
+    "defaultMessage": "Nastavení pro konfiguraci vašeho NFT tržiště"
   },
   "setup.your.zrx.configure.0x.text": {
-    "defaultMessage": "Setup your 0x API key for access to our services."
+    "defaultMessage": "Použijte Váš 0x API klíč pro přístup k těmto službám."
   },
   "short.description": {
-    "defaultMessage": "Short description"
+    "defaultMessage": "Stručný popis"
   },
   "shortbio": {
-    "defaultMessage": "Short Bio"
+    "defaultMessage": "Stručné BIO"
   },
   "show": {
-    "defaultMessage": "Show"
+    "defaultMessage": "Zobrazit"
   },
   "show.all": {
-    "defaultMessage": "Show all"
+    "defaultMessage": "Zobrazit všechny"
   },
   "show.token.details": {
-    "defaultMessage": "Show token details"
+    "defaultMessage": "Zobrazit detaily tokenu"
   },
   "showcase": {
-    "defaultMessage": "Showcase Gallery"
+    "defaultMessage": "Prezentace galerie"
   },
   "site.email.not.verified.on.admin.message": {
-    "defaultMessage": "Your app email is not verified. Please verify it using the verification email we sent. If you haven't received the email or need it sent again, request a confirmation email <a>here</a>"
+    "defaultMessage": "Zadaný e-mail není oveřený. Ověřte jej pomocí ověřovacího e-mailu, který jsme Vám zaslali. Pokud jste e-mail neobdrželi, nebo ho potřebujete poslat znova, klikněte <a>zde</a>."
   },
   "site.list": {
-    "defaultMessage": "Site list"
+    "defaultMessage": "Seznam stránek"
   },
   "site.list.description": {
-    "defaultMessage": "Start your own site/marketplace/app in seconds. Here you can view and be inspired by other community apps. Start now being a crypto enterpreneur"
+    "defaultMessage": "Spusťe vlastní krypto web, NFT tržiště a nebo aplikaci běhěm pár vteřin."
   },
   "site.metada.image": {
-    "defaultMessage": "Site metadata image"
+    "defaultMessage": "Obrázek metadat webu"
   },
   "site.metadata": {
-    "defaultMessage": "Site metadata"
+    "defaultMessage": "Metadata webu"
   },
   "site.metadata.created": {
-    "defaultMessage": "Site metadata created"
+    "defaultMessage": "Metadata webu byla vytvořena"
   },
   "site.metadata.created.error": {
-    "defaultMessage": "Site metadata created error"
+    "defaultMessage": "Při vytváření metadat webu došlo k chybě"
   },
   "site.metadata.edited": {
-    "defaultMessage": "Site metadata edited"
+    "defaultMessage": "Metadata webu byla upravena"
   },
   "site.metadata.edited.error": {
-    "defaultMessage": "Site metadata edited error"
+    "defaultMessage": "Při úpravě metadat webu došlo k chybě"
   },
   "site.subtitle": {
-    "defaultMessage": "Site subtitle"
+    "defaultMessage": "Podnadpis webové stránky"
   },
   "site.templates": {
-    "defaultMessage": "Site templates"
+    "defaultMessage": "Šablony webové stránky"
   },
   "site.templates.description": {
-    "defaultMessage": "Start your own site/marketplace/app in seconds. Here you can view and clone apps with various usecases. Start now being a crypto enterpreneur"
+    "defaultMessage": "Spusťe vlastní krypto web, NFT tržiště a nebo aplikaci běhěm pár vteřin"
   },
   "site.title": {
-    "defaultMessage": "Site title"
+    "defaultMessage": "Název webové stránky"
   },
   "social.media": {
-    "defaultMessage": "Social Media"
+    "defaultMessage": "Sociální sitě"
   },
   "social.media.title": {
-    "defaultMessage": "Social Media"
+    "defaultMessage": "Sociální sitě"
   },
   "socials": {
-    "defaultMessage": "Socials"
+    "defaultMessage": "Sociální sitě"
   },
   "sold.out": {
-    "defaultMessage": "Sold out"
+    "defaultMessage": "Vyprodáno"
   },
   "something.went.wrong.with.section.type.contact.support": {
-    "defaultMessage": "Oops, something went wrong with section type {sectionType}. Contact support",
+    "defaultMessage": "Jejda, něco se pokazilo s typem sekce {sectionType}. Kontaktujte prosím podporu.",
     "description": "Something went wrong error message"
   },
   "stake": {
-    "defaultMessage": "Stake"
+    "defaultMessage": "Stakovat"
   },
   "stake.contract": {
-    "defaultMessage": "Stake Contract"
+    "defaultMessage": "Stakovat chytrý kontrakt"
   },
   "start": {
-    "defaultMessage": "Start"
+    "defaultMessage": "Spustit"
   },
   "start.by.connect.wallet": {
-    "defaultMessage": "Connect wallet to account that owns this app: {slug}"
+    "defaultMessage": "Připojte peněženku k účtu, který vlastní tuto aplikaci: {slug}"
   },
   "start.time": {
-    "defaultMessage": "Start Time"
+    "defaultMessage": "Doba spuštění"
   },
   "steps.completed.finished.stepper": {
-    "defaultMessage": "All steps completed - you finished swap configuration"
+    "defaultMessage": "Všechny kroky dokončeny - dokončili jste konfiguraci aplikace SWAP"
   },
   "store.account": {
-    "defaultMessage": "Store account"
+    "defaultMessage": "Účet tržiště"
   },
   "store.without.order": {
-    "defaultMessage": "Store without offers. Came back later!"
+    "defaultMessage": "Zatím zde nejsou žádné nabídky."
   },
   "success.color": {
-    "defaultMessage": "Success color"
+    "defaultMessage": "Barva úspěchu"
   },
   "swap.apps": {
-    "defaultMessage": "Swap apps"
+    "defaultMessage": "Aplikace SWAPU"
   },
   "swap.fees.menu.container": {
-    "defaultMessage": "Swap Fees"
+    "defaultMessage": "Poplatky SWAPU"
   },
   "swap.fees.title": {
-    "defaultMessage": "Swap Fees"
+    "defaultMessage": "Poplatky SWAPU"
   },
   "swap.quick.builder": {
-    "defaultMessage": "Swap quick builder"
+    "defaultMessage": "Nástroj pro tvorbu aplikace SWAPU"
   },
   "swap.step.general.info": {
-    "defaultMessage": "Set general info for your wallet app."
+    "defaultMessage": "Nastavte základní informace pro aplikaci krypto peněženky."
   },
   "swap.step.theme.info": {
-    "defaultMessage": "Choose swap app theme and font."
+    "defaultMessage": "Vyberte motiv a písmo aplikace swap."
   },
   "switch.to.network.network": {
-    "defaultMessage": "Switch to {network} network"
+    "defaultMessage": "Přepněte na síť {network}"
   },
   "switch.wallet": {
-    "defaultMessage": "Switch wallet"
+    "defaultMessage": "Přepnout peněženku"
   },
   "switch.your.wallet.to.another.account.and.click.connect.account": {
-    "defaultMessage": "Switch your wallet to another account and click connect account"
+    "defaultMessage": "Přepněte peněženku na jiný účet a klikněte na připojit účet"
   },
   "team": {
-    "defaultMessage": "Team"
+    "defaultMessage": "Tým"
   },
   "team.management": {
-    "defaultMessage": "Team management"
+    "defaultMessage": "Týmové řízení"
   },
   "template.created": {
-    "defaultMessage": "Contract template updated"
+    "defaultMessage": "Šablona chytrého kontraktu byla aktualizovaná"
   },
   "templates": {
-    "defaultMessage": "Templates"
+    "defaultMessage": "Šablony"
   },
   "text.color": {
-    "defaultMessage": "Text color"
+    "defaultMessage": "Barva textu"
   },
   "the.amount.cannot.be.zero": {
-    "defaultMessage": "The amount cannot be zero"
+    "defaultMessage": "Částka musí být vyšší, než 0"
   },
   "themes": {
-    "defaultMessage": "Themes"
+    "defaultMessage": "Motivy"
   },
   "thirdweb.contracts": {
-    "defaultMessage": "ThirdWeb Contracts"
+    "defaultMessage": "ThirdWeb chytré kontrakty"
   },
   "this.app.is.not.clonable": {
-    "defaultMessage": "This app is not clonable."
+    "defaultMessage": "Tuto aplikaci nelze duplikovat."
   },
   "this.drop.is.not.ready.to.be.minted": {
-    "defaultMessage": "This drop is not ready to be minted."
+    "defaultMessage": "Tento drop zatím není připravený na mint."
   },
   "this.drop.is.not.ready.to.be.minted.": {
-    "defaultMessage": "This drop is not ready to be minted."
+    "defaultMessage": "Tento drop zatím není připravený na mint."
   },
   "this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set": {
-    "defaultMessage": "This drop is not ready to be minted yet. (No claim condition set)"
+    "defaultMessage": "Tento drop není připravený na mint (Nejsou nastavené žádné podmínky)."
   },
   "time.unit": {
-    "defaultMessage": "Time unit"
+    "defaultMessage": "Časová jednotka"
   },
   "to": {
-    "defaultMessage": "to"
+    "defaultMessage": "Do"
   },
   "token.drop": {
-    "defaultMessage": "Token Drop"
+    "defaultMessage": "Drop tokenu"
   },
   "token.import.info": {
-    "defaultMessage": "You can search tokens on our API or import it directly by contract address"
+    "defaultMessage": "Tokeny můžete vyhledat prostřednictvím našeho API, nebo je importovat přímo podle adresy kontraktu."
   },
   "token.not.supported": {
-    "defaultMessage": "Token not supported"
+    "defaultMessage": "Token není podporovaný"
   },
   "token.standard": {
-    "defaultMessage": "Token Standard"
+    "defaultMessage": "Standard tokenu"
   },
   "token.symbol.message": {
     "defaultMessage": "Token {tokenSymbol}"
   },
   "token.trade": {
-    "defaultMessage": "Token Trade"
+    "defaultMessage": "Směna tokenů"
   },
   "tokenId": {
-    "defaultMessage": "Token Id"
+    "defaultMessage": "ID tokenu"
   },
   "total.cost": {
-    "defaultMessage": "Total cost"
+    "defaultMessage": "Cena celkem"
   },
   "total.for.airdrop": {
-    "defaultMessage": "Total for Airdrop"
+    "defaultMessage": "Celkem pro airdrop"
   },
   "total.items.to.claim": {
-    "defaultMessage": "Total items to claim"
+    "defaultMessage": "Celkové množství k získání"
   },
   "total.items.to.claim.per.wallet": {
-    "defaultMessage": "Total items to claim per wallet"
+    "defaultMessage": "Celkové množství k získání na jednu peněženku"
   },
   "total.minted": {
-    "defaultMessage": "Total minted"
+    "defaultMessage": "Celkem vymintované"
   },
   "total.recipients": {
-    "defaultMessage": "Total recipients"
+    "defaultMessage": "Celkový počet příjemců"
   },
   "total.rewards": {
-    "defaultMessage": "Total Rewards"
+    "defaultMessage": "Celkové odměny"
   },
   "total.staked": {
-    "defaultMessage": "Total staked"
+    "defaultMessage": "Celkový počet staknutých"
   },
   "total.supply": {
-    "defaultMessage": "Total Supply"
+    "defaultMessage": "Celkové množství"
   },
   "total.to.mint": {
-    "defaultMessage": "Total to mint"
+    "defaultMessage": "Celkové množství k mintu"
   },
   "total.to.receive": {
-    "defaultMessage": "Total to receive"
+    "defaultMessage": "Celkem k získání"
   },
   "total.usd": {
-    "defaultMessage": "Total in USD"
+    "defaultMessage": "Celkem v USD"
   },
   "trade.token.page": {
-    "defaultMessage": "Trade token page"
+    "defaultMessage": "Stránka obchodování tokenu"
   },
   "trade.token.seo..title.message": {
-    "defaultMessage": "The easiest way to {orderMarketType} {tokenSymbol} on {network}"
+    "defaultMessage": "Nejjednodušší způsob, jak {orderMarketType} {tokenSymbol} na síti {network}"
   },
   "trade.token.seo.description.message": {
-    "defaultMessage": "Discover the optimal way to {orderMarketType} {tokenSymbol} on the {network}. Our platform ensures swift and secure transactions, making {orderMarketType}ing {tokenSymbol} a breeze. Join now for the ultimate trading experience on the {network}!"
+    "defaultMessage": "Objevte ideální způsob, jak {orderMarketType} {tokenSymbol} na síti {network}. Naše platforma zajišťuje rychlé a bezpečné transakce. "
   },
   "trade.type": {
-    "defaultMessage": "Trade type"
+    "defaultMessage": "Typ obchodu"
   },
   "trades": {
-    "defaultMessage": "Trades"
+    "defaultMessage": "Obchody"
   },
   "traits": {
-    "defaultMessage": "Traits"
+    "defaultMessage": "Vlastnosti"
   },
   "transaction.submitted": {
-    "defaultMessage": "Transaction Submitted"
+    "defaultMessage": "Transakce odeslána"
   },
   "transfer": {
-    "defaultMessage": "Transfer"
+    "defaultMessage": "Převod"
   },
   "transfer.amount.symbol": {
-    "defaultMessage": "Transfer {amount} {symbol}"
+    "defaultMessage": "Převést {amount} {symbol}"
   },
   "transfer.nft": {
-    "defaultMessage": "Transfer NFT"
+    "defaultMessage": "Převést NFT"
   },
   "transfering.amount.to.pay": {
-    "defaultMessage": "Transfering amount to pay"
+    "defaultMessage": "Převod částky k zaplacení"
   },
   "try.gain": {
-    "defaultMessage": "Try again"
+    "defaultMessage": "Zkuste to prosím znovu"
   },
   "twitter.username": {
-    "defaultMessage": "Twitter username"
+    "defaultMessage": "Uživatelské jméno Twitteru"
   },
   "unclaimed.supply": {
-    "defaultMessage": "Unclaimed Supply"
+    "defaultMessage": "Nevyzvednuté odměny"
   },
   "unlimited": {
-    "defaultMessage": "Unlimited"
+    "defaultMessage": "Neomezené"
   },
   "unstake": {
-    "defaultMessage": "Unstake"
+    "defaultMessage": "Odstakovat"
   },
   "update": {
-    "defaultMessage": "Update"
+    "defaultMessage": "Aktualizovat"
   },
   "update.form": {
-    "defaultMessage": "Save form"
+    "defaultMessage": "Uložit formulář"
   },
   "update.metadata": {
-    "defaultMessage": "Update metadata"
+    "defaultMessage": "Aktualizace metadat"
   },
   "update.site.metadata": {
-    "defaultMessage": "Update site metadata?"
+    "defaultMessage": "Aktualizovat metadata webu?"
   },
   "updating.app.ranking": {
-    "defaultMessage": "Updating app ranking"
+    "defaultMessage": "Aktualizace žebříčku"
   },
   "updating.app.versions": {
-    "defaultMessage": "Updating app version"
+    "defaultMessage": "Aktualizace verze aplikace"
   },
   "updating.member.permissions": {
-    "defaultMessage": "Updating member permissions"
+    "defaultMessage": "Aktualizace oprávnění člena"
   },
   "updating.user.profile": {
-    "defaultMessage": "Updating user profile"
+    "defaultMessage": "Aktualizace uživatelského profilu"
   },
   "usage.periods": {
-    "defaultMessage": "Usage periods"
+    "defaultMessage": "Období používání"
   },
   "usecases": {
-    "defaultMessage": "Use cases"
+    "defaultMessage": "Případy užití"
   },
   "user.accounts": {
-    "defaultMessage": "User accounts:"
+    "defaultMessage": "Uživatelské účty:"
   },
   "user.contract.form": {
-    "defaultMessage": "User contract form"
+    "defaultMessage": "Formulář uživatelského kontraktu"
   },
   "user.edit": {
-    "defaultMessage": "User Edit"
+    "defaultMessage": "Upravit uživatele"
   },
   "user.event": {
-    "defaultMessage": "User Event"
+    "defaultMessage": "Události uživatele"
   },
   "user.events.analytics": {
-    "defaultMessage": "User events analytics"
+    "defaultMessage": "Analýza událostí uživatele"
   },
   "user.events.analytics.wizard.description": {
-    "defaultMessage": "User events analytics on your app"
+    "defaultMessage": "Analýza událostí uživatele ve Vaší aplikaci"
   },
   "user.login": {
-    "defaultMessage": "User login"
+    "defaultMessage": "Uživatelské přihlášení"
   },
   "user.name.variable": {
-    "defaultMessage": "User: {username}"
+    "defaultMessage": "Uživatel: {username}"
   },
   "user.not.found": {
-    "defaultMessage": "User not found"
+    "defaultMessage": "Uživatel nebyl nalezen"
   },
   "user.profile": {
-    "defaultMessage": "User profile"
+    "defaultMessage": "Uživatelský profil"
   },
   "user.profile.value": {
-    "defaultMessage": "User Profile: {username}"
+    "defaultMessage": "Uživatelský profil: {username}"
   },
   "user.verified.social": {
-    "defaultMessage": "Verified in: {discord} {twitter}"
+    "defaultMessage": "Ověřeno v: {discord} {twitter}"
   },
   "username": {
-    "defaultMessage": "Username"
+    "defaultMessage": "Uživatelské jméno"
   },
   "verify.discord": {
-    "defaultMessage": "Verify Twitter"
+    "defaultMessage": "Ověřit účet Twitteru"
   },
   "version": {
-    "defaultMessage": "Version"
+    "defaultMessage": "Verze"
   },
   "version.added": {
-    "defaultMessage": "Version added"
+    "defaultMessage": "Verze byla přidaná"
   },
   "video.changelog": {
-    "defaultMessage": "Video changelog"
+    "defaultMessage": "Video aktualizace"
   },
   "view.app": {
-    "defaultMessage": "View App"
+    "defaultMessage": "Zobrazit aplikaci"
   },
   "view.apps": {
-    "defaultMessage": "View Apps"
+    "defaultMessage": "Zobrazit aplikace"
   },
   "view.contracts": {
-    "defaultMessage": "View contracts"
+    "defaultMessage": "Zobrazit chytré kontrakty"
   },
   "view.details": {
-    "defaultMessage": "View details"
+    "defaultMessage": "Zobrazit detaily"
   },
   "view.form": {
-    "defaultMessage": "View form"
+    "defaultMessage": "Zobrazit formulář"
   },
   "view.less": {
-    "defaultMessage": "view less"
+    "defaultMessage": "Zobrazit méně"
   },
   "view.more": {
-    "defaultMessage": "view more"
+    "defaultMessage": "Zobrazit více"
   },
   "view.nft": {
-    "defaultMessage": "View NFT"
+    "defaultMessage": "Zobrazit NFT"
   },
   "view.nft.drop": {
-    "defaultMessage": "View nft drop"
+    "defaultMessage": "Zobrazit NFT drop"
   },
   "view.on.explorer": {
-    "defaultMessage": "View on explorer"
+    "defaultMessage": "Zobrazit v průzkumníku blockchainu"
   },
   "view.profile": {
-    "defaultMessage": "View profile"
+    "defaultMessage": "Zobrazit profil"
   },
   "view.public.page": {
-    "defaultMessage": "View public page"
+    "defaultMessage": "Zobrazit veřejnou stránku"
   },
   "view.public.profile": {
-    "defaultMessage": "View public profile"
+    "defaultMessage": "Zobrazit veřejný profil"
   },
   "view.site": {
-    "defaultMessage": "View"
+    "defaultMessage": "Zobrazit stránku"
   },
   "view.site.metadata": {
-    "defaultMessage": "View site metadata"
+    "defaultMessage": "Zobrazit metadata stránky"
   },
   "view.template": {
-    "defaultMessage": "View template"
+    "defaultMessage": "Zobrazit šablonu"
   },
   "view.user.profile": {
-    "defaultMessage": "View user profile"
+    "defaultMessage": "Zobrazit profil uživatele"
   },
   "wait.in.seconds": {
-    "defaultMessage": "Wait in seconds"
+    "defaultMessage": "Počkejte několik vteřin"
   },
   "wait.nft.creation.by.dexkit": {
-    "defaultMessage": "Wait for NFT creation by DexKit"
+    "defaultMessage": "počkejte na vytvoření NFT pomocí DexKitu"
   },
   "waiting.confirmation": {
-    "defaultMessage": "Waiting confirmation"
+    "defaultMessage": "Čekání na potvrzení"
   },
   "wallet.connected.account": {
-    "defaultMessage": "Wallet connected account"
+    "defaultMessage": "Účet připojený k peněžence"
   },
   "wallet.quick.builder": {
-    "defaultMessage": "Wallet quick builder"
+    "defaultMessage": "Rychlá tvorba aplikace peněženky"
   },
   "wallet.section.form.info": {
-    "defaultMessage": "Wallet section don't accepts configs at the moment. In next updates, you will be able to customize buttons and networks"
+    "defaultMessage": "Sekce krypto peněženky momentálně nepřijímá konfigurace. V příštích aktualizacích si budete moci přizpůsobit tlačítka a sítě."
   },
   "wallet.step.theme.info": {
-    "defaultMessage": "Choose wallet app theme and font."
+    "defaultMessage": "Vyberte motiv a písmo aplikace peněženky."
   },
   "warning.color": {
-    "defaultMessage": "Warning Color"
+    "defaultMessage": "Barva varování"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexContracts"
+    "defaultMessage": "DEX Generátor"
   },
   "width.px": {
-    "defaultMessage": "Width (px)"
+    "defaultMessage": "Šířka (px)"
   },
   "withdraw.rewards": {
-    "defaultMessage": "Withdraw Reward"
+    "defaultMessage": "Vybrat odměnu"
   },
   "write": {
-    "defaultMessage": "Write"
+    "defaultMessage": "Psát"
   },
   "you.are.not.eligible.to.mint.at.this.time": {
-    "defaultMessage": "You are not eligible to mint at this time."
+    "defaultMessage": "V tuto chvíli nejste oprávněný mintovat."
   },
   "you.are.not.eligible.to.mint.quantity.tokens": {
-    "defaultMessage": "You are not eligible to mint {quantity} tokens."
+    "defaultMessage": "V tuto chvíli nejste oprávněný mintovat {quantity} tokenů."
   },
   "you.are.not.eligible.to.mint.tokens.quantity.value": {
-    "defaultMessage": "You are not eligible to mint {quantity} tokens."
+    "defaultMessage": "V tuto chvíli nejste oprávněný mintovat {quantity} tokenů."
   },
   "you.are.on.a.network.different.of.the.contract": {
-    "defaultMessage": "You are on a network different of the contract"
+    "defaultMessage": "Jste připojený na jiné síti, než je síť chytrého kontraktu"
   },
   "you.are.using.a.airdrop.claimable.contract": {
-    "defaultMessage": "You are using a airdrop claimable contract"
+    "defaultMessage": "Použiváte chytrý kontrakt s nárokem na airdrop"
   },
   "you.are.using.a.stake.contract": {
-    "defaultMessage": "You are using a stake contract"
+    "defaultMessage": "Používáte chytrý kontrakt určený ke stakingu"
   },
   "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
-    "defaultMessage": "You can deploy contracts from our list and from the community in the future"
+    "defaultMessage": "V budoucnu můžete použít chytré kontrakty z našeho seznamu, nebo komunity"
   },
   "you.do.not.have.enough.balance.for.your.airdrop": {
-    "defaultMessage": "You do not have enough balance for your Airdrop"
+    "defaultMessage": "Pro airop nemáte disponibilní zůstatek"
   },
   "you.dont.have.any.forms": {
-    "defaultMessage": "You don't have any forms yet"
+    "defaultMessage": "Zatím nemáte žádné formuláře"
   },
   "you.dont.have.any.leaderboards": {
-    "defaultMessage": "You don't have any leaderboards yet"
+    "defaultMessage": "Zatím nemáte žádné žebříčky"
   },
   "you.dont.have.enough.currency.to.mint": {
-    "defaultMessage": "You don't have enough currency to mint."
+    "defaultMessage": "Nemáte dostatek prostředků na mint."
   },
   "you.have.changes.unsaved.do.you.want.to.proceed.without.saving": {
-    "defaultMessage": "You have changes unsaved do you want to proceed without saving?"
+    "defaultMessage": "Máte neuložené změny, chcete pokračovat bez uložení?"
   },
   "you.need.at.least.one.network.selected": {
-    "defaultMessage": "You need at least one network selected"
+    "defaultMessage": "Musíte vybrat alespoň jednu síť"
   },
   "you.need.to.approve.tokens.for.airdrop": {
-    "defaultMessage": "You need to approve tokens for airdrop"
+    "defaultMessage": "Pro airdrop musíte schválit tokeny"
   },
   "you.need.to.hold.kit.value": {
-    "defaultMessage": "You need to hold {value} KIT on one of these networks: BSC, ETH, or Polygon to use this feature"
+    "defaultMessage": "Chcete-li použít tuto funkci, musíte mít alespoň {value} tokenů KIT na jedné z těchto sítí: BSC, ETH nebo Polygon"
   },
   "you.still.dont.have.any.records": {
-    "defaultMessage": "You still don't have any records."
+    "defaultMessage": "Stále nemáte žádné záznamy."
   },
   "your.airdrop.balance": {
-    "defaultMessage": "Your airdrop balance"
+    "defaultMessage": "Váš zůstatek airdropu"
   },
   "your.app.domain.was.added.to.our.system": {
-    "defaultMessage": "Your app domain was added to our system. Please add CNAME to your DNS provider and after that check domain status often till propagate"
+    "defaultMessage": "Doména pro Vaši aplikaci byla přidána do našeho systému. Přidejte záznam CNAME u Vašeho poskytovatele DNS a počkejte, než se projeví  změny."
   },
   "your.app.domain.was.verified.to.our.system": {
-    "defaultMessage": "Your app domain was verified on our system. Wait for domain to propagate and then visit your domain."
+    "defaultMessage": "Doména vaší aplikace byla ověřena v našem systému."
   },
   "your.balance": {
-    "defaultMessage": "Your balance"
+    "defaultMessage": "Váš zůstatek"
   },
   "your.collections": {
-    "defaultMessage": "your collections"
+    "defaultMessage": "Vaše kolekce"
   },
   "your.editions": {
-    "defaultMessage": "Your Editions"
+    "defaultMessage": "Vaše edice"
   },
   "your.nft.not.created": {
-    "defaultMessage": "Your NFT were not created"
+    "defaultMessage": "Vaše NFT nebylo vytvořeno"
   },
   "your.nft.were.created": {
-    "defaultMessage": "Your NFT were created"
+    "defaultMessage": "Vaše NFT bylo vytvořeno"
   },
   "your.payment.is.confirmed": {
-    "defaultMessage": "Your payment is confirmed"
+    "defaultMessage": "Vaše platba je potvrzena"
   },
   "your.site.metadata.was.created": {
-    "defaultMessage": "Your site metadata was created"
+    "defaultMessage": "Metadata vašeho webu byla vytvořena"
   },
   "your.site.metadata.was.edited": {
-    "defaultMessage": "Your site metadata was edited"
+    "defaultMessage": "Metadata vašeho webu byla upravena"
   },
   "your.site.metadata.was.not.created": {
-    "defaultMessage": "Your site metadata was not created"
+    "defaultMessage": "Metadata vašeho webu nebyla vytvořena"
   },
   "your.site.metadata.was.not.edited": {
-    "defaultMessage": "Your site metadata was not edited"
+    "defaultMessage": "Metadata vašeho webu nebyla upravena"
   },
   "your.tokens": {
-    "defaultMessage": "Your tokens"
+    "defaultMessage": "Vaše tokeny"
   },
   "your.transaction.requires.10.confirmations.for.full.validation": {
-    "defaultMessage": "Your transaction requires 10 confirmations for full validation"
+    "defaultMessage": "Transakce vyžaduje 10 potvrzení v síti pro její úplné ověření"
   },
   "your.user.profile.was.created": {
-    "defaultMessage": "Your user profile was created"
+    "defaultMessage": "Váš uživatelský profil byl vytvořen"
   },
   "your.user.profile.was.updated": {
-    "defaultMessage": "Your user profile was updated"
+    "defaultMessage": "Váš uživatelský profil byl upravený"
   },
   "youtube.channel": {
-    "defaultMessage": "Youtube channel"
+    "defaultMessage": "Youtube kanál"
   },
   "AI": {
-    "defaultMessage": "AI"
+    "defaultMessage": "Umělá inteligence"
   },
   "activate": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "Aktivovat umělou inteligenci"
   },
   "activate.ai": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "Aktivovat umělou inteligenci"
   },
   "add.credit": {
-    "defaultMessage": "Add Credit"
+    "defaultMessage": "Přidat credit"
   },
   "add.credits": {
-    "defaultMessage": "Add credits"
+    "defaultMessage": "Přidat credits"
   },
   "add.record": {
-    "defaultMessage": "Add record"
+    "defaultMessage": "Přidat záznam"
   },
   "address.or.ens": {
-    "defaultMessage": "Address or ENS"
+    "defaultMessage": "Adresa, nebo ENS"
   },
   "ai.activated": {
-    "defaultMessage": "AI Activated"
+    "defaultMessage": "AI aktivováno"
   },
   "ai.completation": {
-    "defaultMessage": "AI Completation"
+    "defaultMessage": "AI Dokončení"
   },
   "ai.edit": {
-    "defaultMessage": "AI Edit"
+    "defaultMessage": "AI Úprava"
   },
   "ai.generator": {
-    "defaultMessage": "AI Generator"
+    "defaultMessage": "AI Generátor"
   },
   "ai.image.generator": {
-    "defaultMessage": "AI Image Generator"
+    "defaultMessage": "AI generátor obrázků"
   },
   "answer": {
-    "defaultMessage": "Answer:"
+    "defaultMessage": "Odpověď:"
   },
   "billing.and.usage": {
-    "defaultMessage": "Billing & Usage"
+    "defaultMessage": "Fakturace a použití"
   },
   "burn.name.value": {
-    "defaultMessage": "Burn Token \"{tokenName}\""
+    "defaultMessage": "Spálit token \"{tokenName}\""
   },
   "burning": {
-    "defaultMessage": "Burning"
+    "defaultMessage": "Pálení"
   },
   "change.cat.head": {
-    "defaultMessage": "ex. Change cat head"
+    "defaultMessage": "např. změna hlavy"
   },
   "changing.network": {
-    "defaultMessage": "Changing Network"
+    "defaultMessage": "Změna sítě"
   },
   "clear": {
-    "defaultMessage": "Clear"
+    "defaultMessage": "Odstranit"
   },
   "close.anyway": {
-    "defaultMessage": "Close anyway"
+    "defaultMessage": "Zavřít"
   },
   "coin.on.network": {
-    "defaultMessage": "{name} on {network}"
+    "defaultMessage": "{name} na síti {network}"
   },
   "confirming": {
-    "defaultMessage": "Confirming"
+    "defaultMessage": "Potvrzuji"
   },
   "connect.with.email": {
-    "defaultMessage": "Connect with e-mail"
+    "defaultMessage": "Připojit e-mailem"
   },
   "credit.card.soming.soon": {
-    "defaultMessage": "Credit Card (Coming Soon)"
+    "defaultMessage": " Kreditní karta (Již brzy)"
   },
   "cryptocurrency": {
-    "defaultMessage": "Cryptocurrency"
+    "defaultMessage": "Kryptoměna"
   },
   "delete.column": {
-    "defaultMessage": "Delete column"
+    "defaultMessage": "Smazat sloupec"
   },
   "deselect.all": {
-    "defaultMessage": "Deselect All"
+    "defaultMessage": "Zrušit výběr"
   },
   "do.you.really.want.to.edit.this.image": {
-    "defaultMessage": "Do you really want to edit this image?"
+    "defaultMessage": "Opravdu chcete upravit tento obrázek?"
   },
   "edit.column": {
-    "defaultMessage": "Edit column"
+    "defaultMessage": "Upravit sloupec"
   },
   "edit.image.name": {
-    "defaultMessage": "Edit image name"
+    "defaultMessage": "Upravit název obrázku"
   },
   "error.while.burning": {
-    "defaultMessage": "Error while burning"
+    "defaultMessage": "Při pálení došlo k chybě"
   },
   "error.while.generating.images": {
-    "defaultMessage": "Error while generating images"
+    "defaultMessage": "Při generování obrázků došlo k chybě"
   },
   "error.while.transferring": {
-    "defaultMessage": "Error while transferring"
+    "defaultMessage": "Při přenosu došlo k chybě"
   },
   "ex.an.image.of.a.cat": {
-    "defaultMessage": "ex. An image of a cat"
+    "defaultMessage": "např. Obrázek psa"
   },
   "execute": {
-    "defaultMessage": "Execute"
+    "defaultMessage": "Provést"
   },
   "execute.transaction": {
-    "defaultMessage": "Execute transaction"
+    "defaultMessage": "Provést transakci"
   },
   "fix.spelling.and.grammar": {
-    "defaultMessage": "Fix spelling and grammar"
+    "defaultMessage": "Opravte pravopis a gramatiku"
   },
   "gas.cost": {
-    "defaultMessage": "Gas cost"
+    "defaultMessage": "Náklady na gas"
   },
   "gas.price": {
-    "defaultMessage": "Gas price"
+    "defaultMessage": "Cena gas"
   },
   "generate": {
-    "defaultMessage": "Generate"
+    "defaultMessage": "Vygenerovat"
   },
   "generate.image": {
-    "defaultMessage": "Generate image"
+    "defaultMessage": "Vygenerovat obrázek"
   },
   "generate.new.text": {
-    "defaultMessage": "Generate new text"
+    "defaultMessage": "Vygenerovat nový text"
   },
   "generate.variant": {
-    "defaultMessage": "Generate variant"
+    "defaultMessage": "Vygenerovat variantu"
   },
   "generate.variants": {
-    "defaultMessage": "Generate Variants"
+    "defaultMessage": "Vygenerovat varianty"
   },
   "generating": {
-    "defaultMessage": "Generating"
+    "defaultMessage": "Generování"
   },
   "generating.variants": {
-    "defaultMessage": "Generating Variants"
+    "defaultMessage": "Generování variant"
   },
   "hide.form.info": {
-    "defaultMessage": "Hide form info"
+    "defaultMessage": "Skrýt informace o formuláři"
   },
   "images.generated": {
-    "defaultMessage": "Images generated"
+    "defaultMessage": "Vygenerované obrázky"
   },
   "images.notGenerated": {
-    "defaultMessage": "You haven't generated any images yet. Start generating images now to make the most out of our service."
+    "defaultMessage": "Zatím jste nevygenerovali žádné obrázky. Začněte generovat obrázky teď."
   },
   "improve.writing": {
-    "defaultMessage": "Improve writing"
+    "defaultMessage": "Zlepšit psaní"
   },
   "invalid address": {
-    "defaultMessage": "Invalid address"
+    "defaultMessage": "Neplatná adresa"
   },
   "invalid.file.column.column.is.missing": {
-    "defaultMessage": "Invalid file: column {column} is missing"
+    "defaultMessage": "Neplatný soubor: chybí sloupec {column}"
   },
   "least.recent": {
-    "defaultMessage": "Least recent"
+    "defaultMessage": "Nedávné"
   },
   "make.longer": {
-    "defaultMessage": "Make longer"
+    "defaultMessage": "Udělat delší"
   },
   "make.shorter": {
-    "defaultMessage": "Make shorter"
+    "defaultMessage": "Udělat kratší"
   },
   "max.fee": {
-    "defaultMessage": "Max fee"
+    "defaultMessage": "Maximální poplatek"
   },
   "max.priority.fee": {
-    "defaultMessage": "Max priority fee"
+    "defaultMessage": "Maximální prioritní poplatek"
   },
   "message.you.are.signing": {
-    "defaultMessage": "Message you are signing"
+    "defaultMessage": "Zpráva, kterou podepisujete"
   },
   "mint.token.value": {
-    "defaultMessage": "Mint token \"{tokenName}\""
+    "defaultMessage": "Mintovat token \"{tokenName}\""
   },
   "most.recent": {
-    "defaultMessage": "Most recent"
+    "defaultMessage": "Nejnovější"
   },
   "network.value": {
     "defaultMessage": "{network}"
   },
   "no.credits": {
-    "defaultMessage": "No Credits"
+    "defaultMessage": "Žádné credits"
   },
   "no.images": {
-    "defaultMessage": "No Images"
+    "defaultMessage": "Žádné obrázky"
   },
   "nonce": {
-    "defaultMessage": "Nonce"
+    "defaultMessage": "Nikdy"
   },
   "not.enough.balance": {
-    "defaultMessage": "Not enough balance"
+    "defaultMessage": "Nedostatečný zůstatek"
   },
   "notifications": {
-    "defaultMessage": "Notifications",
+    "defaultMessage": "Oznámení",
     "description": "Notifications"
   },
   "num.of.images": {
-    "defaultMessage": "Num. of Images"
+    "defaultMessage": "Počet obrázků"
   },
   "num.of.variant": {
-    "defaultMessage": "Num of variants"
+    "defaultMessage": "Počet variant"
   },
   "num.of.variants": {
-    "defaultMessage": "Num. of variants"
+    "defaultMessage": "Počet variant"
   },
   "original.image": {
-    "defaultMessage": "Original image"
+    "defaultMessage": "Originální obrázek"
   },
   "owned.by.owner": {
-    "defaultMessage": "Owned by {owner}"
+    "defaultMessage": "Vlastník: {owner}"
   },
   "payment.confirmation.message": {
-    "defaultMessage": "Please wait for 10 confirmations for payment recognition."
+    "defaultMessage": "Počkejte prosím na 10 potvrzení na síti blockchainu pro akceptaci platby."
   },
   "payment.method": {
-    "defaultMessage": "Payment method"
+    "defaultMessage": "Způsob úhrady"
   },
   "prompt": {
-    "defaultMessage": "Prompt"
+    "defaultMessage": "Příkaz"
   },
   "receive.on.network.value": {
-    "defaultMessage": "Receive on {network}"
+    "defaultMessage": "Přijmout na síti {network}"
   },
   "receiver": {
-    "defaultMessage": "Receiver"
+    "defaultMessage": "Příjemce"
   },
   "reject": {
-    "defaultMessage": "Reject"
+    "defaultMessage": "Odmítnout"
   },
   "request.sent.successfully": {
-    "defaultMessage": "Request sent successfully"
+    "defaultMessage": "Žádost byla úspěšně odeslána"
   },
   "save.column": {
-    "defaultMessage": "Save column"
+    "defaultMessage": "Uložit sloupec"
   },
   "save.generated.images": {
-    "defaultMessage": "Save generated images?"
+    "defaultMessage": "Uložit vygenerované obrázky?"
   },
   "saved": {
-    "defaultMessage": "Saved"
+    "defaultMessage": "Uložené"
   },
   "send.amount": {
-    "defaultMessage": "Send amount"
+    "defaultMessage": "Odeslat částku"
   },
   "sending.request": {
-    "defaultMessage": "Sending request"
+    "defaultMessage": "Odeslání žádosti"
   },
   "sent.to": {
-    "defaultMessage": "Sent to"
+    "defaultMessage": "Odesláno"
   },
   "share.receive.request": {
-    "defaultMessage": "Share receive request"
+    "defaultMessage": "Sdílet žádost o platbu"
   },
   "sign": {
-    "defaultMessage": "Sign"
+    "defaultMessage": "Podepsat"
   },
   "sort.by": {
-    "defaultMessage": "Sort by"
+    "defaultMessage": "Seřadit podle"
+  },
+  "sort.newest": {
+    "defaultMessage": "Nejnovější"
+  },
+  "sort.oldest": {
+    "defaultMessage": "Nejstarší"
+  },
+  "sort.most.modified": {
+    "defaultMessage": "Nejvíce upravené"
+  },
+  "sort.least.modified": {
+    "defaultMessage": "Nejméně upravené"
+  },
+  "sort.name.asc": {
+    "defaultMessage": "Název A-Z"
+  },
+  "sort.name.desc": {
+    "defaultMessage": "Název Z-A"
   },
   "switch.to.network.value": {
-    "defaultMessage": "Switch to {networkName} network"
+    "defaultMessage": " Přepnout na síť {networkName}"
   },
   "the.maximum.is.95": {
-    "defaultMessage": "the maximum is 95"
+    "defaultMessage": "maximum je 95"
   },
   "the.minimum.is.five": {
-    "defaultMessage": "the minimum is 5"
+    "defaultMessage": "minimum je 5"
   },
   "transaction.failed.reason": {
-    "defaultMessage": "Transaction failed"
+    "defaultMessage": "Transakce selhala"
   },
   "transfer.name.value": {
-    "defaultMessage": "Transfer NFT {nftName}"
+    "defaultMessage": "Převést NFT {nftName}"
   },
   "transferring": {
-    "defaultMessage": "Transferring"
+    "defaultMessage": "Probíhá převod"
   },
   "unlock.the.power.of.artificial.intelligence.by.activating.it": {
-    "defaultMessage": "Unlock the power of artificial intelligence by activating it"
+    "defaultMessage": "Aktivujte umělou inteligenci a objevte její potenciál"
   },
   "use": {
-    "defaultMessage": "use"
+    "defaultMessage": "Použít"
   },
   "use.as.prompt": {
-    "defaultMessage": "use as prompt"
+    "defaultMessage": "Použít jako příkaz"
   },
   "validating": {
-    "defaultMessage": "Validating"
+    "defaultMessage": "Ověřování"
   },
   "validating.ens": {
-    "defaultMessage": "Validating ENS name"
+    "defaultMessage": "Ověřování ENS"
   },
   "variants": {
-    "defaultMessage": "Variants"
+    "defaultMessage": "Varianty"
   },
   "waiting.payment": {
-    "defaultMessage": "Waiting payment"
+    "defaultMessage": "Čekání na platbu"
   },
   "you.are.not.the.owner.of.this.NFT": {
-    "defaultMessage": "You are not the owner of this NFT"
+    "defaultMessage": "Nejste vlastníkem tohoto NFT"
   },
   "you.cant.use.the.connected.account.to.burn": {
-    "defaultMessage": "You can't use the connected account to burn"
+    "defaultMessage": "Propojený účet nelze použít ke spálení"
   },
   "you.cant.use.the.connected.account.to.transfer": {
-    "defaultMessage": "You can't use the connected to transfer"
+    "defaultMessage": "Přihlášený účet nelze použít k převodu"
   },
   "you.need.to.add.credits.to.use.ai.features": {
-    "defaultMessage": "You need to add credits to use AI features"
+    "defaultMessage": "Chcete-li používat funkce AI, musíte dobít kredity"
   },
   "you.own.nfts": {
-    "defaultMessage": "You own {balance} NFTs"
+    "defaultMessage": "Vlastníte {balance} NFTs"
   },
   "your.request.was.sent.successfully": {
-    "defaultMessage": "Your request was sent successfully"
+    "defaultMessage": "Vaše žádost byla úspěšně odeslána"
   },
   "24h.volume": {
-    "defaultMessage": "24h volume"
+    "defaultMessage": "Objem (24h)"
   },
   "24h.volume.amount": {
-    "defaultMessage": "24h volume: {amount}"
+    "defaultMessage": "Objem (24h): {amount}"
   },
   "Less": {
-    "defaultMessage": "Less"
+    "defaultMessage": "Méně"
   },
   "No.networks.selected": {
-    "defaultMessage": "No networks selected"
+    "defaultMessage": "Nebyly vybrané žádné sítě"
   },
   "You will.receive": {
-    "defaultMessage": "You will receive"
+    "defaultMessage": "Obdržíte"
   },
   "amount.per.token": {
-    "defaultMessage": "Amount per token"
+    "defaultMessage": "Částka za token"
   },
   "approve.token.symbol": {
-    "defaultMessage": "Approve {tokenSymbol} on wallet"
+    "defaultMessage": "Povolit {tokenSymbol} v pěněžence"
   },
   "available": {
-    "defaultMessage": "Available"
+    "defaultMessage": "Dostupné"
   },
   "available.balance.amount.symbol": {
-    "defaultMessage": "Available balance: {amount} {symbol}"
+    "defaultMessage": "Dostupný zůstatek: {amount} {symbol}"
   },
   "base.token": {
-    "defaultMessage": "Base token"
+    "defaultMessage": "Výchozí token"
   },
   "buy.symbol": {
-    "defaultMessage": "Buy {symbol}"
+    "defaultMessage": "Koupit {symbol}"
   },
   "buy.token.symbol": {
-    "defaultMessage": "Buy {tokenSymbol}"
+    "defaultMessage": "Koupit {tokenSymbol}"
   },
   "choose.the.networks.that.your.exchange.will.be.enabled": {
-    "defaultMessage": "Choose the networks that your exchange will be enabled"
+    "defaultMessage": "Vyberte sítě, které budou ve Vaší aplikaci povolené"
   },
   "cost": {
-    "defaultMessage": "Cost"
+    "defaultMessage": "Cena"
   },
   "define.the.tokens.and.the.default.pair.for.this.network": {
-    "defaultMessage": "Define the tokens and the default pair for this network"
+    "defaultMessage": "Definujte tokeny a výchozí pár tokenů pro tuto síť"
   },
   "edit.networks": {
-    "defaultMessage": "Edit Networks"
+    "defaultMessage": "Upravit sítě"
   },
   "expire": {
-    "defaultMessage": "Expire"
+    "defaultMessage": "Expirace"
   },
   "fee.amount": {
-    "defaultMessage": "Fee amount"
+    "defaultMessage": "Výše poplatku"
   },
   "fee.recipient.address": {
-    "defaultMessage": "Fee recipient address"
+    "defaultMessage": "Adresa příjemce poplatku"
   },
   "fill.amount": {
-    "defaultMessage": "Fill amount"
+    "defaultMessage": "Vyplňte množství"
   },
   "fill.amount.per.token": {
-    "defaultMessage": "Fill amount per token"
+    "defaultMessage": "Vyplňte množství za token"
   },
   "fill.order": {
-    "defaultMessage": "Fill Order"
+    "defaultMessage": "Vyplňte objednávku"
   },
   "fillable.amount": {
-    "defaultMessage": "Fillable amount"
+    "defaultMessage": "Plnitelné množství"
   },
   "insufficient": {
-    "defaultMessage": "Insufficient {symbol}"
+    "defaultMessage": "Nedostatečné množství {symbol}"
   },
   "insufficient.symbol": {
-    "defaultMessage": "insufficient {symbol}"
+    "defaultMessage": "Nedostatečné množství {symbol}"
   },
   "last.price": {
-    "defaultMessage": "Last price"
+    "defaultMessage": "Poslední cena"
   },
   "last.price.amount": {
-    "defaultMessage": "Last price: {amount}"
+    "defaultMessage": "Poslední cena: {amount}"
   },
   "limit": {
     "defaultMessage": "Limit"
   },
   "loading.quote": {
-    "defaultMessage": "Loading quote..."
+    "defaultMessage": "Načítání cenové nabídky..."
   },
   "market": {
-    "defaultMessage": "Market"
+    "defaultMessage": "Trh"
   },
   "market.cap.amount": {
-    "defaultMessage": "Market Cap: {amount}"
+    "defaultMessage": "Tržní kapitalizace: {amount}"
   },
   "market.settings": {
-    "defaultMessage": "Market Settings"
+    "defaultMessage": "Nastavení trhu"
   },
   "max.slippage.is.value.percent": {
-    "defaultMessage": "Max slippage is 50 percent"
+    "defaultMessage": "Maximální proklouznutí je 50%"
   },
   "more": {
-    "defaultMessage": "More"
+    "defaultMessage": "Více"
   },
   "my.orders": {
-    "defaultMessage": "My Orders"
+    "defaultMessage": "Moje objednávky"
   },
   "native.coins.are.not.supported.on.limit.orders": {
-    "defaultMessage": "Native coins are not supported on limited orders"
+    "defaultMessage": "Nativní mince (např. ETH) nejsou podporované pro limitní objednávky."
   },
   "order.created.message": {
-    "defaultMessage": "Order created"
+    "defaultMessage": "Objednávka vytvořena"
   },
   "order.failed": {
-    "defaultMessage": "Order failed"
+    "defaultMessage": "Objednávka selhala"
   },
   "place.order": {
-    "defaultMessage": "Place Order"
+    "defaultMessage": "Zadat objednávku"
   },
   "please.switch.to.networks": {
-    "defaultMessage": "Please, switch to {networks}"
+    "defaultMessage": "Prosím, přepněte na síť {networks}"
   },
   "please.use.wrapped.version.of.native.token": {
-    "defaultMessage": "Please use wrapped version of native token"
+    "defaultMessage": "Použijte prosím zabalenou verzi nativní mince (např. WETH)"
   },
   "price.change.24h": {
-    "defaultMessage": "Price Change 24h"
+    "defaultMessage": "Změna ceny (24h)"
   },
   "price.change.24h.amount": {
-    "defaultMessage": "Price Change 24h: {amount}"
+    "defaultMessage": "Změna ceny (24h): {amount}"
   },
   "quote.token": {
-    "defaultMessage": "Quote token"
+    "defaultMessage": "Nabídka tokenu"
   },
   "quote.tokens": {
-    "defaultMessage": "Quote tokens"
+    "defaultMessage": "Nabídka tokenů"
   },
   "review.order": {
-    "defaultMessage": "Review Order"
+    "defaultMessage": "Zkontrolovat objednávku"
   },
   "search.for.a.token.by.name.symbol.and.address": {
-    "defaultMessage": "Search for a token by name, symbol and address"
+    "defaultMessage": "Vyhledejte token podle jména, symbolu a nebo adresy chytrého kontraktu"
   },
   "select.a.pair": {
-    "defaultMessage": "Select a pair"
+    "defaultMessage": "Vyberte pár"
   },
   "select.networks": {
-    "defaultMessage": "Select networks"
+    "defaultMessage": "Vyberte sítě"
   },
   "select.tokens": {
-    "defaultMessage": "Select tokens"
+    "defaultMessage": "Vyberte tokeny"
   },
   "selecte.a.pair": {
-    "defaultMessage": "Select a pair"
+    "defaultMessage": "Vyberte pár"
   },
   "sell.symbol": {
-    "defaultMessage": "Sell {symbol}"
+    "defaultMessage": "Prodat {symbol}"
   },
   "sell.token.symbol": {
-    "defaultMessage": "Sell {tokenSymbol}"
+    "defaultMessage": "Prodat {tokenSymbol}"
   },
   "show.swaps": {
-    "defaultMessage": "Show Swaps"
+    "defaultMessage": "Zobrazit swapy"
   },
   "side": {
-    "defaultMessage": "Side"
+    "defaultMessage": "Strana"
   },
   "size": {
-    "defaultMessage": "Size"
+    "defaultMessage": "Velikost"
   },
   "the.base.token.is.required.on.chain": {
-    "defaultMessage": "The quote token is required on {chainName}"
+    "defaultMessage": "Token nabídky je vyžadován na síti {chainName}"
   },
   "the.max.fee.is.ten.percent": {
-    "defaultMessage": "The max fee is 10%"
+    "defaultMessage": "Maximální poplatek je 10%"
   },
   "there.are.no.orders.to.show": {
-    "defaultMessage": "There are no orders to show"
+    "defaultMessage": "Nejsou zde žádné objednávky k zobrazení"
   },
   "trade": {
-    "defaultMessage": "Trade"
+    "defaultMessage": "Obchodovat"
   },
   "unsupported.network": {
-    "defaultMessage": "Unsupported Network"
+    "defaultMessage": "Síť není podporovaná"
   },
   "you.are.buying": {
-    "defaultMessage": "You are buying"
+    "defaultMessage": "Kupujete"
   },
   "you.are.selling": {
-    "defaultMessage": "You are selling"
+    "defaultMessage": "Prodáváte"
   },
   "your.wallet.is.not.connected": {
-    "defaultMessage": "Your wallet is not connected"
+    "defaultMessage": "Vaše peněženka není připojena"
   },
   "Unwrap": {
-    "defaultMessage": "Unwrap"
+    "defaultMessage": "Rozbalit"
   },
   "buy.crypto": {
-    "defaultMessage": "Buy Crypto"
+    "defaultMessage": "Koupit kryptoměny"
   },
   "buy.crypto.with.transak": {
-    "defaultMessage": "Buy crypto with Transak"
+    "defaultMessage": "Koupit kryptoměny přes Transak"
   },
   "gas.gas": {
-    "defaultMessage": "Gas: {gas} Gwei"
+    "defaultMessage": "Plyn: {gas} Gwei"
   },
   "insufficient.symbol.balance": {
-    "defaultMessage": "Insufficient {symbol} balance"
+    "defaultMessage": "Nedostatečný zůstatek {symbol}"
   },
   "network.not.supported.msg": {
-    "defaultMessage": "Network not supported. Please change to a supported network: {networks}"
+    "defaultMessage": "Síť není podporovaná. Změňte prosím na podporovanou síť: {networks}"
   },
   "network_not_supported": {
-    "defaultMessage": "Network not supported"
+    "defaultMessage": "Síť není podporovaná"
   },
   "no.coins": {
-    "defaultMessage": "No coins"
+    "defaultMessage": "Žádné mince"
   },
   "no.coins.found": {
-    "defaultMessage": "No coins found"
+    "defaultMessage": "Nebyly nalezeny žádné mince"
   },
   "powered.by.dexkit": {
-    "defaultMessage": "Powered by {dexkit}"
+    "defaultMessage": "Používá technologii {dexkit}"
   },
   "price.impact": {
-    "defaultMessage": "Price impact"
+    "defaultMessage": "Cenový dopad"
   },
   "price.impact.swap.message.info": {
-    "defaultMessage": "Price impact refers to the fluctuation in the price of a coin that happens when a trade takes place. When the price impact is high, it can sometimes lead to buying coins at a price lower than what was initially expected."
+    "defaultMessage": "Cenový dopad znamená kolísání ceny, ke kterému dochází běhěm swapu. Když je dopad na cenu vysoký, může to vést k nákupu mincí za nižší cenu, než se původně očekávalo."
   },
   "recent": {
-    "defaultMessage": "Recent"
+    "defaultMessage": "Nedávné"
   },
   "search.for.a.coin.by.name.symbol.and.address": {
-    "defaultMessage": "Search for a coin by name, symbol and address"
+    "defaultMessage": "Vyhledejte token podle jména, symbolu a nebo adresy chytrého kontraktu"
   },
   "select.token": {
-    "defaultMessage": "Select token"
+    "defaultMessage": "Vyberte token"
   },
   "swap.tokens": {
-    "defaultMessage": "Swap Tokens"
+    "defaultMessage": "Swapnout tokeny"
   },
   "switch.wallet.network": {
-    "defaultMessage": "Switch wallet to {networkName}"
+    "defaultMessage": "Přepnout peněženku na síť {networkName}"
   },
   "token.balance": {
-    "defaultMessage": "balance: {balance}"
+    "defaultMessage": "Zůstatek: {balance}"
   },
   "transaction.rejected": {
-    "defaultMessage": "Transaction rejected"
+    "defaultMessage": "Transakce byla zamítnuta"
   },
   "wrap": {
-    "defaultMessage": "Wrap"
+    "defaultMessage": "Zabalit"
   },
   "you.send": {
-    "defaultMessage": "You send"
+    "defaultMessage": "Odešlete"
   },
   "Analytics": {
     "defaultMessage": "Analytika"
@@ -3103,7 +3118,7 @@
     "defaultMessage": "ID"
   },
   "Listing": {
-    "defaultMessage": "Listing"
+    "defaultMessage": "Seznam"
   },
   "Network": {
     "defaultMessage": "Síť",
@@ -3142,13 +3157,13 @@
     "defaultMessage": "Přidat kolekci"
   },
   "add.collection.to.your.marketplace": {
-    "defaultMessage": "Přidat kolekci na tržiště"
+    "defaultMessage": "Přidat kolekci do tržiště"
   },
   "add.custom.section": {
     "defaultMessage": "Přidat vlastní sekci"
   },
   "add.fee": {
-    "defaultMessage": "Upravit poplatek"
+    "defaultMessage": "Přidat poplatek"
   },
   "add.fees.to.your.marketplace": {
     "defaultMessage": "Přidejte poplatky do svého tržiště"
@@ -3169,20 +3184,20 @@
     "defaultMessage": "Přidat sekci"
   },
   "admin": {
-    "defaultMessage": "Admin"
+    "defaultMessage": "Správce"
   },
   "advanced": {
     "defaultMessage": "Pokročilé",
     "description": "Make listing advanced accordion"
   },
   "advanced.info": {
-    "defaultMessage": "Pouze adresy peněženek vložené níže můžou koupit tuhle nabídku. Nechejte prázdné, pokud chcete nabídku dostupnou pro všechny peněženky."
+    "defaultMessage": "Pouze adresy peněženek, které vložíte níže můžou koupit toto NFT. Nechejte prázdné, pokud chcete nabídku nechat dostupnou pro všechny."
   },
   "analytics": {
     "defaultMessage": "Analytika"
   },
   "and.made.with.love.by": {
-    "defaultMessage": "and made with ❤️ by",
+    "defaultMessage": "Vytvořeno s ❤️ od",
     "description": "and made with ❤️ by"
   },
   "approve.asset.description": {
@@ -3200,17 +3215,17 @@
     "description": "Approve collection for listing"
   },
   "asset": {
-    "defaultMessage": "Asset"
+    "defaultMessage": "Aktiva"
   },
   "asset.will.be.added.to.favorites": {
-    "defaultMessage": "Tento asset bude přidán mezi Vaše oblíbené"
+    "defaultMessage": "Toto NFT bude přidané mezi Vaše oblíbené"
   },
   "attributes": {
     "defaultMessage": "Atributy",
     "description": "Attributes accordion"
   },
   "auto.slippage": {
-    "defaultMessage": "Auto Slippage"
+    "defaultMessage": "Automatické proklouznutí"
   },
   "available.balance": {
     "defaultMessage": "Dostupný zůstatek"
@@ -3225,13 +3240,13 @@
     "defaultMessage": "Zůstatek"
   },
   "boost.number": {
-    "defaultMessage": "Boost Number"
+    "defaultMessage": "Číslo zvýšení"
   },
   "boost.percentage": {
-    "defaultMessage": "Boost Percentage"
+    "defaultMessage": "Procenta navýšení"
   },
   "browser.not.support.video.tage": {
-    "defaultMessage": "Váš prohlížeč nepodporuje video tag"
+    "defaultMessage": "Váš prohlížeč nepodporuje video tagy"
   },
   "button.title": {
     "defaultMessage": "Název tlačítka"
@@ -3268,7 +3283,7 @@
     "defaultMessage": "Zrušit"
   },
   "cancel.listing": {
-    "defaultMessage": "Zrušit nabídku"
+    "defaultMessage": "Zrušit prodejní nabídku"
   },
   "cancel.order": {
     "defaultMessage": "Zrušit nabídku pro {collectionName} #{id}",
@@ -3284,7 +3299,7 @@
     "defaultMessage": "ID Blockchainu"
   },
   "check.deploy.status": {
-    "defaultMessage": "Zkontrolujte stav nasazení"
+    "defaultMessage": "Zkontrolujte stav"
   },
   "checked.successfully": {
     "defaultMessage": "Úspěšně zkontrolováno"
@@ -3293,7 +3308,7 @@
     "defaultMessage": "Kontroluji doménu"
   },
   "choose.collections.to.show": {
-    "defaultMessage": "Vyberte kolekce, které chcete zobrazit na svém tržišti"
+    "defaultMessage": "Vyberte kolekce, které chcete zobrazit na Vašem NFT tržišti"
   },
   "choose.your.theme": {
     "defaultMessage": "Zvolte motiv"
@@ -3302,7 +3317,13 @@
     "defaultMessage": "Vymazat vše"
   },
   "clear.filters": {
-    "defaultMessage": "Vymažte filtry pro zobrazení NFTs"
+    "defaultMessage": "Pro zobrazení NFTs vymažte filtry "
+  },
+  "clear.filters.button": {
+    "defaultMessage": "Vymazat filtry"
+  },
+  "results.count": {
+    "defaultMessage": "{count} webů nalezeno"
   },
   "clear.transactions": {
     "defaultMessage": "Vymazat transakce",
@@ -3318,7 +3339,7 @@
     "defaultMessage": "Zavřít"
   },
   "close.modal": {
-    "defaultMessage": "Zavřít modal"
+    "defaultMessage": "Zavřít vyskakovacá okno"
   },
   "cname": {
     "defaultMessage": "CNAME"
@@ -3438,7 +3459,7 @@
     "defaultMessage": "Vytvořit podnabídku"
   },
   "create.yout.marketplace": {
-    "defaultMessage": "Vytvořte svůj Marketplace"
+    "defaultMessage": "Vytvořte svoje NFT tržiště"
   },
   "created.by": {
     "defaultMessage": "Vytvořil"
@@ -3486,7 +3507,7 @@
     "defaultMessage": "Datum"
   },
   "decimals": {
-    "defaultMessage": "Decimals"
+    "defaultMessage": "Desetiny"
   },
   "default": {
     "defaultMessage": "Výchozí"
@@ -3650,7 +3671,7 @@
     "defaultMessage": "Externí"
   },
   "favicon": {
-    "defaultMessage": "Favicon"
+    "defaultMessage": "Oblíbený symbol"
   },
   "favorite": {
     "defaultMessage": "Oblíbené"
@@ -3691,13 +3712,13 @@
     "defaultMessage": "Všeobecné informace"
   },
   "generic": {
-    "defaultMessage": "Obecný"
+    "defaultMessage": "Obecné"
   },
   "google.analytics.example.tag": {
     "defaultMessage": "Ukázka tagu: G-LWRHJH7JLF"
   },
   "google.analytics.tag": {
-    "defaultMessage": "Google analytics tag"
+    "defaultMessage": "Google analytická značka"
   },
   "hide": {
     "defaultMessage": "Skrýt"
@@ -3712,7 +3733,7 @@
     "defaultMessage": "Id"
   },
   "image.deleted": {
-    "defaultMessage": "Obrázek odstraněn"
+    "defaultMessage": "Obrázek byl odstraněn"
   },
   "image.url": {
     "defaultMessage": "URL Obrázku"
@@ -3731,22 +3752,22 @@
     "description": "Import token dialog title"
   },
   "import.token.lists": {
-    "defaultMessage": "Importovat seznamy tokenů"
+    "defaultMessage": "Importovat seznam tokenů"
   },
   "info.create.collection.dialog": {
-    "defaultMessage": "Neobnovujte aplikaci a nezavírejte modal, dokud nebude dokončeno odesílání dat!"
+    "defaultMessage": "Neobnovujte stránku a nezavírejte vyskakovací okno, dokud nebude dokončeno odesílání dat!"
   },
   "info.create.nfts": {
-    "defaultMessage": "Pro vytvoření NFT je nezbytný název a obrázek. Při vytváření počkejte, může to chvíli trvat!"
+    "defaultMessage": "Pro vytvoření NFT je nutné zadat název a zvolit obrázek. Při vytváření počkejte, může to chvíli trvat!"
   },
   "info.create.nfts.dialog": {
-    "defaultMessage": "Neobnovujte aplikaci a nezavírejte modal, dokud nebude dokončeno odesílání dat!"
+    "defaultMessage": "Neobnovujte aplikaci a nezavírejte vyskakovací okno, dokud nebude dokončeno odesílání dat!"
   },
   "info.edit.nft.dialog": {
-    "defaultMessage": "Neobnovujte aplikaci a nezavírejte modal, dokud nebude dokončeno odesílání dat!"
+    "defaultMessage": "Neobnovujte aplikaci a nezavírejte vyskakovací okno, dokud nebude dokončeno odesílání dat!"
   },
   "info.wizard.content.cname": {
-    "defaultMessage": "Nasaďte doménu. První se ujistěte, že vaše doména nepoužívá jiné záznamy. Po úspěšném přidání domény do našeho systému obdržíte záznamy A a CNAME, které přidáte do DNS u svého registrátora. Po přidání záznamů A a CNAME klikněte na tlačítko zkonzrolovat stav. Pokud je stav OVĚŘEN, máte tržiště nasazeno na vlastní doméně. Pokud používáte subdoménu, nezapomeňte nahradit @ s hodnotou subdomény. V případě nejasností kontaktujte podporu."
+    "defaultMessage": "Nasaďte vlastní doménu. První se ujistěte, že vaše doména nepoužívá jiné záznamy. Po úspěšném přidání domény do našeho systému obdržíte záznamy A a CNAME, které přidáte do DNS u svého registrátora. Po přidání záznamů A a CNAME klikněte na tlačítko zkonzrolovat stav. Pokud je stav OVĚŘEN, je vše v pořádku. Pokud používáte subdoménu, nezapomeňte nahradit @ s hodnotou subdomény. V případě potřeby kontaktujte podporu."
   },
   "info.wizard.title.domain.records.setup": {
     "defaultMessage": "Informace o nastavení záznamů domény"
@@ -3764,7 +3785,7 @@
     "defaultMessage": "Neplatná cena"
   },
   "is.powered.by": {
-    "defaultMessage": "is powered by",
+    "defaultMessage": "Používá technologii",
     "description": "is powered by"
   },
   "item.type": {
@@ -3798,11 +3819,11 @@
     "defaultMessage": "Odpojit peněženku"
   },
   "make.offer": {
-    "defaultMessage": "Vytvořit nabídku",
+    "defaultMessage": "Vytvořit nabídku k nákupu",
     "description": "Make Offer"
   },
   "make.token.available.on.the.marketplace": {
-    "defaultMessage": "Zpřístupněte token na tržišti"
+    "defaultMessage": "Povolte token na tržišti"
   },
   "market.cap": {
     "defaultMessage": "Tržní kapitalizace"
@@ -3838,10 +3859,10 @@
     "defaultMessage": "Menu"
   },
   "move.section.down": {
-    "defaultMessage": "Přesunout sekci dolů"
+    "defaultMessage": "Posunout sekci dolů"
   },
   "move.section.up": {
-    "defaultMessage": "Přesunout sekci nahoru"
+    "defaultMessage": "Posunout sekci nahoru"
   },
   "name": {
     "defaultMessage": "Název"
@@ -3898,7 +3919,7 @@
     "defaultMessage": "NFTs nenalezeny"
   },
   "no.available.offers": {
-    "defaultMessage": "Žádné dostupné nabídky",
+    "defaultMessage": "Žádné dostupné nabídky kupujících",
     "description": "No Available offers message"
   },
   "no.hidden.nfts.found": {
@@ -3908,22 +3929,22 @@
     "defaultMessage": "Nebyly nalezeny žádné obrázky s tímto názvem"
   },
   "no.listings.yet": {
-    "defaultMessage": "Zatím žádné nabídky"
+    "defaultMessage": "Zatím zde nejsou žádné nabídky prodávajících"
   },
   "no.nfts.found": {
     "defaultMessage": "Nebyly nalezeny žádné NFTs"
   },
   "no.offers.yet": {
-    "defaultMessage": "Zatím žádné nabídky"
+    "defaultMessage": "Zatím žádné nabídky kupujících"
   },
   "no.orders.found": {
-    "defaultMessage": "Nebyly nalezeny žádné objednávky"
+    "defaultMessage": "Nebyly nalezeny žádné nákupní objednávky"
   },
   "no.tokens": {
     "defaultMessage": "Žádné tokeny"
   },
   "not.deployed": {
-    "defaultMessage": "Nenasazeno"
+    "defaultMessage": "Nespuštěno"
   },
   "not.verified": {
     "defaultMessage": "Neověřeno"
@@ -3941,7 +3962,7 @@
     "defaultMessage": "Nabídky"
   },
   "oops.nothing.here": {
-    "defaultMessage": "Jejda! Tady nic není"
+    "defaultMessage": "Jejda! Nic tu není"
   },
   "oops.something.went.wrong": {
     "defaultMessage": "Jejda! Něco se pokazilo"
@@ -3953,10 +3974,10 @@
     "defaultMessage": "Nebo"
   },
   "order": {
-    "defaultMessage": "Objednávka"
+    "defaultMessage": "Nákupní objednávka"
   },
   "order.created": {
-    "defaultMessage": "Objednávka #{id} byla vytvořena"
+    "defaultMessage": "Nákupní objednávka #{id} byla vytvořena"
   },
   "owned.by": {
     "defaultMessage": "Vlastník"
@@ -3971,13 +3992,13 @@
     "defaultMessage": "Náhled stránky {title}"
   },
   "page.template.removed": {
-    "defaultMessage": "Šablona stránky odstraněna"
+    "defaultMessage": "Šablona stránky byla odstraněna"
   },
   "page.templates": {
     "defaultMessage": "Šablony stránek"
   },
   "page.wizard": {
-    "defaultMessage": "Průvodce stránek"
+    "defaultMessage": "Průvodce"
   },
   "pages": {
     "defaultMessage": "Stránky"
@@ -3989,7 +4010,7 @@
     "defaultMessage": "Pro odstranění obrázku se přihlaste pomocí své peněženky"
   },
   "please.sign.the.settings.with.your.wallet": {
-    "defaultMessage": "Potvrďte nastavení svojí peněženkou"
+    "defaultMessage": "Potvrďte nastavení ve Vaší peněžence"
   },
   "please.try.again.later": {
     "defaultMessage": "Zkuste to znovu později"
@@ -4047,7 +4068,7 @@
     "defaultMessage": "Odstranit sekci"
   },
   "royalty.percentage": {
-    "defaultMessage": "Royalty (%)"
+    "defaultMessage": "Licenční poplatek (%)"
   },
   "save": {
     "defaultMessage": "Uložit"
@@ -4108,27 +4129,27 @@
     "description": "select network dialog title"
   },
   "select.tokens.for.your.marketplace": {
-    "defaultMessage": "Vyberte tokeny pro své tržiště"
+    "defaultMessage": "Vyberte tokeny pro Vaše tržiště"
   },
   "sell": {
     "defaultMessage": "Prodat",
     "description": "Sell button"
   },
   "sell.asset": {
-    "defaultMessage": "Prodat asset",
+    "defaultMessage": "Prodat NFT",
     "description": "Sell asset dialog title"
   },
   "send.settings": {
     "defaultMessage": "Odeslat nastavení"
   },
   "sending.config": {
-    "defaultMessage": "Odeslání konfigurace"
+    "defaultMessage": "Odesílání nastavení"
   },
   "sending.marketplace.settings": {
     "defaultMessage": "Odesílání nastavení tržiště"
   },
   "sending.page.template.data": {
-    "defaultMessage": "Odesílání dat šablony stránky"
+    "defaultMessage": "Odesílání šablony stránky"
   },
   "sending.page.template.settings": {
     "defaultMessage": "Odesílání nastavení šablony stránky"
@@ -4160,13 +4181,13 @@
     "description": "Sign message dialog title"
   },
   "simple": {
-    "defaultMessage": "Jednoduchý"
+    "defaultMessage": "Jednoduché"
   },
   "slippage.is.above.one.hundred.percent": {
-    "defaultMessage": "Slippage je nad 100 %"
+    "defaultMessage": "Proklouznutí je nad 100 %"
   },
   "slippage.is.below.zero": {
-    "defaultMessage": "Slippage je pod 0"
+    "defaultMessage": "Proklouznutí je pod 0"
   },
   "social": {
     "defaultMessage": "Sociální sítě"
@@ -4182,7 +4203,7 @@
     "defaultMessage": "Začněte zdarma"
   },
   "start.posting.offers.collection": {
-    "defaultMessage": "Začněte dělat nabídky pro tuto kolekci",
+    "defaultMessage": "Vytvořte nákupní nabídky pro tuto kolekci",
     "description": "Start posting offers for this collection"
   },
   "status": {
@@ -4192,13 +4213,13 @@
     "defaultMessage": "Podtitulek"
   },
   "swap": {
-    "defaultMessage": "Swap"
+    "defaultMessage": "Výměna"
   },
   "swap.fees": {
     "defaultMessage": "Poplatky Swapu"
   },
   "swap.notification": {
-    "defaultMessage": "Swapnout {sellAmount} {sellSymbol} za {buyAmount} {buySymbol}",
+    "defaultMessage": "Směnit {sellAmount} {sellSymbol} za {buyAmount} {buySymbol}",
     "description": "Swap notification description"
   },
   "swap.settings": {
@@ -4217,7 +4238,7 @@
     "description": "Switch network dialog content text"
   },
   "switch.to.network": {
-    "defaultMessage": "Přepněte na síť {network}"
+    "defaultMessage": "Přepnout na síť {network}"
   },
   "symbol": {
     "defaultMessage": "Symbol"
@@ -4247,22 +4268,22 @@
     "defaultMessage": "Token"
   },
   "token.added": {
-    "defaultMessage": "Token přidán"
+    "defaultMessage": "Token byl přidán"
   },
   "token.already.imported": {
     "defaultMessage": "Token již importován"
   },
   "token.created": {
-    "defaultMessage": "Token vytvořen"
+    "defaultMessage": "Token byl vytvořen"
   },
   "token.id": {
-    "defaultMessage": "Token Id"
+    "defaultMessage": "ID tokenu"
   },
   "tokens": {
     "defaultMessage": "Tokeny"
   },
   "total": {
-    "defaultMessage": "Celkově"
+    "defaultMessage": "Celkem"
   },
   "total.volume": {
     "defaultMessage": "Celkový objem"
@@ -4336,7 +4357,7 @@
     "defaultMessage": "Doména"
   },
   "use.home.as.title.not.allowed": {
-    "defaultMessage": "Název Home pro stránky není povolen"
+    "defaultMessage": "Název Home pro vlastní stránky není povolen"
   },
   "value": {
     "defaultMessage": "Hodnota"
@@ -4375,7 +4396,7 @@
     "defaultMessage": "Zobrazit NFTs"
   },
   "view.order": {
-    "defaultMessage": "Zobrazit objednávku"
+    "defaultMessage": "Zobrazit kupní objednávku"
   },
   "view.page.templates": {
     "defaultMessage": "Zobrazit šablony stránek"
@@ -4415,22 +4436,22 @@
     "defaultMessage": "Ty"
   },
   "you.are.cloning": {
-    "defaultMessage": "Klonování webu <b>{site}</b>. Zkontrolujte to <a>zde</a>"
+    "defaultMessage": "Duplikování webu <b>{site}</b>. Zkontrolujte <a>zde</a>"
   },
   "you.are.cloning.page.message": {
-    "defaultMessage": "Klonování stránky {page}"
+    "defaultMessage": "Duplikování stránky {page}"
   },
   "you.are.paying.percentage.in.fees": {
     "defaultMessage": "Zaplatíte {price} {symbol} + {percentage} poplatek"
   },
   "you.need.to.add.or.import.tokens.so.users.can.make.trades": {
-    "defaultMessage": "Musíte přidat nebo importovat tokeny, aby uživatelé mohli obchodovat"
+    "defaultMessage": "Musíte přidat nebo importovat tokeny, aby je uživatelé mohli obchodovat"
   },
   "you.own": {
     "defaultMessage": "Vlastníte"
   },
   "you.pay": {
-    "defaultMessage": "Platíte"
+    "defaultMessage": "Zaplatíte"
   },
   "you.receive": {
     "defaultMessage": "Obdržíte"
@@ -4521,7 +4542,7 @@
     "defaultMessage": "Emoji"
   },
   "chip.text": {
-    "defaultMessage": "Text Chipu"
+    "defaultMessage": "Text Čipu"
   },
   "chip.text.placeholder": {
     "defaultMessage": "např., Chytrý Kontrakt Ověřen"

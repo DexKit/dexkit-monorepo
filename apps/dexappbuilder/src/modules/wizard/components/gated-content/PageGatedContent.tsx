@@ -6,9 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Switch from '@mui/material/Switch';
 
-import TabContext from '@mui/lab/TabContext';
-
-import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabPanel } from '@mui/lab';
 
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
@@ -65,17 +63,17 @@ export default function PageGatedContent({
       )}
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageGatedConditionsHeader
-              onEditLayout={() => {}}
-              onClone={() => {}}
-              onEditTitle={() => {}}
+              onEditLayout={() => { }}
+              onClone={() => { }}
+              onEditTitle={() => { }}
               onPreview={handlePreview}
               page={page}
               onClose={onClose}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" fontWeight="bold">
               <FormattedMessage
                 id="gated.conditions"
@@ -83,10 +81,10 @@ export default function PageGatedContent({
               />
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TabContext value={tab}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormGroup>
                     <FormControlLabel
                       control={
@@ -115,7 +113,7 @@ export default function PageGatedContent({
                   </FormGroup>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Tabs value={tab} onChange={(e, value) => setTab(value)}>
                     <Tab
                       value="conditions"
@@ -134,7 +132,7 @@ export default function PageGatedContent({
                     />
                   </Tabs>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TabPanel sx={{ p: 0, m: 0 }} value="conditions">
                     <PageGatedConditionsTab
                       onSaveGatedConditions={onSaveGatedConditions}

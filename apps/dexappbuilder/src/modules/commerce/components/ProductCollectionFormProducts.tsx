@@ -59,7 +59,7 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
 
   const handleSelect = useCallback((id: string) => {
     return () => {
-      setSelection((values) => ({ ...values, [id]: !Boolean(values[id]) }));
+      setSelection((values: any) => ({ ...values, [id]: !Boolean(values[id]) }));
     };
   }, []);
 
@@ -87,17 +87,16 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
           defaultSelection={(values.items ?? []).map((i) => i.productId ?? '')}
         />
       )}
-
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 <Button onClick={handleShowAdd} variant="outlined" size="small">
                   <FormattedMessage id="add" defaultMessage="Add" />
                 </Button>
               </Grid>
-              <Grid item xs>
+              <Grid size="grow">
                 <Button
                   disabled={!hasSelection}
                   onClick={handleRemove}
@@ -112,7 +111,12 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
           </Box>
         </Grid>
         {values.items?.map((item, index) => (
-          <Grid item xs={12} sm={3} key={index}>
+          <Grid
+            key={index}
+            size={{
+              xs: 12,
+              sm: 3
+            }}>
             <ProductCollectionFormProductsItem
               key={index}
               name={`items.${index}`}

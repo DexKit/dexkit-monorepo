@@ -52,7 +52,7 @@ interface StepperProps {
   onReset?: () => void;
 }
 
-function getIconComponent(iconName?: string): React.ReactElement | null {
+function getIconComponent(iconName?: string): any | null {
   if (!iconName) return null;
 
   const IconComponent = (Icons as any)[iconName];
@@ -61,7 +61,7 @@ function getIconComponent(iconName?: string): React.ReactElement | null {
   return <IconComponent />;
 }
 
-export const Stepper: React.FC<StepperProps> = ({
+export const Stepper = ({
   steps,
   settings,
   activeStep: controlledActiveStep,
@@ -71,7 +71,7 @@ export const Stepper: React.FC<StepperProps> = ({
   onStepClick,
   onComplete,
   onReset,
-}) => {
+}: StepperProps) => {
   const {
     orientation = 'horizontal',
     variant = 'elevation',
@@ -252,7 +252,7 @@ export const Stepper: React.FC<StepperProps> = ({
 
     return (
       <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-        {stepActions.map((action, index) => {
+        {stepActions.map((action: any, index: any) => {
           const startIconComponent = getIconComponent(action.startIcon);
           const endIconComponent = getIconComponent(action.endIcon);
 
@@ -451,7 +451,7 @@ export const Stepper: React.FC<StepperProps> = ({
       nonLinear={nonLinear}
       {...stepperProps}
     >
-      {steps.map((step, index) => {
+      {steps.map((step: any, index: any) => {
         const stepProps: { completed?: boolean } = {};
         if (isStepComplete(index)) {
           stepProps.completed = true;
@@ -536,7 +536,7 @@ export const Stepper: React.FC<StepperProps> = ({
         {orientation === 'horizontal' && (
           <Box sx={{ p: 2 }}>
             {allStepsCompleted() ? (
-              <React.Fragment>
+              <>
                 <Typography sx={{ mt: 2, mb: 1 }}>
                   All steps completed - you&apos;re finished
                 </Typography>
@@ -546,9 +546,9 @@ export const Stepper: React.FC<StepperProps> = ({
                     <Button onClick={handleReset}>{resetButtonText}</Button>
                   </Box>
                 )}
-              </React.Fragment>
+              </>
             ) : (
-              <React.Fragment>
+              <>
                 <Typography variant="h6" component="div" sx={{ mb: 2 }}>
                   {steps[activeStep]?.label}
                 </Typography>
@@ -562,7 +562,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 </Typography>
                 {renderActions(steps[activeStep], 'content')}
                 {renderNavigationButtons()}
-              </React.Fragment>
+              </>
             )}
           </Box>
         )}
@@ -576,7 +576,7 @@ export const Stepper: React.FC<StepperProps> = ({
       {orientation === 'horizontal' && (
         <Box sx={{ p: 2 }}>
           {allStepsCompleted() ? (
-            <React.Fragment>
+            <>
               <Typography sx={{ mt: 2, mb: 1 }}>
                 All steps completed - you&apos;re finished
               </Typography>
@@ -586,9 +586,9 @@ export const Stepper: React.FC<StepperProps> = ({
                   <Button onClick={handleReset}>{resetButtonText}</Button>
                 </Box>
               )}
-            </React.Fragment>
+            </>
           ) : (
-            <React.Fragment>
+            <>
               <Typography variant="h6" component="div" sx={{ mb: 2 }}>
                 {steps[activeStep]?.label}
               </Typography>
@@ -602,7 +602,7 @@ export const Stepper: React.FC<StepperProps> = ({
               </Typography>
               {renderActions(steps[activeStep], 'content')}
               {renderNavigationButtons()}
-            </React.Fragment>
+            </>
           )}
         </Box>
       )}

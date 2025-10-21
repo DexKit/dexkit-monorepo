@@ -87,7 +87,7 @@ export default function ScanWalletQrCodeDialog({
               setCamera(e.target.value)
             }
           >
-            {cameras.map((camera) => (
+            {cameras.map((camera: any) => (
               <MenuItem key={camera.id} value={camera.id}>
                 {camera.label}
               </MenuItem>

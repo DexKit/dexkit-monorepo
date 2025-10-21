@@ -110,7 +110,7 @@ export default function CollectionSectionForm({
 
   const handleSubmitItem = (item: SectionItem) => {
     if (selectedItemIndex > -1) {
-      setItems((value) => {
+      setItems((value: any) => {
         const newItems = [...value];
 
         newItems[selectedItemIndex] = item;
@@ -118,7 +118,7 @@ export default function CollectionSectionForm({
         return newItems;
       });
     } else {
-      setItems((value) => [...value, item]);
+      setItems((value: any) => [...value, item]);
     }
 
     setSelectedItemIndex(-1);
@@ -143,7 +143,7 @@ export default function CollectionSectionForm({
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} sx={{ p: { xs: 1, sm: 2 } }}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             name="title"
             onChange={formik.handleChange}
@@ -157,7 +157,7 @@ export default function CollectionSectionForm({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <InputLabel id="variant-label">
               <FormattedMessage id="display.variant" defaultMessage="Display Variant" />
@@ -198,12 +198,12 @@ export default function CollectionSectionForm({
         {(formik.values.variant === "grid" ||
           formik.values.variant === "masonry" ||
           formik.values.variant === "hero") && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControlLabel
                 control={
                   <Switch
                     checked={formik.values.hideTitle || false}
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                       formik.setFieldValue('hideTitle', e.target.checked);
                     }}
                     color="primary"
@@ -220,8 +220,8 @@ export default function CollectionSectionForm({
           )}
 
         {!showAddItem &&
-          items.map((item, index) => (
-            <Grid item xs={12} key={index}>
+          items.map((item: any, index: any) => (
+            <Grid key={index} size={12}>
               <PageSectionItem
                 item={item}
                 length={items.length}
@@ -233,7 +233,7 @@ export default function CollectionSectionForm({
             </Grid>
           ))}
         {showAddItem ? (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper>
               <AddItemForm
                 key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
@@ -246,7 +246,7 @@ export default function CollectionSectionForm({
             </Paper>
           </Grid>
         ) : (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               onClick={handleAddItem}
               startIcon={<AddIcon />}
@@ -257,7 +257,7 @@ export default function CollectionSectionForm({
             </Button>
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={2} direction="row" justifyContent="flex-end">
             <Button onClick={onCancel}>
               <FormattedMessage id="cancel" defaultMessage="Cancel" />

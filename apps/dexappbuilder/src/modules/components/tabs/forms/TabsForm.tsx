@@ -110,7 +110,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -123,7 +123,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: any) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -167,7 +167,7 @@ const getFormikError = (errors: any, field: string): string | undefined => {
   return typeof errors[field] === 'string' ? errors[field] : undefined;
 };
 
-const TabsForm: React.FC<TabsFormProps> = ({ initialValues, onSubmit, onChange, onCancel }) => {
+const TabsForm = ({ initialValues, onSubmit, onChange, onCancel }: TabsFormProps) => {
   const validationSchema = toFormikValidationSchema(tabsFormValuesSchema);
 
   const createNewTab = useCallback((): Omit<TabConfig, 'id'> & { tempId: string } => ({
@@ -187,7 +187,7 @@ const TabsForm: React.FC<TabsFormProps> = ({ initialValues, onSubmit, onChange, 
       onSubmit={onSubmit}
       enableReinitialize
     >
-      {({ values, errors, touched, setFieldValue, handleSubmit, handleChange }) => {
+      {({ values, errors, touched, setFieldValue, handleSubmit, handleChange }: any) => {
         // Move this outside the callback
         return <TabsFormContent
           values={values}
@@ -211,13 +211,13 @@ interface TabsFormContentProps {
   touched: any;
   setFieldValue: (field: string, value: any) => void;
   handleSubmit: () => void;
-  handleChange: (e: React.ChangeEvent<any>) => void;
+  handleChange: (e: any) => void;
   createNewTab: () => Omit<TabConfig, 'id'> & { tempId: string };
   onChange?: (values: TabsFormValues) => void;
   onCancel?: () => void;
 }
 
-const TabsFormContent: React.FC<TabsFormContentProps> = ({
+const TabsFormContent = ({
   values,
   errors,
   touched,
@@ -227,7 +227,7 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
   createNewTab,
   onChange,
   onCancel
-}) => {
+}: TabsFormContentProps) => {
   useEffect(() => {
     if (onChange) {
       onChange(values);
@@ -243,7 +243,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
           </Typography>
 
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <TextField
                 select
                 name="orientation"
@@ -259,7 +263,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
               </TextField>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <TextField
                 select
                 name="variant"
@@ -275,7 +283,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
               </TextField>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <ColorPickerField
                 label="Indicator Color"
                 value={values.indicatorCustomColor || ''}
@@ -289,36 +301,51 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
 
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 4
+                }}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.centered || false}
-                      onChange={(e) => setFieldValue('centered', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('centered', e.target.checked)}
                     />
                   }
                   label="Centered"
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 4
+                }}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.fullWidth || false}
-                      onChange={(e) => setFieldValue('fullWidth', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('fullWidth', e.target.checked)}
                     />
                   }
                   label="Full Width"
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 4
+                }}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.allowScrollButtonsMobile || false}
-                      onChange={(e) => setFieldValue('allowScrollButtonsMobile', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('allowScrollButtonsMobile', e.target.checked)}
                     />
                   }
                   label="Mobile Scroll Buttons"
@@ -331,7 +358,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
             Typography
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <TextField
                 name="tabFontSize"
                 label="Tab Font Size (px)"
@@ -344,7 +375,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <TextField
                 name="contentFontSize"
                 label="Content Font Size (px)"
@@ -357,7 +392,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <ColorPickerField
                 label="Tab Font Color"
                 value={values.tabFontColor || ''}
@@ -366,7 +405,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <ColorPickerField
                 label="Content Font Color"
                 value={values.contentFontColor || ''}
@@ -384,7 +427,7 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
             </Typography>
             <FieldArray
               name="tabs"
-              render={(arrayHelpers) => (
+              render={(arrayHelpers: any) => (
                 <IconButton
                   onClick={() => arrayHelpers.push(createNewTab())}
                   color="primary"
@@ -398,9 +441,9 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
 
           <FieldArray
             name="tabs"
-            render={(arrayHelpers) => (
+            render={(arrayHelpers: any) => (
               <Box>
-                {values.tabs.map((tab, index) => (
+                {values.tabs.map((tab: any, index: any) => (
                   <Accordion key={tab.tempId || index} sx={{ mb: 2 }}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -412,7 +455,7 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
                           {tab.label || `Tab ${index + 1}`}
                         </Typography>
                         <IconButton
-                          onClick={(e) => {
+                          onClick={(e: any) => {
                             e.stopPropagation();
                             arrayHelpers.remove(index);
                           }}
@@ -427,7 +470,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
 
                     <AccordionDetails>
                       <Grid container spacing={3}>
-                        <Grid item xs={12} md={6}>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            md: 6
+                          }}>
                           <TextField
                             name={`tabs.${index}.label`}
                             label="Tab Label"
@@ -439,7 +486,11 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
                           />
                         </Grid>
 
-                        <Grid item xs={12} md={6}>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            md: 6
+                          }}>
                           <TextField
                             select
                             name={`tabs.${index}.iconPosition`}
@@ -455,7 +506,7 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
                           </TextField>
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <DKMDEditorInput
                             label="Tab Content"
                             value={tab.content || ''}
@@ -467,24 +518,32 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
                           />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            sm: 6
+                          }}>
                           <FormControlLabel
                             control={
                               <Switch
                                 checked={tab.disabled || false}
-                                onChange={(e) => setFieldValue(`tabs.${index}.disabled`, e.target.checked)}
+                                onChange={(e: any) => setFieldValue(`tabs.${index}.disabled`, e.target.checked)}
                               />
                             }
                             label="Disabled"
                           />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            sm: 6
+                          }}>
                           <FormControlLabel
                             control={
                               <Switch
                                 checked={tab.wrapped || false}
-                                onChange={(e) => setFieldValue(`tabs.${index}.wrapped`, e.target.checked)}
+                                onChange={(e: any) => setFieldValue(`tabs.${index}.wrapped`, e.target.checked)}
                               />
                             }
                             label="Wrapped Label"

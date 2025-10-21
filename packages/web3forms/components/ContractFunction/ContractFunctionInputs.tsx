@@ -82,7 +82,7 @@ export default function ContractFunctionInputs({
       {inputs.map((input, key) => {
         if (input.type === "tuple") {
           return (
-            <Grid item xs={12} key={key}>
+            <Grid size={12} key={key}>
               <ContractFunctionTupleInput
                 name={name}
                 input={input as TupleAbiFragmentInput}
@@ -95,7 +95,7 @@ export default function ContractFunctionInputs({
 
         if (input.type.endsWith("[]")) {
           return (
-            <Grid item xs={12} key={key}>
+            <Grid size={12} key={key}>
               <ContractFunctionInputArray
                 input={input}
                 name={name}

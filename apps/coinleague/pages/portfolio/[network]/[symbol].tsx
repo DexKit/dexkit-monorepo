@@ -121,9 +121,9 @@ const CoinPage: NextPage = () => {
         for (const balance of walletBalances) {
           const amount =
             balance.balances[
-              coin?.coinType === CoinTypes.EVM_ERC20
-                ? coin.contractAddress
-                : ethers.constants.AddressZero
+            coin?.coinType === CoinTypes.EVM_ERC20
+              ? coin.contractAddress
+              : ethers.constants.AddressZero
             ];
 
           if (amount) {
@@ -363,11 +363,10 @@ const CoinPage: NextPage = () => {
                     }}
                   />
                 ),
-                uri: `/portfolio/${coin?.network.id}/${
-                  isErc20Coin
-                    ? (coin as Erc20Coin).contractAddress
-                    : coin?.symbol
-                }`,
+                uri: `/portfolio/${coin?.network.id}/${isErc20Coin
+                  ? (coin as Erc20Coin).contractAddress
+                  : coin?.symbol
+                  }`,
                 active: true,
               },
             ]}
@@ -384,15 +383,14 @@ const CoinPage: NextPage = () => {
                     spacing={2}
                     direction="row"
                     alignItems="center"
-                    alignContent="center"
                   >
                     <Avatar
                       src={
                         coin?.coinType === CoinTypes.EVM_ERC20
                           ? TOKEN_ICON_URL(
-                              coin?.contractAddress,
-                              coin?.network.chainId as ChainId
-                            )
+                            coin?.contractAddress,
+                            coin?.network.chainId as ChainId
+                          )
                           : coin?.imageUrl
                       }
                     >
@@ -492,7 +490,6 @@ const CoinPage: NextPage = () => {
               <Stack spacing={2} direction="row">
                 <Stack
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="center"
                 >
                   <WalletRoundedButton onClick={handleShowSend}>
@@ -504,7 +501,6 @@ const CoinPage: NextPage = () => {
                 </Stack>
                 <Stack
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="center"
                 >
                   <WalletRoundedButton onClick={handleShowReceive}>
@@ -522,7 +518,6 @@ const CoinPage: NextPage = () => {
               alignItems="center"
               justifyContent="space-between"
               direction="row"
-              alignContent="center"
             >
               <Typography variant="subtitle1">
                 <FormattedMessage id="accounts" defaultMessage="Accounts" />

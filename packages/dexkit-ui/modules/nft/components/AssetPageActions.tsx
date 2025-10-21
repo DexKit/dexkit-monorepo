@@ -1,19 +1,20 @@
 import {
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import {
-    getBlockExplorerUrl,
-    getNetworkSlugFromChainId,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
+  truncateAddress,
 } from "@dexkit/core/utils/blockchain";
 import Link from "@dexkit/ui/components/AppLink";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -22,10 +23,10 @@ import Share from "@mui/icons-material/Share";
 import { useState } from "react";
 import Heart from "../../../components/icons/Heart";
 import {
-    useAsset,
-    useAssetBalance,
-    useAssetMetadata,
-    useFavoriteAssets,
+  useAsset,
+  useAssetBalance,
+  useAssetMetadata,
+  useFavoriteAssets,
 } from "../hooks";
 
 import { getWindowUrl } from "@dexkit/core/utils/browser";
@@ -37,6 +38,7 @@ interface Props {
 }
 
 export function AssetPageActions({ address, id }: Props) {
+  const theme = useTheme();
   const { data: asset } = useAsset(address, id);
   const { data: metadata } = useAssetMetadata(asset);
 
@@ -71,10 +73,14 @@ export function AssetPageActions({ address, id }: Props) {
         )}/${address}/${id}`}
       />
       <Grid container spacing={2} alignItems="stretch" alignContent="center">
-        <Grid item xs>
+        <Grid size="grow">
           {asset?.protocol === "ERC721" ? (
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
-              <Typography variant="caption" color="textSecondary">
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+              >
                 <FormattedMessage id="owned.by" defaultMessage="Owned by" />
               </Typography>
               <Link
@@ -90,6 +96,7 @@ export function AssetPageActions({ address, id }: Props) {
                   alignItems="center"
                   alignContent="center"
                   spacing={0.5}
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
                 >
                   <div>
                     {isAddressEqual(account, asset?.owner) ? (
@@ -114,7 +121,7 @@ export function AssetPageActions({ address, id }: Props) {
             )
           )}
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
             <Stack
               direction="row"
@@ -123,28 +130,41 @@ export function AssetPageActions({ address, id }: Props) {
               alignItems="center"
               spacing={2}
             >
-              <Tooltip
-                title={
-                  <FormattedMessage id="favorite" defaultMessage="Favorite" />
-                }
-              >
-                <IconButton onClick={handleToggleFavorite} disabled={!account}>
-                  <Heart
-                    sx={
-                      favorites.isFavorite(asset)
-                        ? (theme) => ({
-                            "& path": { fill: theme.palette.error.light },
-                          })
-                        : undefined
-                    }
-                  />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Share">
-                <IconButton onClick={handleOpenShareDialog}>
-                  <Share />
-                </IconButton>
-              </Tooltip>
+               <Tooltip
+                 title={
+                   <FormattedMessage id="favorite" defaultMessage="Favorite" />
+                 }
+               >
+                 <span>
+                   <IconButton 
+                     onClick={handleToggleFavorite} 
+                     disabled={!account}
+                     sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                   >
+                     <Heart
+                       sx={
+                         favorites.isFavorite(asset)
+                           ? (theme) => ({
+                             "& path": { fill: theme.palette.error.light },
+                           })
+                           : {
+                             "& path": {
+                               fill: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit'
+                             }
+                           }
+                       }
+                     />
+                   </IconButton>
+                 </span>
+               </Tooltip>
+               <Tooltip title="Share">
+                 <IconButton 
+                   onClick={handleOpenShareDialog}
+                   sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                 >
+                   <Share sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }} />
+                 </IconButton>
+               </Tooltip>
             </Stack>
           </Paper>
         </Grid>

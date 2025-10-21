@@ -747,8 +747,8 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         {elements.map((element, index) => {
           switch (element) {
             case 'logo':
-              return <Box key={`${position}-logo-${index}`} sx={{ 
-                maxWidth: '200px', 
+              return <Box key={`${position}-logo-${index}`} sx={{
+                maxWidth: '200px',
                 overflow: 'hidden',
                 '& img': {
                   maxWidth: '100%',
@@ -836,9 +836,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
               size="small"
               sx={{
                 mr: 1,
-                color: customSettings.iconColor || customSettings.textColor || 'inherit',
+                color: customSettings.iconColor || customSettings.textColor || 'text.primary',
                 '&:hover': {
-                  color: customSettings.iconHoverColor || customSettings.iconColor || customSettings.textColor || 'inherit',
+                  color: customSettings.iconHoverColor || customSettings.iconColor || customSettings.textColor || 'text.primary',
                 },
               }}
               onClick={handleToggleDrawer}
@@ -857,7 +857,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
             </>
           ) : (
             <>
-              <Box sx={{ 
+              <Box sx={{
                 flexGrow: 1,
                 maxWidth: '200px',
                 overflow: 'hidden',

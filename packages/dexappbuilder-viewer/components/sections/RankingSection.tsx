@@ -118,7 +118,7 @@ export default function RankingSection({ section }: RankingSectionProps) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6">
           {queryRanking?.data?.ranking?.title || ""}
         </Typography>
@@ -126,9 +126,9 @@ export default function RankingSection({ section }: RankingSectionProps) {
           {queryRanking?.data?.ranking?.description || ""}
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <DataGrid
-          getRowId={(row) => row.account}
+          getRowId={(row: any) => row.account}
           rowCount={rows.length}
           rows={rows}
           paginationModel={paginationModel}

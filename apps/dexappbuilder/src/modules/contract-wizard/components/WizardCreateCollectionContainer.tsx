@@ -158,7 +158,7 @@ function WizardCreateCollectionContainer() {
         </Typography>
       </AppConfirmDialog>
       <Grid container spacing={2} justifyContent="center">
-        <Grid container item xs={12} justifyContent="left">
+        <Grid container justifyContent="left" size={12}>
           <PageHeader
             breadcrumbs={[
               {
@@ -192,7 +192,7 @@ function WizardCreateCollectionContainer() {
             ]}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h5">
             <FormattedMessage
               defaultMessage="Create Collection"
@@ -200,7 +200,7 @@ function WizardCreateCollectionContainer() {
             />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
               defaultMessage="Create a collection of NFT's easily using our contract wizard. You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
@@ -214,7 +214,11 @@ function WizardCreateCollectionContainer() {
           </Alert>
         </Grid>
 
-        <Grid item xs={12} sm={8}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 8
+          }}>
           <Box>
             <Stack spacing={2}>
               <Box>

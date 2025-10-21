@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  ButtonBase,
-  ButtonBaseProps,
-  lighten,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, ButtonBase, ButtonBaseProps, Stack, Typography, useTheme } from "@mui/material";
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -40,7 +32,7 @@ function SwapTokenButtonMatcha({
           ? theme.palette.background.default
           : theme.palette.primary.main,
         border: `1px solid ${theme.palette.mode === "dark"
-          ? lighten(theme.palette.divider, 0.2)
+          ? theme.lighten(theme.palette.divider, 0.2)
           : theme.palette.divider
           }`,
       })}

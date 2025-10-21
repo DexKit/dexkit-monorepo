@@ -64,7 +64,7 @@ export default function MDSectionForm({
       <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
         <Paper sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
           <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CompletationProvider
                 onCompletation={(output: string) => {
                   setValue(`${textPos.before}${output}${textPos.after}`);
@@ -98,7 +98,7 @@ export default function MDSectionForm({
                           defaultMessage: 'Artificial Inteligence',
                         }),
 
-                        render: (command, disabled, executeCommand) => {
+                        render: (command: any, disabled: any, executeCommand: any) => {
                           return (
                             <button
                               disabled={disabled}
@@ -138,7 +138,7 @@ export default function MDSectionForm({
                 )}
               </CompletationProvider>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack
                 spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
                 direction="row"
