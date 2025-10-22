@@ -1401,126 +1401,157 @@ function CustomNavbarSettingsPanel({
                 </RadioGroup>
               </Grid>
 
-
-              {values.layout?.customSettings?.backgroundType === 'gradient' && (
+              {values.layout?.customSettings?.backgroundType === 'solid' && (
                 <Grid size={12}>
-                  <FormControl fullWidth>
-                    <InputLabel id="gradient-direction-label">Gradient Direction</InputLabel>
-                    <Select
-                      labelId="gradient-direction-label"
-                      id="gradient-direction-select"
-                      value={values.layout?.customSettings?.gradientDirection || 'to right'}
-                      onChange={(e) => setFieldValue('layout.customSettings.gradientDirection', e.target.value)}
-                      label="Gradient Direction"
-                    >
-                      <MenuItem value="to right">To Right</MenuItem>
-                      <MenuItem value="to left">To Left</MenuItem>
-                      <MenuItem value="to bottom">To Bottom</MenuItem>
-                      <MenuItem value="to top">To Top</MenuItem>
-                      <MenuItem value="to bottom right">To Bottom Right</MenuItem>
-                      <MenuItem value="to bottom left">To Bottom Left</MenuItem>
-                      <MenuItem value="to top right">To Top Right</MenuItem>
-                      <MenuItem value="to top left">To Top Left</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              )}
-
-              {values.layout?.customSettings?.backgroundType === 'image' && (
-                <Grid size={12}>
-                  <BackgroundImageSelector
-                    value={values.layout?.customSettings?.backgroundImage}
-                    onChange={(url) => setFieldValue('layout.customSettings.backgroundImage', url)}
-                    sizeValue={values.layout?.customSettings?.backgroundSize || 'cover'}
-                    onSizeChange={(size) => setFieldValue('layout.customSettings.backgroundSize', size)}
-                    positionValue={values.layout?.customSettings?.backgroundPosition || 'center'}
-                    onPositionChange={(position) => setFieldValue('layout.customSettings.backgroundPosition', position)}
+                  <ColorPickerField
+                    label="Background Color"
+                    value={values.layout?.customSettings?.backgroundColor || theme.palette.background.default}
+                    onChange={(color) => setFieldValue('layout.customSettings.backgroundColor', color)}
+                    defaultValue={theme.palette.background.default}
                   />
                 </Grid>
               )}
-            </Grid>
 
-            {values.layout?.customSettings?.backgroundType !== 'image' && (
-              <>
-                <Divider sx={{ my: 3 }} />
-
-                <Grid container spacing={2}>
-                  {values.layout?.customSettings?.backgroundType === 'solid' && (
-                    <>
-                      <Grid size={6}>
-                        <ColorPickerField
-                          label="Background Color (Light)"
-                          value={values.layout?.customSettings?.colorScheme?.light?.backgroundColor || theme.palette.background.paper}
-                          onChange={(color) => setFieldValue('layout.customSettings.colorScheme.light.backgroundColor', color)}
-                          defaultValue={theme.palette.background.paper}
-                        />
-                      </Grid>
-                      <Grid size={6}>
-                        <ColorPickerField
-                          label="Background Color (Dark)"
-                          value={values.layout?.customSettings?.colorScheme?.dark?.backgroundColor || theme.palette.background.default}
-                          onChange={(color) => setFieldValue('layout.customSettings.colorScheme.dark.backgroundColor', color)}
-                          defaultValue={theme.palette.background.default}
-                        />
-                      </Grid>
-                    </>
-                  )}
-                  {values.layout?.customSettings?.backgroundType === 'gradient' && (
-                    <>
-                      <Grid size={12}>
-                        <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
-                          <FormattedMessage id="custom.light.mode" defaultMessage="Light Mode Background" />
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid size={6}>
-                            <ColorPickerField
-                              label="Gradient Start (Light)"
-                              value={values.layout?.customSettings?.colorScheme?.light?.gradientStartColor || theme.palette.primary.main}
-                              onChange={(color) => setFieldValue('layout.customSettings.colorScheme.light.gradientStartColor', color)}
-                              defaultValue={theme.palette.primary.main}
-                            />
-                          </Grid>
-                          <Grid size={6}>
-                            <ColorPickerField
-                              label="Gradient End (Light)"
-                              value={values.layout?.customSettings?.colorScheme?.light?.gradientEndColor || theme.palette.secondary.main}
-                              onChange={(color) => setFieldValue('layout.customSettings.colorScheme.light.gradientEndColor', color)}
-                              defaultValue={theme.palette.secondary.main}
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid size={12}>
-                        <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2, mt: 2 }}>
-                          <FormattedMessage id="custom.dark.mode" defaultMessage="Dark Mode Background" />
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid size={6}>
-                            <ColorPickerField
-                              label="Gradient Start (Dark)"
-                              value={values.layout?.customSettings?.colorScheme?.dark?.gradientStartColor || theme.palette.primary.dark}
-                              onChange={(color) => setFieldValue('layout.customSettings.colorScheme.dark.gradientStartColor', color)}
-                              defaultValue={theme.palette.primary.dark}
-                            />
-                          </Grid>
-                          <Grid size={6}>
-                            <ColorPickerField
-                              label="Gradient End (Dark)"
-                              value={values.layout?.customSettings?.colorScheme?.dark?.gradientEndColor || theme.palette.secondary.dark}
-                              onChange={(color) => setFieldValue('layout.customSettings.colorScheme.dark.gradientEndColor', color)}
-                              defaultValue={theme.palette.secondary.dark}
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </>
-                  )}
-                </Grid>
-              </>
-            )}
-          </AccordionDetails>
-        </Accordion>
+              {values.layout?.customSettings?.backgroundType === 'gradient' && (
+                <>
+                  <Grid size={6}>
+                    <ColorPickerField
+                      label="Start Color"
+                      value={values.layout?.customSettings?.gradientStartColor || '#ff0000'}
+                      onChange={(color) => setFieldValue('layout.customSettings.gradientStartColor', color)}
+                      defaultValue="#ff0000"
+                    />
+                  </Grid>
+                  <Grid size={6}>
+                    <ColorPickerField
+                      label="End Color"
+                      value={values.layout?.customSettings?.gradientEndColor || '#0000ff'}
+                      onChange={(color) => setFieldValue('layout.customSettings.gradientEndColor', color)}
+                      defaultValue="#0000ff"
+                    />
+                  </Grid>
+                  <Grid size={12}>
+                    <FormControl fullWidth>
+                      <InputLabel id="gradient-direction-label">Gradient Direction</InputLabel>
+                      <Select
+                        labelId="gradient-direction-label"
+                        id="gradient-direction-select"
+                        value={values.layout?.customSettings?.gradientDirection || 'to right'}
+                        onChange={(e) => setFieldValue('layout.customSettings.gradientDirection', e.target.value)}
+                        label="Gradient Direction"
+                      >
+                        <MenuItem value="to right">To Right</MenuItem>
+                        <MenuItem value="to left">To Left</MenuItem>
+                        <MenuItem value="to bottom">To Bottom</MenuItem>
+                        <MenuItem value="to top">To Top</MenuItem>
+                        <MenuItem value="to bottom right">To Bottom Right</MenuItem>
+                        <MenuItem value="to bottom left">To Bottom Left</MenuItem>
+                        <MenuItem value="to top right">To Top Right</MenuItem>
+                        <MenuItem value="to top left">To Top Left</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </>
+              )}
+  {
+    values.layout?.customSettings?.backgroundType === 'image' && (
+      <Grid size={12}>
+        <BackgroundImageSelector
+          value={values.layout?.customSettings?.backgroundImage}
+          onChange={(url) => setFieldValue('layout.customSettings.backgroundImage', url)}
+          sizeValue={values.layout?.customSettings?.backgroundSize || 'cover'}
+          onSizeChange={(size) => setFieldValue('layout.customSettings.backgroundSize', size)}
+          positionValue={values.layout?.customSettings?.backgroundPosition || 'center'}
+          onPositionChange={(position) => setFieldValue('layout.customSettings.backgroundPosition', position)}
+        />
       </Grid>
+    )
+  }
+            </Grid >
+
+  {
+    values.layout?.customSettings?.backgroundType !== 'image' && (
+      <>
+        <Divider sx={{ my: 3 }} />
+
+        <Grid container spacing={2}>
+          {values.layout?.customSettings?.backgroundType === 'solid' && (
+            <>
+              <Grid size={6}>
+                <ColorPickerField
+                  label="Background Color (Light)"
+                  value={values.layout?.customSettings?.colorScheme?.light?.backgroundColor || theme.palette.background.paper}
+                  onChange={(color) => setFieldValue('layout.customSettings.colorScheme.light.backgroundColor', color)}
+                  defaultValue={theme.palette.background.paper}
+                />
+              </Grid>
+              <Grid size={6}>
+                <ColorPickerField
+                  label="Background Color (Dark)"
+                  value={values.layout?.customSettings?.colorScheme?.dark?.backgroundColor || theme.palette.background.default}
+                  onChange={(color) => setFieldValue('layout.customSettings.colorScheme.dark.backgroundColor', color)}
+                  defaultValue={theme.palette.background.default}
+                />
+              </Grid>
+            </>
+          )}
+          {values.layout?.customSettings?.backgroundType === 'gradient' && (
+            <>
+              <Grid size={12}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+                  <FormattedMessage id="custom.light.mode" defaultMessage="Light Mode Background" />
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid size={6}>
+                    <ColorPickerField
+                      label="Gradient Start (Light)"
+                      value={values.layout?.customSettings?.colorScheme?.light?.gradientStartColor || theme.palette.primary.main}
+                      onChange={(color) => setFieldValue('layout.customSettings.colorScheme.light.gradientStartColor', color)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid size={6}>
+                    <ColorPickerField
+                      label="Gradient End (Light)"
+                      value={values.layout?.customSettings?.colorScheme?.light?.gradientEndColor || theme.palette.secondary.main}
+                      onChange={(color) => setFieldValue('layout.customSettings.colorScheme.light.gradientEndColor', color)}
+                      defaultValue={theme.palette.secondary.main}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid size={12}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2, mt: 2 }}>
+                  <FormattedMessage id="custom.dark.mode" defaultMessage="Dark Mode Background" />
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid size={6}>
+                    <ColorPickerField
+                      label="Gradient Start (Dark)"
+                      value={values.layout?.customSettings?.colorScheme?.dark?.gradientStartColor || theme.palette.primary.dark}
+                      onChange={(color) => setFieldValue('layout.customSettings.colorScheme.dark.gradientStartColor', color)}
+                      defaultValue={theme.palette.primary.dark}
+                    />
+                  </Grid>
+                  <Grid size={6}>
+                    <ColorPickerField
+                      label="Gradient End (Dark)"
+                      value={values.layout?.customSettings?.colorScheme?.dark?.gradientEndColor || theme.palette.secondary.dark}
+                      onChange={(color) => setFieldValue('layout.customSettings.colorScheme.dark.gradientEndColor', color)}
+                      defaultValue={theme.palette.secondary.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </>
+    )
+  }
+          </AccordionDetails >
+        </Accordion >
+      </Grid >
       <Grid size={12}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -1737,9 +1768,10 @@ function CustomNavbarSettingsPanel({
                 </Grid>
               </Grid>
             </Grid>
-          </AccordionDetails>
-        </Accordion>
-      </Grid>
+    </Grid>
+          </AccordionDetails >
+        </Accordion >
+      </Grid >
       <Grid size={12}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -1963,7 +1995,7 @@ function CustomNavbarSettingsPanel({
           </Button>
         </Box>
       </Grid>
-    </Grid>
+    </Grid >
   );
 }
 

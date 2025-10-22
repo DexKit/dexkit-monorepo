@@ -74,7 +74,6 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
   const borderColor = isDarkMode
     ? theme.colorSchemes?.dark?.palette?.divider || theme.palette.divider
     : theme.colorSchemes?.light?.palette?.divider || theme.palette.divider;
-
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
   const { chainId: connectedChainId } = useWeb3React();
