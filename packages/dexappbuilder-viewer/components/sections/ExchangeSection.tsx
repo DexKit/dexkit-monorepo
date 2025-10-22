@@ -1,8 +1,17 @@
 import TradingGraph from "@dexkit/exchange/components/TradingGraph";
 import { GET_GECKOTERMINAL_NETWORK } from "@dexkit/exchange/constants";
-import { useForceThemeMode } from "@dexkit/ui/hooks";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Avatar, Box, ButtonBase, Container, Grid, Typography, useColorScheme, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  ButtonBase,
+  Container,
+  Grid,
+  Typography,
+  useColorScheme,
+  useMediaQuery,
+  useTheme
+} from "@mui/material";
 import { usePreviewPlatform } from "../SectionsRenderer";
 
 import {
@@ -24,33 +33,46 @@ import { ExchangePageSection } from "@dexkit/ui/modules/wizard/types/section";
 function ExchangeSection() {
   const theme = useTheme();
   const { mode } = useColorScheme();
-  const themeModeObj = useForceThemeMode();
-  const themeMode = themeModeObj.mode;
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const exchangeState = useExchangeContext();
   const previewContext = usePreviewPlatform();
-  const { chainId, account, signer } = exchangeState;
-  const { isActive } = useWeb3React();
+  const { chainId } = exchangeState;
   const [open, setOpen] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
-  const isDark = isHydrated ? (themeMode === 'dark' || theme.palette.mode === 'dark') : false;
 
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
+  const pairInfoStyles = useMemo(() => ({
+    backgroundColor: 'background.paper',
+    border: '1px solid',
+    borderColor: 'divider',
+    color: 'text.primary',
+    '&:hover': {
+      backgroundColor: 'action.hover',
+    },
+  }), [mode]);
+
+  const statCellStyles = useMemo(() => ({
+    backgroundColor: 'background.paper',
+    border: 1,
+    borderColor: 'divider',
+    '& .stat-label': {
+      color: 'text.secondary',
+    },
+    '& .stat-value': {
+      color: 'text.primary',
+    },
+  }), [mode]);
 
   const getContrastColor = (backgroundColor: string): string => {
-    if (!backgroundColor) return '#000000';
+    if (!backgroundColor) return theme.palette.text.primary;
 
-    const hex = backgroundColor.replace('#', '');
+    const hex = backgroundColor.replace("#", "");
 
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
 
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
-    return luminance > 0.5 ? '#000000' : '#ffffff';
+    return luminance > 0.5 ? theme.palette.text.primary : theme.palette.common.white;
   };
 
   const handleClose = () => {
@@ -90,7 +112,7 @@ function ExchangeSection() {
   }, [geckoTerminalTopPoolsQuery.data]);
 
   const selectedPool = useMemo(() => {
-    return pools.find((pool: any) =>
+    return pools.find((pool) =>
       isAddressEqual(pool.attributes.address, selectedAddress)
     );
   }, [selectedAddress, pools]);
@@ -107,9 +129,11 @@ function ExchangeSection() {
         const baseSymbol = exchangeState.baseToken.symbol.toUpperCase();
         const quoteSymbol = exchangeState.quoteToken.symbol.toUpperCase();
 
-        const exactMatch = pools.find((pool: any) => {
+        const exactMatch = pools.find((pool) => {
           const poolName = pool.attributes.name.toUpperCase();
-          return poolName.includes(baseSymbol) && poolName.includes(quoteSymbol);
+          return (
+            poolName.includes(baseSymbol) && poolName.includes(quoteSymbol)
+          );
         });
 
         if (exactMatch) {
@@ -151,10 +175,6 @@ function ExchangeSection() {
                     selectedPool?.attributes.price_change_percentage.h24
                   }
                   lastPrice={selectedPool?.attributes.base_token_price_usd}
-                  customVariantSettings={{
-                    pairInfoTextColor: isDark ? '#ffffff' : theme.palette.text.primary,
-                    pairInfoSecondaryTextColor: isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary,
-                  }}
                 />
               </Grid>
             )}
@@ -171,7 +191,7 @@ function ExchangeSection() {
                     onChangeShowSwaps={handleChangeShowSwap}
                     selectedPool={selectedAddress}
                     network={network}
-                    pools={pools.map((pool: any) => ({
+                    pools={pools.map((pool) => ({
                       name: pool.attributes.name,
                       address: pool.attributes.address,
                     }))}
@@ -204,10 +224,6 @@ function ExchangeSection() {
                 selectedPool?.attributes.price_change_percentage.h24
               }
               lastPrice={selectedPool?.attributes.base_token_price_usd}
-              customVariantSettings={{
-                pairInfoTextColor: isDark ? '#ffffff' : theme.palette.text.primary,
-                pairInfoSecondaryTextColor: isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary,
-              }}
             />
           </Grid>
         )}
@@ -224,7 +240,7 @@ function ExchangeSection() {
                 onChangeShowSwaps={handleChangeShowSwap}
                 selectedPool={selectedAddress}
                 network={network}
-                pools={pools.map((pool: any) => ({
+                pools={pools.map((pool) => ({
                   name: pool.attributes.name,
                   address: pool.attributes.address,
                 }))}
@@ -247,7 +263,7 @@ function ExchangeSection() {
       backgroundColor,
       borderRadius = 0,
       padding = 2,
-      componentOrder = ['pairInfo', 'tradeWidget', 'tradingGraph'],
+      componentOrder = ["pairInfo", "tradeWidget", "tradingGraph"],
       pairInfoBackgroundColor,
       pairInfoTextColor,
       pairInfoBorderColor,
@@ -261,131 +277,178 @@ function ExchangeSection() {
     } = customSettings || {};
 
     const containerStyle = {
-      backgroundColor: customSettings?.backgroundImage ? undefined : backgroundColor,
-      background: customSettings?.backgroundImage ? `url(${customSettings.backgroundImage})` : backgroundColor,
-      backgroundSize: customSettings?.backgroundImage ? (customSettings?.backgroundSize || 'cover') : 'auto',
-      backgroundPosition: customSettings?.backgroundImage ? (customSettings?.backgroundPosition || 'center') : 'initial',
-      backgroundRepeat: customSettings?.backgroundImage ? (customSettings?.backgroundRepeat || 'no-repeat') : 'initial',
-      backgroundAttachment: customSettings?.backgroundImage ? (customSettings?.backgroundAttachment || 'scroll') : 'initial',
+      backgroundColor: customSettings?.backgroundImage
+        ? undefined
+        : backgroundColor,
+      background: customSettings?.backgroundImage
+        ? `url(${customSettings.backgroundImage})`
+        : backgroundColor,
+      backgroundSize: customSettings?.backgroundImage
+        ? customSettings?.backgroundSize || "cover"
+        : "auto",
+      backgroundPosition: customSettings?.backgroundImage
+        ? customSettings?.backgroundPosition || "center"
+        : "initial",
+      backgroundRepeat: customSettings?.backgroundImage
+        ? customSettings?.backgroundRepeat || "no-repeat"
+        : "initial",
+      backgroundAttachment: customSettings?.backgroundImage
+        ? customSettings?.backgroundAttachment || "scroll"
+        : "initial",
       borderRadius: borderRadius ? `${borderRadius}px` : undefined,
       padding: padding ? `${padding * 8}px` : undefined,
     };
 
     const pairInfoStyle = {
       ...(pairInfoBackgroundColor && {
-        backgroundColor: `${pairInfoBackgroundColor} !important`,
-        '& > *': { backgroundColor: `${pairInfoBackgroundColor} !important` },
-        '& .MuiPaper-root': { backgroundColor: `${pairInfoBackgroundColor} !important` },
-        '& .MuiCard-root': { backgroundColor: `${pairInfoBackgroundColor} !important` },
-        '& .MuiBox-root': { backgroundColor: `${pairInfoBackgroundColor} !important` },
+        backgroundColor: pairInfoBackgroundColor,
+        "& > *": { backgroundColor: `${pairInfoBackgroundColor}` },
+        "& .MuiPaper-root": {
+          backgroundColor: pairInfoBackgroundColor,
+        },
+        "& .MuiCard-root": {
+          backgroundColor: pairInfoBackgroundColor,
+        },
+        "& .MuiBox-root": {
+          backgroundColor: pairInfoBackgroundColor,
+        },
       }),
       ...(pairInfoTextColor && {
-        color: `${pairInfoTextColor} !important`,
-        '& *:not(.MuiButton-root)': { color: `${pairInfoTextColor} !important` }
+        color: pairInfoTextColor,
+        "& *:not(.MuiButton-root)": {
+          color: pairInfoTextColor,
+        },
+      }),
+      ...(!pairInfoTextColor && {
+        color: 'text.primary',
+        "& *:not(.MuiButton-root)": {
+          color: 'text.primary',
+        },
       }),
       ...(pairInfoBorderColor && {
-        border: `2px solid ${pairInfoBorderColor} !important`,
-        boxSizing: 'border-box'
+        border: `2px solid ${pairInfoBorderColor}`,
+        boxSizing: "border-box",
       }),
       ...(borderRadius && {
-        borderRadius: `${borderRadius}px !important`
+        borderRadius: `${borderRadius}px`,
       }),
-      padding: '16px',
-      '& .MuiTypography-root': {
-        color: pairInfoTextColor ? `${pairInfoTextColor} !important` : undefined,
+      padding: "16px",
+      "& .MuiTypography-root": {
+        color: pairInfoTextColor
+          ? pairInfoTextColor
+          : 'text.primary',
       },
-      '& .MuiButtonBase-root': {
+      "& .MuiButtonBase-root": {
         ...(pairInfoBackgroundColor && {
-          backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}20 !important`,
-          color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+          backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}20`,
+          color: getContrastColor(pairInfoBackgroundColor),
         }),
         ...(pairInfoBorderColor && {
-          borderColor: `${pairInfoBorderColor} !important`,
+          borderColor: pairInfoBorderColor,
         }),
-        '&:hover': {
+        "&:hover": {
           ...(pairInfoBackgroundColor && {
-            backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}30 !important`,
+            backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}30`,
           }),
         },
-        '& .MuiTypography-root': {
+        "& .MuiTypography-root": {
           ...(pairInfoBackgroundColor && {
-            color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+            color: getContrastColor(pairInfoBackgroundColor),
+          }),
+          ...(!pairInfoBackgroundColor && {
+            color: 'text.primary',
           }),
         },
-        '& .MuiSvgIcon-root': {
+        "& .MuiSvgIcon-root": {
           ...(pairInfoBorderColor && {
-            color: `${pairInfoBorderColor} !important`,
+            color: `${pairInfoBorderColor}`,
           }),
         },
       },
       ...(pairInfoBorderColor && {
-        '& .MuiPaper-root': {
-          borderColor: `${pairInfoBorderColor} !important`,
+        "& .MuiPaper-root": {
+          borderColor: pairInfoBorderColor,
         },
-        '& .MuiPaper-outlined': {
-          borderColor: `${pairInfoBorderColor} !important`,
+        "& .MuiPaper-outlined": {
+          borderColor: pairInfoBorderColor,
         },
-        '& .MuiDivider-root': {
-          borderColor: `${pairInfoBorderColor} !important`,
-          backgroundColor: `${pairInfoBorderColor} !important`,
+        "& .MuiDivider-root": {
+          borderColor: pairInfoBorderColor,
+          backgroundColor: `${pairInfoBorderColor}`,
         },
         '& *[style*="border"]': {
-          borderColor: `${pairInfoBorderColor} !important`,
+          borderColor: pairInfoBorderColor,
         },
       }),
     };
 
     const tradeWidgetStyle = {
       ...(tradeWidgetBackgroundColor && {
-        backgroundColor: `${tradeWidgetBackgroundColor} !important`,
-        '& > *': { backgroundColor: `${tradeWidgetBackgroundColor} !important` },
-        '& .MuiPaper-root': { backgroundColor: `${tradeWidgetBackgroundColor} !important` },
-        '& .MuiCard-root': { backgroundColor: `${tradeWidgetBackgroundColor} !important` },
-        '& .MuiBox-root': { backgroundColor: `${tradeWidgetBackgroundColor} !important` },
+        backgroundColor: tradeWidgetBackgroundColor,
+        "& > *": {
+          backgroundColor: tradeWidgetBackgroundColor,
+        },
+        "& .MuiPaper-root": {
+          backgroundColor: tradeWidgetBackgroundColor,
+        },
+        "& .MuiCard-root": {
+          backgroundColor: tradeWidgetBackgroundColor,
+        },
+        "& .MuiBox-root": {
+          backgroundColor: tradeWidgetBackgroundColor,
+        },
       }),
       ...(tradeWidgetTextColor && {
-        color: `${tradeWidgetTextColor} !important`,
-        '& *:not(.MuiButton-root)': { color: `${tradeWidgetTextColor} !important` }
+        color: tradeWidgetTextColor,
+        "& *:not(.MuiButton-root)": {
+          color: tradeWidgetTextColor,
+        },
       }),
-      padding: '8px',
-      '& .MuiTypography-root': {
-        color: tradeWidgetTextColor ? `${tradeWidgetTextColor} !important` : undefined,
+      padding: "8px",
+      "& .MuiTypography-root": {
+        color: tradeWidgetTextColor
+          ? tradeWidgetTextColor
+          : undefined,
       },
-      '& .MuiButton-root': {
+      "& .MuiButton-root": {
         ...(tradeWidgetButtonColor && {
-          backgroundColor: `${tradeWidgetButtonColor} !important`,
+          backgroundColor: tradeWidgetButtonColor,
         }),
         ...(tradeWidgetButtonTextColor && {
-          color: `${tradeWidgetButtonTextColor} !important`
+          color: tradeWidgetButtonTextColor,
         }),
-        '&:hover': {
+        "&:hover": {
           ...(tradeWidgetButtonColor && {
-            backgroundColor: `${tradeWidgetButtonColor}cc !important`,
+            backgroundColor: `${tradeWidgetButtonColor}cc`,
           }),
         },
       },
-      '& .MuiTextField-root': {
-        '& .MuiInputBase-root': {
-          color: tradeWidgetTextColor ? `${tradeWidgetTextColor} !important` : undefined,
-          backgroundColor: 'transparent !important',
+      "& .MuiTextField-root": {
+        "& .MuiInputBase-root": {
+          color: tradeWidgetTextColor
+            ? tradeWidgetTextColor
+            : undefined,
+          backgroundColor: "transparent",
         },
-        '& .MuiInputLabel-root': {
-          color: tradeWidgetTextColor ? `${tradeWidgetTextColor} !important` : undefined,
+        "& .MuiInputLabel-root": {
+          color: tradeWidgetTextColor
+            ? tradeWidgetTextColor
+            : undefined,
         },
       },
       ...(tradeWidgetBorderColor && {
-        '& .MuiCardContent-root .MuiPaper-root': {
-          borderColor: `${tradeWidgetBorderColor} !important`,
+        "& .MuiCardContent-root .MuiPaper-root": {
+          borderColor: tradeWidgetBorderColor,
         },
-        '& .MuiPaper-outlined': {
-          borderColor: `${tradeWidgetBorderColor} !important`,
-        }
+        "& .MuiPaper-outlined": {
+          borderColor: tradeWidgetBorderColor,
+        },
       }),
-      '& .MuiCard-root': {
-        '& .MuiCardContent-root': {
-          padding: '12px !important',
-          '&:last-child': {
-            paddingBottom: '12px !important',
+      "& .MuiCard-root": {
+        "& .MuiCardContent-root": {
+          padding: "12px",
+          "&:last-child": {
+            paddingBottom: "12px",
           },
         },
       },
@@ -393,74 +456,88 @@ function ExchangeSection() {
 
     const tradingGraphStyle = {
       ...(tradingGraphBackgroundColor && {
-        backgroundColor: `${tradingGraphBackgroundColor} !important`,
-        '& > *': { backgroundColor: `${tradingGraphBackgroundColor} !important` },
-        '& iframe': {
-          backgroundColor: `${tradingGraphBackgroundColor} !important`,
-          border: 'none !important',
+        backgroundColor: tradingGraphBackgroundColor,
+        "& > *": {
+          backgroundColor: tradingGraphBackgroundColor,
+        },
+        "& iframe": {
+          backgroundColor: tradingGraphBackgroundColor,
+          border: "none",
         },
       }),
       ...(tradingGraphBorderColor && {
-        border: `2px solid ${tradingGraphBorderColor} !important`,
-        boxSizing: 'border-box'
+        border: `2px solid ${tradingGraphBorderColor}`,
+        boxSizing: "border-box",
       }),
       ...(borderRadius && { borderRadius: `${borderRadius}px` }),
-      overflow: 'hidden',
-      '& .tradingview-widget-container': {
-        backgroundColor: `${tradingGraphBackgroundColor} !important`,
+      overflow: "hidden",
+      "& .tradingview-widget-container": {
+        backgroundColor: tradingGraphBackgroundColor,
       },
-      '& .tradingview-widget-container__widget': {
-        backgroundColor: `${tradingGraphBackgroundColor} !important`,
+      "& .tradingview-widget-container__widget": {
+        backgroundColor: tradingGraphBackgroundColor,
       },
     };
 
     const renderPairInfoComponent = (skipGridWrapper = false) => {
-      if (!showPairInfo || !exchangeState.quoteToken || !exchangeState.baseToken) return null;
+      if (
+        !showPairInfo ||
+        !exchangeState.quoteToken ||
+        !exchangeState.baseToken
+      )
+        return null;
 
       const content = (
         <>
-          <Box sx={{ display: previewContext?.isMobile ? 'block' : 'none' }}>
-            <Box sx={{
-              ...pairInfoStyle,
-              backgroundColor: pairInfoStyle?.backgroundColor || 'rgba(255,255,255,0.1)',
-              border: pairInfoStyle?.border || '1px solid rgba(255,255,255,0.2)',
-              borderRadius: pairInfoStyle?.borderRadius ? `${pairInfoStyle.borderRadius}px` : '8px',
-              padding: '10px',
-              color: pairInfoStyle?.color || '#fff',
-              backdropFilter: 'blur(10px)',
-            }}>
+          <Box sx={{ display: previewContext?.isMobile ? "block" : "none" }}>
+            <Box
+              sx={{
+                ...pairInfoStyle,
+                ...pairInfoStyles,
+                borderRadius: pairInfoStyle?.borderRadius
+                  ? `${pairInfoStyle.borderRadius}px`
+                  : "8px",
+                padding: "10px",
+                backdropFilter: "blur(10px)",
+              }}
+            >
               <ButtonBase
                 onClick={handleOpenSelectPair}
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
                   mb: 1.5,
                   pb: 1,
-                  borderBottom: '1px solid rgba(255,255,255,0.1)',
-                  width: '100%',
-                  justifyContent: 'flex-start',
-                  borderRadius: '4px',
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  borderRadius: "4px",
                   px: 1,
                   py: 0.5,
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.1)'
+                  "&:hover": {
+                    backgroundColor: 'action.hover',
                   },
-                  transition: 'background-color 0.2s ease'
+                  transition: "background-color 0.2s ease",
+                  color: 'text.primary',
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: "4px" }}>
                   <Avatar
                     src={
                       exchangeState.baseToken.logoURI
                         ? exchangeState.baseToken.logoURI
-                        : TOKEN_ICON_URL(exchangeState.baseToken.address, exchangeState.baseToken.chainId)
+                        : TOKEN_ICON_URL(
+                          exchangeState.baseToken.address,
+                          exchangeState.baseToken.chainId
+                        )
                     }
                     sx={{
-                      width: '16px',
-                      height: '16px',
-                      fontSize: '8px',
-                      fontWeight: 'bold'
+                      width: "16px",
+                      height: "16px",
+                      fontSize: "8px",
+                      fontWeight: "bold",
                     }}
                   >
                     {exchangeState.baseToken.symbol.charAt(0)}
@@ -469,122 +546,149 @@ function ExchangeSection() {
                     src={
                       exchangeState.quoteToken.logoURI
                         ? exchangeState.quoteToken.logoURI
-                        : TOKEN_ICON_URL(exchangeState.quoteToken.address, exchangeState.quoteToken.chainId)
+                        : TOKEN_ICON_URL(
+                          exchangeState.quoteToken.address,
+                          exchangeState.quoteToken.chainId
+                        )
                     }
                     sx={{
-                      width: '16px',
-                      height: '16px',
-                      fontSize: '8px',
-                      fontWeight: 'bold',
-                      marginLeft: '-6px'
+                      width: "16px",
+                      height: "16px",
+                      fontSize: "8px",
+                      fontWeight: "bold",
+                      marginLeft: "-6px",
                     }}
                   >
                     {exchangeState.quoteToken.symbol.charAt(0)}
                   </Avatar>
                 </Box>
-                <Typography sx={{
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
-                  color: 'inherit'
-                }}>
-                  {exchangeState.baseToken.symbol} / {exchangeState.quoteToken.symbol}
+                <Typography
+                  sx={{
+                    fontSize: "0.8rem",
+                    fontWeight: "600",
+                    color: 'text.primary',
+                  }}
+                >
+                  {exchangeState.baseToken.symbol} /{" "}
+                  {exchangeState.quoteToken.symbol}
                 </Typography>
-                <Box sx={{
-                  ml: 1,
-                  fontSize: '12px',
-                  opacity: 0.7,
-                  color: 'inherit'
-                }}>
+                <Box
+                  sx={{
+                    ml: 1,
+                    fontSize: "12px",
+                    opacity: 0.7,
+                    color: 'text.primary',
+                  }}
+                >
                   ▼
                 </Box>
               </ButtonBase>
 
-              <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gridTemplateRows: '1fr 1fr',
-                gap: '8px',
-                '& .stat-cell': {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2px',
-                  padding: '6px',
-                  backgroundColor: 'rgba(255,255,255,0.05)',
-                  borderRadius: '4px',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                },
-                '& .stat-label': {
-                  fontSize: '0.65rem',
-                  opacity: 0.8,
-                  fontWeight: '400',
-                  color: 'inherit',
-                  lineHeight: 1.2
-                },
-                '& .stat-value': {
-                  fontSize: '0.7rem',
-                  fontWeight: '600',
-                  color: 'inherit',
-                  lineHeight: 1.2,
-                  marginTop: '1px'
-                }
-              }}>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateRows: "1fr 1fr",
+                  gap: "8px",
+                  "& .stat-cell": {
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "2px",
+                    padding: "6px",
+                    ...statCellStyles,
+                    borderRadius: "4px",
+                  },
+                  "& .stat-label": {
+                    fontSize: "0.65rem",
+                    opacity: 0.8,
+                    fontWeight: "400",
+                    color: 'text.secondary',
+                    lineHeight: 1.2,
+                  },
+                  "& .stat-value": {
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: 'text.primary',
+                    lineHeight: 1.2,
+                    marginTop: "1px",
+                  },
+                }}
+              >
                 <Box className="stat-cell">
                   <Typography className="stat-label">Last price:</Typography>
                   <Typography className="stat-value">
-                    ${selectedPool?.attributes.base_token_price_usd ?
-                      new Intl.NumberFormat('en-US', {
+                    $
+                    {selectedPool?.attributes.base_token_price_usd
+                      ? new Intl.NumberFormat("en-US", {
                         minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                      }).format(parseFloat(selectedPool.attributes.base_token_price_usd))
-                      : '--'}
+                        maximumFractionDigits: 2,
+                      }).format(
+                        parseFloat(
+                          selectedPool.attributes.base_token_price_usd
+                        )
+                      )
+                      : "--"}
                   </Typography>
                 </Box>
 
                 <Box className="stat-cell">
                   <Typography className="stat-label">Market Cap:</Typography>
                   <Typography className="stat-value">
-                    {selectedPool?.attributes.market_cap_usd ?
-                      `$${new Intl.NumberFormat('en-US', {
-                        notation: 'compact',
-                        maximumFractionDigits: 1
-                      }).format(parseFloat(selectedPool.attributes.market_cap_usd))}`
-                      : '--'}
+                    {selectedPool?.attributes.market_cap_usd
+                      ? `$${new Intl.NumberFormat("en-US", {
+                        notation: "compact",
+                        maximumFractionDigits: 1,
+                      }).format(
+                        parseFloat(selectedPool.attributes.market_cap_usd)
+                      )}`
+                      : "--"}
                   </Typography>
                 </Box>
 
                 <Box className="stat-cell">
                   <Typography className="stat-label">Price change:</Typography>
-                  <Typography className="stat-value" sx={{
-                    color: selectedPool?.attributes.price_change_percentage.h24 &&
-                      parseFloat(selectedPool.attributes.price_change_percentage.h24) >= 0 ?
-                      '#4caf50' : '#f44336'
-                  }}>
-                    {selectedPool?.attributes.price_change_percentage.h24 ?
-                      `${parseFloat(selectedPool.attributes.price_change_percentage.h24) >= 0 ? '+' : ''}${parseFloat(selectedPool.attributes.price_change_percentage.h24).toFixed(1)}%`
-                      : '--'}
+                  <Typography
+                    className="stat-value"
+                    sx={{
+                      color:
+                        selectedPool?.attributes.price_change_percentage.h24 &&
+                          parseFloat(
+                            selectedPool.attributes.price_change_percentage.h24
+                          ) >= 0
+                          ? 'success.main'
+                          : 'error.main',
+                    }}
+                  >
+                    {selectedPool?.attributes.price_change_percentage.h24
+                      ? `${parseFloat(selectedPool.attributes.price_change_percentage.h24) >= 0 ? "+" : ""}${parseFloat(selectedPool.attributes.price_change_percentage.h24).toFixed(1)}%`
+                      : "--"}
                   </Typography>
                 </Box>
 
                 <Box className="stat-cell">
                   <Typography className="stat-label">24h volume:</Typography>
                   <Typography className="stat-value">
-                    {selectedPool?.attributes.volume_usd.h24 ?
-                      `$${new Intl.NumberFormat('en-US', {
-                        notation: 'compact',
-                        maximumFractionDigits: 1
-                      }).format(parseFloat(selectedPool.attributes.volume_usd.h24))}`
-                      : '--'}
+                    {selectedPool?.attributes.volume_usd.h24
+                      ? `$${new Intl.NumberFormat("en-US", {
+                        notation: "compact",
+                        maximumFractionDigits: 1,
+                      }).format(
+                        parseFloat(selectedPool.attributes.volume_usd.h24)
+                      )}`
+                      : "--"}
                   </Typography>
                 </Box>
               </Box>
             </Box>
           </Box>
 
-          <Box sx={{ display: previewContext?.isMobile ? 'none' : 'block' }}>
-            <Box sx={{
-              ...pairInfoStyle,
-              mx: { xs: -0.5, sm: 0 },
-            }}>
+          <Box sx={{ display: previewContext?.isMobile ? "none" : "block" }}>
+            <Box
+              sx={{
+                ...pairInfoStyle,
+                mx: { xs: -0.5, sm: 0 },
+              }}
+            >
               <PairInfo
                 quoteToken={exchangeState.quoteToken}
                 baseToken={exchangeState.baseToken}
@@ -622,54 +726,56 @@ function ExchangeSection() {
       if (!showTradeWidget) return null;
 
       const content = (
-        <Box sx={{
-          ...tradeWidgetStyle,
-          height: 'fit-content',
-          maxHeight: { xs: '450px', sm: 'none' },
-          ...(tradeWidgetBorderColor && {
-            border: `2px solid ${tradeWidgetBorderColor} !important`,
-            borderRadius: borderRadius ? `${borderRadius}px` : '8px',
-            boxSizing: 'border-box',
-          }),
-          overflow: 'hidden',
-          '& .MuiButton-root': {
-            ...tradeWidgetStyle['& .MuiButton-root'],
-            fontSize: { xs: '0.875rem', sm: '1rem' },
-            py: { xs: 1, sm: 1.5 }
-          },
-          '& .MuiTextField-root': {
-            ...tradeWidgetStyle['& .MuiTextField-root'],
-            '& .MuiInputBase-input': {
-              fontSize: { xs: '0.875rem', sm: '1rem' },
-              py: { xs: 1, sm: 1.5 }
-            }
-          },
-          '& .MuiCard-root': {
+        <Box
+          sx={{
+            ...tradeWidgetStyle,
+            height: "fit-content",
+            maxHeight: { xs: "450px", sm: "none" },
             ...(tradeWidgetBorderColor && {
-              borderColor: `${tradeWidgetBorderColor} !important`,
+              border: `2px solid ${tradeWidgetBorderColor}`,
+              borderRadius: borderRadius ? `${borderRadius}px` : "8px",
+              boxSizing: "border-box",
             }),
-            boxShadow: 'none !important'
-          },
-          '& > div': {
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-          },
-          '& .MuiBox-root': {
-            '&:last-child': {
-              paddingBottom: '0 !important',
-              marginBottom: '0 !important',
+            overflow: "hidden",
+            "& .MuiButton-root": {
+              ...tradeWidgetStyle["& .MuiButton-root"],
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+              py: { xs: 1, sm: 1.5 },
             },
-          },
-          '& .trade-widget-container': {
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-          },
-          padding: '0 !important',
-          margin: '0 !important',
-        }}>
+            "& .MuiTextField-root": {
+              ...tradeWidgetStyle["& .MuiTextField-root"],
+              "& .MuiInputBase-input": {
+                fontSize: { xs: "0.875rem", sm: "1rem" },
+                py: { xs: 1, sm: 1.5 },
+              },
+            },
+            "& .MuiCard-root": {
+              ...(tradeWidgetBorderColor && {
+                borderColor: tradeWidgetBorderColor,
+              }),
+              boxShadow: "none",
+            },
+            "& > div": {
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+            },
+            "& .MuiBox-root": {
+              "&:last-child": {
+                paddingBottom: "0",
+                marginBottom: "0",
+              },
+            },
+            "& .trade-widget-container": {
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+            },
+            padding: "0",
+            margin: "0",
+          }}
+        >
           <TradeWidget isActive={true} customVariantSettings={customSettings} />
         </Box>
       );
@@ -679,7 +785,10 @@ function ExchangeSection() {
       }
 
       return (
-        <Grid size={{ xs: 12, md: showTradingGraph ? 6 : 12, lg: showTradingGraph ? 5 : 12 }} key="tradeWidget">
+        <Grid
+          size={{ xs: 12, md: showTradingGraph ? 6 : 12, lg: showTradingGraph ? 5 : 12 }}
+          key="tradeWidget"
+        >
           {content}
         </Grid>
       );
@@ -689,19 +798,21 @@ function ExchangeSection() {
       if (!showTradingGraph) return null;
 
       const content = (
-        <Box sx={{
-          ...tradingGraphStyle,
-          minHeight: { xs: '300px', sm: '400px', md: '500px', lg: '600px' },
-          maxHeight: { xs: '400px', sm: 'none' },
-          '& iframe': {
-            ...tradingGraphStyle['& iframe'],
-            width: '100% !important',
-            height: '100% !important',
-            minHeight: 'inherit !important'
-          },
-          overflow: 'hidden',
-          position: 'relative'
-        }}>
+        <Box
+          sx={{
+            ...tradingGraphStyle,
+            minHeight: { xs: "300px", sm: "400px", md: "500px", lg: "600px" },
+            maxHeight: { xs: "400px", sm: "none" },
+            "& iframe": {
+              ...tradingGraphStyle["& iframe"],
+              width: "100%",
+              height: "100%",
+              minHeight: "inherit",
+            },
+            overflow: "hidden",
+            position: "relative",
+          }}
+        >
           <TradingGraph
             key={selectedAddress}
             isLoading={isLoadingPool}
@@ -709,7 +820,7 @@ function ExchangeSection() {
             onChangeShowSwaps={handleChangeShowSwap}
             selectedPool={selectedAddress}
             network={network}
-            pools={pools.map((pool: any) => ({
+            pools={pools.map((pool) => ({
               name: pool.attributes.name,
               address: pool.attributes.address,
             }))}
@@ -724,19 +835,25 @@ function ExchangeSection() {
       }
 
       return (
-        <Grid size={{ xs: 12, md: showTradeWidget ? 6 : 12, lg: showTradeWidget ? 7 : 12 }} key="tradingGraph">
+        <Grid
+          size={{ xs: 12, md: showTradeWidget ? 6 : 12, lg: showTradeWidget ? 7 : 12 }}
+          key="tradingGraph"
+        >
           {content}
         </Grid>
       );
     };
 
-    const renderComponentByType = (componentType: string, skipGridWrapper = false) => {
+    const renderComponentByType = (
+      componentType: string,
+      skipGridWrapper = false
+    ) => {
       switch (componentType) {
-        case 'pairInfo':
+        case "pairInfo":
           return renderPairInfoComponent(skipGridWrapper);
-        case 'tradeWidget':
+        case "tradeWidget":
           return renderTradeWidgetComponent(skipGridWrapper);
-        case 'tradingGraph':
+        case "tradingGraph":
           return renderTradingGraphComponent(skipGridWrapper);
         default:
           return null;
@@ -745,31 +862,51 @@ function ExchangeSection() {
 
     if (layout === "horizontal") {
       return (
-        <Box sx={{
-          ...containerStyle,
-          overflow: 'hidden'
-        }}>
+        <Box
+          sx={{
+            ...containerStyle,
+            overflow: "hidden",
+          }}
+        >
           {componentOrder.map((componentType: string) => {
-            if (componentType === 'pairInfo') {
+            if (componentType === "pairInfo") {
               return (
-                <Box key={componentType} sx={{
-                  width: '100%',
-                  mb: { xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: spacing }
-                }}>
+                <Box
+                  key={componentType}
+                  sx={{
+                    width: "100%",
+                    mb: {
+                      xs: Math.max(spacing * 0.5, 1),
+                      sm: Math.max(spacing * 0.75, 1.5),
+                      md: spacing,
+                    },
+                  }}
+                >
                   {renderComponentByType(componentType, true)}
                 </Box>
               );
             } else {
               return (
-                <Box key={componentType} sx={{
-                  display: 'inline-block',
-                  width: componentType === 'tradeWidget'
-                    ? { xs: '100%', lg: '380px', xl: '420px' }
-                    : { xs: '100%', lg: 'calc(100% - 400px)', xl: 'calc(100% - 440px)' },
-                  verticalAlign: 'top',
-                  mr: componentType === 'tradeWidget' ? { xs: 0, lg: spacing } : 0,
-                  mb: { xs: Math.max(spacing * 0.5, 1), lg: 0 }
-                }}>
+                <Box
+                  key={componentType}
+                  sx={{
+                    display: "inline-block",
+                    width:
+                      componentType === "tradeWidget"
+                        ? { xs: "100%", lg: "380px", xl: "420px" }
+                        : {
+                          xs: "100%",
+                          lg: "calc(100% - 400px)",
+                          xl: "calc(100% - 440px)",
+                        },
+                    verticalAlign: "top",
+                    mr:
+                      componentType === "tradeWidget"
+                        ? { xs: 0, lg: spacing }
+                        : 0,
+                    mb: { xs: Math.max(spacing * 0.5, 1), lg: 0 },
+                  }}
+                >
                   {renderComponentByType(componentType, true)}
                 </Box>
               );
@@ -781,23 +918,46 @@ function ExchangeSection() {
 
     if (layout === "vertical") {
       return (
-        <Box sx={{
-          ...containerStyle,
-        }}>
-          <Grid container spacing={{ xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: Math.max(spacing * 0.85, 2), lg: spacing }} sx={{ flexDirection: "column" }}>
-            {componentOrder.map((componentType: string) => renderComponentByType(componentType))}
+        <Box
+          sx={{
+            ...containerStyle,
+          }}
+        >
+          <Grid
+            container
+            spacing={{
+              xs: Math.max(spacing * 0.5, 1),
+              sm: Math.max(spacing * 0.75, 1.5),
+              md: Math.max(spacing * 0.85, 2),
+              lg: spacing,
+            }}
+            direction="column"
+          >
+            {componentOrder.map((componentType: string) =>
+              renderComponentByType(componentType)
+            )}
           </Grid>
         </Box>
       );
     }
 
     return (
-      <Box sx={{
-        ...containerStyle,
-      }}>
-        <Grid container spacing={{ xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: Math.max(spacing * 0.85, 2), lg: spacing }}>
+      <Box
+        sx={{
+          ...containerStyle,
+        }}
+      >
+        <Grid
+          container
+          spacing={{
+            xs: Math.max(spacing * 0.5, 1),
+            sm: Math.max(spacing * 0.75, 1.5),
+            md: Math.max(spacing * 0.85, 2),
+            lg: spacing,
+          }}
+        >
           {componentOrder.map((componentType: string) => {
-            if (componentType === 'pairInfo') {
+            if (componentType === "pairInfo") {
               return (
                 <Grid size={12} key={componentType}>
                   {renderComponentByType(componentType, true)}
@@ -814,42 +974,53 @@ function ExchangeSection() {
 
   const renderGlassVariant = (glassSettings: any) => {
     const blurIntensity = glassSettings?.blurIntensity || 40;
-    const glassOpacity = glassSettings?.glassOpacity || 0.10;
+    const glassOpacity = glassSettings?.glassOpacity || 0.1;
     const textColor = glassSettings?.textColor || theme.palette.text.primary;
 
     const getContainerBackground = () => {
       if (glassSettings?.disableBackground) {
-        return 'transparent';
+        return "transparent";
       }
 
-      if (glassSettings?.backgroundType === 'image' && glassSettings?.backgroundImage) {
+      if (
+        glassSettings?.backgroundType === "image" &&
+        glassSettings?.backgroundImage
+      ) {
         return `url(${glassSettings.backgroundImage})`;
-      } else if (glassSettings?.backgroundType === 'solid') {
-        return glassSettings.backgroundColor || theme.palette.background.default;
+      } else if (glassSettings?.backgroundType === "solid") {
+        return (
+          glassSettings.backgroundColor || theme.palette.background.default
+        );
       } else {
-        const from = glassSettings?.gradientStartColor || theme.palette.background.default;
-        const to = glassSettings?.gradientEndColor || theme.palette.background.paper;
-        const direction = glassSettings?.gradientDirection || 'to bottom';
+        const from =
+          glassSettings?.gradientStartColor || theme.palette.background.default;
+        const to =
+          glassSettings?.gradientEndColor || theme.palette.background.paper;
+        const direction = glassSettings?.gradientDirection || "to bottom";
 
         const directionMap: Record<string, string> = {
-          'to bottom': '180deg',
-          'to top': '0deg',
-          'to right': '90deg',
-          'to left': '270deg',
-          'to bottom right': '135deg',
-          'to bottom left': '225deg',
+          "to bottom": "180deg",
+          "to top": "0deg",
+          "to right": "90deg",
+          "to left": "270deg",
+          "to bottom right": "135deg",
+          "to bottom left": "225deg",
         };
-        const gradientDirection = directionMap[direction] || '180deg';
+        const gradientDirection = directionMap[direction] || "180deg";
         return `linear-gradient(${gradientDirection}, ${from}, ${to})`;
       }
     };
 
     const glassmorphismBase = {
-      backgroundColor: `rgba(255, 255, 255, ${glassOpacity}) !important`,
-      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)}) !important`,
-      borderRadius: { xs: '16px !important', sm: '18px !important', md: '20px !important' },
+      backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)})`,
+      borderRadius: {
+        xs: "16px",
+        sm: "18px",
+        md: "20px",
+      },
       boxShadow: {
         xs: `
           0 4px 16px rgba(0, 0, 0, 0.08),
@@ -862,16 +1033,16 @@ function ExchangeSection() {
         md: `
           0 8px 32px rgba(0, 0, 0, 0.1),
           0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.5)}) inset
-        `
+        `,
       },
-      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      position: 'relative',
-      overflow: 'hidden',
-      isolation: 'isolate',
-      '&:hover': {
-        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.4)}) !important`,
-        backdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(1.08) !important`,
-        WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(1.08) !important`,
+      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      position: "relative",
+      overflow: "hidden",
+      isolation: "isolate",
+      "&:hover": {
+        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.4)})`,
+        backdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(1.08)`,
+        WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(1.08)`,
         boxShadow: {
           xs: `
             0 6px 20px rgba(0, 0, 0, 0.12),
@@ -884,49 +1055,59 @@ function ExchangeSection() {
           md: `
             0 12px 40px rgba(0, 0, 0, 0.15),
             0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 4, 0.6)}) inset
-          `
+          `,
         },
       },
     };
 
     const pairInfoStyles = {
       ...glassmorphismBase,
-      padding: { xs: '12px 16px', sm: '16px 20px', md: '20px 28px' },
-      borderRadius: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
-      margin: { xs: '4px', sm: '8px', md: '0' },
-      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      '& .MuiPaper-root': {
-        backgroundColor: 'transparent !important',
-        boxShadow: 'none !important',
+      padding: { xs: "12px 16px", sm: "16px 20px", md: "20px 28px" },
+      borderRadius: {
+        xs: "12px",
+        sm: "16px",
+        md: "20px",
       },
-      '& .MuiTypography-root': {
-        color: `${isDark ? textColor : theme.palette.text.primary} !important`,
-        fontWeight: '500',
-        fontSize: { xs: '13px', sm: '14px', md: '15px' },
+      margin: { xs: "4px", sm: "8px", md: "0" },
+      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      "& .MuiPaper-root": {
+        backgroundColor: "transparent",
+        boxShadow: "none",
+      },
+      "& .MuiTypography-root": {
+        color: `${textColor}`,
+        fontWeight: "500",
+        fontSize: { xs: "13px", sm: "14px", md: "15px" },
         lineHeight: { xs: 1.4, sm: 1.5, md: 1.6 },
-        textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
-        position: 'relative',
+        textShadow: textColor.includes("255, 255, 255")
+          ? "0 1px 2px rgba(0, 0, 0, 0.3)"
+          : "0 1px 2px rgba(255, 255, 255, 0.3)",
+        position: "relative",
         zIndex: 2,
       },
-      '& .MuiButtonBase-root': {
-        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 0.8, 0.2)}) !important`,
-        backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-        borderRadius: { xs: '12px !important', sm: '14px !important', md: '16px !important' },
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-        color: `${isDark ? textColor : theme.palette.text.primary} !important`,
-        fontSize: { xs: '13px', sm: '14px', md: '15px' },
-        minHeight: { xs: '40px', sm: '44px', md: '48px' },
+      "& .MuiButtonBase-root": {
+        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 0.8, 0.2)})`,
+        backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02)`,
+        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02)`,
+        borderRadius: {
+          xs: "12px",
+          sm: "14px",
+          md: "16px",
+        },
+        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)})`,
+        color: `${textColor}`,
+        fontSize: { xs: "13px", sm: "14px", md: "15px" },
+        minHeight: { xs: "40px", sm: "44px", md: "48px" },
         boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
-        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-        isolation: 'isolate',
-        position: 'relative',
+        transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+        isolation: "isolate",
+        position: "relative",
         zIndex: 2,
-        '&:hover': {
-          backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.3)}) !important`,
-          backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-          WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
+        "&:hover": {
+          backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.3)})`,
+          backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05)`,
+          WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05)`,
           boxShadow: `0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
         },
       },
@@ -934,225 +1115,267 @@ function ExchangeSection() {
 
     const tradeWidgetStyles = {
       ...glassmorphismBase,
-      borderRadius: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
-      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      padding: { xs: '8px', sm: '12px', md: '16px' },
-      margin: { xs: '4px', sm: '8px', md: '0' },
-      '& .MuiCard-root': {
-        backgroundColor: 'transparent !important',
-        boxShadow: 'none !important',
-        borderRadius: { xs: '14px !important', sm: '16px !important', md: '16px !important' },
+      borderRadius: {
+        xs: "12px",
+        sm: "16px",
+        md: "20px",
       },
-      '& .MuiCardContent-root': {
-        padding: { xs: '16px !important', sm: '18px !important', md: '20px !important' },
-        position: 'relative',
+      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      padding: { xs: "8px", sm: "12px", md: "16px" },
+      margin: { xs: "4px", sm: "8px", md: "0" },
+      "& .MuiCard-root": {
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        borderRadius: {
+          xs: "14px",
+          sm: "16px",
+          md: "16px",
+        },
+      },
+      "& .MuiCardContent-root": {
+        padding: {
+          xs: "16px",
+          sm: "18px",
+          md: "20px",
+        },
+        position: "relative",
         zIndex: 2,
       },
-      '& .MuiTabs-root': {
-        position: 'relative',
+      "& .MuiTabs-root": {
+        position: "relative",
         zIndex: 2,
-        minHeight: { xs: '40px', sm: '44px', md: '48px' },
-        '& .MuiTab-root': {
-          color: `${isDark ? textColor.replace('0.95', '0.7') : theme.palette.text.secondary} !important`,
-          fontWeight: '600',
-          fontSize: { xs: '13px', sm: '14px', md: '15px' },
-          minHeight: { xs: '40px', sm: '44px', md: '48px' },
-          padding: { xs: '8px 12px', sm: '10px 16px', md: '12px 20px' },
-          position: 'relative',
+        minHeight: { xs: "40px", sm: "44px", md: "48px" },
+        "& .MuiTab-root": {
+          color: `${textColor.replace("0.95", "0.7")}`,
+          fontWeight: "600",
+          fontSize: { xs: "13px", sm: "14px", md: "15px" },
+          minHeight: { xs: "40px", sm: "44px", md: "48px" },
+          padding: { xs: "8px 12px", sm: "10px 16px", md: "12px 20px" },
+          position: "relative",
           zIndex: 2,
-          '&.Mui-selected': {
-            color: `${isDark ? textColor : theme.palette.text.primary} !important`,
+          "&.Mui-selected": {
+            color: `${textColor}`,
           },
         },
-        '& .MuiTabs-indicator': {
-          backgroundColor: 'rgba(0, 122, 255, 0.8) !important',
-          height: { xs: '2px', sm: '2.5px', md: '3px' },
-          borderRadius: { xs: '1px', sm: '1.5px', md: '2px' },
+        "& .MuiTabs-indicator": {
+          backgroundColor: "rgba(0, 122, 255, 0.8)",
+          height: { xs: "2px", sm: "2.5px", md: "3px" },
+          borderRadius: { xs: "1px", sm: "1.5px", md: "2px" },
         },
       },
-      '& .MuiTextField-root': {
-        position: 'relative',
+      "& .MuiTextField-root": {
+        position: "relative",
         zIndex: 2,
-        '& .MuiInputBase-root': {
-          backgroundColor: `rgba(255, 255, 255, ${glassOpacity}) !important`,
-          backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-          WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-          borderRadius: { xs: '12px !important', sm: '14px !important', md: '16px !important' },
-          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-          color: `${isDark ? textColor : theme.palette.text.primary} !important`,
-          fontSize: { xs: '14px', sm: '15px', md: '16px' },
+        "& .MuiInputBase-root": {
+          backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+          backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02)`,
+          WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02)`,
+          borderRadius: {
+            xs: "12px",
+            sm: "14px",
+            md: "16px",
+          },
+          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)})`,
+          color: `${textColor}`,
+          fontSize: { xs: "14px", sm: "15px", md: "16px" },
           boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
-          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-          isolation: 'isolate',
-          position: 'relative',
+          transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          isolation: "isolate",
+          position: "relative",
           zIndex: 2,
-          '&:hover': {
-            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
-            backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-            WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-            borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) !important`,
+          "&:hover": {
+            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)})`,
+            backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05)`,
+            WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05)`,
+            borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)})`,
           },
-          '&.Mui-focused': {
-            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
-            backdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.08) !important`,
-            WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.08) !important`,
-            borderColor: 'rgba(0, 122, 255, 0.4) !important',
+          "&.Mui-focused": {
+            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)})`,
+            backdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.08)`,
+            WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.08)`,
+            borderColor: "rgba(0, 122, 255, 0.4)",
             boxShadow: `0 6px 16px rgba(0, 122, 255, 0.1), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
-            transform: 'scale(1.02)',
+            transform: "scale(1.02)",
           },
         },
-        '& .MuiInputLabel-root': {
-          color: `${isDark ? textColor.replace('0.95', '0.8') : theme.palette.text.secondary} !important`,
-          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
-          position: 'relative',
+        "& .MuiInputLabel-root": {
+          color: `${textColor.replace("0.95", "0.8")}`,
+          textShadow: textColor.includes("255, 255, 255")
+            ? "0 1px 2px rgba(0, 0, 0, 0.3)"
+            : "0 1px 2px rgba(255, 255, 255, 0.3)",
+          position: "relative",
           zIndex: 2,
         },
       },
-      '& .MuiButton-root': {
-        backgroundColor: 'rgba(0, 122, 255, 0.75) !important',
-        backdropFilter: `blur(${blurIntensity}px) saturate(150%) !important`,
-        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) !important`,
-        borderRadius: '16px !important',
-        color: 'white !important',
-        fontWeight: '600',
-        textTransform: 'none',
+      "& .MuiButton-root": {
+        backgroundColor: "rgba(0, 122, 255, 0.75)",
+        backdropFilter: `blur(${blurIntensity}px) saturate(150%)`,
+        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%)`,
+        borderRadius: "16px",
+        color: "white",
+        fontWeight: "600",
+        textTransform: "none",
         boxShadow: `
           0 4px 16px rgba(0, 122, 255, 0.25),
           0 1px 0 rgba(255, 255, 255, 0.2) inset
         `,
-        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-        position: 'relative',
+        transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+        position: "relative",
         zIndex: 2,
-        isolation: 'isolate',
-        '&:hover': {
-          backgroundColor: 'rgba(0, 122, 255, 0.85) !important',
-          backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) !important`,
-          WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) !important`,
-          transform: 'translateY(-2px) scale(1.02)',
+        isolation: "isolate",
+        "&:hover": {
+          backgroundColor: "rgba(0, 122, 255, 0.85)",
+          backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%)`,
+          WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%)`,
+          transform: "translateY(-2px) scale(1.02)",
           boxShadow: `
             0 8px 24px rgba(0, 122, 255, 0.35),
             0 2px 0 rgba(255, 255, 255, 0.3) inset
           `,
         },
-        '&:active': {
-          transform: 'translateY(-1px) scale(0.98)',
+        "&:active": {
+          transform: "translateY(-1px) scale(0.98)",
         },
-        '&:disabled': {
-          backgroundColor: 'rgba(255, 255, 255, 0.2) !important',
-          backdropFilter: `blur(${Math.max(blurIntensity - 10, 5)}px) !important`,
-          WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 10, 5)}px) !important`,
-          color: 'rgba(45, 55, 72, 0.4) !important',
-          boxShadow: 'none',
+        "&:disabled": {
+          backgroundColor: "rgba(255, 255, 255, 0.2)",
+          backdropFilter: `blur(${Math.max(blurIntensity - 10, 5)}px)`,
+          WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 10, 5)}px)`,
+          color: 'text.disabled',
+          boxShadow: "none",
         },
       },
-      '& .MuiDivider-root': {
-        backgroundColor: 'rgba(255, 255, 255, 0.3) !important',
+      "& .MuiDivider-root": {
+        backgroundColor: "rgba(255, 255, 255, 0.3)",
       },
     };
 
     const tradingGraphStyles = {
       ...glassmorphismBase,
-      overflow: 'hidden',
-      borderRadius: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
-      minHeight: { xs: '280px', sm: '350px', md: '500px' },
-      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-      margin: { xs: '4px', sm: '8px', md: '0' },
-      '& .MuiCard-root': {
-        backgroundColor: 'transparent !important',
-        boxShadow: 'none !important',
-        borderRadius: '20px !important',
+      overflow: "hidden",
+      borderRadius: {
+        xs: "12px",
+        sm: "16px",
+        md: "20px",
       },
-      '& .MuiCardContent-root': {
-        padding: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
-        backgroundColor: 'transparent !important',
-        position: 'relative',
-        zIndex: 2,
-        borderRadius: { xs: '12px', sm: '14px', md: '16px' },
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      minHeight: { xs: "280px", sm: "350px", md: "500px" },
+      backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05)`,
+      margin: { xs: "4px", sm: "8px", md: "0" },
+      "& .MuiCard-root": {
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        borderRadius: "20px",
       },
-      '& .MuiFormControlLabel-root': {
-        position: 'relative',
+      "& .MuiCardContent-root": {
+        padding: {
+          xs: "12px",
+          sm: "16px",
+          md: "20px",
+        },
+        backgroundColor: "transparent",
+        position: "relative",
         zIndex: 2,
-        '& .MuiTypography-root': {
-          color: `${isDark ? textColor.replace('0.95', '0.9') : theme.palette.text.secondary} !important`,
-          fontWeight: '500',
-          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
-          position: 'relative',
+        borderRadius: { xs: "12px", sm: "14px", md: "16px" },
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      },
+      "& .MuiFormControlLabel-root": {
+        position: "relative",
+        zIndex: 2,
+        "& .MuiTypography-root": {
+          color: `${textColor.replace("0.95", "0.9")}`,
+          fontWeight: "500",
+          textShadow: textColor.includes("255, 255, 255")
+            ? "0 1px 2px rgba(0, 0, 0, 0.3)"
+            : "0 1px 2px rgba(255, 255, 255, 0.3)",
+          position: "relative",
           zIndex: 2,
         },
-        '& .MuiCheckbox-root': {
-          color: 'rgba(0, 122, 255, 0.85) !important',
-          filter: 'drop-shadow(0 2px 4px rgba(0, 122, 255, 0.2))',
-          transition: 'all 0.2s ease-in-out',
-          position: 'relative',
+        "& .MuiCheckbox-root": {
+          color: 'primary.main',
+          filter: "drop-shadow(0 2px 4px rgba(0, 122, 255, 0.2))",
+          transition: "all 0.2s ease-in-out",
+          position: "relative",
           zIndex: 2,
-          '&:hover': {
-            filter: 'drop-shadow(0 4px 8px rgba(0, 122, 255, 0.3))',
+          "&:hover": {
+            filter: "drop-shadow(0 4px 8px rgba(0, 122, 255, 0.3))",
           },
         },
       },
-      '& .MuiSelect-root': {
-        backgroundColor: `rgba(255, 255, 255, ${glassOpacity}) !important`,
-        backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-        borderRadius: '16px !important',
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-        color: `${isDark ? textColor : theme.palette.text.primary} !important`,
+      "& .MuiSelect-root": {
+        backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+        backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02)`,
+        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02)`,
+        borderRadius: "16px",
+        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)})`,
+        color: `${textColor}`,
         boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
-        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-        position: 'relative',
+        transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+        position: "relative",
         zIndex: 2,
-        isolation: 'isolate',
-        '&:hover': {
-          backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
-          backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-          WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
+        isolation: "isolate",
+        "&:hover": {
+          backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)})`,
+          backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05)`,
+          WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05)`,
           boxShadow: `0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
         },
       },
-      '& iframe': {
-        borderRadius: '16px',
-        border: '1px solid rgba(255, 255, 255, 0.25)',
-        backdropFilter: `blur(${Math.max(blurIntensity - 20, 5)}px) !important`,
-        WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 20, 5)}px) !important`,
-        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset',
-        transition: 'all 0.3s ease-in-out',
-        position: 'relative',
+      "& iframe": {
+        borderRadius: "16px",
+        border: "1px solid rgba(255, 255, 255, 0.25)",
+        backdropFilter: `blur(${Math.max(blurIntensity - 20, 5)}px)`,
+        WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 20, 5)}px)`,
+        boxShadow:
+          "0 4px 16px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
+        transition: "all 0.3s ease-in-out",
+        position: "relative",
         zIndex: 2,
-        '&:hover': {
-          transform: 'scale(1.002)',
-          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, 0.15) inset',
-          backdropFilter: `blur(${Math.max(blurIntensity - 15, 8)}px) !important`,
-          WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 15, 8)}px) !important`,
+        "&:hover": {
+          transform: "scale(1.002)",
+          boxShadow:
+            "0 6px 20px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, 0.15) inset",
+          backdropFilter: `blur(${Math.max(blurIntensity - 15, 8)}px)`,
+          WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 15, 8)}px)`,
         },
       },
-      '& canvas, & svg': {
-        backdropFilter: `blur(${Math.max(blurIntensity - 25, 3)}px) !important`,
-        WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 25, 3)}px) !important`,
-        borderRadius: '12px',
-        filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.06)) saturate(110%)',
-        transition: 'filter 0.3s ease-in-out',
-        position: 'relative',
+      "& canvas, & svg": {
+        backdropFilter: `blur(${Math.max(blurIntensity - 25, 3)}px)`,
+        WebkitBackdropFilter: `blur(${Math.max(blurIntensity - 25, 3)}px)`,
+        borderRadius: "12px",
+        filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.06)) saturate(110%)",
+        transition: "filter 0.3s ease-in-out",
+        position: "relative",
         zIndex: 2,
       },
-      '& .recharts-surface': {
-        filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.04)) brightness(1.02)',
-        position: 'relative',
+      "& .recharts-surface": {
+        filter: "drop-shadow(0 2px 8px rgba(0, 0, 0, 0.04)) brightness(1.02)",
+        position: "relative",
         zIndex: 2,
       },
     };
 
     const containerStyles = {
       background: getContainerBackground(),
-      backgroundSize: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundSize || 'cover') : 'auto',
-      backgroundPosition: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundPosition || 'center') : 'initial',
-      backgroundRepeat: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundRepeat || 'no-repeat') : 'initial',
-      backgroundAttachment: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundAttachment || 'scroll') : 'initial',
-      minHeight: isMobile ? 'auto' : '100vh',
+      backgroundSize:
+        glassSettings?.backgroundType === "image"
+          ? glassSettings?.backgroundSize || "cover"
+          : "auto",
+      backgroundPosition:
+        glassSettings?.backgroundType === "image"
+          ? glassSettings?.backgroundPosition || "center"
+          : "initial",
+      backgroundRepeat:
+        glassSettings?.backgroundType === "image"
+          ? glassSettings?.backgroundRepeat || "no-repeat"
+          : "initial",
+      backgroundAttachment:
+        glassSettings?.backgroundType === "image"
+          ? glassSettings?.backgroundAttachment || "scroll"
+          : "initial",
+      minHeight: isMobile ? "auto" : "100vh",
       p: { xs: theme.spacing(1), sm: theme.spacing(2), md: theme.spacing(4) },
-      position: 'relative',
+      position: "relative",
     };
 
     return (
@@ -1161,9 +1384,9 @@ function ExchangeSection() {
           maxWidth={isMobile ? false : "lg"}
           disableGutters={isMobile}
           sx={{
-            position: 'relative',
+            position: "relative",
             zIndex: 1,
-            px: { xs: 0.5, sm: 1, md: 3 }
+            px: { xs: 0.5, sm: 1, md: 3 },
           }}
         >
           <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
@@ -1185,10 +1408,6 @@ function ExchangeSection() {
                       selectedPool?.attributes.price_change_percentage?.h24
                     }
                     lastPrice={selectedPool?.attributes.base_token_price_usd}
-                    customVariantSettings={{
-                      pairInfoTextColor: isDark ? '#ffffff' : theme.palette.text.primary,
-                      pairInfoSecondaryTextColor: isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary,
-                    }}
                   />
                 </Box>
               </Grid>
@@ -1207,7 +1426,7 @@ function ExchangeSection() {
                   onChangeShowSwaps={handleChangeShowSwap}
                   selectedPool={selectedAddress}
                   network={network}
-                  pools={pools.map((pool: any) => ({
+                  pools={pools.map((pool) => ({
                     name: pool.attributes.name,
                     address: pool.attributes.address,
                   }))}
@@ -1222,7 +1441,8 @@ function ExchangeSection() {
   };
 
   const renderContent = () => {
-    const { variant, customVariantSettings, glassSettings } = exchangeState as any;
+    const { variant, customVariantSettings, glassSettings } =
+      exchangeState as any;
 
     switch (variant) {
       case "custom":
@@ -1235,42 +1455,46 @@ function ExchangeSection() {
   };
 
   const renderSelectPairDialog = () => {
-    const { variant, customVariantSettings, glassSettings } = exchangeState as any;
+    const { variant, customVariantSettings } =
+      exchangeState as any;
 
     if (variant === "glass") {
       const glassmorphismDialogStyles = {
-        '& .MuiDialog-paper': {
-          backgroundColor: 'rgba(255, 255, 255, 0.15) !important',
-          backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
-          border: '1px solid rgba(255, 255, 255, 0.25)',
-          borderRadius: '24px !important',
+        "& .MuiDialog-paper": {
+          backgroundColor: "rgba(255, 255, 255, 0.15)",
+          backdropFilter: "blur(30px) saturate(200%) brightness(1.1)",
+          border: "1px solid rgba(255, 255, 255, 0.25)",
+          borderRadius: "24px",
           boxShadow: `
             0 20px 50px rgba(0, 0, 0, 0.1),
             0 2px 0 rgba(255, 255, 255, 0.4) inset,
             0 -2px 0 rgba(255, 255, 255, 0.2) inset
           `,
-          position: 'relative',
-          overflow: 'hidden',
-          '&::before': {
+          position: "relative",
+          overflow: "hidden",
+          "&::before": {
             content: '""',
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)',
-            pointerEvents: 'none',
-            borderRadius: 'inherit',
+            background:
+              "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)",
+            pointerEvents: "none",
+            borderRadius: "inherit",
           },
-          '@media (max-width: 600px)': {
-            margin: '16px !important',
-            height: 'calc(100vh - 32px) !important',
-            maxHeight: 'calc(100vh - 32px) !important',
-            borderRadius: '20px !important',
-            backgroundColor: 'rgba(255, 255, 255, 0.15) !important',
-            backdropFilter: 'blur(30px) saturate(200%) brightness(1.1) !important',
-            WebkitBackdropFilter: 'blur(30px) saturate(200%) brightness(1.1) !important',
-            border: '1px solid rgba(255, 255, 255, 0.25) !important',
+          "@media (max-width: 600px)": {
+            margin: "16px",
+            height: "calc(100vh - 32px)",
+            maxHeight: "calc(100vh - 32px)",
+            borderRadius: "20px",
+            backgroundColor: "rgba(255, 255, 255, 0.15)",
+            backdropFilter:
+              "blur(30px) saturate(200%) brightness(1.1)",
+            WebkitBackdropFilter:
+              "blur(30px) saturate(200%) brightness(1.1)",
+            border: "1px solid rgba(255, 255, 255, 0.25)",
             boxShadow: `
               0 20px 50px rgba(0, 0, 0, 0.1),
               0 2px 0 rgba(255, 255, 255, 0.4) inset,
@@ -1278,159 +1502,172 @@ function ExchangeSection() {
             `,
           },
         },
-        '& .MuiDialogTitle-root': {
-          backgroundColor: 'transparent !important',
-          color: 'rgba(45, 55, 72, 0.95) !important',
-          fontWeight: '600',
-          textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-          backdropFilter: 'blur(10px)',
+        "& .MuiDialogTitle-root": {
+          backgroundColor: "transparent",
+          color: 'text.primary',
+          fontWeight: "600",
+          textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(10px)",
         },
-        '& .MuiDialogContent-root': {
-          backgroundColor: 'transparent !important',
-          color: 'rgba(45, 55, 72, 0.9) !important',
-          position: 'relative',
+        "& .MuiDialogContent-root": {
+          backgroundColor: "transparent",
+          color: 'text.primary',
+          position: "relative",
           zIndex: 1,
         },
-        '& .MuiDialogActions-root': {
-          backgroundColor: 'transparent !important',
-          borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-          backdropFilter: 'blur(10px)',
+        "& .MuiDialogActions-root": {
+          backgroundColor: "transparent",
+          borderTop: "1px solid rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(10px)",
         },
-        '& .MuiChip-root': {
-          backgroundColor: 'rgba(255, 255, 255, 0.2) !important',
-          backdropFilter: 'blur(15px) saturate(150%)',
-          border: '1px solid rgba(255, 255, 255, 0.3) !important',
-          color: 'rgba(45, 55, 72, 0.9) !important',
-          borderRadius: '16px !important',
-          fontWeight: '500',
-          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.3) !important',
-            backdropFilter: 'blur(20px) saturate(170%)',
-            transform: 'scale(1.02)',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+        "& .MuiChip-root": {
+          backgroundColor: "rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(15px) saturate(150%)",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+          color: 'text.primary',
+          borderRadius: "16px",
+          fontWeight: "500",
+          transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.3)",
+            backdropFilter: "blur(20px) saturate(170%)",
+            transform: "scale(1.02)",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
           },
-          '&.MuiChip-colorPrimary': {
-            backgroundColor: 'rgba(0, 122, 255, 0.75) !important',
-            backdropFilter: 'blur(15px) saturate(160%)',
-            color: 'white !important',
-            border: '1px solid rgba(0, 122, 255, 0.5) !important',
-            boxShadow: '0 4px 16px rgba(0, 122, 255, 0.25), 0 1px 0 rgba(255, 255, 255, 0.2) inset',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 122, 255, 0.85) !important',
-              transform: 'scale(1.05)',
+          "&.MuiChip-colorPrimary": {
+            backgroundColor: "rgba(0, 122, 255, 0.75)",
+            backdropFilter: "blur(15px) saturate(160%)",
+            color: "white",
+            border: "1px solid rgba(0, 122, 255, 0.5)",
+            boxShadow:
+              "0 4px 16px rgba(0, 122, 255, 0.25), 0 1px 0 rgba(255, 255, 255, 0.2) inset",
+            "&:hover": {
+              backgroundColor: "rgba(0, 122, 255, 0.85)",
+              transform: "scale(1.05)",
             },
           },
         },
-        '& .MuiListItemButton-root': {
-          backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
-          backdropFilter: 'blur(10px)',
-          margin: '4px 8px',
-          borderRadius: '12px !important',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          color: 'rgba(45, 55, 72, 0.9) !important',
-          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.2) !important',
-            backdropFilter: 'blur(15px) saturate(150%)',
-            transform: 'translateX(4px) scale(1.01)',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+        "& .MuiListItemButton-root": {
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(10px)",
+          margin: "4px 8px",
+          borderRadius: "12px",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          color: 'text.primary',
+          transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.2)",
+            backdropFilter: "blur(15px) saturate(150%)",
+            transform: "translateX(4px) scale(1.01)",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
           },
-          '&.Mui-selected': {
-            backgroundColor: 'rgba(0, 122, 255, 0.2) !important',
-            backdropFilter: 'blur(15px) saturate(170%)',
-            border: '1px solid rgba(0, 122, 255, 0.4)',
-            color: 'rgba(0, 122, 255, 0.9) !important',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 122, 255, 0.25) !important',
+          "&.Mui-selected": {
+            backgroundColor: "rgba(0, 122, 255, 0.2)",
+            backdropFilter: "blur(15px) saturate(170%)",
+            border: "1px solid rgba(0, 122, 255, 0.4)",
+            color: 'primary.main',
+            "&:hover": {
+              backgroundColor: "rgba(0, 122, 255, 0.25)",
             },
           },
         },
-        '& .MuiTextField-root': {
-          '& .MuiInputBase-root': {
-            backgroundColor: 'rgba(255, 255, 255, 0.15) !important',
-            backdropFilter: 'blur(20px) saturate(160%) brightness(1.05)',
-            borderRadius: '16px !important',
-            border: '1px solid rgba(255, 255, 255, 0.3) !important',
-            color: 'rgba(45, 55, 72, 0.95) !important',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 0 rgba(255, 255, 255, 0.2) inset',
-            transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-            '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.25) !important',
-              backdropFilter: 'blur(25px) saturate(180%) brightness(1.08)',
-              borderColor: 'rgba(255, 255, 255, 0.4) !important',
+        "& .MuiTextField-root": {
+          "& .MuiInputBase-root": {
+            backgroundColor: "rgba(255, 255, 255, 0.15)",
+            backdropFilter: "blur(20px) saturate(160%) brightness(1.05)",
+            borderRadius: "16px",
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+            color: 'text.primary',
+            boxShadow:
+              "0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 0 rgba(255, 255, 255, 0.2) inset",
+            transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.25)",
+              backdropFilter: "blur(25px) saturate(180%) brightness(1.08)",
+              borderColor: "rgba(255, 255, 255, 0.4)",
             },
-            '&.Mui-focused': {
-              backgroundColor: 'rgba(255, 255, 255, 0.3) !important',
-              backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
-              borderColor: 'rgba(0, 122, 255, 0.5) !important',
-              boxShadow: '0 4px 12px rgba(0, 122, 255, 0.15), 0 2px 0 rgba(255, 255, 255, 0.3) inset',
+            "&.Mui-focused": {
+              backgroundColor: "rgba(255, 255, 255, 0.3)",
+              backdropFilter: "blur(30px) saturate(200%) brightness(1.1)",
+              borderColor: "rgba(0, 122, 255, 0.5)",
+              boxShadow:
+                "0 4px 12px rgba(0, 122, 255, 0.15), 0 2px 0 rgba(255, 255, 255, 0.3) inset",
             },
           },
-          '& .MuiInputLabel-root': {
-            color: 'rgba(45, 55, 72, 0.8) !important',
-            textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+          "& .MuiInputLabel-root": {
+            color: 'text.secondary',
+            textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
           },
         },
-        '& .MuiButton-root': {
-          borderRadius: '16px !important',
-          textTransform: 'none',
-          fontWeight: '600',
-          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&.MuiButton-contained': {
-            backgroundColor: 'rgba(0, 122, 255, 0.8) !important',
-            backdropFilter: 'blur(15px) saturate(150%)',
-            color: 'white !important',
-            border: '1px solid rgba(0, 122, 255, 0.5)',
+        "& .MuiButton-root": {
+          borderRadius: "16px",
+          textTransform: "none",
+          fontWeight: "600",
+          transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          "&.MuiButton-contained": {
+            backgroundColor: "rgba(0, 122, 255, 0.8)",
+            backdropFilter: "blur(15px) saturate(150%)",
+            color: "white",
+            border: "1px solid rgba(0, 122, 255, 0.5)",
             boxShadow: `
               0 4px 16px rgba(0, 122, 255, 0.25),
               0 1px 0 rgba(255, 255, 255, 0.2) inset
             `,
-            '&:hover': {
-              backgroundColor: 'rgba(0, 122, 255, 0.9) !important',
-              backdropFilter: 'blur(20px) saturate(170%)',
-              transform: 'translateY(-1px) scale(1.02)',
+            "&:hover": {
+              backgroundColor: "rgba(0, 122, 255, 0.9)",
+              backdropFilter: "blur(20px) saturate(170%)",
+              transform: "translateY(-1px) scale(1.02)",
               boxShadow: `
                 0 6px 20px rgba(0, 122, 255, 0.35),
                 0 2px 0 rgba(255, 255, 255, 0.3) inset
               `,
             },
           },
-          '&.MuiButton-text': {
-            backgroundColor: 'rgba(255, 255, 255, 0.15) !important',
-            backdropFilter: 'blur(10px)',
-            color: 'rgba(45, 55, 72, 0.8) !important',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.25) !important',
-              backdropFilter: 'blur(15px) saturate(150%)',
-              transform: 'scale(1.02)',
+          "&.MuiButton-text": {
+            backgroundColor: "rgba(255, 255, 255, 0.15)",
+            backdropFilter: "blur(10px)",
+            color: 'text.secondary',
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.25)",
+              backdropFilter: "blur(15px) saturate(150%)",
+              transform: "scale(1.02)",
             },
           },
         },
         '& .MuiBox-root[style*="position: sticky"]': {
-          backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
-          backdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
-          WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.25) !important',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset !important',
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          backdropFilter:
+            "blur(25px) saturate(200%) brightness(1.08)",
+          WebkitBackdropFilter:
+            "blur(25px) saturate(200%) brightness(1.08)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.25)",
+          boxShadow:
+            "0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset",
         },
         '& .MuiBox-root[style*="z-index"]': {
-          backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
-          backdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
-          WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.25) !important',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset !important',
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          backdropFilter:
+            "blur(25px) saturate(200%) brightness(1.08)",
+          WebkitBackdropFilter:
+            "blur(25px) saturate(200%) brightness(1.08)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.25)",
+          boxShadow:
+            "0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset",
         },
-        '@media (max-width: 600px)': {
-          '& .MuiDialog-paper .MuiBox-root': {
-            '&[style*="position: sticky"], &[style*="z-index"], &[style*="background-color"]': {
-              backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
-              backdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
-              WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.25) !important',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset !important',
+        "@media (max-width: 600px)": {
+          "& .MuiDialog-paper .MuiBox-root": {
+            '&[style*="position: sticky"], &[style*="z-index"], &[style*="background-color"]':
+            {
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              backdropFilter:
+                "blur(25px) saturate(200%) brightness(1.08)",
+              WebkitBackdropFilter:
+                "blur(25px) saturate(200%) brightness(1.08)",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.25)",
+              boxShadow:
+                "0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset",
             },
           },
         },
@@ -1475,94 +1712,94 @@ function ExchangeSection() {
               fullWidth: true,
               onClose: handleClose,
               sx: {
-                '& .MuiDialog-paper': {
+                "& .MuiDialog-paper": {
                   ...(pairInfoBackgroundColor && {
-                    backgroundColor: `${pairInfoBackgroundColor} !important`,
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                    backgroundColor: pairInfoBackgroundColor,
+                    color: getContrastColor(pairInfoBackgroundColor),
                   }),
                   ...(pairInfoBorderColor && {
-                    border: `2px solid ${pairInfoBorderColor} !important`,
+                    border: `2px solid ${pairInfoBorderColor}`,
                   }),
                   ...(borderRadius && {
-                    borderRadius: `${borderRadius}px !important`,
+                    borderRadius: `${borderRadius}px`,
                   }),
-                  '@media (max-width: 600px)': {
-                    margin: '8px !important',
-                    height: '90vh !important',
-                    maxHeight: '90vh !important',
+                  "@media (max-width: 600px)": {
+                    margin: "8px",
+                    height: "90vh",
+                    maxHeight: "90vh",
                   },
                 },
-                '& .MuiDialogTitle-root': {
+                "& .MuiDialogTitle-root": {
                   ...(pairInfoBackgroundColor && {
-                    backgroundColor: `${pairInfoBackgroundColor} !important`,
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                    backgroundColor: pairInfoBackgroundColor,
+                    color: getContrastColor(pairInfoBackgroundColor),
                   }),
                 },
-                '& .MuiDialogContent-root': {
+                "& .MuiDialogContent-root": {
                   ...(pairInfoBackgroundColor && {
-                    backgroundColor: `${pairInfoBackgroundColor} !important`,
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                    backgroundColor: pairInfoBackgroundColor,
+                    color: getContrastColor(pairInfoBackgroundColor),
                   }),
                 },
-                '& .MuiDialogActions-root': {
+                "& .MuiDialogActions-root": {
                   ...(pairInfoBackgroundColor && {
-                    backgroundColor: `${pairInfoBackgroundColor} !important`,
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                    backgroundColor: pairInfoBackgroundColor,
+                    color: getContrastColor(pairInfoBackgroundColor),
                   }),
                 },
-                '& .MuiChip-root': {
+                "& .MuiChip-root": {
                   ...(pairInfoBackgroundColor && {
-                    backgroundColor: 'transparent !important',
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
-                    border: `1px solid ${pairInfoBorderColor || getContrastColor(pairInfoBackgroundColor)} !important`,
+                    backgroundColor: "transparent",
+                    color: getContrastColor(pairInfoBackgroundColor),
+                    border: `1px solid ${pairInfoBorderColor || getContrastColor(pairInfoBackgroundColor)}`,
                   }),
-                  '&.MuiChip-colorPrimary': {
+                  "&.MuiChip-colorPrimary": {
                     ...(pairInfoBorderColor && {
-                      backgroundColor: `${pairInfoBorderColor} !important`,
-                      color: `${getContrastColor(pairInfoBorderColor)} !important`,
-                      border: `1px solid ${pairInfoBorderColor} !important`,
+                      backgroundColor: `${pairInfoBorderColor}`,
+                      color: `${getContrastColor(pairInfoBorderColor)}`,
+                      border: `1px solid ${pairInfoBorderColor}`,
                     }),
                   },
                 },
-                '& .MuiListItemButton-root': {
+                "& .MuiListItemButton-root": {
                   ...(pairInfoBackgroundColor && {
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                    color: getContrastColor(pairInfoBackgroundColor),
                   }),
-                  '&:hover': {
+                  "&:hover": {
                     ...(pairInfoBackgroundColor && {
-                      backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}10 !important`,
+                      backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}10`,
                     }),
                   },
-                  '&.Mui-selected': {
+                  "&.Mui-selected": {
                     ...(pairInfoBorderColor && {
-                      backgroundColor: `${pairInfoBorderColor}20 !important`,
+                      backgroundColor: `${pairInfoBorderColor}20`,
                     }),
                   },
                 },
-                '& .MuiTextField-root': {
-                  '& .MuiInputBase-root': {
+                "& .MuiTextField-root": {
+                  "& .MuiInputBase-root": {
                     ...(pairInfoBackgroundColor && {
-                      backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}10 !important`,
-                      color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                      backgroundColor: `${getContrastColor(pairInfoBackgroundColor)}10`,
+                      color: getContrastColor(pairInfoBackgroundColor),
                     }),
                     ...(pairInfoBorderColor && {
-                      borderColor: `${pairInfoBorderColor} !important`,
+                      borderColor: pairInfoBorderColor,
                     }),
                   },
-                  '& .MuiInputLabel-root': {
+                  "& .MuiInputLabel-root": {
                     ...(pairInfoBackgroundColor && {
-                      color: `${getContrastColor(pairInfoBackgroundColor)}80 !important`,
+                      color: `${getContrastColor(pairInfoBackgroundColor)}80`,
                     }),
                   },
                 },
-                '& .MuiButton-root': {
+                "& .MuiButton-root": {
                   ...(pairInfoBackgroundColor && {
-                    color: `${getContrastColor(pairInfoBackgroundColor)} !important`,
+                    color: getContrastColor(pairInfoBackgroundColor),
                   }),
-                  '&.MuiButton-contained': {
+                  "&.MuiButton-contained": {
                     ...(pairInfoBorderColor && {
-                      backgroundColor: `${pairInfoBorderColor} !important`,
-                      color: `${getContrastColor(pairInfoBorderColor)} !important`,
+                      backgroundColor: `${pairInfoBorderColor}`,
+                      color: `${getContrastColor(pairInfoBorderColor)}`,
                     }),
                   },
                 },
@@ -1590,12 +1827,12 @@ function ExchangeSection() {
             fullWidth: true,
             onClose: handleClose,
             sx: {
-              '& .MuiDialog-paper': {
-                '@media (max-width: 600px)': {
-                  margin: '8px !important',
-                  height: '90vh !important',
-                  maxHeight: '90vh !important',
-                  borderRadius: '16px !important',
+              "& .MuiDialog-paper": {
+                "@media (max-width: 600px)": {
+                  margin: "8px",
+                  height: "90vh",
+                  maxHeight: "90vh",
+                  borderRadius: "16px",
                 },
               },
             },

@@ -21,11 +21,12 @@ import {
   Stack,
   Toolbar,
   Typography,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material";
 import Image from "next/legacy/image";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 import Link from "@dexkit/ui/components/AppLink";
@@ -59,6 +60,7 @@ interface Props {
 function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
   const { isActive } = useWeb3React();
   const { mode } = useThemeMode();
+  const { mode: colorSchemeMode } = useColorScheme();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isDrawerOpen = useDrawerIsOpen();
@@ -109,7 +111,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
     handleSettingsMenuClose();
   };
 
-  const getBackgroundStyles = () => {
+  const getBackgroundStyles = useMemo(() => {
     const { backgroundType, backgroundColor, backgroundImage, gradientStartColor, gradientEndColor, gradientDirection, opacity, blurIntensity } = customSettings;
 
     let backgroundStyles: any = {};
@@ -135,7 +137,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           ...(customSettings.borderRadius !== undefined && customSettings.borderRadius > 0 && {
             borderRadius: `${customSettings.borderRadius}px`,
           }),
-          backgroundColor: mode === 'dark' ? `rgba(0, 0, 0, ${1 - opacity})` : `rgba(255, 255, 255, ${1 - opacity})`,
+          backgroundColor: colorSchemeMode === 'dark'
+            ? `rgba(0, 0, 0, ${1 - opacity})`
+            : `rgba(255, 255, 255, ${1 - opacity})`,
           pointerEvents: 'none',
           zIndex: 1,
         };
@@ -201,7 +205,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
             ...(customSettings.borderRadius !== undefined && customSettings.borderRadius > 0 && {
               borderRadius: `${customSettings.borderRadius}px`,
             }),
-            backgroundColor: mode === 'dark' ? `rgba(0, 0, 0, ${1 - opacity})` : `rgba(255, 255, 255, ${1 - opacity})`,
+            backgroundColor: (theme) => theme.palette.mode === 'dark'
+              ? `rgba(0, 0, 0, ${1 - opacity})`
+              : `rgba(255, 255, 255, ${1 - opacity})`,
             pointerEvents: 'none',
             zIndex: 1,
           };
@@ -256,7 +262,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: mode === 'dark' ? `rgba(0, 0, 0, ${1 - opacity})` : `rgba(255, 255, 255, ${1 - opacity})`,
+            backgroundColor: (theme) => theme.palette.mode === 'dark'
+              ? `rgba(0, 0, 0, ${1 - opacity})`
+              : `rgba(255, 255, 255, ${1 - opacity})`,
             pointerEvents: 'none',
             zIndex: 1,
           };
@@ -296,7 +304,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
       }
     } else if (blurIntensity && blurIntensity > 0) {
       backgroundStyles.position = 'relative';
-      backgroundStyles.backgroundColor = mode === 'dark' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
+      backgroundStyles.backgroundColor = 'background.paper';
       backgroundStyles['&::before'] = {
         content: '""',
         position: 'absolute',
@@ -315,7 +323,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
     }
 
     return backgroundStyles;
-  };
+  }, [customSettings, colorSchemeMode]);
 
   const getLogoSize = () => {
     const { logoSize, customLogoWidth, customLogoHeight, mobileLogoSize, mobileCustomLogoWidth, mobileCustomLogoHeight } = customSettings;
@@ -788,7 +796,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         position="sticky"
         sx={{
           zIndex: 10,
-          ...getBackgroundStyles(),
+          ...getBackgroundStyles,
           ...(customSettings.borderRadius !== undefined && customSettings.borderRadius > 0 && {
             borderRadius: `${customSettings.borderRadius}px`,
             overflow: 'hidden',
@@ -796,7 +804,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           ...(customSettings.showShadow && {
             boxShadow: customSettings.shadowColor
               ? `0 4px ${customSettings.shadowIntensity || 16}px 0 ${customSettings.shadowColor}`
-              : `0 4px ${customSettings.shadowIntensity || 16}px 0 rgba(0, 0, 0, 0.1)`,
+              : (theme) => `0 4px ${customSettings.shadowIntensity || 16}px 0 ${theme.palette.divider}`,
           }),
           ...(customSettings.showBorder && {
             ...(customSettings.borderPosition === 'top' && {

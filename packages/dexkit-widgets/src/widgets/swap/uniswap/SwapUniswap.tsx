@@ -19,7 +19,6 @@ import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
-import { useForceThemeMode } from "@dexkit/ui/hooks";
 import {
   ZeroExGaslessQuoteResponse,
   ZeroExQuoteResponse,
@@ -27,7 +26,6 @@ import {
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import type { UseQueryResult } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { AppNotificationsBadge } from "../../../components/AppNotificationBadge";
 import TransakIcon from "../../../components/icons/TransakIcon";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
@@ -147,12 +145,6 @@ export default function SwapUniswap({
   swapFees,
 }: SwapUniswapProps) {
   const { connectWallet } = useWalletConnect();
-  const { mode: themeMode } = useForceThemeMode();
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
   };
@@ -198,25 +190,14 @@ export default function SwapUniswap({
           >
             <ButtonBase
               sx={{
-                backgroundColor: (theme) => {
-                  if (!isHydrated) return theme.palette.background.paper;
-                  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
-                  return isDark ? '#1a1a1a' : theme.palette.background.paper;
-                },
+                backgroundColor: 'background.paper',
                 borderRadius: (theme) => theme.shape.borderRadius,
                 px: 2,
                 py: 1,
                 fontWeight: "bold",
-                color: (theme) => {
-                  if (!isHydrated) return theme.palette.text.primary;
-                  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
-                  return isDark ? '#ffffff' : theme.palette.text.primary;
-                },
-                border: (theme) => {
-                  if (!isHydrated) return 'none';
-                  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
-                  return isDark ? '1px solid #333333' : 'none';
-                },
+                color: 'text.primary',
+                border: 1,
+                borderColor: 'divider',
               }}
             >
               <FormattedMessage id="swap" defaultMessage="Swap" />

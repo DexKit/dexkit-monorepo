@@ -67,6 +67,7 @@ import {
 import { AppErrorBoundary } from "@dexkit/ui/components/AppErrorBoundary";
 import Link from "@dexkit/ui/components/AppLink";
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
+import FavoriteAssetsSection from "@dexkit/ui/components/FavoriteAssetsSection";
 import CloseCircle from "@dexkit/ui/components/icons/CloseCircle";
 import Funnel from "@dexkit/ui/components/icons/Filter";
 import LoginAppButton from "@dexkit/ui/components/LoginAppButton";
@@ -111,7 +112,6 @@ import {
 } from "@mui/material";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import FavoriteAssetsSection from "../../../../../apps/dexappbuilder/src/modules/favorites/components/FavoriteAssetsSection";
 import GlassEvmReceiveDialog from "./GlassEvmReceiveDialog";
 import GlassEvmSendDialog from "./GlassEvmSendDialog";
 import GlassExchangeContainer from './GlassExchangeContainer';

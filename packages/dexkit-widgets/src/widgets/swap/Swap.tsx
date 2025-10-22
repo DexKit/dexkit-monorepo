@@ -169,14 +169,7 @@ export default function Swap({
   const isMobile = useIsMobile();
 
   return (
-    <Card sx={{
-      backgroundColor: 'background.paper',
-      color: 'text.primary',
-      border: 1,
-      borderColor: 'divider',
-      borderRadius: (theme) => theme.shape.borderRadius,
-      boxShadow: (theme) => theme.shadows[2],
-    }}>
+    <Card>
       <Box sx={{ p: 2 }}>
         {chainId && !SUPPORTED_SWAP_CHAIN_IDS.includes(chainId) && (
           <Alert severity="warning">
@@ -213,14 +206,11 @@ export default function Swap({
                     <Button
                       sx={{
                         color: (theme) => theme.palette.text.primary,
-                        borderColor: (theme) => theme.palette.mode === 'dark' ? '#666666' : theme.palette.divider,
+                        borderColor: (theme) => theme.palette.divider,
                         opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
                         pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
                         cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
                         background: disableNetworkChange || disableNetworkSelector ? (theme) => theme.palette.action.disabledBackground : undefined,
-                        '&:hover': {
-                          borderColor: (theme) => theme.palette.mode === 'dark' ? '#888888' : theme.palette.divider,
-                        },
                       }}
                       onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
                       disabled={disableNetworkChange || disableNetworkSelector}
@@ -276,7 +266,7 @@ export default function Swap({
               </IconButton>
             )}
             <IconButton size="small" onClick={onShowSettings}>
-              <SettingsIcon sx={{ color: 'text.primary' }} />
+              <SettingsIcon />
             </IconButton>
           </Stack>
         </Stack>
@@ -310,12 +300,10 @@ export default function Swap({
             />
             <Stack alignItems="center">
               <Box
-                sx={{
+                sx={() => ({
                   marginTop: -2,
                   marginBottom: -2,
-                  position: 'relative',
-                  zIndex: 2,
-                }}
+                })}
               >
                 <SwapSwitchTokensButton
                   IconButtonProps={{ onClick: onSwapTokens }}
@@ -403,7 +391,11 @@ export default function Swap({
               </Button>
             )
           ) : (
-            <ConnectButton variant="contained" color="primary" size="large" />
+            <ConnectButton
+              variant="contained"
+              color="primary"
+              size="large"
+            />
           )}
         </Stack>
       </CardContent>

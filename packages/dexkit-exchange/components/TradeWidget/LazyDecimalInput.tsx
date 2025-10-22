@@ -47,19 +47,19 @@ export default function LazyDecimalInput({
         },
         sx: {
           '& .MuiOutlinedInput-root': {
-            color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+            color: 'text.primary',
             '& fieldset': {
-              borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.3)' : theme.palette.divider,
+              borderColor: 'divider',
             },
             '&:hover fieldset': {
-              borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.5)' : theme.palette.primary.main,
+              borderColor: 'primary.main',
             },
             '&.Mui-focused fieldset': {
-              borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.primary.main,
+              borderColor: 'primary.main',
             },
           },
           '& .MuiInputAdornment-root': {
-            color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+            color: 'text.primary',
           },
         },
       }}

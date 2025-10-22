@@ -59,26 +59,25 @@ export function generateTheme({
   }
 
   if (selectedThemeId === 'custom') {
-    let paletteTheme =
-      mode === ThemeMode.dark
-        ? customTheme?.colorSchemes?.dark
-        : customTheme?.colorSchemes?.light;
-    return fontFamily
-      ? createTheme({
+    const themeConfig = {
+      cssVariables: {
+        colorSchemeSelector: 'class',
+      },
+      colorSchemes: customTheme?.colorSchemes || {
+        light: customTheme?.colorSchemes?.light || {},
+        dark: customTheme?.colorSchemes?.dark || {},
+      },
+      ...(fontFamily && {
         typography: {
           fontFamily,
-        },
-        ...paletteTheme,
-        alpha,
-        lighten,
-        darken,
-      } as any)
-      : createTheme({
-        ...paletteTheme,
-        alpha,
-        lighten,
-        darken,
-      } as any);
+        }
+      }),
+      alpha,
+      lighten,
+      darken,
+    };
+
+    return createTheme(themeConfig);
   }
   const theme = getTheme({ name: selectedThemeId }).theme;
   let paletteTheme =
@@ -125,22 +124,25 @@ export function generateCSSVarsTheme({
   }
 
   if (selectedThemeId === 'custom') {
-    return fontFamily
-      ? createTheme({
-        ...customTheme,
+    const themeConfig = {
+      cssVariables: {
+        colorSchemeSelector: 'class',
+      },
+      colorSchemes: customTheme?.colorSchemes || {
+        light: customTheme?.colorSchemes?.light || {},
+        dark: customTheme?.colorSchemes?.dark || {},
+      },
+      ...(fontFamily && {
         typography: {
           fontFamily,
-        },
-        alpha,
-        lighten,
-        darken,
-      } as any)
-      : createTheme({
-        ...customTheme,
-        alpha,
-        lighten,
-        darken,
-      } as any);
+        }
+      }),
+      alpha,
+      lighten,
+      darken,
+    };
+
+    return createTheme(themeConfig);
   }
 
   const theme = getTheme({ name: selectedThemeId }).theme;

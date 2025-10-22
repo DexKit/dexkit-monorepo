@@ -24,6 +24,24 @@ export function CoinList({
   const { mode: themeMode } = useThemeMode();
   const [coinFilter, setCoinFilter] = useState<string>();
 
+  const isDarkMode = themeMode === 'dark';
+
+  const inputBackgroundColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.background?.paper || theme.palette.background.paper
+    : theme.colorSchemes?.light?.palette?.background?.paper || theme.palette.background.paper;
+
+  const borderColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.divider || theme.palette.divider
+    : theme.colorSchemes?.light?.palette?.divider || theme.palette.divider;
+
+  const labelColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.text?.secondary || theme.palette.text.secondary
+    : theme.colorSchemes?.light?.palette?.text?.secondary || theme.palette.text.secondary;
+
+  const inputTextColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.text?.primary || theme.palette.text.primary
+    : theme.colorSchemes?.light?.palette?.text?.primary || theme.palette.text.primary;
+
   const filteredCoins = useMemo(() => {
     if (coinFilter) {
       const filter = coinFilter.toLowerCase();
@@ -59,28 +77,28 @@ export function CoinList({
           variant="outlined"
           sx={{
             '& .MuiOutlinedInput-root': {
-              backgroundColor: themeMode === 'dark' ? '#3c4148' : '#FAFAFA',
+              backgroundColor: inputBackgroundColor,
               '& fieldset': {
-                borderColor: themeMode === 'dark' ? '#737372' : '#DCDCDC',
-                borderWidth: themeMode === 'dark' ? '1px' : '1px',
+                borderColor: borderColor,
+                borderWidth: '1px',
               },
               '&:hover fieldset': {
                 borderColor: theme.palette.primary.main,
-                borderWidth: themeMode === 'dark' ? '1px' : '1px',
+                borderWidth: '1px',
               },
               '&.Mui-focused fieldset': {
                 borderColor: theme.palette.primary.main,
-                borderWidth: themeMode === 'dark' ? '1px' : '1px',
+                borderWidth: '1px',
               },
             },
             '& .MuiInputLabel-root': {
-              color: themeMode === 'dark' ? '#737372' : '#737372',
+              color: labelColor,
             },
             '& .MuiInputLabel-root.Mui-focused': {
               color: theme.palette.primary.main,
             },
             '& .MuiOutlinedInput-input': {
-              color: themeMode === 'dark' ? '#fff' : '#0E1116',
+              color: inputTextColor,
             },
           }}
         />

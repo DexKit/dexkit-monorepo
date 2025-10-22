@@ -45,40 +45,35 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
   const intl = useIntl();
   const { mode } = useColorScheme();
 
-  const getBackgroundColor = () => {
-    if (isDarkMode) {
-      return '#141a21';
-    }
-    return theme.palette.background.default;
-  };
-
-  const getPaperColor = () => {
-    if (isDarkMode) {
-      return '#141a21';
-    }
-    return theme.palette.background.paper;
-  };
-
-  const getInputBackgroundColor = () => {
-    if (isDarkMode) {
-      return '#141a21';
-    }
-    return theme.palette.background.paper;
-  };
-
-  const getButtonBackgroundColor = () => {
-    return theme.palette.primary.main;
-  };
-
-  const getButtonTextColor = () => {
-    return theme.palette.primary.contrastText;
-  };
-
-  const getCancelButtonColor = () => {
-    return theme.palette.primary.main;
-  };
-
   const isDarkMode = mode === 'dark';
+
+  const backgroundColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.background?.default || theme.palette.background.default
+    : theme.colorSchemes?.light?.palette?.background?.default || theme.palette.background.default;
+
+  const paperColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.background?.paper || theme.palette.background.paper
+    : theme.colorSchemes?.light?.palette?.background?.paper || theme.palette.background.paper;
+
+  const inputBackgroundColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.background?.paper || theme.palette.background.paper
+    : theme.colorSchemes?.light?.palette?.background?.paper || theme.palette.background.paper;
+
+  const buttonBackgroundColor = theme.palette.primary.main;
+  const buttonTextColor = theme.palette.primary.contrastText;
+  const cancelButtonColor = theme.palette.primary.main;
+
+  const textPrimaryColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.text?.primary || theme.palette.text.primary
+    : theme.colorSchemes?.light?.palette?.text?.primary || theme.palette.text.primary;
+
+  const textSecondaryColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.text?.secondary || theme.palette.text.secondary
+    : theme.colorSchemes?.light?.palette?.text?.secondary || theme.palette.text.secondary;
+
+  const borderColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.divider || theme.palette.divider
+    : theme.colorSchemes?.light?.palette?.divider || theme.palette.divider;
 
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
@@ -185,8 +180,8 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
           position: 'sticky',
           top: 0,
           zIndex: 10002,
-          backgroundColor: getPaperColor(),
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          backgroundColor: paperColor,
+          borderBottom: `1px solid ${borderColor}`,
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
         }}
@@ -205,7 +200,7 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
               <InputAdornment position="start">
                 <SearchIcon
                   sx={{
-                    color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
+                    color: textSecondaryColor,
                     fontSize: isMobile ? theme.typography.h5.fontSize : theme.typography.body1.fontSize,
                   }}
                 />
@@ -217,7 +212,7 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
                   size="small"
                   onClick={handleClearSearch}
                   sx={{
-                    color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
+                    color: textSecondaryColor,
                     p: isMobile ? theme.spacing(1) : theme.spacing(0.5),
                   }}
                 >
@@ -229,9 +224,9 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
-              backgroundColor: getInputBackgroundColor(),
+              backgroundColor: inputBackgroundColor,
               '& fieldset': {
-                borderColor: isDarkMode ? '#404040' : theme.palette.divider,
+                borderColor: borderColor,
               },
               '&:hover fieldset': {
                 borderColor: theme.palette.primary.main,
@@ -239,17 +234,11 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
               '&.Mui-focused fieldset': {
                 borderColor: theme.palette.primary.main,
               },
-              ...(isDarkMode && {
-                backgroundColor: '#2d2d30 !important',
-                '& fieldset': {
-                  borderColor: '#404040 !important',
-                },
-              }),
             },
             '& .MuiInputBase-input': {
-              color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+              color: textPrimaryColor,
               '&::placeholder': {
-                color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
+                color: textSecondaryColor,
                 opacity: 1,
               },
             },
@@ -263,7 +252,7 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
             sx={{
               mt: 1,
               display: 'block',
-              color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
+              color: textSecondaryColor,
             }}
           >
             <FormattedMessage
@@ -390,9 +379,9 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
                       checked={network.chainId === selectedChainId}
                       size={isMobile ? "medium" : "small"}
                       sx={{
-                        color: '#f0883e',
+                        color: theme.palette.primary.main,
                         '&.Mui-checked': {
-                          color: '#f0883e',
+                          color: theme.palette.primary.main,
                         },
                       }}
                     />
@@ -409,8 +398,8 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(2) : theme.spacing(1.5),
           gap: isMobile ? theme.spacing(1) : theme.spacing(0.5),
-          backgroundColor: getPaperColor(),
-          borderTop: `1px solid ${theme.palette.divider}`,
+          backgroundColor: paperColor,
+          borderTop: `1px solid ${borderColor}`,
           zIndex: 10002,
         }}
       >
@@ -429,26 +418,15 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
             flex: isMobile ? 1 : 'none',
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
-            backgroundColor: getButtonBackgroundColor(),
-            color: getButtonTextColor(),
+            backgroundColor: buttonBackgroundColor,
+            color: buttonTextColor,
             '&:hover': {
-              backgroundColor: isDarkMode ? '#404040' : theme.palette.primary.dark,
+              backgroundColor: theme.palette.primary.dark,
             },
             '&:disabled': {
-              backgroundColor: isDarkMode ? '#141a21' : theme.palette.action.disabledBackground,
-              color: isDarkMode ? '#9B9B9B' : theme.palette.action.disabled,
+              backgroundColor: theme.palette.action.disabledBackground,
+              color: theme.palette.action.disabled,
             },
-            ...(isDarkMode && {
-              backgroundColor: '#f0883e !important',
-              color: '#ffffff !important',
-              '&:hover': {
-                backgroundColor: '#d4732a !important',
-              },
-              '&:disabled': {
-                backgroundColor: '#141a21 !important',
-                color: '#9B9B9B !important',
-              },
-            }),
           }}
         >
           <FormattedMessage
@@ -466,7 +444,7 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
             backgroundColor: 'transparent',
-            color: getCancelButtonColor(),
+            color: cancelButtonColor,
             border: `1px solid ${theme.palette.primary.main}`,
             '&:hover': {
               backgroundColor: theme.palette.action.hover,
@@ -476,19 +454,6 @@ function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
               color: theme.palette.action.disabled,
               borderColor: theme.palette.action.disabled,
             },
-            ...(isDarkMode && {
-              backgroundColor: 'transparent !important',
-              color: '#f0883e !important',
-              border: 'none !important',
-              '&:hover': {
-                backgroundColor: 'rgba(240, 136, 62, 0.1) !important',
-              },
-              '&:disabled': {
-                backgroundColor: 'transparent !important',
-                color: '#9B9B9B !important',
-                borderColor: 'transparent !important',
-              },
-            }),
           }}
         >
           <FormattedMessage

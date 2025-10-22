@@ -13,6 +13,7 @@ import {
   styled,
   SvgIcon,
   Typography,
+  useColorScheme,
   useTheme
 } from "@mui/material";
 import Image from "next/image";
@@ -205,11 +206,11 @@ const GlassmorphicContainer = styled(Box, {
       background: backgroundImage
         ? `url(${backgroundImage})`
         : `
-          linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%), 
-          linear-gradient(-45deg, rgba(255,255,255,0.02) 25%, transparent 25%), 
-          linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.02) 75%), 
-          linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.02) 75%),
-          ${backgroundColor || 'rgba(255, 255, 255, 0.05)'}
+          linear-gradient(45deg, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 25%, transparent 25%), 
+          linear-gradient(-45deg, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 25%, transparent 25%), 
+          linear-gradient(45deg, transparent 75%, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 75%), 
+          linear-gradient(-45deg, transparent 75%, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 75%),
+          ${backgroundColor || (colorSchemeMode === 'dark' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)')}
         `,
       backgroundSize: backgroundImage
         ? (backgroundSize || 'cover')
@@ -231,14 +232,22 @@ const GlassmorphicContainer = styled(Box, {
       right: 0,
       bottom: 0,
       borderRadius: `${appliedBorderRadius}px`,
-      background: `rgba(255, 255, 255, ${glassOpacity || 0.1})`,
+      background: colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${glassOpacity || 0.1})`
+        : `rgba(255, 255, 255, ${glassOpacity || 0.1})`,
       backdropFilter: `blur(${blurIntensity || 40}px) saturate(180%) brightness(1.05)`,
       WebkitBackdropFilter: `blur(${blurIntensity || 40}px) saturate(180%) brightness(1.05)`,
-      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)})`,
+      border: `1px solid ${colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 2, 0.6)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)})`}`,
       boxShadow: `
         0 -2px 20px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.8)}),
-        inset 0 -1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)})
+        inset 0 1px 0 ${colorSchemeMode === 'dark'
+          ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 3, 0.8)})`
+          : `rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.8)})`},
+        inset 0 -1px 0 ${colorSchemeMode === 'dark'
+          ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 2, 0.4)})`
+          : `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)})`}
       `,
       pointerEvents: 'none',
       zIndex: 1,
@@ -258,11 +267,17 @@ const GlassmorphicContainer = styled(Box, {
       },
       '&::after': {
         borderRadius: Math.min(appliedBorderRadius, 12),
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.4)})`,
+        border: `1px solid ${colorSchemeMode === 'dark'
+          ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 1.5, 0.4)})`
+          : `rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.4)})`}`,
         boxShadow: `
           0 -1px 10px rgba(0, 0, 0, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)}),
-          inset 0 -1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.3)})
+          inset 0 1px 0 ${colorSchemeMode === 'dark'
+            ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 2, 0.6)})`
+            : `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)})`},
+          inset 0 -1px 0 ${colorSchemeMode === 'dark'
+            ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 1.5, 0.3)})`
+            : `rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.3)})`}
         `,
       },
     },
@@ -276,21 +291,29 @@ const GlassmorphicIconButton = styled(IconButton, {
   textColor: string;
 }>(({ theme, glassOpacity, textColor }) => ({
   color: textColor,
-  backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
+  backgroundColor: colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.5)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
   backdropFilter: `blur(10px) saturate(150%)`,
   WebkitBackdropFilter: `blur(10px) saturate(150%)`,
-  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`,
+  border: `1px solid ${colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.7)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`}`,
   borderRadius: theme.spacing(1),
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
 
   '&:hover': {
-    backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`,
+    backgroundColor: colorSchemeMode === 'dark'
+      ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.7)})`
+      : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`,
     backdropFilter: `blur(15px) saturate(170%)`,
     WebkitBackdropFilter: `blur(15px) saturate(170%)`,
     transform: 'translateY(-2px) scale(1.05)',
     boxShadow: `
       0 8px 25px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})
+      inset 0 1px 0 ${colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.5)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`}
     `,
   },
 }));
@@ -305,23 +328,31 @@ const GlassmorphicLink = styled(Link, {
   textDecoration: 'none',
   padding: theme.spacing(1, 2),
   borderRadius: theme.spacing(1),
-  backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.4)})`,
+  backgroundColor: colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity, 0.4)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.4)})`,
   backdropFilter: `blur(8px) saturate(140%)`,
   WebkitBackdropFilter: `blur(8px) saturate(140%)`,
-  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
+  border: `1px solid ${colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.5)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`}`,
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   textShadow: textColor.includes('255, 255, 255')
     ? '0 1px 2px rgba(0, 0, 0, 0.3)'
     : '0 1px 2px rgba(255, 255, 255, 0.3)',
 
   '&:hover': {
-    backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.6)})`,
+    backgroundColor: colorSchemeMode === 'dark'
+      ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.6)})`
+      : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.6)})`,
     backdropFilter: `blur(12px) saturate(160%)`,
     WebkitBackdropFilter: `blur(12px) saturate(160%)`,
     transform: 'translateY(-1px)',
     boxShadow: `
       0 6px 20px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})
+      inset 0 1px 0 ${colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.6)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})`}
     `,
   },
 }));
@@ -709,7 +740,7 @@ const CustomMenuLink = styled(Link, {
   fontStyle?: 'normal' | 'italic';
 }>(({ theme, fontSize, color, hoverColor, fontWeight, fontStyle }) => ({
   fontSize: fontSize ? `${fontSize}px` : '14px',
-  color: color || '#333333',
+  color: color || theme.palette.text.primary,
   fontWeight: fontWeight === 'bold' ? 700 : 400,
   fontStyle: fontStyle || 'normal',
   textDecoration: 'none',
@@ -725,6 +756,7 @@ const CustomMenuLink = styled(Link, {
 
 export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
   const theme = useTheme();
+  const { mode: colorSchemeMode } = useColorScheme();
   const footerConfig = appConfig.footerConfig || {};
   const variant = footerConfig.variant || 'default';
 

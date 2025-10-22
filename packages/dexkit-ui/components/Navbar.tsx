@@ -2,7 +2,7 @@ import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
@@ -22,6 +22,7 @@ import {
   NoSsr,
   Popover,
   Stack,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material";
@@ -82,6 +83,7 @@ function Navbar({ appConfig, isPreview }: Props) {
   const { isActive, chainId } = useWeb3React();
   const siteId = useSiteId();
   const { mode } = useThemeMode();
+  const { mode: colorSchemeMode } = useColorScheme();
 
   const buttonRef = useRef<HTMLElement | null>(null);
 
@@ -210,8 +212,38 @@ function Navbar({ appConfig, isPreview }: Props) {
       return backgroundColor;
     }
 
-    return `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`;
+    const glassOpacity = glassSettings.glassOpacity ?? 0.1;
+    const glassColor = colorSchemeMode === 'dark'
+      ? `rgba(0,0,0,${glassOpacity})`
+      : `rgba(255,255,255,${glassOpacity})`;
+    return glassColor;
   };
+
+  const glassStyles = useMemo(() => {
+    if (!glassVariant) return {};
+
+    return {
+      background: getGlassBackground(),
+      ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage && {
+        backgroundImage: getGlassBackground(),
+        backgroundSize: glassSettings.backgroundSize || 'cover',
+        backgroundPosition: glassSettings.backgroundPosition || 'center',
+        backgroundRepeat: 'no-repeat',
+      }),
+      backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+      WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+      boxShadow: `0 8px 32px 0 ${colorSchemeMode === 'dark'
+        ? 'rgba(31, 38, 135, 0.37)'
+        : 'rgba(0, 0, 0, 0.1)'}`,
+      border: `1px solid ${colorSchemeMode === 'dark'
+        ? 'rgba(255, 255, 255, 0.18)'
+        : 'rgba(0, 0, 0, 0.1)'}`,
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      ...(glassSettings.borderRadius !== undefined && {
+        borderRadius: `${glassSettings.borderRadius}px`,
+      }),
+    };
+  }, [glassVariant, glassSettings, colorSchemeMode]);
 
   const getGlassOverlay = () => {
     if (!glassVariant || glassSettings.disableBackground) return {};
@@ -226,7 +258,9 @@ function Navbar({ appConfig, isPreview }: Props) {
           left: 0,
           right: 0,
           bottom: 0,
-          background: `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`,
+          background: colorSchemeMode === 'dark'
+            ? `rgba(0,0,0,${glassSettings.glassOpacity ?? 0.1})`
+            : `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`,
           backdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
           WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
           pointerEvents: 'none' as const,
@@ -645,24 +679,9 @@ function Navbar({ appConfig, isPreview }: Props) {
         position="sticky"
         sx={{
           zIndex: 10,
-          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#222222' : theme.palette.background.paper,
+          backgroundColor: 'background.paper',
+          ...glassStyles,
           ...(glassVariant && {
-            background: getGlassBackground(),
-            ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage && {
-              backgroundImage: getGlassBackground(),
-              backgroundSize: glassSettings.backgroundSize || 'cover',
-              backgroundPosition: glassSettings.backgroundPosition || 'center',
-              backgroundRepeat: 'no-repeat',
-            }),
-            backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
-            WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
-            boxShadow: `0 8px 32px 0 rgba(31, 38, 135, 0.37)`,
-            border: `1px solid rgba(255, 255, 255, 0.18)`,
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            ...(glassSettings.borderRadius !== undefined && {
-              borderRadius: `${glassSettings.borderRadius}px`,
-              overflow: 'hidden',
-            }),
             ...getGlassOverlay(),
             '&::before': {
               content: '""',
@@ -671,7 +690,9 @@ function Navbar({ appConfig, isPreview }: Props) {
               left: 0,
               right: 0,
               bottom: 0,
-              background: `linear-gradient(135deg, rgba(255, 255, 255, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(255, 255, 255, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`,
+              background: colorSchemeMode === 'dark'
+                ? `linear-gradient(135deg, rgba(0, 0, 0, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(0, 0, 0, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`
+                : `linear-gradient(135deg, rgba(255, 255, 255, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(255, 255, 255, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`,
               backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
               WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
               pointerEvents: 'none',

@@ -97,12 +97,14 @@ export function CurrencyField({
   return (
     <InputBase
       {...InputBaseProps}
-      inputProps={{ inputMode: "decimal" }}
+      inputProps={{
+        inputMode: "decimal",
+        onClick: onClick
+      }}
       value={internalValue.value}
       onChange={handleChange}
       onFocus={onFocus}
       onBlur={onBlur}
-      {...({ onClick } as any)}
       placeholder="0"
     />
   );

@@ -1,4 +1,3 @@
-import Link from '@dexkit/ui/components/AppLink';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
@@ -432,7 +431,7 @@ export const SiteIndexPage: NextPage = () => {
                 xs: 'repeat(2, 1fr)',
                 sm: 'repeat(2, 1fr)',
                 md: 'repeat(3, 1fr)',
-                lg: 'repeat(4, 1fr)'
+                lg: 'repeat(3, 1fr)'
               },
               gap: { xs: 1, sm: 2, md: 2.5, lg: 3 },
               alignItems: 'stretch',
@@ -564,35 +563,27 @@ export const SiteIndexPage: NextPage = () => {
                         </Button>
                       )}
                       {site.previewUrl && (
-                        <Link
+                        <Button
+                          variant="outlined"
                           href={site?.previewUrl || ''}
-                          target={'_blank'}
-                          underline="none"
+                          target="_blank"
+                          size="small"
                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            minHeight: { xs: '28px', sm: '32px', md: '36px' },
-                            px: { xs: 0.75, sm: 1.25, md: 1.5 },
-                            py: { xs: 0.25, sm: 0.5 },
-                            borderRadius: 1,
-                            border: `1px solid ${theme.palette.divider}`,
-                            backgroundColor: theme.palette.background.paper,
-                            color: theme.palette.text.primary,
-                            textDecoration: 'none',
-                            transition: 'all 0.2s ease-in-out',
+                            flex: 1,
+                            textTransform: 'none',
+                            fontWeight: 600,
                             fontSize: { xs: '0.7rem', sm: '0.75rem', md: '0.875rem' },
-                            '&:hover': {
-                              backgroundColor: theme.palette.action.hover,
-                              borderColor: theme.palette.primary.main
-                            }
+                            py: { xs: 0.5, sm: 0.75, md: 1 },
+                            px: { xs: 0.75, sm: 1.25, md: 1.5 },
+                            borderRadius: 1,
+                            minHeight: { xs: '28px', sm: '32px', md: '36px' }
                           }}
                         >
                           <FormattedMessage
                             id={'view.site'}
                             defaultMessage={'View'}
                           />
-                        </Link>
+                        </Button>
                       )}
                     </Stack>
                   </CardActions>
