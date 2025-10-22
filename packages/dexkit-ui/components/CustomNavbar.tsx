@@ -123,6 +123,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
 
   const getBackgroundStyles = useMemo(() => {
     const colorSchemeSettings = getColorSchemeSettings;
+
     const {
       backgroundType,
       backgroundColor,
@@ -271,7 +272,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           };
         }
       }
-    } else if (backgroundType === 'solid' && backgroundColor) {
+    } else if ((backgroundType === 'solid' || !backgroundType) && backgroundColor) {
       let finalBackgroundColor = backgroundColor;
 
       if (opacity !== undefined && opacity < 1) {
@@ -821,6 +822,12 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         sx={{
           zIndex: 10,
           ...getBackgroundStyles,
+          '&.MuiAppBar-root': {
+            ...getBackgroundStyles,
+          },
+          '&.MuiAppBar-colorDefault': {
+            ...getBackgroundStyles,
+          },
           ...(customSettings.borderRadius !== undefined && customSettings.borderRadius > 0 && {
             borderRadius: `${customSettings.borderRadius}px`,
             overflow: 'hidden',
