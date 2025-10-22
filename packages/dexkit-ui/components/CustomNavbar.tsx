@@ -30,7 +30,6 @@ import React, { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 import Link from "@dexkit/ui/components/AppLink";
-import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
   useAuthUserQuery,
   useCurrency,
@@ -39,8 +38,7 @@ import {
   useNotifications,
   useShowAppTransactions,
   useShowSelectCurrency,
-  useShowSelectLocale,
-  useThemeMode
+  useShowSelectLocale
 } from "@dexkit/ui/hooks";
 import { useSiteId } from "@dexkit/ui/hooks/useSiteId";
 import { AppConfig, NavbarCustomSettings } from "@dexkit/ui/modules/wizard/types/config";
@@ -59,7 +57,6 @@ interface Props {
 
 function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
   const { isActive } = useWeb3React();
-  const { mode } = useThemeMode();
   const { mode: colorSchemeMode } = useColorScheme();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -111,8 +108,37 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
     handleSettingsMenuClose();
   };
 
+  const getColorSchemeSettings = useMemo(() => {
+    const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+    return customSettings.colorScheme?.[currentMode] || {};
+  }, [colorSchemeMode, customSettings.colorScheme]);
+
+  const getEffectiveColor = useMemo(() => {
+    return (colorKey: keyof NonNullable<NavbarCustomSettings['colorScheme']['light']>, fallback?: string): string | undefined => {
+      const colorSchemeSettings = getColorSchemeSettings;
+      const colorValue = colorSchemeSettings[colorKey] || customSettings[colorKey as keyof NavbarCustomSettings] || fallback;
+      return typeof colorValue === 'string' ? colorValue : undefined;
+    };
+  }, [getColorSchemeSettings, customSettings]);
+
   const getBackgroundStyles = useMemo(() => {
-    const { backgroundType, backgroundColor, backgroundImage, gradientStartColor, gradientEndColor, gradientDirection, opacity, blurIntensity } = customSettings;
+    const colorSchemeSettings = getColorSchemeSettings;
+    const {
+      backgroundType,
+      backgroundColor,
+      backgroundImage,
+      gradientStartColor,
+      gradientEndColor,
+      gradientDirection,
+      opacity,
+      blurIntensity
+    } = {
+      ...customSettings,
+      backgroundColor: colorSchemeSettings.backgroundColor || customSettings.backgroundColor,
+      backgroundImage: colorSchemeSettings.backgroundImage || customSettings.backgroundImage,
+      gradientStartColor: colorSchemeSettings.gradientStartColor || customSettings.gradientStartColor,
+      gradientEndColor: colorSchemeSettings.gradientEndColor || customSettings.gradientEndColor,
+    };
 
     let backgroundStyles: any = {};
 
@@ -397,11 +423,11 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
 
     const logoSizes = getLogoSize();
     const logoStyles = {
-      color: customSettings.textColor,
+      color: getEffectiveColor('textColor', customSettings.textColor),
       textDecoration: "none",
     };
 
-    if (appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark) {
+    if (appConfig.logoDark && appConfig.logoDark?.url && colorSchemeMode === 'dark') {
       return (
         <Link href={isPreview ? "#" : "/"} sx={logoStyles}>
           <Image
@@ -430,7 +456,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         <Link
           sx={{
             textDecoration: "none",
-            color: customSettings.textColor || theme.palette.text.primary,
+            color: getEffectiveColor('textColor', customSettings.textColor) || theme.palette.text.primary,
             fontSize: customSettings.menuFontSize || '1.25rem',
             fontWeight: customSettings.menuFontWeight || 600,
           }}
@@ -459,9 +485,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
               key={key}
               isPreview={isPreview}
               customStyles={{
-                textColor: customSettings.textColor,
-                hoverColor: customSettings.menuHoverColor,
-                iconColor: customSettings.iconColor,
+                textColor: getEffectiveColor('textColor', customSettings.textColor),
+                hoverColor: getEffectiveColor('menuHoverColor', customSettings.menuHoverColor),
+                iconColor: getEffectiveColor('iconColor', customSettings.iconColor),
                 iconSize: customSettings.iconSize,
                 showIcons: customSettings.showIcons,
               }}
@@ -475,9 +501,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
                 textDecoration: "none",
                 textTransform: "none",
                 fontSize: customSettings.menuFontSize || 'inherit',
-                color: customSettings.textColor,
+                color: getEffectiveColor('textColor', customSettings.textColor),
                 '&:hover': {
-                  color: customSettings.menuHoverColor,
+                  color: getEffectiveColor('menuHoverColor', customSettings.menuHoverColor),
                 },
               }}
               key={key}
@@ -486,7 +512,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
                 customSettings.showIcons !== false && m.data?.iconName ? (
                   <Icon
                     sx={{
-                      color: customSettings.iconColor || 'inherit',
+                      color: getEffectiveColor('iconColor', customSettings.iconColor) || 'inherit',
                       fontSize: customSettings.iconSize === 'small' ? '1rem' : customSettings.iconSize === 'large' ? '1.5rem' : '1.25rem',
                     }}
                   >
@@ -504,9 +530,8 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
   };
 
   const renderActions = () => {
-    const iconColor = customSettings.iconColor || customSettings.textColor;
+    const iconColor = getEffectiveColor('iconColor', customSettings.iconColor) || getEffectiveColor('textColor', customSettings.textColor);
     const iconSize = customSettings.iconSize === 'small' ? 'small' : customSettings.iconSize === 'large' ? 'large' : 'medium';
-    // Espaciado reducido para móviles
     const actionSpacing = isMobile ? 0.5 : 2;
 
     return (
@@ -518,7 +543,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
               borderRadius: "50%",
               color: iconColor,
               '&:hover': {
-                color: customSettings.iconHoverColor || iconColor,
+                color: getEffectiveColor('iconHoverColor', customSettings.iconHoverColor) || iconColor,
               },
             }}
           >
@@ -535,68 +560,68 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         {!isActive && !isMobile ? (
           <Box sx={{
             '& .MuiButton-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButton-root span': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButton-root .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root span': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root .MuiTypography-caption': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiTypography-caption': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& button': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& button span': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& button .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& *': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             }
           }}>
@@ -605,68 +630,68 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         ) : !isMobile && (
           <Box sx={{
             '& .MuiButton-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButton-root span': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButton-root .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root span': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiButtonBase-root .MuiTypography-caption': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& .MuiTypography-caption': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& button': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& button span': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& button .MuiTypography-root': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             },
             '& *': {
-              ...(customSettings.walletButtonTextColor && {
-                color: `${customSettings.walletButtonTextColor} !important`,
+              ...(getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor) && {
+                color: `${getEffectiveColor('walletButtonTextColor', customSettings.walletButtonTextColor)} !important`,
               }),
             }
           }}>
@@ -689,7 +714,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
               sx={{
                 color: iconColor,
                 '&:hover': {
-                  color: customSettings.iconHoverColor || iconColor,
+                  color: getEffectiveColor('iconHoverColor', customSettings.iconHoverColor) || iconColor,
                 },
               }}
             >
@@ -723,7 +748,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
             sx={{
               color: iconColor,
               '&:hover': {
-                color: customSettings.iconHoverColor || iconColor,
+                color: getEffectiveColor('iconHoverColor', customSettings.iconHoverColor) || iconColor,
               },
             }}
           >
@@ -738,7 +763,6 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
     const justifyContent = position === 'left' ? 'flex-start' : position === 'right' ? 'flex-end' : 'center';
     const flexGrow = position === 'center' ? 1 : 0;
 
-    // Use menuSpacing for elements that include menu, otherwise use default spacing
     const elementSpacing = elements.includes('menu') ? (customSettings.menuSpacing || 2) : 2;
 
     return (
@@ -825,7 +849,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           sx={{
             py: customSettings.padding || 1,
             height: isMobile ? customSettings.mobileHeight || customSettings.height : customSettings.height,
-            color: customSettings.textColor,
+            color: getEffectiveColor('textColor', customSettings.textColor),
             position: 'relative',
             zIndex: 2,
             ...(customSettings.borderRadius !== undefined && customSettings.borderRadius > 0 && {
@@ -844,9 +868,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
               size="small"
               sx={{
                 mr: 1,
-                color: customSettings.iconColor || customSettings.textColor || 'text.primary',
+                color: getEffectiveColor('iconColor', customSettings.iconColor) || getEffectiveColor('textColor', customSettings.textColor) || 'text.primary',
                 '&:hover': {
-                  color: customSettings.iconHoverColor || customSettings.iconColor || customSettings.textColor || 'text.primary',
+                  color: getEffectiveColor('iconHoverColor', customSettings.iconHoverColor) || getEffectiveColor('iconColor', customSettings.iconColor) || getEffectiveColor('textColor', customSettings.textColor) || 'text.primary',
                 },
               }}
               onClick={handleToggleDrawer}

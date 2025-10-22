@@ -13,7 +13,6 @@ import {
   MenuItem,
   Paper,
   Select,
-  Skeleton,
   Stack,
   TextField,
   useMediaQuery,
@@ -32,6 +31,7 @@ import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
+import { SiteCardSkeleton } from '@dexkit/ui/components/SiteCardSkeleton';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import MainLayout from '../../src/components/layouts/main';
 import { useAppConfig } from '../../src/hooks/app';
@@ -415,11 +415,18 @@ export const SiteIndexPage: NextPage = () => {
                   textAlign: { xs: 'center', sm: 'left' }
                 }}
               >
-                <FormattedMessage
-                  id="results.count"
-                  defaultMessage="{count} sites found"
-                  values={{ count: filteredAndSortedSites.length }}
-                />
+                {sitesQuery?.isLoading ? (
+                  <FormattedMessage
+                    id="loading.sites"
+                    defaultMessage="Loading sites..."
+                  />
+                ) : (
+                  <FormattedMessage
+                    id="results.count"
+                    defaultMessage="{count} sites found"
+                    values={{ count: filteredAndSortedSites.length }}
+                  />
+                )}
               </Typography>
             </Stack>
           </Paper>
@@ -475,6 +482,7 @@ export const SiteIndexPage: NextPage = () => {
                       site.appConfig?.seo['home']?.images[0].url
                     }
                     alt=""
+                    loading="lazy"
                     sx={{
                       objectFit: 'cover',
                       height: { xs: '100px', sm: '120px', md: '140px' },
@@ -590,7 +598,51 @@ export const SiteIndexPage: NextPage = () => {
                 </Card>
               </Box>
             ))}
-            {!sitesQuery?.isLoading && filteredAndSortedSites.length === 0 && (
+            {sitesQuery?.isError && (
+              <Box sx={{ gridColumn: '1 / -1' }}>
+                <Card
+                  sx={{
+                    p: isMobile ? 3 : 4,
+                    textAlign: 'center',
+                    backgroundColor: theme.palette.background.paper,
+                    border: `1px solid ${theme.palette.error.main}`
+                  }}
+                >
+                  <Typography
+                    variant={isMobile ? "h6" : "h5"}
+                    color="error"
+                    sx={{ mb: 2 }}
+                  >
+                    <FormattedMessage
+                      id="error.loading.sites"
+                      defaultMessage="Error loading sites"
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    <FormattedMessage
+                      id="error.loading.sites.description"
+                      defaultMessage="There was an error loading the sites. Please try refreshing the page."
+                    />
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={() => window.location.reload()}
+                    size="small"
+                  >
+                    <FormattedMessage
+                      id="refresh.page"
+                      defaultMessage="Refresh Page"
+                    />
+                  </Button>
+                </Card>
+              </Box>
+            )}
+
+            {!sitesQuery?.isLoading && !sitesQuery?.isError && filteredAndSortedSites.length === 0 && (
               <Box sx={{ gridColumn: '1 / -1' }}>
                 <Card
                   sx={{
@@ -622,125 +674,9 @@ export const SiteIndexPage: NextPage = () => {
                 </Card>
               </Box>
             )}
-            {sitesQuery?.isLoading &&
-              Array.from({ length: isMobile ? 2 : isTablet ? 3 : 4 }, (_, i) => i + 1).map((id, key) => (
-                <Box
-                  key={key}
-                  sx={{
-                    display: 'flex',
-                    '& > .MuiCard-root': {
-                      width: '100%',
-                      height: '100%'
-                    }
-                  }}
-                >
-                  <Card
-                    sx={{
-                      maxWidth: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      borderRadius: 2,
-                      boxShadow: theme.shadows[2],
-                      minHeight: { xs: '280px', sm: '320px', md: '360px' }
-                    }}
-                    key={key}
-                  >
-                    <Skeleton>
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={''}
-                        alt=""
-                        sx={{
-                          height: { xs: '120px', sm: '130px', md: '140px' },
-                          minHeight: { xs: '120px', sm: '130px', md: '140px' }
-                        }}
-                      />
-                    </Skeleton>
-                    <CardContent
-                      sx={{
-                        flexGrow: 1,
-                        p: { xs: 1.5, sm: 2.5, md: 3 },
-                        '&:last-child': { pb: { xs: 1.5, sm: 2.5, md: 3 } }
-                      }}
-                    >
-                      <Skeleton>
-                        <Typography
-                          gutterBottom
-                          variant={isMobile ? "h6" : "h5"}
-                          component="div"
-                        >
-                          <FormattedMessage
-                            id={'title'}
-                            defaultMessage={'title'}
-                          />
-                        </Typography>
-                      </Skeleton>
-                      <Skeleton>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            height: { xs: '48px', sm: '60px', md: '72px' }
-                          }}
-                        >
-                          <FormattedMessage
-                            id={'description'}
-                            defaultMessage={'description'}
-                          />
-                        </Typography>
-                      </Skeleton>
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        p: { xs: 1, sm: 2, md: 2.5 },
-                        pt: 0,
-                        justifyContent: 'space-between',
-                        flexWrap: 'wrap',
-                        gap: { xs: 0.5, sm: 1.5 }
-                      }}
-                    >
-                      <Stack
-                        spacing={isMobile ? 1 : 2}
-                        direction={isMobile ? 'column' : 'row'}
-                        sx={{
-                          width: '100%',
-                          alignItems: isMobile ? 'stretch' : 'center'
-                        }}
-                      >
-                        <Button
-                          size="small"
-                          sx={{
-                            minHeight: { xs: '32px', sm: '36px' }
-                          }}
-                        >
-                          <Skeleton>
-                            <FormattedMessage
-                              id={'clone'}
-                              defaultMessage={'clone'}
-                            />
-                          </Skeleton>
-                        </Button>
-
-                        <Button
-                          size="small"
-                          sx={{
-                            minHeight: { xs: '32px', sm: '36px' }
-                          }}
-                        >
-                          <Skeleton>
-                            <FormattedMessage
-                              id={'view'}
-                              defaultMessage={'View'}
-                            />
-                          </Skeleton>
-                        </Button>
-                      </Stack>
-                    </CardActions>
-                  </Card>
-                </Box>
-              ))}
+            {sitesQuery?.isLoading && (
+              <SiteCardSkeleton count={isMobile ? 2 : isTablet ? 3 : 6} />
+            )}
           </Box>
         </Container>
       </MainLayout>

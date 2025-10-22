@@ -171,7 +171,7 @@ interface Props {
 }
 
 const GlassmorphicContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['blurIntensity', 'glassOpacity', 'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'borderRadius'].includes(prop as string),
+  shouldForwardProp: (prop) => !['blurIntensity', 'glassOpacity', 'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'borderRadius', 'colorSchemeMode'].includes(prop as string),
 })<{
   blurIntensity: number;
   glassOpacity: number;
@@ -182,7 +182,8 @@ const GlassmorphicContainer = styled(Box, {
   backgroundRepeat?: string;
   backgroundAttachment?: string;
   borderRadius?: number;
-}>(({ theme, blurIntensity, glassOpacity, backgroundColor, backgroundImage, backgroundSize, backgroundPosition, backgroundRepeat, backgroundAttachment, borderRadius }) => {
+  colorSchemeMode?: 'light' | 'dark';
+}>(({ theme, blurIntensity, glassOpacity, backgroundColor, backgroundImage, backgroundSize, backgroundPosition, backgroundRepeat, backgroundAttachment, borderRadius, colorSchemeMode }) => {
 
   const appliedBorderRadius = borderRadius || 0;
 
@@ -285,11 +286,12 @@ const GlassmorphicContainer = styled(Box, {
 });
 
 const GlassmorphicIconButton = styled(IconButton, {
-  shouldForwardProp: (prop) => !['glassOpacity', 'textColor'].includes(prop as string),
+  shouldForwardProp: (prop) => !['glassOpacity', 'textColor', 'colorSchemeMode'].includes(prop as string),
 })<{
   glassOpacity: number;
   textColor: string;
-}>(({ theme, glassOpacity, textColor }) => ({
+  colorSchemeMode?: 'light' | 'dark';
+}>(({ theme, glassOpacity, textColor, colorSchemeMode }) => ({
   color: textColor,
   backgroundColor: colorSchemeMode === 'dark'
     ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.5)})`
@@ -319,11 +321,12 @@ const GlassmorphicIconButton = styled(IconButton, {
 }));
 
 const GlassmorphicLink = styled(Link, {
-  shouldForwardProp: (prop) => !['textColor', 'glassOpacity'].includes(prop as string),
+  shouldForwardProp: (prop) => !['textColor', 'glassOpacity', 'colorSchemeMode'].includes(prop as string),
 })<{
   textColor: string;
   glassOpacity: number;
-}>(({ theme, textColor, glassOpacity }) => ({
+  colorSchemeMode?: 'light' | 'dark';
+}>(({ theme, textColor, glassOpacity, colorSchemeMode }) => ({
   color: textColor,
   textDecoration: 'none',
   padding: theme.spacing(1, 2),
@@ -1288,6 +1291,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       target={m.type === "External" ? "_blank" : undefined}
                       textColor={textColor}
                       glassOpacity={glassOpacity}
+                      colorSchemeMode={colorSchemeMode}
                       sx={{
                         fontSize: { xs: '0.875rem', sm: '1rem' },
                         padding: { xs: theme.spacing(0.5, 1), sm: theme.spacing(1, 2) },
@@ -1309,6 +1313,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                 target="_blank"
                 textColor={textColor}
                 glassOpacity={glassOpacity}
+                colorSchemeMode={colorSchemeMode}
                 sx={{
                   fontSize: { xs: '0.875rem', sm: '1rem' },
                   padding: { xs: theme.spacing(0.5, 1), sm: theme.spacing(1, 2) }
@@ -1365,6 +1370,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       size="small"
                       glassOpacity={glassOpacity}
                       textColor={textColor}
+                      colorSchemeMode={colorSchemeMode}
                       sx={{
                         minWidth: { xs: 36, sm: 'auto' },
                         minHeight: { xs: 36, sm: 'auto' }
@@ -1389,6 +1395,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                         size="small"
                         glassOpacity={glassOpacity}
                         textColor={textColor}
+                        colorSchemeMode={colorSchemeMode}
                         sx={{
                           minWidth: { xs: 36, sm: 'auto' },
                           minHeight: { xs: 36, sm: 'auto' }
@@ -1424,6 +1431,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         backgroundRepeat={glassConfig.backgroundRepeat}
         backgroundAttachment={glassConfig.backgroundAttachment}
         borderRadius={borderRadius}
+        colorSchemeMode={colorSchemeMode}
       >
         <Container maxWidth="lg">
           <Grid

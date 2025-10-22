@@ -38,7 +38,7 @@ export {
   useDeleteMyAppMutation,
   useDeletePageTemplateMutation,
   usePageTemplatesByOwnerQuery,
-  useWhitelabelConfigsByOwnerQuery,
+  useWhitelabelConfigsByOwnerQuery
 };
 //import SiteConfig from '../../config/dexappbuilder.json';
 
@@ -101,12 +101,41 @@ export const useWhitelabelSitesListQuery = (queryParameters: {
   skip?: number;
   take?: number;
 }) => {
-  return useQuery([QUERY_WHITELABEL_SITES_QUERY], async () => {
-    return (await getSites(queryParameters)).data.map((resp) => ({
-      ...resp,
-      appConfig: JSON.parse(resp.config) as AppConfig,
-    }));
-  });
+  return useQuery(
+    [QUERY_WHITELABEL_SITES_QUERY, queryParameters],
+    async () => {
+      const response = await getSites(queryParameters);
+      return response.data.map((resp) => {
+        try {
+          return {
+            ...resp,
+            appConfig: JSON.parse(resp.config) as AppConfig,
+          };
+        } catch (error) {
+          console.error('Error parsing config for site:', resp.id, error);
+          return {
+            ...resp,
+            appConfig: {
+              name: 'Unknown Site',
+              description: null,
+              logo: null,
+              theme: 'default',
+              domain: '',
+              email: '',
+              currency: 'USD',
+              pages: {},
+            } as AppConfig,
+          };
+        }
+      });
+    },
+    {
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
+  );
 };
 
 export const QUERY_WHITELABEL_TEMPLATE_SITES_QUERY =
