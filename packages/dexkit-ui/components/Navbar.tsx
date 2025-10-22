@@ -188,10 +188,6 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const { isCustom, customSettings } = useNavbarVariant(appConfig);
 
-  if (isCustom && customSettings) {
-    return <CustomNavbar appConfig={appConfig} isPreview={isPreview} customSettings={customSettings} />;
-  }
-
   const glassVariant =
     appConfig.menuSettings?.layout?.type === "navbar" &&
     appConfig.menuSettings?.layout?.variant === "glass";
@@ -567,6 +563,10 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const positions = organizeNavbarElements();
   const { left = [], 'center-left': centerLeft = [], center = [], 'center-right': centerRight = [], right = [] } = positions || {};
+
+  if (isCustom && customSettings) {
+    return <CustomNavbar appConfig={appConfig} isPreview={isPreview} customSettings={customSettings} />;
+  }
 
   return (
     <>
