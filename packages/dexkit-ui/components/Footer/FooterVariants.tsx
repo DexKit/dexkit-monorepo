@@ -75,6 +75,26 @@ interface FooterConfig {
     backgroundBlur?: number;
     padding?: number;
     borderRadius?: number;
+    colorScheme?: {
+      light?: {
+        backgroundColor?: string;
+        textColor?: string;
+        menuColor?: string;
+        menuHoverColor?: string;
+        iconColor?: string;
+        iconHoverColor?: string;
+        signatureColor?: string;
+      };
+      dark?: {
+        backgroundColor?: string;
+        textColor?: string;
+        menuColor?: string;
+        menuHoverColor?: string;
+        iconColor?: string;
+        iconHoverColor?: string;
+        signatureColor?: string;
+      };
+    };
     logo?: {
       url?: string;
       width?: number;
@@ -1497,6 +1517,14 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
   if (variant === 'custom') {
     const config = footerConfig.customConfig || {};
+
+    const getColorSchemeSettings = () => {
+      const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+      return config.colorScheme?.[currentMode] || {};
+    };
+
+    const colorSchemeSettings = getColorSchemeSettings();
+
     const socialLinks = [
       ...(appConfig?.social || []).map(social => ({
         icon: renderIcon(social),
@@ -1541,7 +1569,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                 textDecoration: 'none',
                 transition: 'color 0.2s ease-in-out',
                 '&:hover': {
-                  color: config.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                  color: colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor || theme.palette.primary.main,
                   textDecoration: 'underline'
                 }
               }}
@@ -1567,7 +1595,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               textDecoration: 'none',
               transition: 'color 0.2s ease-in-out',
               '&:hover': {
-                color: config.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                color: colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor || theme.palette.primary.main,
                 textDecoration: 'underline'
               }
             }}
@@ -1580,7 +1608,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
     return (
       <CustomContainer
-        backgroundColor={config.backgroundColor}
+        backgroundColor={colorSchemeSettings.backgroundColor || config.backgroundColor}
         backgroundType={config.backgroundType}
         gradientDirection={config.gradientDirection}
         gradientColors={config.gradientColors}
@@ -1654,8 +1682,8 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                 key={index}
                 href={isPreview ? "#" : (menuItem.href || "/")}
                 fontSize={config.menu?.style?.fontSize}
-                color={config.menu?.style?.color}
-                hoverColor={config.menu?.style?.hoverColor}
+                color={colorSchemeSettings.menuColor || config.menu?.style?.color}
+                hoverColor={colorSchemeSettings.menuHoverColor || config.menu?.style?.hoverColor}
                 fontWeight={config.menu?.style?.fontWeight}
                 fontStyle={config.menu?.style?.fontStyle}
                 target={menuItem.type === "External" ? "_blank" : undefined}
@@ -1686,8 +1714,8 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               >
                 <CustomSocialIcon
                   iconSize={config.socialMedia?.iconSize}
-                  iconColor={config.socialMedia?.iconColor}
-                  iconHoverColor={config.socialMedia?.iconHoverColor}
+                  iconColor={colorSchemeSettings.iconColor || config.socialMedia?.iconColor}
+                  iconHoverColor={colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor}
                 >
                   {social.icon}
                 </CustomSocialIcon>
@@ -1701,7 +1729,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             x={config.signature.position?.x || 0}
             y={config.signature.position?.y || 0}
             fontSize={config.signature.style?.fontSize}
-            color={config.signature.style?.color}
+            color={colorSchemeSettings.signatureColor || config.signature.style?.color}
             fontWeight={config.signature.style?.fontWeight}
             fontStyle={config.signature.style?.fontStyle}
             padding={config.padding}
