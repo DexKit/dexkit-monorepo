@@ -1,5 +1,22 @@
 # @dexkit/ui
 
+## 2.0.0
+
+### Major Changes
+
+- b128486: Major version updates: Next 15.5.5, MUI v7 and several other packages
+
+### Minor Changes
+
+- 3b93251: fix typing on dexappbuilder render
+- b128486: fixed component theming for MUI v7 compatibility
+
+### Patch Changes
+
+- Updated dependencies [b128486]
+- Updated dependencies [b128486]
+  - @dexkit/core@2.0.0
+
 ## 1.0.0
 
 ### Major Changes
