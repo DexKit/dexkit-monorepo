@@ -29,15 +29,15 @@ import type { AppNotification, AppNotificationType } from "../types";
 function ThemeSyncComponent() {
   const { mode: normalMode } = useThemeMode();
   const { mode: forcedMode, isForced } = useForceThemeMode();
-  const { setMode } = useColorScheme();
+  const { setMode, mode: currentColorSchemeMode } = useColorScheme();
 
   const effectiveMode = forcedMode || normalMode;
 
   React.useEffect(() => {
-    if (setMode) {
+    if (setMode && effectiveMode !== currentColorSchemeMode) {
       setMode(effectiveMode);
     }
-  }, [effectiveMode, setMode, isForced]);
+  }, [effectiveMode, setMode, currentColorSchemeMode, isForced]);
 
   return null;
 }

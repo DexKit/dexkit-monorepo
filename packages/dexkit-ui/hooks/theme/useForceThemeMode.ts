@@ -42,33 +42,27 @@ export function useForceThemeMode() {
     detectThemeFromDOM();
 
     const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' &&
-          (mutation.attributeName === 'class' ||
-            mutation.attributeName === 'data-theme' ||
-            mutation.attributeName === 'data-mui-color-scheme')) {
-          detectThemeFromDOM();
+      const hasRelevantChanges = mutations.some((mutation) => {
+        if (mutation.type === 'attributes') {
+          const target = mutation.target as HTMLElement;
+          return mutation.attributeName !== 'data-mui-color-scheme' &&
+            (mutation.attributeName === 'class' || mutation.attributeName === 'data-theme');
         }
+        return false;
       });
+
+      if (hasRelevantChanges) {
+        detectThemeFromDOM();
+      }
     });
 
     observer.observe(document.body, {
       attributes: true,
-      attributeFilter: ['class', 'data-theme', 'data-mui-color-scheme']
-    });
-
-    const styleObserver = new MutationObserver(() => {
-      detectThemeFromDOM();
-    });
-
-    styleObserver.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['style']
+      attributeFilter: ['class', 'data-theme']
     });
 
     return () => {
       observer.disconnect();
-      styleObserver.disconnect();
     };
   }, [forceMode]);
 

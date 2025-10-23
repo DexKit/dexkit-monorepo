@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Box, Card, CardContent, Container, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import AssetFromApi from "@dexkit/ui/modules/nft/components/AssetFromApi";

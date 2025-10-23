@@ -83,7 +83,10 @@ export function SearchTokenAutocomplete(props: Props) {
       renderOption={(props, option) => (
         <Box
           component="li"
-          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+          sx={{
+            "& > img": { mr: 2, flexShrink: 0 },
+            color: "text.primary"
+          }}
           {...props}
         >
           <img loading="lazy" width="20" src={`${option.logoURI}`} alt="" />

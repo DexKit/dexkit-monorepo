@@ -32,7 +32,7 @@ export function AppExpandableTypography({
       variant={TypographyProps.variant}
       sx={{
         fontSize: 'inherit',
-        color: theme.palette.mode === 'dark' ? theme.palette.primary.main : 'inherit'
+        color: 'primary.main'
       }}
       onClick={() => setExpanded(!expanded)}
     >

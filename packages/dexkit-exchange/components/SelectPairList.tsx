@@ -5,9 +5,9 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  useColorScheme,
   useMediaQuery,
   useTheme,
-  useColorScheme,
 } from "@mui/material";
 
 import { TOKEN_ICON_URL, useIsMobile } from "@dexkit/core";
@@ -90,14 +90,16 @@ export default function SelectPairList({
           </ListItemAvatar>
           <ListItemText
             primary={`${token.symbol.toUpperCase()}/${quoteToken?.symbol.toUpperCase()}`}
-            primaryTypographyProps={{
-              variant: isSmallScreen ? "body2" : "body1",
-              fontSize: {
-                xs: theme.typography.body2.fontSize,
-                sm: theme.typography.body1.fontSize
-              },
-              fontWeight: theme.typography.fontWeightMedium,
-              color: `${textColor} !important`,
+            slotProps={{
+              primary: {
+                variant: isSmallScreen ? "body2" : "body1",
+                fontSize: {
+                  xs: theme.typography.body2.fontSize,
+                  sm: theme.typography.body1.fontSize
+                },
+                fontWeight: theme.typography.fontWeightMedium,
+                color: `${textColor} !important`,
+              }
             }}
           />
         </ListItemButton>

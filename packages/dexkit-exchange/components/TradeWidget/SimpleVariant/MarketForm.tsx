@@ -27,8 +27,8 @@ import {
   Skeleton,
   Stack,
   Typography,
-  useTheme,
   useColorScheme,
+  useTheme,
 } from "@mui/material";
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
@@ -86,12 +86,13 @@ export default function MarketForm({
   const secondaryTextColor = isGlassVariant
     ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
     : (isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary);
-  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.10})` : theme.palette.primary.main);
-  const fillButtonTextColor = glassSettings?.fillButtonTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
-  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.10) + 0.1, 0.2)})` : theme.palette.primary.dark);
-  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
-  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${(glassSettings?.glassOpacity || 0.10) * 0.5})` : theme.palette.action.disabled);
-  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || (isGlassVariant ? `${glassSettings?.textColor || '#ffffff'}80` : theme.palette.action.disabledBackground);
+  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main;
+  const fillButtonTextColor = glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText;
+  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark;
+  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText;
+  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled;
+  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground;
+
   const [showReview, setShowReview] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -359,68 +360,32 @@ export default function MarketForm({
         variant="contained"
         onClick={handleExecute}
         sx={{
-          '&.MuiButton-root': {
-            backgroundColor: `${fillButtonBackgroundColor} !important`,
-            color: `${fillButtonTextColor} !important`,
-            fontWeight: theme.typography.fontWeightMedium,
-            textTransform: 'none',
-            borderRadius: isGlassVariant ? theme.spacing(2) : theme.spacing(1),
-            transition: theme.transitions.create(['all'], {
-              duration: theme.transitions.duration.short,
-              easing: theme.transitions.easing.easeInOut,
-            }),
-            ...(isGlassVariant && {
-              backdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%) brightness(1.05)`,
-              WebkitBackdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%) brightness(1.05)`,
-              border: `1px solid rgba(255, 255, 255, 0.3)`,
-              boxShadow: `
-                0 4px 16px rgba(0, 0, 0, 0.1),
-                0 2px 8px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-              `,
-            }),
-          },
-          '&.MuiButton-root:hover:not(:disabled)': {
+          backgroundColor: `${fillButtonBackgroundColor} !important`,
+          color: `${fillButtonTextColor} !important`,
+          fontWeight: theme.typography.fontWeightMedium,
+          textTransform: 'none',
+          borderRadius: isGlassVariant ? theme.spacing(2) : theme.spacing(1),
+          transition: theme.transitions.create(['all'], {
+            duration: theme.transitions.duration.short,
+            easing: theme.transitions.easing.easeInOut,
+          }),
+          '&:hover:not(:disabled)': {
             backgroundColor: `${fillButtonHoverBackgroundColor} !important`,
             color: `${fillButtonHoverTextColor} !important`,
             transform: isGlassVariant
               ? `translateY(-${theme.spacing(0.25)}) scale(1.02)`
               : `translateY(-${theme.spacing(0.125)})`,
-            ...(isGlassVariant && {
-              backdropFilter: `blur(${theme.spacing(3.125)}) saturate(200%) brightness(1.08)`,
-              WebkitBackdropFilter: `blur(${theme.spacing(3.125)}) saturate(200%) brightness(1.08)`,
-              border: `1px solid rgba(255, 255, 255, 0.4)`,
-              boxShadow: `
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                0 3px 12px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-              `,
-            }),
           },
-          '&.MuiButton-root:active:not(:disabled)': {
+          '&:active:not(:disabled)': {
             transform: isGlassVariant
               ? `translateY(-${theme.spacing(0.125)}) scale(0.98)`
               : 'translateY(0)',
           },
-          '&.MuiButton-root:disabled, &.MuiButton-root.Mui-disabled': {
+          '&:disabled, &.Mui-disabled': {
             backgroundColor: `${fillButtonDisabledBackgroundColor} !important`,
             color: `${fillButtonDisabledTextColor} !important`,
             opacity: '1 !important',
-            ...(isGlassVariant && {
-              backdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
-              WebkitBackdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
-              border: `1px solid rgba(255, 255, 255, 0.15)`,
-              boxShadow: `
-                0 2px 8px rgba(0, 0, 0, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05)
-              `,
-            }),
           },
-          backgroundColor: `${fillButtonBackgroundColor} !important`,
-          color: `${fillButtonTextColor} !important`,
         }}
       >
         {errorMsg ? (
@@ -507,7 +472,7 @@ export default function MarketForm({
         <Box>
           <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
         </Box>
-        
+
         <Box sx={{ visibility: provider ? "visible" : "hidden" }}>
           {side === "buy" ? (
             <Typography variant="body2" color={textColor}>
@@ -538,9 +503,9 @@ export default function MarketForm({
             </Typography>
           )}
         </Box>
-        
+
         <Divider />
-        
+
         <Box>
           <Stack
             direction="row"
@@ -625,7 +590,7 @@ export default function MarketForm({
             )}
           </Stack>
         </Box>
-        
+
         <Box>
           {renderActionButton()}
         </Box>

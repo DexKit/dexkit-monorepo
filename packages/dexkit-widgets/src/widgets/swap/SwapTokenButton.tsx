@@ -39,7 +39,7 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
       <Typography
         sx={{
           fontWeight: 600,
-          color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.secondary
+          color: 'text.secondary'
         }}
         variant="body1"
       >
@@ -63,17 +63,12 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
         <ButtonBase
           {...ButtonBaseProps}
           sx={{
-            borderRadius: (theme.shape.borderRadius as any) / 2,
+            borderRadius: (theme) => (theme.shape.borderRadius as any) / 2,
             p: 1,
-            backgroundColor: 'background.default',
             border: 1,
-            borderColor: 'divider',
             opacity: locked ? 0.5 : 1,
             pointerEvents: locked ? 'none' : undefined,
             cursor: locked ? 'not-allowed' : 'pointer',
-            ...(locked && {
-              backgroundColor: 'action.disabledBackground',
-            }),
             ...(ButtonBaseProps?.sx || {}),
           }}
           tabIndex={locked ? -1 : ButtonBaseProps?.tabIndex}

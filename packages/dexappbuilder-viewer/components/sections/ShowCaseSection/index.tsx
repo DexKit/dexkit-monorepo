@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useIsMobile } from "@dexkit/core";
 import {
   ShowCaseItem,

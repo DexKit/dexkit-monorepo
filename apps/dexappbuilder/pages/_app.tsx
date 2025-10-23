@@ -2,7 +2,7 @@ import { EmotionCache } from '@emotion/react';
 import { Analytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import '../src/polyfills/react-draggable-polyfill';
 import '../src/polyfills/react-polyfills';
@@ -26,7 +26,7 @@ import SiteProvider from '@dexkit/ui/providers/SiteProvider';
 import { AuthStateProvider } from '@dexkit/ui/providers/authStateProvider';
 import { setupSEO } from '@dexkit/ui/services/app';
 import { CacheProvider } from '@emotion/react';
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress, ThemeProvider } from '@mui/material';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
@@ -88,7 +88,7 @@ export default function MyApp(props: MyAppProps) {
 
   const getLayout = (Component as any).getLayout || ((page: any) => page);
 
-  const theme = setupTheme({ appConfig, getTheme });
+  const theme = useMemo(() => setupTheme({ appConfig, getTheme }), [appConfig, getTheme]);
 
   const SEO = setupSEO({ appConfig, appPage });
 
@@ -111,39 +111,41 @@ export default function MyApp(props: MyAppProps) {
         />
       </Head>
       <CacheProvider value={emotionCache}>
-        <AuthStateProvider>
-          <SiteProvider siteId={siteId} slug={site}>
-            <AppUIConfigContext.Provider
-              value={{ appConfig: config, appNFT, siteId }}
-            >
-              <ThirdwebProvider>
-                <QueryClientProvider client={queryClient}>
-                  <Hydrate state={pageProps.dehydratedState}>
-                    <DefaultSeo {...SEO} />
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                      <AppMarketplaceProvider
-                        appLocaleMessages={appLocaleMessages}
-                      >
-                        <Backdrop
-                          open={loading}
-                          sx={{
-                            color:
-                              (theme as any)?.colorSchemes?.light?.palette?.primary
-                                ?.main || theme.palette.primary.main,
-                            zIndex: theme.zIndex.drawer + 1,
-                          }}
+        <ThemeProvider theme={theme}>
+          <AuthStateProvider>
+            <SiteProvider siteId={siteId} slug={site}>
+              <AppUIConfigContext.Provider
+                value={{ appConfig: config, appNFT, siteId }}
+              >
+                <ThirdwebProvider>
+                  <QueryClientProvider client={queryClient}>
+                    <Hydrate state={pageProps.dehydratedState}>
+                      <DefaultSeo {...SEO} />
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <AppMarketplaceProvider
+                          appLocaleMessages={appLocaleMessages}
                         >
-                          <CircularProgress color="inherit" size={80} />
-                        </Backdrop>
-                        {getLayout(<Component {...pageProps} />)}
-                      </AppMarketplaceProvider>
-                    </LocalizationProvider>
-                  </Hydrate>
-                </QueryClientProvider>
-              </ThirdwebProvider>
-            </AppUIConfigContext.Provider>
-          </SiteProvider>
-        </AuthStateProvider>
+                          <Backdrop
+                            open={loading}
+                            sx={{
+                              color:
+                                (theme as any)?.colorSchemes?.light?.palette?.primary
+                                  ?.main || theme.palette.primary.main,
+                              zIndex: theme.zIndex.drawer + 1,
+                            }}
+                          >
+                            <CircularProgress color="inherit" size={80} />
+                          </Backdrop>
+                          {getLayout(<Component {...pageProps} />)}
+                        </AppMarketplaceProvider>
+                      </LocalizationProvider>
+                    </Hydrate>
+                  </QueryClientProvider>
+                </ThirdwebProvider>
+              </AppUIConfigContext.Provider>
+            </SiteProvider>
+          </AuthStateProvider>
+        </ThemeProvider>
       </CacheProvider>
       {process.env.NODE_ENV === 'production' && <Analytics />}
     </>

@@ -469,7 +469,7 @@ export const SiteTemplatesPage: NextPage = () => {
               <Box
                 sx={{
                   display: 'grid',
-                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)' },
+                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
                   gap: { xs: 1.5, sm: 2, md: 2.5 },
                   alignItems: 'stretch'
                 }}
@@ -553,7 +553,7 @@ export const SiteTemplatesPage: NextPage = () => {
               <Box
                 sx={{
                   display: 'grid',
-                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)' },
+                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
                   gap: { xs: 1.5, sm: 2, md: 2.5 },
                   alignItems: 'stretch'
                 }}

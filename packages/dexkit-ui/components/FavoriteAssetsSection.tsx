@@ -1,4 +1,5 @@
 import { ChainId } from '@dexkit/core/constants';
+import CloseCircle from '@dexkit/ui/components/icons/CloseCircle';
 import WalletAssetsFilter from '@dexkit/ui/modules/wallet/components/WalletAssetsFilter';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -20,7 +21,6 @@ import {
 import { useSnackbar } from 'notistack';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import CloseCircle from '../../../components/icons/CloseCircle';
 
 import { isAddressEqual } from '@dexkit/core/utils/blockchain';
 

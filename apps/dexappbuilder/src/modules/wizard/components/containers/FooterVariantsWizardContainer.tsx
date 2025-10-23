@@ -27,6 +27,7 @@ import {
   Switch,
   TextField,
   Typography,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from '@mui/material';
@@ -232,6 +233,26 @@ interface FooterConfig {
     backgroundBlur?: number;
     padding?: number;
     borderRadius?: number;
+    colorScheme?: {
+      light?: {
+        backgroundColor?: string;
+        textColor?: string;
+        menuColor?: string;
+        menuHoverColor?: string;
+        iconColor?: string;
+        iconHoverColor?: string;
+        signatureColor?: string;
+      };
+      dark?: {
+        backgroundColor?: string;
+        textColor?: string;
+        menuColor?: string;
+        menuHoverColor?: string;
+        iconColor?: string;
+        iconHoverColor?: string;
+        signatureColor?: string;
+      };
+    };
     logo?: {
       url?: string;
       width?: number;
@@ -772,6 +793,7 @@ export default function FooterVariantsWizardContainer({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { formatMessage } = useIntl();
+  const { mode: colorSchemeMode } = useColorScheme();
 
   const activeFeatUsageQuery = useActiveFeatUsage({
     slug: isWidget ? WIDGET_SIGNATURE_FEAT : CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
@@ -822,6 +844,26 @@ export default function FooterVariantsWizardContainer({
       backgroundBlur: config.footerConfig?.customConfig?.backgroundBlur || 0,
       padding: config.footerConfig?.customConfig?.padding || 4,
       borderRadius: config.footerConfig?.customConfig?.borderRadius || 0,
+      colorScheme: {
+        light: {
+          backgroundColor: config.footerConfig?.customConfig?.colorScheme?.light?.backgroundColor || '#ffffff',
+          textColor: config.footerConfig?.customConfig?.colorScheme?.light?.textColor || '#333333',
+          menuColor: config.footerConfig?.customConfig?.colorScheme?.light?.menuColor || '#333333',
+          menuHoverColor: config.footerConfig?.customConfig?.colorScheme?.light?.menuHoverColor || theme.palette.primary.main,
+          iconColor: config.footerConfig?.customConfig?.colorScheme?.light?.iconColor || '#333333',
+          iconHoverColor: config.footerConfig?.customConfig?.colorScheme?.light?.iconHoverColor || theme.palette.primary.main,
+          signatureColor: config.footerConfig?.customConfig?.colorScheme?.light?.signatureColor || '#666666',
+        },
+        dark: {
+          backgroundColor: config.footerConfig?.customConfig?.colorScheme?.dark?.backgroundColor || '#1a1a1a',
+          textColor: config.footerConfig?.customConfig?.colorScheme?.dark?.textColor || '#ffffff',
+          menuColor: config.footerConfig?.customConfig?.colorScheme?.dark?.menuColor || '#ffffff',
+          menuHoverColor: config.footerConfig?.customConfig?.colorScheme?.dark?.menuHoverColor || theme.palette.primary.main,
+          iconColor: config.footerConfig?.customConfig?.colorScheme?.dark?.iconColor || '#ffffff',
+          iconHoverColor: config.footerConfig?.customConfig?.colorScheme?.dark?.iconHoverColor || theme.palette.primary.main,
+          signatureColor: config.footerConfig?.customConfig?.colorScheme?.dark?.signatureColor || '#cccccc',
+        }
+      },
       logo: {
         url: config.footerConfig?.customConfig?.logo?.url || '',
         width: config.footerConfig?.customConfig?.logo?.width || 100,
@@ -1563,61 +1605,84 @@ export default function FooterVariantsWizardContainer({
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          <Grid container spacing={2}>
-                            <Grid
-                              size={{
-                                xs: 12,
-                                sm: 6
-                              }}>
-                              <FormControl fullWidth>
-                                <InputLabel>
-                                  <FormattedMessage
-                                    id="footer.background.type"
-                                    defaultMessage="Background Type"
-                                  />
-                                </InputLabel>
-                                <Select
-                                  value={values.customConfig?.backgroundType || 'solid'}
-                                  onChange={(e) => setFieldValue('customConfig.backgroundType', e.target.value)}
-                                  label="Background Type"
-                                >
-                                  <MenuItem value="solid">
-                                    <FormattedMessage
-                                      id="footer.background.solid"
-                                      defaultMessage="Solid Color"
-                                    />
-                                  </MenuItem>
-                                  <MenuItem value="gradient">
-                                    <FormattedMessage
-                                      id="footer.background.gradient"
-                                      defaultMessage="Gradient"
-                                    />
-                                  </MenuItem>
-                                  <MenuItem value="image">
-                                    <FormattedMessage
-                                      id="footer.background.image"
-                                      defaultMessage="Image"
-                                    />
-                                  </MenuItem>
-                                </Select>
-                              </FormControl>
+                          <Grid container spacing={3}>
+                            <Grid size={12}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+                                <FormattedMessage
+                                  id="footer.background.type"
+                                  defaultMessage="Background Type"
+                                />
+                              </Typography>
+                              <Grid container spacing={2}>
+                                <Grid size={12}>
+                                  <FormControl fullWidth>
+                                    <InputLabel>
+                                      <FormattedMessage
+                                        id="footer.background.type"
+                                        defaultMessage="Background Type"
+                                      />
+                                    </InputLabel>
+                                    <Select
+                                      value={values.customConfig?.backgroundType || 'solid'}
+                                      onChange={(e) => setFieldValue('customConfig.backgroundType', e.target.value)}
+                                      label="Background Type"
+                                    >
+                                      <MenuItem value="solid">
+                                        <FormattedMessage
+                                          id="footer.background.solid"
+                                          defaultMessage="Solid Color"
+                                        />
+                                      </MenuItem>
+                                      <MenuItem value="gradient">
+                                        <FormattedMessage
+                                          id="footer.background.gradient"
+                                          defaultMessage="Gradient"
+                                        />
+                                      </MenuItem>
+                                      <MenuItem value="image">
+                                        <FormattedMessage
+                                          id="footer.background.image"
+                                          defaultMessage="Image"
+                                        />
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </Grid>
+                              </Grid>
                             </Grid>
 
                             {(values.customConfig?.backgroundType === 'solid' || !values.customConfig?.backgroundType) && (
-                              <Grid
-                                size={{
-                                  xs: 12,
-                                  sm: 6
-                                }}>
-                                <ColorPickerField
-                                  label={formatMessage({
-                                    id: "footer.background.color",
-                                    defaultMessage: "Background Color"
-                                  })}
-                                  value={values.customConfig?.backgroundColor || '#ffffff'}
-                                  onChange={(value) => setFieldValue('customConfig.backgroundColor', value)}
-                                  defaultValue="#ffffff"
-                                />
+                              <Grid size={12}>
+                                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+                                  <FormattedMessage
+                                    id="footer.background.colors"
+                                    defaultMessage="Background Colors"
+                                  />
+                                </Typography>
+                                <Grid container spacing={2}>
+                                  <Grid size={6}>
+                                    <ColorPickerField
+                                      label={formatMessage({
+                                        id: "footer.background.color.light",
+                                        defaultMessage: "Background Color (Light)"
+                                      })}
+                                      value={values.customConfig?.colorScheme?.light?.backgroundColor || '#ffffff'}
+                                      onChange={(value) => setFieldValue('customConfig.colorScheme.light.backgroundColor', value)}
+                                      defaultValue="#ffffff"
+                                    />
+                                  </Grid>
+                                  <Grid size={6}>
+                                    <ColorPickerField
+                                      label={formatMessage({
+                                        id: "footer.background.color.dark",
+                                        defaultMessage: "Background Color (Dark)"
+                                      })}
+                                      value={values.customConfig?.colorScheme?.dark?.backgroundColor || '#1a1a1a'}
+                                      onChange={(value) => setFieldValue('customConfig.colorScheme.dark.backgroundColor', value)}
+                                      defaultValue="#1a1a1a"
+                                    />
+                                  </Grid>
+                                </Grid>
                               </Grid>
                             )}
 
@@ -1737,65 +1802,98 @@ export default function FooterVariantsWizardContainer({
                               </Grid>
                             )}
 
-                            <Grid
-                              size={{
-                                xs: 12,
-                                sm: 6
-                              }}>
-                              <Typography gutterBottom>
+                            <Grid size={12}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
                                 <FormattedMessage
-                                  id="footer.padding"
-                                  defaultMessage="Padding"
+                                  id="footer.background.layout"
+                                  defaultMessage="Layout & Spacing"
                                 />
                               </Typography>
-                              <Slider
-                                value={values.customConfig?.padding || 4}
-                                onChange={(_, value) => {
-                                  const numericValue = Array.isArray(value) ? value[0] : value;
-                                  setFieldValue('customConfig.padding', numericValue);
-                                }}
-                                min={0}
-                                max={8}
-                                step={1}
-                                valueLabelDisplay="auto"
-                                marks={[
-                                  { value: 0, label: '0' },
-                                  { value: 2, label: '2' },
-                                  { value: 4, label: '4' },
-                                  { value: 6, label: '6' },
-                                  { value: 8, label: '8' },
-                                ]}
-                              />
-                            </Grid>
-
-                            <Grid
-                              size={{
-                                xs: 12,
-                                sm: 6
-                              }}>
-                              <Typography gutterBottom>
-                                <FormattedMessage
-                                  id="footer.border.radius"
-                                  defaultMessage="Border Radius"
-                                />
-                              </Typography>
-                              <Slider
-                                value={values.customConfig?.borderRadius || 0}
-                                onChange={(_, value) => {
-                                  const numericValue = Array.isArray(value) ? value[0] : value;
-                                  setFieldValue('customConfig.borderRadius', numericValue);
-                                }}
-                                min={0}
-                                max={50}
-                                step={1}
-                                valueLabelDisplay="auto"
-                                marks={[
-                                  { value: 0, label: '0' },
-                                  { value: 15, label: '15' },
-                                  { value: 30, label: '30' },
-                                  { value: 50, label: '50' },
-                                ]}
-                              />
+                              <Grid container spacing={3}>
+                                <Grid size={6}>
+                                  <Box sx={{ px: 1 }}>
+                                    <Typography gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                      <FormattedMessage
+                                        id="footer.padding"
+                                        defaultMessage="Padding"
+                                      />
+                                    </Typography>
+                                    <Slider
+                                      value={values.customConfig?.padding || 4}
+                                      onChange={(_, value) => {
+                                        const numericValue = Array.isArray(value) ? value[0] : value;
+                                        setFieldValue('customConfig.padding', numericValue);
+                                      }}
+                                      min={0}
+                                      max={8}
+                                      step={1}
+                                      valueLabelDisplay="auto"
+                                      valueLabelFormat={(value) => `${value}px`}
+                                      marks={[
+                                        { value: 0, label: '0' },
+                                        { value: 2, label: '2' },
+                                        { value: 4, label: '4' },
+                                        { value: 6, label: '6' },
+                                        { value: 8, label: '8' },
+                                      ]}
+                                      sx={{
+                                        height: 6,
+                                        '& .MuiSlider-thumb': {
+                                          height: 16,
+                                          width: 16,
+                                        },
+                                        '& .MuiSlider-track': {
+                                          height: 6,
+                                        },
+                                        '& .MuiSlider-rail': {
+                                          height: 6,
+                                        },
+                                      }}
+                                    />
+                                  </Box>
+                                </Grid>
+                                <Grid size={6}>
+                                  <Box sx={{ px: 1 }}>
+                                    <Typography gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                      <FormattedMessage
+                                        id="footer.border.radius"
+                                        defaultMessage="Border Radius"
+                                      />
+                                    </Typography>
+                                    <Slider
+                                      value={values.customConfig?.borderRadius || 0}
+                                      onChange={(_, value) => {
+                                        const numericValue = Array.isArray(value) ? value[0] : value;
+                                        setFieldValue('customConfig.borderRadius', numericValue);
+                                      }}
+                                      min={0}
+                                      max={50}
+                                      step={1}
+                                      valueLabelDisplay="auto"
+                                      valueLabelFormat={(value) => `${value}px`}
+                                      marks={[
+                                        { value: 0, label: '0' },
+                                        { value: 15, label: '15' },
+                                        { value: 30, label: '30' },
+                                        { value: 50, label: '50' },
+                                      ]}
+                                      sx={{
+                                        height: 6,
+                                        '& .MuiSlider-thumb': {
+                                          height: 16,
+                                          width: 16,
+                                        },
+                                        '& .MuiSlider-track': {
+                                          height: 6,
+                                        },
+                                        '& .MuiSlider-rail': {
+                                          height: 6,
+                                        },
+                                      }}
+                                    />
+                                  </Box>
+                                </Grid>
+                              </Grid>
                             </Grid>
                           </Grid>
                         </AccordionDetails>
@@ -2684,11 +2782,11 @@ export default function FooterVariantsWizardContainer({
                                   }}>
                                   <ColorPickerField
                                     label={formatMessage({
-                                      id: "footer.menu.color",
-                                      defaultMessage: "Text Color"
+                                      id: "footer.menu.color.light",
+                                      defaultMessage: "Text Color (Light)"
                                     })}
-                                    value={values.customConfig?.menu?.style?.color || '#333333'}
-                                    onChange={(value) => setFieldValue('customConfig.menu.style.color', value)}
+                                    value={values.customConfig?.colorScheme?.light?.menuColor || '#333333'}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.light.menuColor', value)}
                                     defaultValue="#333333"
                                   />
                                 </Grid>
@@ -2699,11 +2797,41 @@ export default function FooterVariantsWizardContainer({
                                   }}>
                                   <ColorPickerField
                                     label={formatMessage({
-                                      id: "footer.menu.hoverColor",
-                                      defaultMessage: "Hover Color"
+                                      id: "footer.menu.color.dark",
+                                      defaultMessage: "Text Color (Dark)"
                                     })}
-                                    value={values.customConfig?.menu?.style?.hoverColor || theme.palette.primary.main}
-                                    onChange={(value) => setFieldValue('customConfig.menu.style.hoverColor', value)}
+                                    value={values.customConfig?.colorScheme?.dark?.menuColor || '#ffffff'}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.dark.menuColor', value)}
+                                    defaultValue="#ffffff"
+                                  />
+                                </Grid>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
+                                  <ColorPickerField
+                                    label={formatMessage({
+                                      id: "footer.menu.hoverColor.light",
+                                      defaultMessage: "Hover Color (Light)"
+                                    })}
+                                    value={values.customConfig?.colorScheme?.light?.menuHoverColor || theme.palette.primary.main}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.light.menuHoverColor', value)}
+                                    defaultValue={theme.palette.primary.main}
+                                  />
+                                </Grid>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
+                                  <ColorPickerField
+                                    label={formatMessage({
+                                      id: "footer.menu.hoverColor.dark",
+                                      defaultMessage: "Hover Color (Dark)"
+                                    })}
+                                    value={values.customConfig?.colorScheme?.dark?.menuHoverColor || theme.palette.primary.main}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.dark.menuHoverColor', value)}
                                     defaultValue={theme.palette.primary.main}
                                   />
                                 </Grid>
@@ -2830,11 +2958,11 @@ export default function FooterVariantsWizardContainer({
                                   }}>
                                   <ColorPickerField
                                     label={formatMessage({
-                                      id: "footer.social.icon.color",
-                                      defaultMessage: "Icon Color"
+                                      id: "footer.social.icon.color.light",
+                                      defaultMessage: "Icon Color (Light)"
                                     })}
-                                    value={values.customConfig?.socialMedia?.iconColor || '#333333'}
-                                    onChange={(value) => setFieldValue('customConfig.socialMedia.iconColor', value)}
+                                    value={values.customConfig?.colorScheme?.light?.iconColor || '#333333'}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.light.iconColor', value)}
                                     defaultValue="#333333"
                                   />
                                 </Grid>
@@ -2845,11 +2973,41 @@ export default function FooterVariantsWizardContainer({
                                   }}>
                                   <ColorPickerField
                                     label={formatMessage({
-                                      id: "footer.social.icon.hoverColor",
-                                      defaultMessage: "Hover Color"
+                                      id: "footer.social.icon.color.dark",
+                                      defaultMessage: "Icon Color (Dark)"
                                     })}
-                                    value={values.customConfig?.socialMedia?.iconHoverColor || theme.palette.primary.main}
-                                    onChange={(value) => setFieldValue('customConfig.socialMedia.iconHoverColor', value)}
+                                    value={values.customConfig?.colorScheme?.dark?.iconColor || '#ffffff'}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.dark.iconColor', value)}
+                                    defaultValue="#ffffff"
+                                  />
+                                </Grid>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
+                                  <ColorPickerField
+                                    label={formatMessage({
+                                      id: "footer.social.icon.hoverColor.light",
+                                      defaultMessage: "Hover Color (Light)"
+                                    })}
+                                    value={values.customConfig?.colorScheme?.light?.iconHoverColor || theme.palette.primary.main}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.light.iconHoverColor', value)}
+                                    defaultValue={theme.palette.primary.main}
+                                  />
+                                </Grid>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
+                                  <ColorPickerField
+                                    label={formatMessage({
+                                      id: "footer.social.icon.hoverColor.dark",
+                                      defaultMessage: "Hover Color (Dark)"
+                                    })}
+                                    value={values.customConfig?.colorScheme?.dark?.iconHoverColor || theme.palette.primary.main}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.dark.iconHoverColor', value)}
                                     defaultValue={theme.palette.primary.main}
                                   />
                                 </Grid>
@@ -2958,16 +3116,31 @@ export default function FooterVariantsWizardContainer({
                                 <Grid
                                   size={{
                                     xs: 6,
-                                    sm: 2
+                                    sm: 3
                                   }}>
                                   <ColorPickerField
                                     label={formatMessage({
-                                      id: "footer.signature.color",
-                                      defaultMessage: "Text Color"
+                                      id: "footer.signature.color.light",
+                                      defaultMessage: "Text Color (Light)"
                                     })}
-                                    value={values.customConfig?.signature?.style?.color || '#666666'}
-                                    onChange={(value) => setFieldValue('customConfig.signature.style.color', value)}
+                                    value={values.customConfig?.colorScheme?.light?.signatureColor || '#666666'}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.light.signatureColor', value)}
                                     defaultValue="#666666"
+                                  />
+                                </Grid>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
+                                  <ColorPickerField
+                                    label={formatMessage({
+                                      id: "footer.signature.color.dark",
+                                      defaultMessage: "Text Color (Dark)"
+                                    })}
+                                    value={values.customConfig?.colorScheme?.dark?.signatureColor || '#cccccc'}
+                                    onChange={(value) => setFieldValue('customConfig.colorScheme.dark.signatureColor', value)}
+                                    defaultValue="#cccccc"
                                   />
                                 </Grid>
                               </Grid>
@@ -3019,12 +3192,17 @@ export default function FooterVariantsWizardContainer({
                                     zIndex: 1,
                                     background: (() => {
                                       const config = values.customConfig;
+                                      const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+                                      const colorSchemeSettings = config?.colorScheme?.[currentMode];
+
                                       if (config?.backgroundType === 'gradient' && config.gradientColors && config.gradientColors.length >= 2) {
                                         return `linear-gradient(${config.gradientDirection || '45deg'}, ${config.gradientColors.join(', ')})`;
                                       } else if (config?.backgroundType === 'image' && config.backgroundImage) {
                                         return `url(${config.backgroundImage})`;
                                       }
-                                      return config?.backgroundColor || '#ffffff';
+
+                                      // Use colorScheme backgroundColor if available, otherwise fallback to regular backgroundColor
+                                      return colorSchemeSettings?.backgroundColor || config?.backgroundColor || '#ffffff';
                                     })(),
                                     backgroundSize: values.customConfig?.backgroundType === 'image' ? (values.customConfig?.backgroundSize || 'cover') : undefined,
                                     backgroundPosition: values.customConfig?.backgroundType === 'image' ? (values.customConfig?.backgroundPosition || 'center') : undefined,
@@ -3155,7 +3333,11 @@ export default function FooterVariantsWizardContainer({
                                           component="div"
                                           sx={{
                                             fontSize: `${values.customConfig?.menu?.style?.fontSize || 14}px`,
-                                            color: values.customConfig?.menu?.style?.color || '#333333',
+                                            color: (() => {
+                                              const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+                                              const colorSchemeSettings = values.customConfig?.colorScheme?.[currentMode];
+                                              return colorSchemeSettings?.menuColor || values.customConfig?.menu?.style?.color || '#333333';
+                                            })(),
                                             fontWeight: values.customConfig?.menu?.style?.fontWeight === 'bold' ? 700 : 400,
                                             fontStyle: values.customConfig?.menu?.style?.fontStyle || 'normal',
                                             textDecoration: 'none',
@@ -3164,7 +3346,11 @@ export default function FooterVariantsWizardContainer({
                                             transition: 'all 0.2s ease-in-out',
                                             whiteSpace: 'nowrap',
                                             '&:hover': {
-                                              color: values.customConfig?.menu?.style?.hoverColor || theme.palette.primary.main,
+                                              color: (() => {
+                                                const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+                                                const colorSchemeSettings = values.customConfig?.colorScheme?.[currentMode];
+                                                return colorSchemeSettings?.menuHoverColor || values.customConfig?.menu?.style?.hoverColor || theme.palette.primary.main;
+                                              })(),
                                               textDecoration: 'underline',
                                             },
                                           }}
@@ -3202,14 +3388,22 @@ export default function FooterVariantsWizardContainer({
                                             width: `${values.customConfig?.socialMedia?.iconSize || 24}px`,
                                             height: `${values.customConfig?.socialMedia?.iconSize || 24}px`,
                                             borderRadius: '50%',
-                                            backgroundColor: values.customConfig?.socialMedia?.iconColor || '#333333',
+                                            backgroundColor: (() => {
+                                              const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+                                              const colorSchemeSettings = values.customConfig?.colorScheme?.[currentMode];
+                                              return colorSchemeSettings?.iconColor || values.customConfig?.socialMedia?.iconColor || '#333333';
+                                            })(),
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             cursor: 'pointer',
                                             transition: 'all 0.2s ease-in-out',
                                             '&:hover': {
-                                              backgroundColor: values.customConfig?.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                                              backgroundColor: (() => {
+                                                const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+                                                const colorSchemeSettings = values.customConfig?.colorScheme?.[currentMode];
+                                                return colorSchemeSettings?.iconHoverColor || values.customConfig?.socialMedia?.iconHoverColor || theme.palette.primary.main;
+                                              })(),
                                               transform: 'scale(1.1)',
                                             },
                                           }}
@@ -3235,7 +3429,11 @@ export default function FooterVariantsWizardContainer({
                                         top: `${scaledY}%`,
                                         zIndex: 10,
                                         fontSize: `${values.customConfig?.signature?.style?.fontSize || 14}px`,
-                                        color: values.customConfig?.signature?.style?.color || '#666666',
+                                        color: (() => {
+                                          const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+                                          const colorSchemeSettings = values.customConfig?.colorScheme?.[currentMode];
+                                          return colorSchemeSettings?.signatureColor || values.customConfig?.signature?.style?.color || '#666666';
+                                        })(),
                                         fontWeight: values.customConfig?.signature?.style?.fontWeight === 'bold' ? 700 : 400,
                                         fontStyle: values.customConfig?.signature?.style?.fontStyle || 'normal',
                                         lineHeight: 1.4,

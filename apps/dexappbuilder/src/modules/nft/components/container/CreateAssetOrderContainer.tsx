@@ -1,5 +1,5 @@
 const ImportAssetDialog = dynamic(
-  () => import('@/modules/orders/components/dialogs/ImportAssetDialog'),
+  () => import('@dexkit/ui/components/dialogs/ImportAssetDialog'),
 );
 const OrderCreatedDialog = dynamic(
   () => import('@/modules/orders/components/dialogs/OrderCreatedDialog'),

@@ -8,6 +8,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material"; // always use @mui/material instead of @mui/system
@@ -47,6 +48,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
   }
 
   const theme = useTheme();
+  const { mode: colorSchemeMode } = useColorScheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
