@@ -1,5 +1,23 @@
 # @dexkit/ui
 
+## 2.0.0
+
+### Major Changes
+
+- b128486: Major version updates: Next 15.5.5, MUI v7 and several other packages
+
+### Minor Changes
+
+- b128486: fixed component theming for MUI v7 compatibility
+
+### Patch Changes
+
+- Updated dependencies [3b93251]
+- Updated dependencies [b128486]
+- Updated dependencies [b128486]
+  - @dexkit/ui@2.0.0
+  - @dexkit/core@2.0.0
+
 ## 1.0.0
 
 ### Major Changes
