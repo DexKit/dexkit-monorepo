@@ -106,7 +106,7 @@ export default function PairButton({
               data-pair-button="true"
               sx={{
                 fontWeight: theme.typography.fontWeightBold,
-                color: isDark ? theme.palette.text.primary : '#000000',
+                color: isDark ? '#ffffff' : '#000000',
                 lineHeight: 1.1,
                 fontSize: theme.typography.caption.fontSize,
               }}
@@ -119,7 +119,7 @@ export default function PairButton({
               variant="caption"
               data-pair-button="true"
               sx={{
-                color: isDark ? theme.palette.text.secondary : '#666666',
+                color: isDark ? 'rgba(255, 255, 255, 0.7)' : '#666666',
                 fontSize: theme.typography.overline.fontSize,
                 lineHeight: 1,
               }}
@@ -132,7 +132,7 @@ export default function PairButton({
           {onClick && (
             <ExpandMoreIcon
               sx={{
-                color: isDark ? theme.palette.text.secondary : '#666666',
+                color: isDark ? 'rgba(255, 255, 255, 0.7)' : '#666666',
                 fontSize: theme.spacing(2),
               }}
             />
@@ -192,7 +192,7 @@ export default function PairButton({
               data-pair-button="true"
               sx={{
                 fontWeight: theme.typography.fontWeightBold,
-                color: isDark ? theme.palette.text.primary : '#000000',
+                color: isDark ? '#ffffff' : '#000000',
                 lineHeight: 1.2,
                 fontSize: { sm: theme.typography.body2.fontSize, md: theme.typography.body1.fontSize },
               }}
@@ -205,7 +205,7 @@ export default function PairButton({
               variant="caption"
               data-pair-button="true"
               sx={{
-                color: isDark ? theme.palette.text.secondary : '#666666',
+                color: isDark ? 'rgba(255, 255, 255, 0.7)' : '#666666',
                 fontSize: theme.typography.caption.fontSize,
                 lineHeight: 1,
               }}
@@ -218,7 +218,7 @@ export default function PairButton({
           {onClick && (
             <ExpandMoreIcon
               sx={{
-                color: isDark ? theme.palette.primary.main : '#000000',
+                color: isDark ? '#ffffff' : '#000000',
                 fontSize: { sm: theme.spacing(2.5), md: theme.spacing(3) },
                 transition: theme.transitions.create('transform', {
                   duration: theme.transitions.duration.short,

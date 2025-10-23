@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import {
   Box,

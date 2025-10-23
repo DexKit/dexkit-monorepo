@@ -52,6 +52,12 @@ function SwapFeaturedTokens({
                 onClick={() => onSelect(token)}
                 clickable
                 label={token.symbol.toUpperCase()}
+                sx={{
+                  color: 'text.primary',
+                  '& .MuiChip-label': {
+                    color: 'text.primary'
+                  }
+                }}
               />
             </Grid>
           );

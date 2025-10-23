@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Container, Grid } from "@mui/material";
 

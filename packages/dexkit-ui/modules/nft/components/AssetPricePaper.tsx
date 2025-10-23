@@ -1,4 +1,3 @@
-// @ts-nocheck
 import DollarSquare from "@dexkit/ui/components/icons/DollarSquare";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Button, Grid, Paper, Stack } from "@mui/material";

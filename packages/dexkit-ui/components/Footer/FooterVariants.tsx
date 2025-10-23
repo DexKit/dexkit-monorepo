@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Facebook from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedIn from "@mui/icons-material/LinkedIn";
@@ -14,6 +13,7 @@ import {
   SvgIcon,
   Typography,
   useColorScheme,
+  useMediaQuery,
   useTheme
 } from "@mui/material";
 import Image from "next/image";
@@ -538,6 +538,11 @@ const CustomContainer = styled(Box, {
     transition: 'all 0.3s ease-in-out',
     overflow: 'hidden',
 
+    [theme.breakpoints.down('sm')]: {
+      minHeight: 'auto',
+      padding: theme.spacing(2),
+    },
+
     '&::before': {
       content: '""',
       position: 'absolute',
@@ -557,18 +562,28 @@ const CustomContainer = styled(Box, {
 });
 
 const CustomColumn = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'width', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'width', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
   width?: number;
   padding?: number;
-}>(({ theme, x, y, width, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, width, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
 
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      width: '100%',
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -654,16 +669,29 @@ const CustomLogo = styled('img', {
 });
 
 const CustomSocialContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
   padding?: number;
-}>(({ x, y, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      gap: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -686,6 +714,13 @@ const CustomSocialIcon = styled(IconButton, {
   fontSize: iconSize ? `${iconSize}px` : '24px',
   padding: theme.spacing(1),
   transition: 'all 0.2s ease-in-out',
+  minWidth: 44,
+  minHeight: 44,
+
+  [theme.breakpoints.up('sm')]: {
+    minWidth: 'auto',
+    minHeight: 'auto',
+  },
 
   '& svg': {
     fontSize: iconSize ? `${iconSize}px` : '24px',
@@ -698,7 +733,7 @@ const CustomSocialIcon = styled(IconButton, {
 }));
 
 const CustomSignature = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'fontSize', 'color', 'fontWeight', 'fontStyle', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'fontSize', 'color', 'fontWeight', 'fontStyle', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
@@ -707,11 +742,26 @@ const CustomSignature = styled(Box, {
   fontWeight?: 'normal' | 'bold';
   fontStyle?: 'normal' | 'italic';
   padding?: number;
-}>(({ theme, x, y, fontSize, color, fontWeight, fontStyle, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, fontSize, color, fontWeight, fontStyle, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      textAlign: 'center',
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+      fontSize: fontSize ? `${fontSize}px` : theme.typography.body2.fontSize,
+      color: color || theme.palette.text.secondary,
+      fontWeight: fontWeight === 'bold' ? 700 : 400,
+      fontStyle: fontStyle || 'normal',
+      lineHeight: 1.4,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -727,20 +777,33 @@ const CustomSignature = styled(Box, {
 });
 
 const CustomMenuContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'direction', 'spacing', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'direction', 'spacing', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
   direction?: 'horizontal' | 'vertical';
   spacing?: number;
   padding?: number;
-}>(({ theme, x, y, direction, spacing, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, direction, spacing, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
   const isVertical = direction === 'vertical';
   const spacingValue = spacing || 2;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -769,8 +832,25 @@ const CustomMenuLink = styled(Link, {
   textDecoration: 'none',
   cursor: 'pointer',
   lineHeight: 1.4,
-  whiteSpace: 'nowrap',
+  whiteSpace: 'normal',
+  textAlign: 'center',
+  padding: theme.spacing(0.5, 1),
+  minHeight: 44,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   transition: 'all 0.2s ease-in-out',
+
+  [theme.breakpoints.up('sm')]: {
+    whiteSpace: 'nowrap',
+    textAlign: 'left',
+    padding: 0,
+    minHeight: 'auto',
+    display: 'inline',
+    alignItems: 'baseline',
+    justifyContent: 'flex-start',
+  },
+
   '&:hover': {
     color: hoverColor || theme.palette.primary.main,
     textDecoration: 'underline',
@@ -780,8 +860,12 @@ const CustomMenuLink = styled(Link, {
 export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
   const theme = useTheme();
   const { mode: colorSchemeMode } = useColorScheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const footerConfig = appConfig.footerConfig || {};
   const variant = footerConfig.variant || 'default';
+
+  // Helper function to handle colorSchemeMode types
+  const isDarkMode = colorSchemeMode === 'dark' || colorSchemeMode === 'system';
 
   const renderIcon = (media: SocialMedia) => {
     if (media?.type === "instagram") {
@@ -1390,7 +1474,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       size="small"
                       glassOpacity={glassOpacity}
                       textColor={textColor}
-                      colorSchemeMode={colorSchemeMode}
+                      colorSchemeMode={isDarkMode ? 'dark' : 'light'}
                       sx={{
                         minWidth: { xs: 36, sm: 'auto' },
                         minHeight: { xs: 36, sm: 'auto' }
@@ -1415,7 +1499,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                         size="small"
                         glassOpacity={glassOpacity}
                         textColor={textColor}
-                        colorSchemeMode={colorSchemeMode}
+                        colorSchemeMode={isDarkMode ? 'dark' : 'light'}
                         sx={{
                           minWidth: { xs: 36, sm: 'auto' },
                           minHeight: { xs: 36, sm: 'auto' }
@@ -1451,7 +1535,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         backgroundRepeat={glassConfig.backgroundRepeat}
         backgroundAttachment={glassConfig.backgroundAttachment}
         borderRadius={borderRadius}
-        colorSchemeMode={colorSchemeMode}
+        colorSchemeMode={isDarkMode ? 'dark' : 'light'}
       >
         <Container maxWidth="lg">
           <Grid
@@ -1519,7 +1603,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
     const config = footerConfig.customConfig || {};
 
     const getColorSchemeSettings = () => {
-      const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+      const currentMode = isDarkMode ? 'dark' : 'light';
       return config.colorScheme?.[currentMode] || {};
     };
 
@@ -1606,6 +1690,152 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
       );
     })();
 
+    if (isMobile) {
+      return (
+        <CustomContainer
+          backgroundColor={colorSchemeSettings.backgroundColor || config.backgroundColor}
+          backgroundType={config.backgroundType}
+          gradientDirection={config.gradientDirection}
+          gradientColors={config.gradientColors}
+          backgroundImage={config.backgroundImage}
+          backgroundSize={config.backgroundSize}
+          backgroundPosition={config.backgroundPosition}
+          backgroundRepeat={config.backgroundRepeat}
+          backgroundAttachment={config.backgroundAttachment}
+          backgroundBlur={config.backgroundBlur}
+          padding={config.padding}
+          borderRadius={config.borderRadius}
+        >
+          <Stack spacing={2} alignItems="center" sx={{ position: 'relative', zIndex: 10 }}>
+            {config.logo?.url && (
+              <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+                <img
+                  src={config.logo.url}
+                  alt="Footer Logo"
+                  style={{
+                    width: config.logo.width ? `${config.logo.width}px` : 'auto',
+                    height: config.logo.height ? `${config.logo.height}px` : 'auto',
+                    maxWidth: '200px',
+                    maxHeight: '100px',
+                    objectFit: 'contain'
+                  }}
+                />
+              </Box>
+            )}
+
+            {config.columns?.map((column) => (
+              <CustomColumn
+                key={column.id}
+                x={column.position?.x || 0}
+                y={column.position?.y || 0}
+                width={column.position?.width}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                <CustomColumnTitle
+                  fontSize={column.titleStyle?.fontSize}
+                  fontWeight={column.titleStyle?.fontWeight}
+                  fontStyle={column.titleStyle?.fontStyle}
+                  textDecoration={column.titleStyle?.textDecoration}
+                  color={column.titleStyle?.color}
+                >
+                  {column.title}
+                </CustomColumnTitle>
+
+                {column.links.map((link) => (
+                  <CustomLink
+                    key={link.id}
+                    href={isPreview ? "#" : link.url}
+                    fontSize={link.style?.fontSize}
+                    color={link.style?.color}
+                    hoverColor={link.style?.hoverColor}
+                    fontWeight={link.style?.fontWeight}
+                    fontStyle={link.style?.fontStyle}
+                    target={link.url.startsWith('http') ? '_blank' : undefined}
+                    rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {link.text}
+                  </CustomLink>
+                ))}
+              </CustomColumn>
+            ))}
+
+            {config.menu && appConfig.footerMenuTree && appConfig.footerMenuTree.length > 0 && (
+              <CustomMenuContainer
+                x={config.menu.position?.x || 5}
+                y={config.menu.position?.y || 40}
+                direction={config.menu.style?.direction || 'vertical'}
+                spacing={config.menu.style?.spacing || 2}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                {appConfig.footerMenuTree.map((menuItem, index) => (
+                  <CustomMenuLink
+                    key={index}
+                    href={isPreview ? "#" : (menuItem.href || "/")}
+                    fontSize={config.menu?.style?.fontSize}
+                    color={colorSchemeSettings.menuColor || config.menu?.style?.color}
+                    hoverColor={colorSchemeSettings.menuHoverColor || config.menu?.style?.hoverColor}
+                    fontWeight={config.menu?.style?.fontWeight}
+                    fontStyle={config.menu?.style?.fontStyle}
+                    target={menuItem.type === "External" ? "_blank" : undefined}
+                    rel={menuItem.type === "External" ? "noopener noreferrer" : undefined}
+                  >
+                    <FormattedMessage
+                      id={menuItem.name.toLowerCase()}
+                      defaultMessage={menuItem.name}
+                    />
+                  </CustomMenuLink>
+                ))}
+              </CustomMenuContainer>
+            )}
+
+            {config.socialMedia && socialLinks.length > 0 && (
+              <CustomSocialContainer
+                x={config.socialMedia.position?.x || 0}
+                y={config.socialMedia.position?.y || 0}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                {socialLinks.map((social, index) => (
+                  <Link
+                    key={index}
+                    href={isPreview ? "#" : social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ textDecoration: 'none' }}
+                  >
+                    <CustomSocialIcon
+                      iconSize={config.socialMedia?.iconSize}
+                      iconColor={colorSchemeSettings.iconColor || config.socialMedia?.iconColor}
+                      iconHoverColor={colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor}
+                    >
+                      {social.icon}
+                    </CustomSocialIcon>
+                  </Link>
+                ))}
+              </CustomSocialContainer>
+            )}
+
+            {config.signature && signatureText && (showAppSignature || footerConfig.customSignature?.enabled) && (
+              <CustomSignature
+                x={config.signature.position?.x || 0}
+                y={config.signature.position?.y || 0}
+                fontSize={config.signature.style?.fontSize}
+                color={colorSchemeSettings.signatureColor || config.signature.style?.color}
+                fontWeight={config.signature.style?.fontWeight}
+                fontStyle={config.signature.style?.fontStyle}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                {signatureText}
+              </CustomSignature>
+            )}
+          </Stack>
+        </CustomContainer>
+      );
+    }
+
     return (
       <CustomContainer
         backgroundColor={colorSchemeSettings.backgroundColor || config.backgroundColor}
@@ -1640,6 +1870,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             y={column.position?.y || 0}
             width={column.position?.width}
             padding={config.padding}
+            isMobile={isMobile}
           >
             <CustomColumnTitle
               fontSize={column.titleStyle?.fontSize}
@@ -1676,6 +1907,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             direction={config.menu.style?.direction || 'vertical'}
             spacing={config.menu.style?.spacing || 2}
             padding={config.padding}
+            isMobile={isMobile}
           >
             {appConfig.footerMenuTree.map((menuItem, index) => (
               <CustomMenuLink
@@ -1703,6 +1935,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             x={config.socialMedia.position?.x || 0}
             y={config.socialMedia.position?.y || 0}
             padding={config.padding}
+            isMobile={isMobile}
           >
             {socialLinks.map((social, index) => (
               <Link
@@ -1733,6 +1966,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             fontWeight={config.signature.style?.fontWeight}
             fontStyle={config.signature.style?.fontStyle}
             padding={config.padding}
+            isMobile={isMobile}
           >
             {signatureText}
           </CustomSignature>

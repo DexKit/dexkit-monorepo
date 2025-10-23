@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { isAddressEqual } from "@dexkit/core/utils";
 import { OrderMarketType } from "@dexkit/exchange/constants";
 

@@ -107,8 +107,10 @@ export default function ExchangeQuoteTokensInput({
           <ListItemText
             primary={opt.symbol.toUpperCase()}
             secondary={opt.name}
-            primaryTypographyProps={{ variant: isMobile ? "body2" : "body1" }}
-            secondaryTypographyProps={{ variant: isMobile ? "caption" : "body2" }}
+            slotProps={{
+              primary: { variant: isMobile ? "body2" : "body1" },
+              secondary: { variant: isMobile ? "caption" : "body2" }
+            }}
           />
         </MenuItem>
       )}
