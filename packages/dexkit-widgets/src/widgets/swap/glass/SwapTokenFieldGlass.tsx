@@ -104,8 +104,8 @@ export default function SwapTokenFieldGlass({
           background: backgroundColor || baseBackground,
         };
       case 'gradient':
-        const startColor = gradientStartColor || (isDark ? '#000000' : '#ffffff');
-        const endColor = gradientEndColor || (isDark ? '#1a1a1a' : '#f0f0f0');
+        const startColor = gradientStartColor || (isDark ? theme.palette.background.default : theme.palette.background.paper);
+        const endColor = gradientEndColor || (isDark ? theme.palette.background.paper : theme.palette.grey[100]);
         const direction = gradientDirection || 'to bottom';
         return {
           background: `linear-gradient(${direction}, ${startColor}, ${endColor})`,

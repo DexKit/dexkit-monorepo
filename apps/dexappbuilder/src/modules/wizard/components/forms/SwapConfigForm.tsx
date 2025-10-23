@@ -26,7 +26,7 @@ import {
   Slider,
   Stack,
   Switch,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -50,11 +50,18 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
   const isMobile = useIsMobile();
   const theme = useTheme();
 
-  const themeDefaults = useMemo(() => ({
-    backgroundColor: theme.palette.background.default,
-    backgroundPaper: theme.palette.background.paper,
-    textColor: theme.palette.text.primary,
-  }), [theme.palette.background.default, theme.palette.background.paper, theme.palette.text.primary]);
+  const themeDefaults = useMemo(
+    () => ({
+      backgroundColor: theme.palette.background.default,
+      backgroundPaper: theme.palette.background.paper,
+      textColor: theme.palette.text.primary,
+    }),
+    [
+      theme.palette.background.default,
+      theme.palette.background.paper,
+      theme.palette.text.primary,
+    ],
+  );
 
   const [selectedChainId, setSelectedChainId] = useState<number | undefined>(
     data?.defaultChainId,
@@ -122,7 +129,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
     label,
     value,
     onChange,
-    defaultValue = "#ffffff"
+    defaultValue = '#ffffff',
   }: {
     label: string;
     value: string;
@@ -138,12 +145,12 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
     return (
       <Box sx={{ mb: theme.spacing(1.5) }}>
         <Typography
-          variant={isMobile ? "caption" : "body2"}
+          variant={isMobile ? 'caption' : 'body2'}
           gutterBottom
           sx={{
             fontWeight: theme.typography.fontWeightMedium,
             color: theme.palette.text.primary,
-            mb: theme.spacing(1)
+            mb: theme.spacing(1),
           }}
         >
           {label}
@@ -154,7 +161,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           alignItems="center"
           sx={{
             flexWrap: 'nowrap',
-            width: '100%'
+            width: '100%',
           }}
         >
           <Paper
@@ -171,7 +178,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               justifyContent: 'center',
               cursor: 'pointer',
               flexShrink: 0,
-              transition: theme.transitions.create(['box-shadow', 'border-color']),
+              transition: theme.transitions.create([
+                'box-shadow',
+                'border-color',
+              ]),
               '&:hover': {
                 boxShadow: theme.shadows[2],
                 borderColor: theme.palette.primary.main,
@@ -193,7 +203,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             />
           </Paper>
           <TextField
-            value={value || ""}
+            value={value || ''}
             onChange={(e: any) => onChange(e.target.value)}
             placeholder={hexDefaultValue}
             size="small"
@@ -203,9 +213,9 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               '& .MuiInputBase-root': {
                 fontSize: {
                   xs: theme.typography.body2.fontSize,
-                  sm: theme.typography.body2.fontSize
+                  sm: theme.typography.body2.fontSize,
                 },
-                height: { xs: theme.spacing(4), sm: theme.spacing(4.5) }
+                height: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
               },
             }}
             InputProps={{
@@ -215,7 +225,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                     variant="body2"
                     sx={{
                       color: theme.palette.text.secondary,
-                      fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                      fontSize: { xs: '0.75rem', sm: '0.875rem' },
                     }}
                   >
                     #
@@ -261,13 +271,24 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
 
     return (
       <Box sx={{ mt: 2 }}>
-        <Typography variant="body2" gutterBottom sx={{ fontWeight: theme.typography.fontWeightMedium }}>
+        <Typography
+          variant="body2"
+          gutterBottom
+          sx={{ fontWeight: theme.typography.fontWeightMedium }}
+        >
           <FormattedMessage
             id="glass.background.image"
             defaultMessage="Background Image"
           />
         </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            flexWrap: 'wrap',
+          }}
+        >
           <ButtonBase
             onClick={onOpenMediaDialog}
             sx={{
@@ -280,7 +301,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: 1,
-              transition: theme.transitions.create(['border-color', 'background-color']),
+              transition: theme.transitions.create([
+                'border-color',
+                'background-color',
+              ]),
               '&:hover': {
                 borderColor: theme.palette.primary.main,
                 backgroundColor: theme.palette.action.hover,
@@ -300,8 +324,17 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               />
             ) : (
               <>
-                <ImageIcon sx={{ fontSize: theme.spacing(4), color: theme.palette.text.secondary }} />
-                <Typography variant="caption" color="text.secondary" textAlign="center">
+                <ImageIcon
+                  sx={{
+                    fontSize: theme.spacing(4),
+                    color: theme.palette.text.secondary,
+                  }}
+                />
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  textAlign="center"
+                >
                   <FormattedMessage
                     id="glass.select.background.image"
                     defaultMessage="Select Background Image"
@@ -333,8 +366,9 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               <Grid
                 size={{
                   xs: 12,
-                  sm: 6
-                }}>
+                  sm: 6,
+                }}
+              >
                 <FormControl fullWidth size="small">
                   <InputLabel>
                     <FormattedMessage
@@ -343,7 +377,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                     />
                   </InputLabel>
                   <Select
-                    value={sizeValue || "cover"}
+                    value={sizeValue || 'cover'}
                     onChange={(e) => onSizeChange(e.target.value as string)}
                     label="Image Size"
                   >
@@ -357,8 +391,9 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               <Grid
                 size={{
                   xs: 12,
-                  sm: 6
-                }}>
+                  sm: 6,
+                }}
+              >
                 <FormControl fullWidth size="small">
                   <InputLabel>
                     <FormattedMessage
@@ -367,7 +402,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                     />
                   </InputLabel>
                   <Select
-                    value={positionValue || "center"}
+                    value={positionValue || 'center'}
                     onChange={(e) => onPositionChange(e.target.value as string)}
                     label="Image Position"
                   >
@@ -395,7 +430,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
       <Grid container spacing={isMobile ? 2 : 2}>
         <Grid size={12}>
           <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
-            <Typography variant={isMobile ? "body2" : "body1"}>
+            <Typography variant={isMobile ? 'body2' : 'body1'}>
               <FormattedMessage
                 id="default.network.info.swap.form"
                 defaultMessage="Default network when wallet is not connected"
@@ -404,7 +439,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           </Alert>
         </Grid>
         <Grid size={12}>
-          <FormControl fullWidth size={isMobile ? "small" : "medium"}>
+          <FormControl fullWidth size={isMobile ? 'small' : 'medium'}>
             <InputLabel shrink>
               <FormattedMessage id="variant" defaultMessage="Variant" />
             </InputLabel>
@@ -434,13 +469,22 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                 <FormattedMessage id="modern" defaultMessage="Modern" />
               </MenuItem>
               <MenuItem value={SwapVariant.Minimal}>
-                <FormattedMessage id="minimal" defaultMessage="Minimal - Ultra-clean interface" />
+                <FormattedMessage
+                  id="minimal"
+                  defaultMessage="Minimal - Ultra-clean interface"
+                />
               </MenuItem>
               <MenuItem value={SwapVariant.Compact}>
-                <FormattedMessage id="compact" defaultMessage="Compact - Space-efficient for small areas" />
+                <FormattedMessage
+                  id="compact"
+                  defaultMessage="Compact - Space-efficient for small areas"
+                />
               </MenuItem>
               <MenuItem value={SwapVariant.Mobile}>
-                <FormattedMessage id="mobile" defaultMessage="Mobile - Touch-optimized with gestures" />
+                <FormattedMessage
+                  id="mobile"
+                  defaultMessage="Mobile - Touch-optimized with gestures"
+                />
               </MenuItem>
               {/* <MenuItem value={SwapVariant.Glass}>
                 <FormattedMessage id="glass" defaultMessage="Glass - Modern glassmorphism design" />
@@ -450,14 +494,21 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
         </Grid>
         <Grid size={12}>
           <FormControl fullWidth>
-            <Typography variant={isMobile ? "caption" : "body2"} sx={{ mb: 0.5 }}>
+            <Typography
+              variant={isMobile ? 'caption' : 'body2'}
+              sx={{ mb: 0.5 }}
+            >
               <FormattedMessage
                 id="default.network"
                 defaultMessage="Default network"
               />
             </Typography>
             <NetworkSelectDropdown
-              activeChainIds={activeChainIds}
+              activeChainIds={
+                activeChainIds.filter((ch: any) =>
+                  SUPPORTED_SWAP_CHAIN_IDS.includes(ch),
+                ) || []
+              }
               chainId={formData?.defaultChainId}
               onChange={(chainId) => {
                 setFormData((formData: any) => ({
@@ -466,7 +517,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                 }));
               }}
               labelId="default-network"
-              size={isMobile ? "small" : "medium"}
+              size={isMobile ? 'small' : 'medium'}
             />
           </FormControl>
         </Grid>
@@ -475,7 +526,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
         </Grid>
         <Grid size={12}>
           <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
-            <Typography variant={isMobile ? "body2" : "body1"}>
+            <Typography variant={isMobile ? 'body2' : 'body1'}>
               <FormattedMessage
                 id="network.swap.options.info"
                 defaultMessage="Choose the default tokens and slippage for each network."
@@ -485,7 +536,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
         </Grid>
         <Grid size={12}>
           <FormControl fullWidth>
-            <Typography variant={isMobile ? "caption" : "body2"} sx={{ mb: 0.5 }}>
+            <Typography
+              variant={isMobile ? 'caption' : 'body2'}
+              sx={{ mb: 0.5 }}
+            >
               <FormattedMessage id="network" defaultMessage="Network" />
             </Typography>
             <NetworkSelectDropdown
@@ -503,7 +557,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               }
               labelId={'config-per-network'}
               chainId={selectedChainId}
-              size={isMobile ? "small" : "medium"}
+              size={isMobile ? 'small' : 'medium'}
             />
           </FormControl>
         </Grid>
@@ -540,20 +594,20 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       ...oldFormData,
                       sellToken: tk
                         ? {
-                          chainId: tk.chainId as number,
-                          address: tk.address,
-                          decimals: tk.decimals,
-                          name: tk.name,
-                          symbol: tk.symbol,
-                          logoURI: tk.logoURI,
-                        }
+                            chainId: tk.chainId as number,
+                            address: tk.address,
+                            decimals: tk.decimals,
+                            name: tk.name,
+                            symbol: tk.symbol,
+                            logoURI: tk.logoURI,
+                          }
                         : undefined,
                     },
                   },
                 }));
               }
             }}
-            size={isMobile ? "small" : "medium"}
+            size={isMobile ? 'small' : 'medium'}
           />
         </Grid>
 
@@ -569,7 +623,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             }
             featuredTokens={featuredTokens}
             data={buyToken}
-            size={isMobile ? "small" : "medium"}
+            size={isMobile ? 'small' : 'medium'}
             onChange={(tk: any) => {
               if (selectedChainId) {
                 let oldFormData: ChainConfig = { slippage: 0 };
@@ -589,13 +643,13 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       ...oldFormData,
                       buyToken: tk
                         ? {
-                          chainId: tk.chainId as number,
-                          address: tk.address,
-                          decimals: tk.decimals,
-                          name: tk.name,
-                          symbol: tk.symbol,
-                          logoURI: tk.logoURI,
-                        }
+                            chainId: tk.chainId as number,
+                            address: tk.address,
+                            decimals: tk.decimals,
+                            name: tk.name,
+                            symbol: tk.symbol,
+                            logoURI: tk.logoURI,
+                          }
                         : undefined,
                     },
                   },
@@ -616,7 +670,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               />
             }
             value={slippage}
-            size={isMobile ? "small" : "medium"}
+            size={isMobile ? 'small' : 'medium'}
             onChange={(event: any) => {
               if (event.target.value !== undefined && selectedChainId) {
                 let value = event.target.value;
@@ -653,6 +707,31 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             fullWidth
           />
         </Grid>
+        <Grid size={12}>
+          <Divider sx={{ my: 2 }} />
+        </Grid>
+        <Grid size={12}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={formData?.myTokensOnlyOnSearch || false}
+                onChange={(e) =>
+                  setFormData((formData: any) => ({
+                    ...formData,
+                    myTokensOnlyOnSearch: e.target.checked,
+                  }))
+                }
+                color="primary"
+              />
+            }
+            label={
+              <FormattedMessage
+                id="show.only.my.tokens.on.search"
+                defaultMessage="Show only my tokens on search"
+              />
+            }
+          />
+        </Grid>
 
         {false && (
           <>
@@ -662,7 +741,11 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             <Grid size={12}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: 'medium' }}
+                  >
                     <FormattedMessage
                       id="glass.glassmorphism"
                       defaultMessage="Glassmorphism Effects"
@@ -707,7 +790,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       />
                     </Typography>
                     <Slider
-                      value={formData?.glassSettings?.glassOpacity || 0.10}
+                      value={formData?.glassSettings?.glassOpacity || 0.1}
                       onChange={(_, value: number | number[]) => {
                         setFormData((formData: any) => ({
                           ...formData,
@@ -723,7 +806,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       valueLabelDisplay="auto"
                       marks={[
                         { value: 0.05, label: '0.05' },
-                        { value: 0.10, label: '0.10' },
+                        { value: 0.1, label: '0.10' },
                         { value: 0.15, label: '0.15' },
                       ]}
                     />
@@ -733,7 +816,9 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                     <FormControlLabel
                       control={
                         <Switch
-                          checked={formData?.glassSettings?.disableBackground || false}
+                          checked={
+                            formData?.glassSettings?.disableBackground || false
+                          }
                           onChange={(e: any) => {
                             setFormData((formData: any) => ({
                               ...formData,
@@ -752,7 +837,11 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                         />
                       }
                     />
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mt: 0.5 }}
+                    >
                       <FormattedMessage
                         id="glass.disable.background.description"
                         defaultMessage="Remove background colors for complete transparency. Text color remains customizable."
@@ -763,7 +852,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                   <Box sx={{ mt: 3 }}>
                     <ColorPickerField
                       label="Text Color"
-                      value={formData?.glassSettings?.textColor || theme.palette.text.primary}
+                      value={
+                        formData?.glassSettings?.textColor ||
+                        theme.palette.text.primary
+                      }
                       onChange={(value) => {
                         setFormData((formData: any) => ({
                           ...formData,
@@ -780,33 +872,55 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                   {!formData?.glassSettings?.disableBackground && (
                     <>
                       <Box sx={{ mt: 3 }}>
-                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'medium' }}>
+                        <Typography
+                          variant="subtitle1"
+                          gutterBottom
+                          sx={{ fontWeight: 'medium' }}
+                        >
                           <FormattedMessage
                             id="glass.background.type"
                             defaultMessage="Background Type"
                           />
                         </Typography>
                         <RadioGroup
-                          value={formData?.glassSettings?.backgroundType || "solid"}
+                          value={
+                            formData?.glassSettings?.backgroundType || 'solid'
+                          }
                           onChange={(e: any) => {
-                            const newType = e.target.value as 'solid' | 'gradient' | 'image';
+                            const newType = e.target.value as
+                              | 'solid'
+                              | 'gradient'
+                              | 'image';
                             setFormData((formData: any) => {
                               const newGlassSettings = {
                                 ...formData?.glassSettings,
                                 backgroundType: newType,
                               };
 
-                              if (newType === 'solid' && !formData?.glassSettings?.backgroundColor) {
-                                newGlassSettings.backgroundColor = themeDefaults.backgroundColor;
+                              if (
+                                newType === 'solid' &&
+                                !formData?.glassSettings?.backgroundColor
+                              ) {
+                                newGlassSettings.backgroundColor =
+                                  themeDefaults.backgroundColor;
                               } else if (newType === 'gradient') {
-                                if (!formData?.glassSettings?.gradientStartColor) {
-                                  newGlassSettings.gradientStartColor = themeDefaults.backgroundColor;
+                                if (
+                                  !formData?.glassSettings?.gradientStartColor
+                                ) {
+                                  newGlassSettings.gradientStartColor =
+                                    themeDefaults.backgroundColor;
                                 }
-                                if (!formData?.glassSettings?.gradientEndColor) {
-                                  newGlassSettings.gradientEndColor = themeDefaults.backgroundPaper;
+                                if (
+                                  !formData?.glassSettings?.gradientEndColor
+                                ) {
+                                  newGlassSettings.gradientEndColor =
+                                    themeDefaults.backgroundPaper;
                                 }
-                                if (!formData?.glassSettings?.gradientDirection) {
-                                  newGlassSettings.gradientDirection = "to bottom";
+                                if (
+                                  !formData?.glassSettings?.gradientDirection
+                                ) {
+                                  newGlassSettings.gradientDirection =
+                                    'to bottom';
                                 }
                               }
 
@@ -850,11 +964,15 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                           />
                         </RadioGroup>
 
-                        {formData?.glassSettings?.backgroundType === "solid" && (
+                        {formData?.glassSettings?.backgroundType ===
+                          'solid' && (
                           <Box sx={{ mt: 2 }}>
                             <ColorPickerField
                               label="Background Color"
-                              value={formData?.glassSettings?.backgroundColor || theme.palette.background.default}
+                              value={
+                                formData?.glassSettings?.backgroundColor ||
+                                theme.palette.background.default
+                              }
                               onChange={(value) => {
                                 setFormData((formData: any) => ({
                                   ...formData,
@@ -869,11 +987,22 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                           </Box>
                         )}
 
-                        {formData?.glassSettings?.backgroundType === "gradient" && (
-                          <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        {formData?.glassSettings?.backgroundType ===
+                          'gradient' && (
+                          <Box
+                            sx={{
+                              mt: 2,
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: 2,
+                            }}
+                          >
                             <ColorPickerField
                               label="Gradient Start Color"
-                              value={formData?.glassSettings?.gradientStartColor || theme.palette.background.default}
+                              value={
+                                formData?.glassSettings?.gradientStartColor ||
+                                theme.palette.background.default
+                              }
                               onChange={(value) => {
                                 setFormData((formData: any) => ({
                                   ...formData,
@@ -887,7 +1016,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                             />
                             <ColorPickerField
                               label="Gradient End Color"
-                              value={formData?.glassSettings?.gradientEndColor || theme.palette.background.paper}
+                              value={
+                                formData?.glassSettings?.gradientEndColor ||
+                                theme.palette.background.paper
+                              }
                               onChange={(value) => {
                                 setFormData((formData: any) => ({
                                   ...formData,
@@ -907,7 +1039,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                                 />
                               </InputLabel>
                               <Select
-                                value={formData?.glassSettings?.gradientDirection || "to bottom"}
+                                value={
+                                  formData?.glassSettings?.gradientDirection ||
+                                  'to bottom'
+                                }
                                 onChange={(e: any) => {
                                   setFormData((formData: any) => ({
                                     ...formData,
@@ -960,7 +1095,8 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                           </Box>
                         )}
 
-                        {formData?.glassSettings?.backgroundType === "image" && (
+                        {formData?.glassSettings?.backgroundType ===
+                          'image' && (
                           <BackgroundImageSelector
                             value={formData?.glassSettings?.backgroundImage}
                             onChange={(url) => {
@@ -978,42 +1114,67 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
-                                  backgroundSize: size as 'cover' | 'contain' | 'auto' | '100% 100%',
+                                  backgroundSize: size as
+                                    | 'cover'
+                                    | 'contain'
+                                    | 'auto'
+                                    | '100% 100%',
                                 },
                               }));
                             }}
-                            positionValue={formData?.glassSettings?.backgroundPosition}
+                            positionValue={
+                              formData?.glassSettings?.backgroundPosition
+                            }
                             onPositionChange={(position) => {
                               setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
-                                  backgroundPosition: position as 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right',
+                                  backgroundPosition: position as
+                                    | 'center'
+                                    | 'top'
+                                    | 'bottom'
+                                    | 'left'
+                                    | 'right'
+                                    | 'top-left'
+                                    | 'top-right'
+                                    | 'bottom-left'
+                                    | 'bottom-right',
                                 },
                               }));
                             }}
-                            repeatValue={formData?.glassSettings?.backgroundRepeat}
+                            repeatValue={
+                              formData?.glassSettings?.backgroundRepeat
+                            }
                             onRepeatChange={(repeat) => {
                               setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
-                                  backgroundRepeat: repeat as 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y',
+                                  backgroundRepeat: repeat as
+                                    | 'repeat'
+                                    | 'no-repeat'
+                                    | 'repeat-x'
+                                    | 'repeat-y',
                                 },
                               }));
                             }}
-                            attachmentValue={formData?.glassSettings?.backgroundAttachment}
+                            attachmentValue={
+                              formData?.glassSettings?.backgroundAttachment
+                            }
                             onAttachmentChange={(attachment) => {
                               setFormData((formData: any) => ({
                                 ...formData,
                                 glassSettings: {
                                   ...formData?.glassSettings,
-                                  backgroundAttachment: attachment as 'fixed' | 'scroll',
+                                  backgroundAttachment: attachment as
+                                    | 'fixed'
+                                    | 'scroll',
                                 },
                               }));
                             }}
                             onOpenMediaDialog={() => setShowMediaDialog(true)}
-                            onRemoveImage={() => { }}
+                            onRemoveImage={() => {}}
                           />
                         )}
                       </Box>
@@ -1025,15 +1186,20 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           </>
         )}
 
-        <Grid size={12}>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 4, fontStyle: 'italic' }}>
-            <FormattedMessage
-              id="glass.cards.inputs.note"
-              defaultMessage="Note: Cards and input fields automatically use glassmorphism effects for a cohesive visual experience. Text color is fully customizable and applies to all text elements regardless of background settings."
-            />
-          </Typography>
-        </Grid>
-
+        {false && (
+          <Grid size={12}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mt: 4, fontStyle: 'italic' }}
+            >
+              <FormattedMessage
+                id="glass.cards.inputs.note"
+                defaultMessage="Note: Cards and input fields automatically use glassmorphism effects for a cohesive visual experience. Text color is fully customizable and applies to all text elements regardless of background settings."
+              />
+            </Typography>
+          </Grid>
+        )}
       </Grid>
     </Container>
   );

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Grid, NoSsr } from '@mui/material';
 import { AssetPageActions } from './AssetPageActions';
 import { AssetPageTitle } from './AssetPageTitle';

@@ -222,14 +222,7 @@ export default function SwapMatcha({
         {isQuoting && !disabled ? (
           <LinearProgress color="primary" sx={{ height: "1px" }} />
         ) : (
-          <Divider
-            sx={{
-              borderColor: (theme) =>
-                theme.palette.mode === "dark"
-                  ? theme.palette.background.default
-                  : theme.palette.divider,
-            }}
-          />
+          <Divider />
         )}
         <Box pb={2}>
           <Stack spacing={2}>
@@ -256,11 +249,8 @@ export default function SwapMatcha({
               <Stack
                 alignItems="center"
                 sx={{
-                  borderTop: (theme) =>
-                    `1px ${theme.palette.mode === "dark"
-                      ? theme.palette.background.default
-                      : theme.palette.divider
-                    } solid`,
+                  borderTop: 1,
+                  borderColor: 'divider',
                 }}
               >
                 <Box

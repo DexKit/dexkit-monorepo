@@ -54,6 +54,24 @@ export interface NavbarGlassSettings {
   fillButtonTextColor?: string;
   outlineButtonColor?: string;
   outlineButtonTextColor?: string;
+  colorScheme?: {
+    light?: {
+      backgroundColor?: string;
+      backgroundImage?: string;
+      gradientStartColor?: string;
+      gradientEndColor?: string;
+      textColor?: string;
+      iconColor?: string;
+    };
+    dark?: {
+      backgroundColor?: string;
+      backgroundImage?: string;
+      gradientStartColor?: string;
+      gradientEndColor?: string;
+      textColor?: string;
+      iconColor?: string;
+    };
+  };
 }
 
 export interface NavbarCustomSettings {
@@ -104,6 +122,40 @@ export interface NavbarCustomSettings {
   mobileLogoSize?: "small" | "medium" | "large" | "custom";
   mobileCustomLogoWidth?: number;
   mobileCustomLogoHeight?: number;
+  colorScheme?: {
+    light?: {
+      backgroundColor?: string;
+      backgroundImage?: string;
+      gradientStartColor?: string;
+      gradientEndColor?: string;
+      textColor?: string;
+      iconColor?: string;
+      iconHoverColor?: string;
+      menuHoverColor?: string;
+      menuActiveColor?: string;
+      linkColor?: string;
+      linkHoverColor?: string;
+      walletButtonTextColor?: string;
+      borderColor?: string;
+      shadowColor?: string;
+    };
+    dark?: {
+      backgroundColor?: string;
+      backgroundImage?: string;
+      gradientStartColor?: string;
+      gradientEndColor?: string;
+      textColor?: string;
+      iconColor?: string;
+      iconHoverColor?: string;
+      menuHoverColor?: string;
+      menuActiveColor?: string;
+      linkColor?: string;
+      linkHoverColor?: string;
+      walletButtonTextColor?: string;
+      borderColor?: string;
+      shadowColor?: string;
+    };
+  };
 }
 
 export interface BottomBarSettings {

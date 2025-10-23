@@ -29,16 +29,36 @@ const Pill = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 export default function ProfileStatsPill({ icon, body, title }: Props) {
-  const { mode: themeMode } = useThemeMode();
   const theme = useTheme();
+  const { mode: themeMode } = useThemeMode();
 
   const isDarkMode = themeMode === 'dark';
+
+  const backgroundColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.background?.paper || theme.palette.background.paper
+    : theme.colorSchemes?.light?.palette?.background?.paper || theme.palette.background.paper;
+
+  const borderColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.divider || theme.palette.divider
+    : theme.colorSchemes?.light?.palette?.divider || theme.palette.divider;
+
+  const avatarBackgroundColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.background?.default || theme.palette.background.default
+    : theme.colorSchemes?.light?.palette?.background?.paper || theme.palette.background.paper;
+
+  const textPrimaryColor = isDarkMode
+    ? theme.colorSchemes?.dark?.palette?.text?.primary || theme.palette.text.primary
+    : theme.colorSchemes?.light?.palette?.text?.primary || theme.palette.text.primary;
+
+  const textSecondaryColor = theme.colorSchemes?.dark?.palette?.text?.secondary ||
+    theme.colorSchemes?.light?.palette?.text?.secondary ||
+    theme.palette.text.secondary;
 
   return (
     <Pill
       sx={{
-        backgroundColor: isDarkMode ? '#151B22' : '#FAFAFA',
-        border: `1px solid ${isDarkMode ? '#0D1017' : '#DCDCDC'}`,
+        backgroundColor,
+        border: `1px solid ${borderColor}`,
       }}
     >
       <Stack
@@ -54,8 +74,8 @@ export default function ProfileStatsPill({ icon, body, title }: Props) {
       >
         <Avatar
           sx={{
-            backgroundColor: isDarkMode ? '#0D1017' : '#FFFFFF',
-            color: isDarkMode ? '#fff' : '#0E1116',
+            backgroundColor: avatarBackgroundColor,
+            color: textPrimaryColor,
           }}
         >
           {icon}
@@ -64,7 +84,7 @@ export default function ProfileStatsPill({ icon, body, title }: Props) {
           <Typography
             variant="caption"
             sx={{
-              color: '#737372',
+              color: textSecondaryColor,
             }}
           >
             {title}
@@ -72,7 +92,7 @@ export default function ProfileStatsPill({ icon, body, title }: Props) {
           <Typography
             sx={{
               fontWeight: 600,
-              color: isDarkMode ? '#fff' : '#0E1116',
+              color: textPrimaryColor,
             }}
             variant="h6"
           >

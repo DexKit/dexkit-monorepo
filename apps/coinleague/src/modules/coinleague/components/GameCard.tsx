@@ -12,6 +12,7 @@ import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import { strPad } from '@/modules/common/utils/strings';
 import { Share } from '@mui/icons-material';
 import {
+  alpha,
   Box,
   Button,
   Card,
@@ -54,9 +55,6 @@ export default function GameCard({
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const coinToPlay = useCoinToPlay(chainId, game?.coinToPlay);
 
-  const getBackgroundColor = () => {
-    return mode === 'dark' ? '#191b22' : '#f5f5f5';
-  };
 
   const prizeTotalValue = useMemo(() => {
     if (game && coinToPlay) {
@@ -108,7 +106,7 @@ export default function GameCard({
         sx={{
           px: isMobile ? 1.5 : 2,
           py: isMobile ? 0.75 : 1,
-          backgroundColor: getBackgroundColor(),
+          backgroundColor: (theme) => alpha(theme.palette.background.default, 0.05),
         }}
       >
         <Stack
@@ -289,7 +287,7 @@ export default function GameCard({
               px: isMobile ? 1.5 : 2,
               py: isMobile ? 0.75 : 1,
               borderRadius: (theme) => `${theme.shape.borderRadius}px`,
-              backgroundColor: getBackgroundColor(),
+              backgroundColor: (theme) => alpha(theme.palette.background.default, 0.05),
             }}
           >
             <Typography

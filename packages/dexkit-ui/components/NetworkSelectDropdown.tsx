@@ -61,7 +61,7 @@ export function NetworkSelectDropdown({
                 src={NETWORKS[value].imageUrl || ""}
                 style={{ width: "auto", height: "1rem" }}
               />
-              <Typography variant="body1">{NETWORKS[value].name}</Typography>
+              <Typography variant="body1" color="text.primary">{NETWORKS[value].name}</Typography>
             </Stack>
           );
         }}
@@ -87,7 +87,10 @@ export function NetworkSelectDropdown({
                 />
               </Box>
             </ListItemIcon>
-            <ListItemText primary={NETWORKS[key].name} />
+            <ListItemText
+              primary={NETWORKS[key].name}
+              primaryTypographyProps={{ color: "text.primary" }}
+            />
           </MenuItem>
         ))}
       </Select>

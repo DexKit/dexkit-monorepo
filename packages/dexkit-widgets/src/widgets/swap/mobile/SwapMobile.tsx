@@ -344,17 +344,17 @@ export default function SwapMobile({
             mt: 2,
             p: 2,
             bgcolor: 'success.light',
-            color: '#ffffff',
+            color: 'success.contrastText',
           }}
         >
           <Stack direction="row" alignItems="center" spacing={1} mb={1}>
-            <CheckCircle sx={{ fontSize: 20, color: '#ffffff' }} />
-            <Typography variant="body2" fontWeight="bold" sx={{ color: '#ffffff' }}>
+            <CheckCircle sx={{ fontSize: 20, color: 'success.contrastText' }} />
+            <Typography variant="body2" fontWeight="bold" sx={{ color: 'success.contrastText' }}>
               <FormattedMessage id="best.rate.found" defaultMessage="Best Rate Found!" />
             </Typography>
           </Stack>
 
-          <Typography variant="body2" sx={{ opacity: 0.9, color: '#ffffff' }}>
+          <Typography variant="body2" sx={{ opacity: 0.9, color: 'success.contrastText' }}>
             1 {sellToken.symbol} = {(Number(buyAmount.toString()) / Number(sellAmount.toString())).toFixed(6)} {buyToken.symbol}
           </Typography>
 
@@ -364,7 +364,7 @@ export default function SwapMobile({
             onClick={() => setShowQuoteDetails(!showQuoteDetails)}
             sx={{
               mt: 1,
-              color: '#ffffff',
+              color: 'success.contrastText',
               textTransform: 'none',
             }}
           >
@@ -374,8 +374,8 @@ export default function SwapMobile({
           <Collapse in={showQuoteDetails}>
             <Stack spacing={1} sx={{ mt: 2, pt: 2, borderTop: 1, borderColor: 'rgba(255,255,255,0.2)' }}>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>Price Impact:</Typography>
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>Price Impact:</Typography>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>
                   {(() => {
                     if (isQuoting) return '...';
                     if (!quote) return 'N/A';
@@ -386,8 +386,8 @@ export default function SwapMobile({
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>Gas Fee:</Typography>
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>Gas Fee:</Typography>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>
                   {(() => {
                     const totalFeeWei = (quote as any)?.totalNetworkFee;
 
@@ -403,14 +403,14 @@ export default function SwapMobile({
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>Route:</Typography>
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>Route:</Typography>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>
                   {(quote as any)?.route?.fills?.[0]?.source || (isQuoting ? '...' : 'N/A')}
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>Slippage:</Typography>
-                <Typography variant="caption" sx={{ color: '#ffffff' }}>{maxSlippage || 0.5}%</Typography>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>Slippage:</Typography>
+                <Typography variant="caption" sx={{ color: 'success.contrastText' }}>{maxSlippage || 0.5}%</Typography>
               </Stack>
             </Stack>
           </Collapse>

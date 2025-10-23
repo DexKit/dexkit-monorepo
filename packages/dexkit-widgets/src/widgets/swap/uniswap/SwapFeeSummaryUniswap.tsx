@@ -161,7 +161,7 @@ export default function SwapFeeSummaryUniswap({
               {!showSummary && (
                 <Stack direction="row" alignItems="center" spacing={0.5}>
                   <LocalGasStationIcon
-                    sx={{ color: (theme) => theme.palette.grey[300] }}
+                    sx={{ color: 'text.disabled' }}
                     fontSize="inherit"
                   />
                   <Typography variant="body2" color="text.secondary">

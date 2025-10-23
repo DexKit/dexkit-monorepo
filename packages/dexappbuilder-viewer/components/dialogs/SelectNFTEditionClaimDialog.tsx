@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";

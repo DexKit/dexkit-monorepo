@@ -1,3 +1,4 @@
+import FavoriteAssetsSection from '@dexkit/ui/components/FavoriteAssetsSection';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import HiddenAssetsSection from '@dexkit/ui/modules/wallet/components/HiddenAssetsSection';
 import WalletAssetsFilter from '@dexkit/ui/modules/wallet/components/WalletAssetsFilter';
@@ -17,12 +18,11 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import MainLayout from '../../../../src/components/layouts/main';
-import FavoriteAssetsSection from '../../../../src/modules/favorites/components/FavoriteAssetsSection';
 import { getAppConfig } from '../../../../src/services/app';
 const ImportAssetDialog = dynamic(
   () =>
     import(
-      '../../../../src/modules/orders/components/dialogs/ImportAssetDialog'
+      '@dexkit/ui/components/dialogs/ImportAssetDialog'
     ),
 );
 

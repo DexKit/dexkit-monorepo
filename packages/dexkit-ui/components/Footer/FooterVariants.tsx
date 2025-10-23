@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Facebook from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedIn from "@mui/icons-material/LinkedIn";
@@ -13,6 +12,8 @@ import {
   styled,
   SvgIcon,
   Typography,
+  useColorScheme,
+  useMediaQuery,
   useTheme
 } from "@mui/material";
 import Image from "next/image";
@@ -74,6 +75,26 @@ interface FooterConfig {
     backgroundBlur?: number;
     padding?: number;
     borderRadius?: number;
+    colorScheme?: {
+      light?: {
+        backgroundColor?: string;
+        textColor?: string;
+        menuColor?: string;
+        menuHoverColor?: string;
+        iconColor?: string;
+        iconHoverColor?: string;
+        signatureColor?: string;
+      };
+      dark?: {
+        backgroundColor?: string;
+        textColor?: string;
+        menuColor?: string;
+        menuHoverColor?: string;
+        iconColor?: string;
+        iconHoverColor?: string;
+        signatureColor?: string;
+      };
+    };
     logo?: {
       url?: string;
       width?: number;
@@ -170,7 +191,7 @@ interface Props {
 }
 
 const GlassmorphicContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['blurIntensity', 'glassOpacity', 'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'borderRadius'].includes(prop as string),
+  shouldForwardProp: (prop) => !['blurIntensity', 'glassOpacity', 'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'borderRadius', 'colorSchemeMode'].includes(prop as string),
 })<{
   blurIntensity: number;
   glassOpacity: number;
@@ -181,7 +202,8 @@ const GlassmorphicContainer = styled(Box, {
   backgroundRepeat?: string;
   backgroundAttachment?: string;
   borderRadius?: number;
-}>(({ theme, blurIntensity, glassOpacity, backgroundColor, backgroundImage, backgroundSize, backgroundPosition, backgroundRepeat, backgroundAttachment, borderRadius }) => {
+  colorSchemeMode?: 'light' | 'dark';
+}>(({ theme, blurIntensity, glassOpacity, backgroundColor, backgroundImage, backgroundSize, backgroundPosition, backgroundRepeat, backgroundAttachment, borderRadius, colorSchemeMode }) => {
 
   const appliedBorderRadius = borderRadius || 0;
 
@@ -205,11 +227,11 @@ const GlassmorphicContainer = styled(Box, {
       background: backgroundImage
         ? `url(${backgroundImage})`
         : `
-          linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%), 
-          linear-gradient(-45deg, rgba(255,255,255,0.02) 25%, transparent 25%), 
-          linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.02) 75%), 
-          linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.02) 75%),
-          ${backgroundColor || 'rgba(255, 255, 255, 0.05)'}
+          linear-gradient(45deg, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 25%, transparent 25%), 
+          linear-gradient(-45deg, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 25%, transparent 25%), 
+          linear-gradient(45deg, transparent 75%, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 75%), 
+          linear-gradient(-45deg, transparent 75%, ${colorSchemeMode === 'dark' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'} 75%),
+          ${backgroundColor || (colorSchemeMode === 'dark' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)')}
         `,
       backgroundSize: backgroundImage
         ? (backgroundSize || 'cover')
@@ -231,14 +253,22 @@ const GlassmorphicContainer = styled(Box, {
       right: 0,
       bottom: 0,
       borderRadius: `${appliedBorderRadius}px`,
-      background: `rgba(255, 255, 255, ${glassOpacity || 0.1})`,
+      background: colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${glassOpacity || 0.1})`
+        : `rgba(255, 255, 255, ${glassOpacity || 0.1})`,
       backdropFilter: `blur(${blurIntensity || 40}px) saturate(180%) brightness(1.05)`,
       WebkitBackdropFilter: `blur(${blurIntensity || 40}px) saturate(180%) brightness(1.05)`,
-      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)})`,
+      border: `1px solid ${colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 2, 0.6)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)})`}`,
       boxShadow: `
         0 -2px 20px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.8)}),
-        inset 0 -1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)})
+        inset 0 1px 0 ${colorSchemeMode === 'dark'
+          ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 3, 0.8)})`
+          : `rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.8)})`},
+        inset 0 -1px 0 ${colorSchemeMode === 'dark'
+          ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 2, 0.4)})`
+          : `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)})`}
       `,
       pointerEvents: 'none',
       zIndex: 1,
@@ -258,11 +288,17 @@ const GlassmorphicContainer = styled(Box, {
       },
       '&::after': {
         borderRadius: Math.min(appliedBorderRadius, 12),
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.4)})`,
+        border: `1px solid ${colorSchemeMode === 'dark'
+          ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 1.5, 0.4)})`
+          : `rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.4)})`}`,
         boxShadow: `
           0 -1px 10px rgba(0, 0, 0, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)}),
-          inset 0 -1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.3)})
+          inset 0 1px 0 ${colorSchemeMode === 'dark'
+            ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 2, 0.6)})`
+            : `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)})`},
+          inset 0 -1px 0 ${colorSchemeMode === 'dark'
+            ? `rgba(0, 0, 0, ${Math.min(glassOpacity * 1.5, 0.3)})`
+            : `rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.3)})`}
         `,
       },
     },
@@ -270,58 +306,76 @@ const GlassmorphicContainer = styled(Box, {
 });
 
 const GlassmorphicIconButton = styled(IconButton, {
-  shouldForwardProp: (prop) => !['glassOpacity', 'textColor'].includes(prop as string),
+  shouldForwardProp: (prop) => !['glassOpacity', 'textColor', 'colorSchemeMode'].includes(prop as string),
 })<{
   glassOpacity: number;
   textColor: string;
-}>(({ theme, glassOpacity, textColor }) => ({
+  colorSchemeMode?: 'light' | 'dark';
+}>(({ theme, glassOpacity, textColor, colorSchemeMode }) => ({
   color: textColor,
-  backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
+  backgroundColor: colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.5)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
   backdropFilter: `blur(10px) saturate(150%)`,
   WebkitBackdropFilter: `blur(10px) saturate(150%)`,
-  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`,
+  border: `1px solid ${colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.7)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`}`,
   borderRadius: theme.spacing(1),
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
 
   '&:hover': {
-    backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`,
+    backgroundColor: colorSchemeMode === 'dark'
+      ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.7)})`
+      : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.7)})`,
     backdropFilter: `blur(15px) saturate(170%)`,
     WebkitBackdropFilter: `blur(15px) saturate(170%)`,
     transform: 'translateY(-2px) scale(1.05)',
     boxShadow: `
       0 8px 25px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})
+      inset 0 1px 0 ${colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.5)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`}
     `,
   },
 }));
 
 const GlassmorphicLink = styled(Link, {
-  shouldForwardProp: (prop) => !['textColor', 'glassOpacity'].includes(prop as string),
+  shouldForwardProp: (prop) => !['textColor', 'glassOpacity', 'colorSchemeMode'].includes(prop as string),
 })<{
   textColor: string;
   glassOpacity: number;
-}>(({ theme, textColor, glassOpacity }) => ({
+  colorSchemeMode?: 'light' | 'dark';
+}>(({ theme, textColor, glassOpacity, colorSchemeMode }) => ({
   color: textColor,
   textDecoration: 'none',
   padding: theme.spacing(1, 2),
   borderRadius: theme.spacing(1),
-  backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.4)})`,
+  backgroundColor: colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity, 0.4)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.4)})`,
   backdropFilter: `blur(8px) saturate(140%)`,
   WebkitBackdropFilter: `blur(8px) saturate(140%)`,
-  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
+  border: `1px solid ${colorSchemeMode === 'dark'
+    ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.5)})`
+    : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`}`,
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   textShadow: textColor.includes('255, 255, 255')
     ? '0 1px 2px rgba(0, 0, 0, 0.3)'
     : '0 1px 2px rgba(255, 255, 255, 0.3)',
 
   '&:hover': {
-    backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.6)})`,
+    backgroundColor: colorSchemeMode === 'dark'
+      ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.6)})`
+      : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.6)})`,
     backdropFilter: `blur(12px) saturate(160%)`,
     WebkitBackdropFilter: `blur(12px) saturate(160%)`,
     transform: 'translateY(-1px)',
     boxShadow: `
       0 6px 20px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})
+      inset 0 1px 0 ${colorSchemeMode === 'dark'
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.2, 0.6)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})`}
     `,
   },
 }));
@@ -484,6 +538,11 @@ const CustomContainer = styled(Box, {
     transition: 'all 0.3s ease-in-out',
     overflow: 'hidden',
 
+    [theme.breakpoints.down('sm')]: {
+      minHeight: 'auto',
+      padding: theme.spacing(2),
+    },
+
     '&::before': {
       content: '""',
       position: 'absolute',
@@ -503,18 +562,28 @@ const CustomContainer = styled(Box, {
 });
 
 const CustomColumn = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'width', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'width', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
   width?: number;
   padding?: number;
-}>(({ theme, x, y, width, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, width, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
 
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      width: '100%',
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -600,16 +669,29 @@ const CustomLogo = styled('img', {
 });
 
 const CustomSocialContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
   padding?: number;
-}>(({ x, y, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      gap: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -632,6 +714,13 @@ const CustomSocialIcon = styled(IconButton, {
   fontSize: iconSize ? `${iconSize}px` : '24px',
   padding: theme.spacing(1),
   transition: 'all 0.2s ease-in-out',
+  minWidth: 44,
+  minHeight: 44,
+
+  [theme.breakpoints.up('sm')]: {
+    minWidth: 'auto',
+    minHeight: 'auto',
+  },
 
   '& svg': {
     fontSize: iconSize ? `${iconSize}px` : '24px',
@@ -644,7 +733,7 @@ const CustomSocialIcon = styled(IconButton, {
 }));
 
 const CustomSignature = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'fontSize', 'color', 'fontWeight', 'fontStyle', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'fontSize', 'color', 'fontWeight', 'fontStyle', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
@@ -653,11 +742,26 @@ const CustomSignature = styled(Box, {
   fontWeight?: 'normal' | 'bold';
   fontStyle?: 'normal' | 'italic';
   padding?: number;
-}>(({ theme, x, y, fontSize, color, fontWeight, fontStyle, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, fontSize, color, fontWeight, fontStyle, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      textAlign: 'center',
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+      fontSize: fontSize ? `${fontSize}px` : theme.typography.body2.fontSize,
+      color: color || theme.palette.text.secondary,
+      fontWeight: fontWeight === 'bold' ? 700 : 400,
+      fontStyle: fontStyle || 'normal',
+      lineHeight: 1.4,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -673,20 +777,33 @@ const CustomSignature = styled(Box, {
 });
 
 const CustomMenuContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['x', 'y', 'direction', 'spacing', 'padding'].includes(prop as string),
+  shouldForwardProp: (prop) => !['x', 'y', 'direction', 'spacing', 'padding', 'isMobile'].includes(prop as string),
 })<{
   x: number;
   y: number;
   direction?: 'horizontal' | 'vertical';
   spacing?: number;
   padding?: number;
-}>(({ theme, x, y, direction, spacing, padding }) => {
+  isMobile?: boolean;
+}>(({ theme, x, y, direction, spacing, padding, isMobile }) => {
   const paddingValue = padding || 4;
   const scale = 1 - (paddingValue * 0.05);
   const scaledX = 50 + (x - 50) * scale;
   const scaledY = 50 + (y - 50) * scale;
   const isVertical = direction === 'vertical';
   const spacingValue = spacing || 2;
+
+  if (isMobile) {
+    return {
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+      zIndex: 10,
+    };
+  }
 
   return {
     position: 'absolute',
@@ -709,14 +826,31 @@ const CustomMenuLink = styled(Link, {
   fontStyle?: 'normal' | 'italic';
 }>(({ theme, fontSize, color, hoverColor, fontWeight, fontStyle }) => ({
   fontSize: fontSize ? `${fontSize}px` : '14px',
-  color: color || '#333333',
+  color: color || theme.palette.text.primary,
   fontWeight: fontWeight === 'bold' ? 700 : 400,
   fontStyle: fontStyle || 'normal',
   textDecoration: 'none',
   cursor: 'pointer',
   lineHeight: 1.4,
-  whiteSpace: 'nowrap',
+  whiteSpace: 'normal',
+  textAlign: 'center',
+  padding: theme.spacing(0.5, 1),
+  minHeight: 44,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   transition: 'all 0.2s ease-in-out',
+
+  [theme.breakpoints.up('sm')]: {
+    whiteSpace: 'nowrap',
+    textAlign: 'left',
+    padding: 0,
+    minHeight: 'auto',
+    display: 'inline',
+    alignItems: 'baseline',
+    justifyContent: 'flex-start',
+  },
+
   '&:hover': {
     color: hoverColor || theme.palette.primary.main,
     textDecoration: 'underline',
@@ -725,8 +859,13 @@ const CustomMenuLink = styled(Link, {
 
 export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
   const theme = useTheme();
+  const { mode: colorSchemeMode } = useColorScheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const footerConfig = appConfig.footerConfig || {};
   const variant = footerConfig.variant || 'default';
+
+  // Helper function to handle colorSchemeMode types
+  const isDarkMode = colorSchemeMode === 'dark' || colorSchemeMode === 'system';
 
   const renderIcon = (media: SocialMedia) => {
     if (media?.type === "instagram") {
@@ -1256,6 +1395,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       target={m.type === "External" ? "_blank" : undefined}
                       textColor={textColor}
                       glassOpacity={glassOpacity}
+                      colorSchemeMode={colorSchemeMode}
                       sx={{
                         fontSize: { xs: '0.875rem', sm: '1rem' },
                         padding: { xs: theme.spacing(0.5, 1), sm: theme.spacing(1, 2) },
@@ -1277,6 +1417,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                 target="_blank"
                 textColor={textColor}
                 glassOpacity={glassOpacity}
+                colorSchemeMode={colorSchemeMode}
                 sx={{
                   fontSize: { xs: '0.875rem', sm: '1rem' },
                   padding: { xs: theme.spacing(0.5, 1), sm: theme.spacing(1, 2) }
@@ -1333,6 +1474,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       size="small"
                       glassOpacity={glassOpacity}
                       textColor={textColor}
+                      colorSchemeMode={isDarkMode ? 'dark' : 'light'}
                       sx={{
                         minWidth: { xs: 36, sm: 'auto' },
                         minHeight: { xs: 36, sm: 'auto' }
@@ -1357,6 +1499,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                         size="small"
                         glassOpacity={glassOpacity}
                         textColor={textColor}
+                        colorSchemeMode={isDarkMode ? 'dark' : 'light'}
                         sx={{
                           minWidth: { xs: 36, sm: 'auto' },
                           minHeight: { xs: 36, sm: 'auto' }
@@ -1392,6 +1535,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         backgroundRepeat={glassConfig.backgroundRepeat}
         backgroundAttachment={glassConfig.backgroundAttachment}
         borderRadius={borderRadius}
+        colorSchemeMode={isDarkMode ? 'dark' : 'light'}
       >
         <Container maxWidth="lg">
           <Grid
@@ -1457,6 +1601,14 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
   if (variant === 'custom') {
     const config = footerConfig.customConfig || {};
+
+    const getColorSchemeSettings = () => {
+      const currentMode = isDarkMode ? 'dark' : 'light';
+      return config.colorScheme?.[currentMode] || {};
+    };
+
+    const colorSchemeSettings = getColorSchemeSettings();
+
     const socialLinks = [
       ...(appConfig?.social || []).map(social => ({
         icon: renderIcon(social),
@@ -1501,7 +1653,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                 textDecoration: 'none',
                 transition: 'color 0.2s ease-in-out',
                 '&:hover': {
-                  color: config.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                  color: colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor || theme.palette.primary.main,
                   textDecoration: 'underline'
                 }
               }}
@@ -1527,7 +1679,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               textDecoration: 'none',
               transition: 'color 0.2s ease-in-out',
               '&:hover': {
-                color: config.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                color: colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor || theme.palette.primary.main,
                 textDecoration: 'underline'
               }
             }}
@@ -1538,9 +1690,155 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
       );
     })();
 
+    if (isMobile) {
+      return (
+        <CustomContainer
+          backgroundColor={colorSchemeSettings.backgroundColor || config.backgroundColor}
+          backgroundType={config.backgroundType}
+          gradientDirection={config.gradientDirection}
+          gradientColors={config.gradientColors}
+          backgroundImage={config.backgroundImage}
+          backgroundSize={config.backgroundSize}
+          backgroundPosition={config.backgroundPosition}
+          backgroundRepeat={config.backgroundRepeat}
+          backgroundAttachment={config.backgroundAttachment}
+          backgroundBlur={config.backgroundBlur}
+          padding={config.padding}
+          borderRadius={config.borderRadius}
+        >
+          <Stack spacing={2} alignItems="center" sx={{ position: 'relative', zIndex: 10 }}>
+            {config.logo?.url && (
+              <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+                <img
+                  src={config.logo.url}
+                  alt="Footer Logo"
+                  style={{
+                    width: config.logo.width ? `${config.logo.width}px` : 'auto',
+                    height: config.logo.height ? `${config.logo.height}px` : 'auto',
+                    maxWidth: '200px',
+                    maxHeight: '100px',
+                    objectFit: 'contain'
+                  }}
+                />
+              </Box>
+            )}
+
+            {config.columns?.map((column) => (
+              <CustomColumn
+                key={column.id}
+                x={column.position?.x || 0}
+                y={column.position?.y || 0}
+                width={column.position?.width}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                <CustomColumnTitle
+                  fontSize={column.titleStyle?.fontSize}
+                  fontWeight={column.titleStyle?.fontWeight}
+                  fontStyle={column.titleStyle?.fontStyle}
+                  textDecoration={column.titleStyle?.textDecoration}
+                  color={column.titleStyle?.color}
+                >
+                  {column.title}
+                </CustomColumnTitle>
+
+                {column.links.map((link) => (
+                  <CustomLink
+                    key={link.id}
+                    href={isPreview ? "#" : link.url}
+                    fontSize={link.style?.fontSize}
+                    color={link.style?.color}
+                    hoverColor={link.style?.hoverColor}
+                    fontWeight={link.style?.fontWeight}
+                    fontStyle={link.style?.fontStyle}
+                    target={link.url.startsWith('http') ? '_blank' : undefined}
+                    rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {link.text}
+                  </CustomLink>
+                ))}
+              </CustomColumn>
+            ))}
+
+            {config.menu && appConfig.footerMenuTree && appConfig.footerMenuTree.length > 0 && (
+              <CustomMenuContainer
+                x={config.menu.position?.x || 5}
+                y={config.menu.position?.y || 40}
+                direction={config.menu.style?.direction || 'vertical'}
+                spacing={config.menu.style?.spacing || 2}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                {appConfig.footerMenuTree.map((menuItem, index) => (
+                  <CustomMenuLink
+                    key={index}
+                    href={isPreview ? "#" : (menuItem.href || "/")}
+                    fontSize={config.menu?.style?.fontSize}
+                    color={colorSchemeSettings.menuColor || config.menu?.style?.color}
+                    hoverColor={colorSchemeSettings.menuHoverColor || config.menu?.style?.hoverColor}
+                    fontWeight={config.menu?.style?.fontWeight}
+                    fontStyle={config.menu?.style?.fontStyle}
+                    target={menuItem.type === "External" ? "_blank" : undefined}
+                    rel={menuItem.type === "External" ? "noopener noreferrer" : undefined}
+                  >
+                    <FormattedMessage
+                      id={menuItem.name.toLowerCase()}
+                      defaultMessage={menuItem.name}
+                    />
+                  </CustomMenuLink>
+                ))}
+              </CustomMenuContainer>
+            )}
+
+            {config.socialMedia && socialLinks.length > 0 && (
+              <CustomSocialContainer
+                x={config.socialMedia.position?.x || 0}
+                y={config.socialMedia.position?.y || 0}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                {socialLinks.map((social, index) => (
+                  <Link
+                    key={index}
+                    href={isPreview ? "#" : social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ textDecoration: 'none' }}
+                  >
+                    <CustomSocialIcon
+                      iconSize={config.socialMedia?.iconSize}
+                      iconColor={colorSchemeSettings.iconColor || config.socialMedia?.iconColor}
+                      iconHoverColor={colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor}
+                    >
+                      {social.icon}
+                    </CustomSocialIcon>
+                  </Link>
+                ))}
+              </CustomSocialContainer>
+            )}
+
+            {config.signature && signatureText && (showAppSignature || footerConfig.customSignature?.enabled) && (
+              <CustomSignature
+                x={config.signature.position?.x || 0}
+                y={config.signature.position?.y || 0}
+                fontSize={config.signature.style?.fontSize}
+                color={colorSchemeSettings.signatureColor || config.signature.style?.color}
+                fontWeight={config.signature.style?.fontWeight}
+                fontStyle={config.signature.style?.fontStyle}
+                padding={config.padding}
+                isMobile={isMobile}
+              >
+                {signatureText}
+              </CustomSignature>
+            )}
+          </Stack>
+        </CustomContainer>
+      );
+    }
+
     return (
       <CustomContainer
-        backgroundColor={config.backgroundColor}
+        backgroundColor={colorSchemeSettings.backgroundColor || config.backgroundColor}
         backgroundType={config.backgroundType}
         gradientDirection={config.gradientDirection}
         gradientColors={config.gradientColors}
@@ -1572,6 +1870,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             y={column.position?.y || 0}
             width={column.position?.width}
             padding={config.padding}
+            isMobile={isMobile}
           >
             <CustomColumnTitle
               fontSize={column.titleStyle?.fontSize}
@@ -1608,14 +1907,15 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             direction={config.menu.style?.direction || 'vertical'}
             spacing={config.menu.style?.spacing || 2}
             padding={config.padding}
+            isMobile={isMobile}
           >
             {appConfig.footerMenuTree.map((menuItem, index) => (
               <CustomMenuLink
                 key={index}
                 href={isPreview ? "#" : (menuItem.href || "/")}
                 fontSize={config.menu?.style?.fontSize}
-                color={config.menu?.style?.color}
-                hoverColor={config.menu?.style?.hoverColor}
+                color={colorSchemeSettings.menuColor || config.menu?.style?.color}
+                hoverColor={colorSchemeSettings.menuHoverColor || config.menu?.style?.hoverColor}
                 fontWeight={config.menu?.style?.fontWeight}
                 fontStyle={config.menu?.style?.fontStyle}
                 target={menuItem.type === "External" ? "_blank" : undefined}
@@ -1635,6 +1935,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             x={config.socialMedia.position?.x || 0}
             y={config.socialMedia.position?.y || 0}
             padding={config.padding}
+            isMobile={isMobile}
           >
             {socialLinks.map((social, index) => (
               <Link
@@ -1646,8 +1947,8 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               >
                 <CustomSocialIcon
                   iconSize={config.socialMedia?.iconSize}
-                  iconColor={config.socialMedia?.iconColor}
-                  iconHoverColor={config.socialMedia?.iconHoverColor}
+                  iconColor={colorSchemeSettings.iconColor || config.socialMedia?.iconColor}
+                  iconHoverColor={colorSchemeSettings.iconHoverColor || config.socialMedia?.iconHoverColor}
                 >
                   {social.icon}
                 </CustomSocialIcon>
@@ -1661,10 +1962,11 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             x={config.signature.position?.x || 0}
             y={config.signature.position?.y || 0}
             fontSize={config.signature.style?.fontSize}
-            color={config.signature.style?.color}
+            color={colorSchemeSettings.signatureColor || config.signature.style?.color}
             fontWeight={config.signature.style?.fontWeight}
             fontStyle={config.signature.style?.fontStyle}
             padding={config.padding}
+            isMobile={isMobile}
           >
             {signatureText}
           </CustomSignature>

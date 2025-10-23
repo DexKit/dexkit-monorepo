@@ -220,8 +220,8 @@ export default function SwapGlass({
         };
       case 'gradient':
         const isDark = theme.palette.mode === 'dark';
-        const startColor = gradientStartColor || (isDark ? '#000000' : '#ffffff');
-        const endColor = gradientEndColor || (isDark ? '#1a1a1a' : '#f0f0f0');
+        const startColor = gradientStartColor || (isDark ? theme.palette.background.default : theme.palette.background.paper);
+        const endColor = gradientEndColor || (isDark ? theme.palette.background.paper : theme.palette.grey[100]);
         const direction = gradientDirection || 'to bottom';
         return {
           background: `linear-gradient(${direction}, ${startColor}, ${endColor})`,
@@ -349,7 +349,7 @@ export default function SwapGlass({
                 WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px)`,
                 border: `1px solid rgba(255, 255, 255, 0.4)`,
                 borderRadius: theme.shape.borderRadius,
-                color: '#ffffff',
+                color: 'primary.contrastText',
                 boxShadow: theme.shadows[4],
                 '&:hover': {
                   background: `rgba(0, 0, 0, 0.5)`,
@@ -431,7 +431,7 @@ export default function SwapGlass({
                     WebkitBackdropFilter: `blur(${blurIntensity * 0.8}px) saturate(150%)`,
                     border: `2px solid rgba(255, 255, 255, 0.6)`,
                     borderRadius: theme.shape.borderRadius,
-                    color: '#ffffff',
+                    color: 'primary.contrastText',
                     width: theme.spacing(6),
                     height: theme.spacing(6),
                     boxShadow: `${theme.shadows[8]}, 0 0 0 1px rgba(255, 255, 255, 0.2) inset`,

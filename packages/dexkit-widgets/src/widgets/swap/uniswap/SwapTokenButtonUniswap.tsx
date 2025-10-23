@@ -45,7 +45,7 @@ function SwapTokenButtonUniswap({
       <Typography
         sx={{
           fontWeight: 600,
-          color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.secondary
+          color: 'text.secondary'
         }}
         variant="body1"
       >

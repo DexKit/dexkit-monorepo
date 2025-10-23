@@ -46,7 +46,7 @@ export const PreviewPortal = ({ index, site, page }: PreviewPortalProps) => {
     <Box sx={{ position: 'relative' }}>
       <PreviewIframe onLoad={() => setIsLoading(false)} src={url} />
       {isLoading && (
-        <Backdrop sx={{ color: '#fff', position: 'absolute' }} open>
+        <Backdrop sx={{ color: (theme) => theme.palette.common.white, position: 'absolute' }} open>
           <Stack
             alignItems="center"
             justifyContent="center"

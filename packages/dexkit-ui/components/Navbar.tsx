@@ -2,7 +2,7 @@ import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
@@ -22,6 +22,7 @@ import {
   NoSsr,
   Popover,
   Stack,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material";
@@ -63,7 +64,7 @@ import {
   useThemeMode
 } from "@dexkit/ui/hooks";
 import CommercePopover from "@dexkit/ui/modules/commerce/components/CommercePopover";
-import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
+import { AppConfig, NavbarGlassSettings } from "@dexkit/ui/modules/wizard/types/config";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSiteId } from "../hooks/useSiteId";
@@ -82,6 +83,7 @@ function Navbar({ appConfig, isPreview }: Props) {
   const { isActive, chainId } = useWeb3React();
   const siteId = useSiteId();
   const { mode } = useThemeMode();
+  const { mode: colorSchemeMode } = useColorScheme();
 
   const buttonRef = useRef<HTMLElement | null>(null);
 
@@ -186,10 +188,6 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const { isCustom, customSettings } = useNavbarVariant(appConfig);
 
-  if (isCustom && customSettings) {
-    return <CustomNavbar appConfig={appConfig} isPreview={isPreview} customSettings={customSettings} />;
-  }
-
   const glassVariant =
     appConfig.menuSettings?.layout?.type === "navbar" &&
     appConfig.menuSettings?.layout?.variant === "glass";
@@ -197,10 +195,28 @@ function Navbar({ appConfig, isPreview }: Props) {
     ? appConfig.menuSettings?.layout?.glassSettings || {}
     : {};
 
+  const getGlassColorSchemeSettings = () => {
+    const currentMode = colorSchemeMode === 'dark' ? 'dark' : 'light';
+    return glassSettings.colorScheme?.[currentMode] || {};
+  };
+
+  const getGlassEffectiveColor = (colorKey: keyof NonNullable<NavbarGlassSettings['colorScheme']['light']>, fallback?: string): string | undefined => {
+    const colorSchemeSettings = getGlassColorSchemeSettings();
+    const colorValue = colorSchemeSettings[colorKey] || glassSettings[colorKey as keyof NavbarGlassSettings] || fallback;
+    return typeof colorValue === 'string' ? colorValue : undefined;
+  };
+
   const getGlassBackground = () => {
     if (!glassVariant || glassSettings.disableBackground) return 'transparent';
 
-    const { backgroundType, backgroundColor, backgroundImage, gradientStartColor, gradientEndColor, gradientDirection } = glassSettings;
+    const colorSchemeSettings = getGlassColorSchemeSettings();
+    const { backgroundType, backgroundColor, backgroundImage, gradientStartColor, gradientEndColor, gradientDirection } = {
+      ...glassSettings,
+      backgroundColor: colorSchemeSettings.backgroundColor || glassSettings.backgroundColor,
+      backgroundImage: colorSchemeSettings.backgroundImage || glassSettings.backgroundImage,
+      gradientStartColor: colorSchemeSettings.gradientStartColor || glassSettings.gradientStartColor,
+      gradientEndColor: colorSchemeSettings.gradientEndColor || glassSettings.gradientEndColor,
+    };
 
     if (backgroundType === 'image' && backgroundImage) {
       return `url(${backgroundImage})`;
@@ -210,8 +226,40 @@ function Navbar({ appConfig, isPreview }: Props) {
       return backgroundColor;
     }
 
-    return `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`;
+    const glassOpacity = glassSettings.glassOpacity ?? 0.1;
+    const glassColor = colorSchemeMode === 'dark'
+      ? `rgba(0,0,0,${glassOpacity})`
+      : `rgba(255,255,255,${glassOpacity})`;
+    return glassColor;
   };
+
+  const glassStyles = useMemo(() => {
+    if (!glassVariant) return {};
+
+    const glassOpacity = glassSettings.glassOpacity ?? 0.1;
+
+    return {
+      background: getGlassBackground(),
+      ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage && {
+        backgroundImage: getGlassBackground(),
+        backgroundSize: glassSettings.backgroundSize || 'cover',
+        backgroundPosition: glassSettings.backgroundPosition || 'center',
+        backgroundRepeat: 'no-repeat',
+      }),
+      backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+      WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+      boxShadow: `0 8px 32px 0 ${colorSchemeMode === 'dark'
+        ? `rgba(31, 38, 135, ${glassOpacity * 3.7})`
+        : `rgba(0, 0, 0, ${glassOpacity})`}`,
+      border: `1px solid ${colorSchemeMode === 'dark'
+        ? `rgba(255, 255, 255, ${glassOpacity * 1.8})`
+        : `rgba(0, 0, 0, ${glassOpacity})`}`,
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      ...(glassSettings.borderRadius !== undefined && {
+        borderRadius: `${glassSettings.borderRadius}px`,
+      }),
+    };
+  }, [glassVariant, glassSettings, colorSchemeMode]);
 
   const getGlassOverlay = () => {
     if (!glassVariant || glassSettings.disableBackground) return {};
@@ -226,7 +274,9 @@ function Navbar({ appConfig, isPreview }: Props) {
           left: 0,
           right: 0,
           bottom: 0,
-          background: `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`,
+          background: colorSchemeMode === 'dark'
+            ? `rgba(0,0,0,${glassSettings.glassOpacity ?? 0.1})`
+            : `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`,
           backdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
           WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
           pointerEvents: 'none' as const,
@@ -332,8 +382,8 @@ function Navbar({ appConfig, isPreview }: Props) {
               key={key}
               isPreview={isPreview}
               customStyles={{
-                textColor: glassVariant && glassSettings.textColor ? glassSettings.textColor : undefined,
-                iconColor: glassVariant && glassSettings.iconColor ? glassSettings.iconColor : undefined,
+                textColor: glassVariant ? getGlassEffectiveColor('textColor', glassSettings.textColor) : undefined,
+                iconColor: glassVariant ? getGlassEffectiveColor('iconColor', glassSettings.iconColor) : undefined,
                 showIcons: true,
               }}
             />
@@ -346,8 +396,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                 textDecoration: "none",
                 textTransform: "none",
                 fontSize: "inherit",
-                ...(glassVariant && glassSettings.textColor && {
-                  color: glassSettings.textColor,
+                ...(glassVariant && {
+                  color: getGlassEffectiveColor('textColor', glassSettings.textColor),
                 }),
               }}
               key={key}
@@ -355,8 +405,8 @@ function Navbar({ appConfig, isPreview }: Props) {
               startIcon={
                 m.data?.iconName ? (
                   <Icon sx={{
-                    ...(glassVariant && glassSettings.iconColor && {
-                      color: glassSettings.iconColor,
+                    ...(glassVariant && {
+                      color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                     }),
                   }}>{m.data?.iconName}</Icon>
                 ) : undefined
@@ -376,8 +426,8 @@ function Navbar({ appConfig, isPreview }: Props) {
             onClick={handleShowProfileMenu}
             sx={{
               borderRadius: "50%",
-              ...(glassVariant && glassSettings.iconColor && {
-                color: glassSettings.iconColor,
+              ...(glassVariant && {
+                color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
               }),
             }}
           >
@@ -397,7 +447,7 @@ function Navbar({ appConfig, isPreview }: Props) {
         {appConfig.commerce?.enabled && (
           <NoSsr>
             <CommerceCartIconButton
-              iconColor={glassVariant && glassSettings.iconColor ? glassSettings.iconColor : undefined}
+              iconColor={glassVariant ? getGlassEffectiveColor('iconColor', glassSettings.iconColor) : undefined}
             />
           </NoSsr>
         )}
@@ -406,8 +456,8 @@ function Navbar({ appConfig, isPreview }: Props) {
             onClick={handleOpenTransactions}
             aria-label="notifications"
             sx={{
-              ...(glassVariant && glassSettings.iconColor && {
-                color: glassSettings.iconColor,
+              ...(glassVariant && {
+                color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
               }),
             }}
           >
@@ -437,8 +487,8 @@ function Navbar({ appConfig, isPreview }: Props) {
           onClick={handleSettingsMenuClick}
           aria-label="settings"
           sx={{
-            ...(glassVariant && glassSettings.iconColor && {
-              color: glassSettings.iconColor,
+            ...(glassVariant && {
+              color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
             }),
           }}
         >
@@ -513,6 +563,10 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const positions = organizeNavbarElements();
   const { left = [], 'center-left': centerLeft = [], center = [], 'center-right': centerRight = [], right = [] } = positions || {};
+
+  if (isCustom && customSettings) {
+    return <CustomNavbar appConfig={appConfig} isPreview={isPreview} customSettings={customSettings} />;
+  }
 
   return (
     <>
@@ -645,24 +699,9 @@ function Navbar({ appConfig, isPreview }: Props) {
         position="sticky"
         sx={{
           zIndex: 10,
-          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#222222' : theme.palette.background.paper,
+          backgroundColor: 'background.paper',
+          ...glassStyles,
           ...(glassVariant && {
-            background: getGlassBackground(),
-            ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage && {
-              backgroundImage: getGlassBackground(),
-              backgroundSize: glassSettings.backgroundSize || 'cover',
-              backgroundPosition: glassSettings.backgroundPosition || 'center',
-              backgroundRepeat: 'no-repeat',
-            }),
-            backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
-            WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
-            boxShadow: `0 8px 32px 0 rgba(31, 38, 135, 0.37)`,
-            border: `1px solid rgba(255, 255, 255, 0.18)`,
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            ...(glassSettings.borderRadius !== undefined && {
-              borderRadius: `${glassSettings.borderRadius}px`,
-              overflow: 'hidden',
-            }),
             ...getGlassOverlay(),
             '&::before': {
               content: '""',
@@ -671,7 +710,9 @@ function Navbar({ appConfig, isPreview }: Props) {
               left: 0,
               right: 0,
               bottom: 0,
-              background: `linear-gradient(135deg, rgba(255, 255, 255, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(255, 255, 255, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`,
+              background: colorSchemeMode === 'dark'
+                ? `linear-gradient(135deg, rgba(0, 0, 0, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(0, 0, 0, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`
+                : `linear-gradient(135deg, rgba(255, 255, 255, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(255, 255, 255, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`,
               backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
               WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
               pointerEvents: 'none',
@@ -689,7 +730,7 @@ function Navbar({ appConfig, isPreview }: Props) {
           sx={{
             py: isMobile ? 0.5 : 1,
             height: isMobile ? 56 : 64,
-            color: glassVariant && glassSettings.textColor ? glassSettings.textColor : 'inherit',
+            color: glassVariant ? getGlassEffectiveColor('textColor', glassSettings.textColor) : 'inherit',
             position: 'relative',
             zIndex: 2,
             display: 'flex',
@@ -723,8 +764,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                   minWidth: '44px',
                   minHeight: '44px',
                   color: 'text.primary',
-                  ...(glassVariant && glassSettings.iconColor && {
-                    color: glassSettings.iconColor,
+                  ...(glassVariant && {
+                    color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                   }),
                 }}
                 onClick={handleToggleDrawer}
@@ -811,8 +852,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                       borderRadius: "50%",
                       minWidth: '44px',
                       minHeight: '44px',
-                      ...(glassVariant && glassSettings.iconColor && {
-                        color: glassSettings.iconColor,
+                      ...(glassVariant && {
+                        color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                       }),
                     }}
                   >
@@ -828,7 +869,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                 {appConfig.commerce?.enabled && (
                   <NoSsr>
                     <CommerceCartIconButton
-                      iconColor={glassVariant && glassSettings.iconColor ? glassSettings.iconColor : undefined}
+                      iconColor={glassVariant ? getGlassEffectiveColor('iconColor', glassSettings.iconColor) : undefined}
                     />
                   </NoSsr>
                 )}
@@ -839,8 +880,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                     sx={{
                       minWidth: '44px',
                       minHeight: '44px',
-                      ...(glassVariant && glassSettings.iconColor && {
-                        color: glassSettings.iconColor,
+                      ...(glassVariant && {
+                        color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                       }),
                     }}
                   >
@@ -872,8 +913,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                   sx={{
                     minWidth: '44px',
                     minHeight: '44px',
-                    ...(glassVariant && glassSettings.iconColor && {
-                      color: glassSettings.iconColor,
+                    ...(glassVariant && {
+                      color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                     }),
                   }}
                 >
@@ -1030,8 +1071,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                             sx={{
                               minWidth: '44px',
                               minHeight: '44px',
-                              ...(glassVariant && glassSettings.iconColor && {
-                                color: glassSettings.iconColor,
+                              ...(glassVariant && {
+                                color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                               }),
                             }}
                           >
@@ -1063,8 +1104,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                           sx={{
                             minWidth: '44px',
                             minHeight: '44px',
-                            ...(glassVariant && glassSettings.iconColor && {
-                              color: glassSettings.iconColor,
+                            ...(glassVariant && {
+                              color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                             }),
                           }}
                         >
@@ -1128,8 +1169,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                           startIcon={
                             m.data?.iconName ? (
                               <Icon sx={{
-                                ...(glassVariant && glassSettings.iconColor && {
-                                  color: glassSettings.iconColor,
+                                ...(glassVariant && {
+                                  color: getGlassEffectiveColor('iconColor', glassSettings.iconColor),
                                 }),
                               }}>{m.data?.iconName}</Icon>
                             ) : undefined
