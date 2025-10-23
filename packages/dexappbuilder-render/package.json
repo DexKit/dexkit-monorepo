@@ -2,7 +2,7 @@
   "name": "@dexkit/dexappbuilder-render",
   "private": false,
   "type": "module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {

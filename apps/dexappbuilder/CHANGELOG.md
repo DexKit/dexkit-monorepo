@@ -1,5 +1,29 @@
 # dexappbuilder
 
+## 2.0.0
+
+### Major Changes
+
+- b128486: Major version updates: Next 15.5.5, MUI v7 and several other packages
+
+### Minor Changes
+
+- b128486: fixed component theming for MUI v7 compatibility
+- dd00a47: Add form to disable search tokens on swap config
+
+### Patch Changes
+
+- Updated dependencies [3b93251]
+- Updated dependencies [b128486]
+- Updated dependencies [b128486]
+  - @dexkit/dexappbuilder-viewer@2.0.0
+  - @dexkit/ui@2.0.0
+  - @dexkit/dexappbuilder-render@2.0.0
+  - eslint-config-custom@2.0.0
+  - @dexkit/widgets@2.0.0
+  - @dexkit/core@2.0.0
+  - @dexkit/web3forms@2.0.0
+
 ## 1.0.0
 
 ### Major Changes
