@@ -7,6 +7,14 @@
     {
       "src": "apps/dexappbuilder/package.json",
       "use": "@vercel/next"
+    },
+    {
+      "src": "apps/coinleague/package.json",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "apps/dexappadmin/package.json",
+      "use": "@vercel/next"
     }
   ],
   "functions": {
