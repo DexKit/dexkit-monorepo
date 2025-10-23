@@ -191,6 +191,7 @@ export interface AssetItemType {
   title: string;
   chainId: number;
   contractAddress: string;
+  backgroundImageUrl?: string;
   tokenId: string;
 }
 
