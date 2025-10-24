@@ -72,8 +72,8 @@ export function useListDeployedContracts({
     skip?: number;
     take?: number;
     total?: number;
-  }>(
-    [
+  }>({
+    queryKey: [
       LIST_DEPLOYED_CONTRACTS,
       safeOwner,
       name,
@@ -83,95 +83,31 @@ export function useListDeployedContracts({
       pageSize,
       safeFilter,
     ],
-    async () => {
+    queryFn: async () => {
       if (!safeOwner) {
-        return {
-          data: [],
-          total: 0,
-          skip: 0,
-          take: pageSize,
-        };
+        return { data: [] };
       }
 
       if (instance) {
-        const params: any = {
-          owner: safeOwner,
-          name,
-          chainId,
-          cursor: page * pageSize,
-          limit: pageSize,
-        };
-
-        if (safeFilter.hide !== undefined) {
-          params.hide = safeFilter.hide;
-        }
-
-        const allDataResponse = await instance.get("/forms/deploy/list", {
-          params: {
-            ...params,
-            cursor: 0,
-            limit: 10000,
-          }
-        });
-
-        const allData = allDataResponse.data;
-
-
-        if (!allData || typeof allData !== 'object') {
-          return {
-            data: [],
-            total: 0,
-            skip: page * pageSize,
-            take: pageSize,
-          };
-        }
-
-        let allItems = allData.items || [];
-
-        if (safeFilter.hide !== undefined) {
-          allItems = allItems.filter((contract: any) => {
-            if (safeFilter.hide === false) {
-              return contract.hide !== true; 
-            } else if (safeFilter.hide === true) {
-              return contract.hide === true; 
-            }
-            return true; 
-          });
-        }
-
-        const total = allItems.length;
-
-
-        const startIndex = page * pageSize;
-        const endIndex = startIndex + pageSize;
-        const paginatedItems = allItems.slice(startIndex, endIndex);
-
-
-        const mappedItems = paginatedItems.map((contract: any) => ({
-          ...contract,
-          createdAt: contract.createdAt || contract.created_at || new Date().toISOString(),
-          chainId: contract.chainId || contract.chain_id || contract.chainId,
-        }));
-
-        return {
-          data: mappedItems,
-          total: total,
-          skip: page * pageSize,
-          take: pageSize,
-        };
+        return (
+          await instance.get("/forms/deploy/contract/list", {
+            params: {
+              owner: safeOwner,
+              name,
+              chainId,
+              skip: page * pageSize,
+              take: pageSize,
+              sort,
+              filter: safeFilter ? JSON.stringify(safeFilter) : undefined,
+            },
+          })
+        ).data;
       }
 
-      return {
-        data: [],
-        total: 0,
-        skip: 0,
-        take: pageSize,
-      };
+      return { data: [] };
     },
-    {
-      enabled: !!safeOwner,
-    }
-  );
+    enabled: !!safeOwner,
+  });
 }
 
 export function useContractVisibility() {
