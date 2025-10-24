@@ -85,8 +85,8 @@ function SelectCollectionDialog({
     const arr =
       collectionsList && collectionsList?.length > 0
         ? collectionsList
-            ?.filter((c: any) => c.chainId === chainId)
-            .map((c: any) => ({
+            ?.filter((c) => c.chainId === chainId)
+            .map((c) => ({
               chainId: c.chainId,
               contractAddress: c.contractAddress,
               name: c.name,
@@ -109,7 +109,7 @@ function SelectCollectionDialog({
 
   const data = useMemo(() => {
     if (collections) {
-      return collections.filter((c: any) => c.chainId === chainId);
+      return collections.filter((c) => c.chainId === chainId);
     }
 
     return [];
@@ -136,7 +136,7 @@ function SelectCollectionDialog({
         {(data && data.length > 0) ||
         (collections && collections?.length > 0) ? (
           <List disablePadding>
-            {collections?.map((collection: any, key: number) => (
+            {collections?.map((collection, key) => (
               <ListItemButton
                 key={key}
                 onClick={() =>

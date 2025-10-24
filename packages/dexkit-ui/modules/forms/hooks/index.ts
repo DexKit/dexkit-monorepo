@@ -22,9 +22,9 @@ export function useCloseFormMutation() {
 export const GET_FORM = "GET_FORM";
 
 export function useFormQuery({ id }: { id?: number }) {
-  return useQuery<ContractFormData | null>(
-    [GET_FORM, id],
-    async ({ signal }) => {
+  return useQuery<ContractFormData | null>({
+    queryKey: [GET_FORM, id],
+    queryFn: async ({ signal }) => {
       if (!id) {
         return null;
       }
@@ -40,8 +40,8 @@ export function useFormQuery({ id }: { id?: number }) {
         templateId: data.template?.id,
       } as ContractFormData;
     },
-    { enabled: id !== undefined }
-  );
+    enabled: id !== undefined,
+  });
 }
 
 export const LIST_FORMS = "LIST_FORMS";
@@ -53,9 +53,9 @@ export function useListFormsQuery({
   creatorAddress?: string;
   query?: string;
 }) {
-  return useQuery<ContractFormData[] | null>(
-    [LIST_FORMS, creatorAddress, query],
-    async ({ signal }) => {
+  return useQuery<ContractFormData[] | null>({
+    queryKey: [LIST_FORMS, creatorAddress, query],
+    queryFn: async ({ signal }) => {
       if (!creatorAddress) {
         return null;
       }
@@ -76,16 +76,19 @@ export function useListFormsQuery({
           }) as ContractFormData
       );
     },
-    { enabled: creatorAddress !== undefined }
-  );
+    enabled: creatorAddress !== undefined,
+  });
 }
 
 export const DEPLOYABLE_CONTRACTS_QUERY = "DEPLOYABLE_CONTRACTS_QUERY";
 
 export function useDeployableContractsQuery() {
-  return useQuery([DEPLOYABLE_CONTRACTS_QUERY], async ({ }) => {
-    return (await axios.get<DeployableContract[]>(DEPLOYABLE_CONTRACTS_URL))
-      .data;
+  return useQuery({
+    queryKey: [DEPLOYABLE_CONTRACTS_QUERY],
+    queryFn: async () => {
+      return (await axios.get<DeployableContract[]>(DEPLOYABLE_CONTRACTS_URL))
+        .data;
+    },
   });
 }
 
