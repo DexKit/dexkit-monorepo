@@ -187,11 +187,11 @@ export function OffersTable({
             height: 8,
           },
           '&::-webkit-scrollbar-track': {
-            backgroundColor: 'rgba(0,0,0,0.1)',
+            backgroundColor: (theme) => theme.palette.divider,
             borderRadius: 4,
           },
           '&::-webkit-scrollbar-thumb': {
-            backgroundColor: 'rgba(0,0,0,0.3)',
+            backgroundColor: (theme) => theme.palette.action.disabled,
             borderRadius: 4,
           },
         }}>
