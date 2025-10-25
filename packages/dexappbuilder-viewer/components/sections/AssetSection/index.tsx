@@ -108,9 +108,17 @@ export default function AssetSection({ section }: AssetSectionProps) {
       key={`${network}-${address}-${tokenId}`}
       options={{ options: {} }}
     >
-      <Box sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+      <Box sx={{
+        px: { xs: 3, sm: 3, md: 4 },
+        maxWidth: '100%',
+        overflow: 'hidden'
+      }}>
         <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
+            <Grid size={12} sx={{ mb: 2 }}>
+              <AssetLeftSection address={address} id={tokenId} />
+            </Grid>
+
             <Grid size={12}>
               <AssetPageTitle address={address} id={tokenId} />
             </Grid>
@@ -119,12 +127,9 @@ export default function AssetSection({ section }: AssetSectionProps) {
                 <AssetPageActions address={address} id={tokenId} />
               </NoSsr>
             </Grid>
-            <Grid size={12}>
-              <AssetPricePaper address={address} id={tokenId} />
-            </Grid>
 
             <Grid size={12}>
-              <AssetLeftSection address={address} id={tokenId} />
+              <AssetPricePaper address={address} id={tokenId} />
             </Grid>
 
             <Grid size={12}>
@@ -170,3 +175,4 @@ export default function AssetSection({ section }: AssetSectionProps) {
     </AssetOptionsProvider>
   );
 }
+

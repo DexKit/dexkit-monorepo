@@ -50,10 +50,15 @@ export default async function handler(
     console.log('failed fetching from api');
   }
 
-  const metadata = await getAssetMetadata(asset?.tokenURI, {
-    image: '',
-    name: `${asset.collectionName} #${asset.id}`,
-  });
+  const metadata = await getAssetMetadata(
+    asset?.tokenURI,
+    {
+      image: '',
+      name: `${asset.collectionName} #${asset.id}`,
+    },
+    asset?.protocol === "ERC1155",
+    asset?.id
+  );
 
   return res.json({ ...asset, metadata });
 }

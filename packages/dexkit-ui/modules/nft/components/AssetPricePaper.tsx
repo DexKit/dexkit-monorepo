@@ -365,8 +365,13 @@ export function AssetPricePaper({ address, id }: Props) {
         />
       )}
       <Grid size={12}>
-        <Paper variant="outlined" sx={{ p: 2 }}>
-          <Stack spacing={2} direction="row" alignItems="center">
+        <Paper variant="outlined" sx={{ p: { xs: 1.5, sm: 2 } }}>
+          <Stack
+            spacing={{ xs: 1, sm: 2 }}
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "stretch", sm: "center" }}
+            sx={{ width: "100%" }}
+          >
             {/* <Box>
               <Typography variant="caption" color="textSecondary">
                 <FormattedMessage
@@ -385,6 +390,11 @@ export function AssetPricePaper({ address, id }: Props) {
                     onClick={handleOpenMakeListingDialog}
                     startIcon={<DollarSquare color="primary" />}
                     variant="outlined"
+                    sx={{
+                      minHeight: { xs: 48, sm: 40 },
+                      fontSize: { xs: '1rem', sm: '0.875rem' },
+                      py: { xs: 2, sm: 1.5 },
+                    }}
                   >
                     <FormattedMessage
                       defaultMessage="Sell"
@@ -403,6 +413,11 @@ export function AssetPricePaper({ address, id }: Props) {
                   onClick={handleOpenMakeOfferDialog}
                   startIcon={<Icon icon="tag" size="medium" color="primary" />}
                   variant="outlined"
+                  sx={{
+                    minHeight: { xs: 48, sm: 40 },
+                    fontSize: { xs: '1rem', sm: '0.875rem' },
+                    py: { xs: 2, sm: 1.5 },
+                  }}
                 >
                   <FormattedMessage
                     defaultMessage="Make Offer"

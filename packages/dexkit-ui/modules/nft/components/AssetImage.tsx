@@ -33,7 +33,7 @@ export function AssetImage({ src, enableLightBox }: Props) {
           sx={{
             position: "relative",
             width: "100%",
-            paddingTop: "100%", // Aspect ratio 1:1
+            paddingTop: "100%",
             cursor: enableLightBox ? "zoom-in" : "default",
             transition: "all 0.2s ease-in-out",
             "&:hover": enableLightBox ? {

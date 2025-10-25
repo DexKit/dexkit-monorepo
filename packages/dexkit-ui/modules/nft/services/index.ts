@@ -48,7 +48,15 @@ export async function getAssetMetadata(
     uri = tokenURI.replace('0x{id}', tokenId);
   }
   if (isERC1155 && tokenId && tokenURI && tokenURI?.search('/{id}') !== -1) {
-    uri = tokenURI.replace('{id}', tokenId.length === 64 ? tokenId : Number(tokenId).toString(16).padStart(64, '0').toLowerCase());
+    let formattedTokenId = tokenId;
+
+    if (tokenId.length === 64) {
+      formattedTokenId = tokenId;
+    } else {
+      formattedTokenId = tokenId;
+    }
+
+    uri = tokenURI.replace('{id}', formattedTokenId);
   }
 
   if (tokenURI?.startsWith('data:application/json;base64')) {

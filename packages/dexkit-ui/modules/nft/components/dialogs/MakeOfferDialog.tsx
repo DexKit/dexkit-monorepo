@@ -193,7 +193,7 @@ export default function MakeOfferDialog({
   const renderImageUrl = (token?: Token) => {
     if (!token) {
       return (
-        <Avatar sx={{ width: "auto", height: (theme) => theme.spacing(2) }} />
+        <Avatar sx={{ width: theme.spacing(2), height: theme.spacing(2) }} />
       );
     }
 
@@ -202,8 +202,13 @@ export default function MakeOfferDialog({
         <img
           alt={token.name}
           src={ipfsUriToUrl(token.logoURI || "")}
-          width="auto"
-          height={theme.spacing(2)}
+          style={{
+            width: theme.spacing(2),
+            height: theme.spacing(2),
+            maxWidth: theme.spacing(2),
+            maxHeight: theme.spacing(2),
+            objectFit: 'contain'
+          }}
         />
       );
     } else {
@@ -217,13 +222,18 @@ export default function MakeOfferDialog({
           <img
             alt={token.name}
             src={imageUrl}
-            width="auto"
-            height={theme.spacing(2)}
+            style={{
+              width: theme.spacing(2),
+              height: theme.spacing(2),
+              maxWidth: theme.spacing(2),
+              maxHeight: theme.spacing(2),
+              objectFit: 'contain'
+            }}
           />
         );
       } else {
         return (
-          <Avatar sx={{ width: "auto", height: (theme) => theme.spacing(2) }} />
+          <Avatar sx={{ width: theme.spacing(2), height: theme.spacing(2) }} />
         );
       }
     }
