@@ -615,9 +615,12 @@ export function AssetTabs({ address, id }: Props) {
           <Tabs
             value={selectedTab}
             onChange={handleChangeTab}
+            variant="fullWidth"
             sx={{
               '& .MuiTab-root': {
                 color: 'text.primary',
+                fontSize: { xs: '0.875rem', sm: '1rem' },
+                minHeight: { xs: 48, sm: 40 },
                 '&.Mui-selected': {
                   color: 'primary.main',
                 },

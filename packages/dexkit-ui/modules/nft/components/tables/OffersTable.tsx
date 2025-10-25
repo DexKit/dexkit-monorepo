@@ -181,8 +181,21 @@ export function OffersTable({
         </MenuItem>
       </Menu>
       <Stack spacing={1}>
-        <TableContainer>
-          <Table>
+        <TableContainer sx={{
+          overflowX: 'auto',
+          '&::-webkit-scrollbar': {
+            height: 8,
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'rgba(0,0,0,0.1)',
+            borderRadius: 4,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            borderRadius: 4,
+          },
+        }}>
+          <Table sx={{ minWidth: { xs: 600, sm: 'auto' } }}>
             <TableHead>
               <TableRow>
                 <TableCell component="th">

@@ -130,41 +130,41 @@ export function AssetPageActions({ address, id }: Props) {
               alignItems="center"
               spacing={2}
             >
-               <Tooltip
-                 title={
-                   <FormattedMessage id="favorite" defaultMessage="Favorite" />
-                 }
-               >
-                 <span>
-                   <IconButton 
-                     onClick={handleToggleFavorite} 
-                     disabled={!account}
-                     sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
-                   >
-                     <Heart
-                       sx={
-                         favorites.isFavorite(asset)
-                           ? (theme) => ({
-                             "& path": { fill: theme.palette.error.light },
-                           })
-                           : {
-                             "& path": {
-                               fill: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit'
-                             }
-                           }
-                       }
-                     />
-                   </IconButton>
-                 </span>
-               </Tooltip>
-               <Tooltip title="Share">
-                 <IconButton 
-                   onClick={handleOpenShareDialog}
-                   sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
-                 >
-                   <Share sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }} />
-                 </IconButton>
-               </Tooltip>
+              <Tooltip
+                title={
+                  <FormattedMessage id="favorite" defaultMessage="Favorite" />
+                }
+              >
+                <span>
+                  <IconButton
+                    onClick={handleToggleFavorite}
+                    disabled={!account}
+                    sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                  >
+                    <Heart
+                      sx={
+                        favorites.isFavorite(asset)
+                          ? (theme) => ({
+                            "& path": { fill: theme.palette.error.light },
+                          })
+                          : {
+                            "& path": {
+                              fill: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit'
+                            }
+                          }
+                      }
+                    />
+                  </IconButton>
+                </span>
+              </Tooltip>
+              <Tooltip title="Share">
+                <IconButton
+                  onClick={handleOpenShareDialog}
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
+                  <Share sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }} />
+                </IconButton>
+              </Tooltip>
             </Stack>
           </Paper>
         </Grid>

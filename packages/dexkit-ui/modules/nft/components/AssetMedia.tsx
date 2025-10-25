@@ -30,7 +30,7 @@ export function AssetMedia({ asset, enableImageLightbox }: Props) {
           sx={{
             position: "relative",
             overflow: "hidden",
-            paddingTop: { xs: "60%", sm: "100%" }, // Aspect ratio más pequeño en móviles
+            paddingTop: { xs: "75%", sm: "100%" },
           }}
         >
           <Skeleton

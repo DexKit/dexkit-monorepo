@@ -22,7 +22,7 @@ export function AssetLeftSection({
             sx={{
               position: "relative",
               overflow: "hidden",
-              paddingTop: { xs: "60%", sm: "100%" },
+              paddingTop: { xs: "75%", sm: "100%" },
             }}
           >
             <Skeleton
@@ -48,3 +48,4 @@ export function AssetLeftSection({
 }
 
 export default AssetLeftSection;
+
