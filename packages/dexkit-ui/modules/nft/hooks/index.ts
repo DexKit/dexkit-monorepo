@@ -95,23 +95,26 @@ export function useCollectionByApi({
   chainId?: number;
   contractAddress?: string;
 }) {
-  return useQuery(
-    [GET_COLLECTION_BY_API, chainId, contractAddress],
-    async () => {
+  return useQuery({
+    queryKey: [GET_COLLECTION_BY_API, chainId, contractAddress],
+    queryFn: async () => {
       if (chainId === undefined || contractAddress === undefined) {
         return;
       }
 
       return await getCollectionByApi({ chainId, contractAddress });
     }
-  );
+  });
 }
 
 export const GET_ASSETS_ORDERBOOK = "GET_ASSETS_ORDERBOOK";
 
 export const useAssetsOrderBook = (orderFilter?: TraderOrderFilter) => {
-  return useQuery([GET_ASSETS_ORDERBOOK, orderFilter], async () => {
-    return (await getDKAssetOrderbook(orderFilter)).data;
+  return useQuery({
+    queryKey: [GET_ASSETS_ORDERBOOK, orderFilter],
+    queryFn: async () => {
+      return (await getDKAssetOrderbook(orderFilter)).data;
+    }
   });
 };
 
@@ -126,9 +129,9 @@ export function useAssetByApi({
   contractAddress?: string;
   tokenId?: string;
 }) {
-  return useQuery(
-    [GET_ASSET_BY_API, chainId, contractAddress, tokenId],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ASSET_BY_API, chainId, contractAddress, tokenId],
+    queryFn: async () => {
       if (
         chainId === undefined ||
         contractAddress === undefined ||
@@ -139,7 +142,7 @@ export function useAssetByApi({
 
       return await getAssetByApi({ chainId, contractAddress, tokenId });
     }
-  );
+  });
 }
 
 export function useFullAsset({
@@ -167,9 +170,9 @@ export function useAssetMetadata(
   asset?: Asset,
   options?: Omit<UseQueryOptions, any>
 ) {
-  return useQuery<AssetMetadata | undefined>(
-    [GET_ASSET_METADATA, asset?.tokenURI, asset?.protocol, asset?.id],
-    async () => {
+  return useQuery<AssetMetadata | undefined>({
+    queryKey: [GET_ASSET_METADATA, asset?.tokenURI, asset?.protocol, asset?.id],
+    queryFn: async () => {
       if (asset?.tokenURI === undefined) {
         return;
       }
@@ -206,8 +209,9 @@ export function useAssetMetadata(
         asset?.id
       );
     },
-    { ...options, enabled: asset?.tokenURI !== undefined }
-  );
+    enabled: asset?.tokenURI !== undefined,
+    ...options
+  });
 }
 
 export function useSwapSdkV4({ provider, signer, chainId }: { provider: any, signer: any, chainId?: number }) {
@@ -459,9 +463,9 @@ export function useAccountAssetsBalance(
   const [accountAssets, setAccountAssets] = useAtom(accountAssetsAtom);
   const { activeChainIds } = useActiveChainIds();
 
-  const accountAssetsQuery = useQuery(
-    [GET_ACCOUNTS_ASSETS, accounts],
-    async () => {
+  const accountAssetsQuery = useQuery({
+    queryKey: [GET_ACCOUNTS_ASSETS, accounts],
+    queryFn: async () => {
       if (!accounts) {
         return false;
       }
@@ -512,8 +516,8 @@ export function useAccountAssetsBalance(
       }
       return true;
     },
-    { suspense: useSuspense }
-  );
+    suspense: useSuspense
+  });
   return { accountAssets, accountAssetsQuery };
 }
 
@@ -549,9 +553,9 @@ export function useAsset(
     typeof window !== "undefined" &&
     assetCached?.data?.chainId !== chainId;
 
-  return useQuery(
-    [GET_ASSET_DATA, contractAddress, tokenId],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ASSET_DATA, contractAddress, tokenId],
+    queryFn: async () => {
       if (
         chainId === undefined ||
         provider === undefined ||
@@ -601,17 +605,15 @@ export function useAsset(
       }
       return asset;
     },
-    {
-      ...options,
-      refetchOnMount: false,
-      refetchOnWindowFocus: !hasChainDiff && isActive == true,
-      enabled:
-        !hasChainDiff ||
-        (Boolean(lazy) &&
-          contractAddress !== undefined &&
-          tokenId !== undefined),
-    }
-  );
+    refetchOnMount: false,
+    refetchOnWindowFocus: !hasChainDiff && isActive == true,
+    enabled:
+      !hasChainDiff ||
+      (Boolean(lazy) &&
+        contractAddress !== undefined &&
+        tokenId !== undefined),
+    ...options
+  });
 }
 
 export function useCancelSignedOrderMutation(
@@ -728,26 +730,29 @@ export function useSearchAssets(
   search?: string,
   collections?: CollectionUniformItem[]
 ) {
-  return useQuery([SEARCH_ASSETS, search], () => {
-    if (!search) {
-      return [];
-    }
-    let collectionsFilter = undefined;
-    if (collections) {
-      collectionsFilter = collections
-        .map(
-          (c) =>
-            `${getNetworkSlugFromChainId(
-              c.chainId
-            )}:${c.contractAddress.toLowerCase()}`
-        )
-        .join(",");
-    }
+  return useQuery({
+    queryKey: [SEARCH_ASSETS, search],
+    queryFn: () => {
+      if (!search) {
+        return [];
+      }
+      let collectionsFilter = undefined;
+      if (collections) {
+        collectionsFilter = collections
+          .map(
+            (c) =>
+              `${getNetworkSlugFromChainId(
+                c.chainId
+              )}:${c.contractAddress.toLowerCase()}`
+          )
+          .join(",");
+      }
 
-    return searchAssetsDexKitApi({
-      keyword: search,
-      collections: collectionsFilter,
-    });
+      return searchAssetsDexKitApi({
+        keyword: search,
+        collections: collectionsFilter,
+      });
+    }
   });
 }
 
@@ -760,9 +765,9 @@ export const GET_ASSET_LIST_FROM_ORDERBOOK = "GET_ASSET_LIST_FROM_ORDERBOOK";
 export const useAssetListFromOrderbook = (orderFilter: TraderOrderFilter) => {
   const ordebookQuery = useOrderBook(orderFilter);
   const provider = useNetworkProvider(orderFilter.chainId);
-  return useQuery(
-    [GET_ASSET_LIST_FROM_ORDERBOOK, ordebookQuery.data],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ASSET_LIST_FROM_ORDERBOOK, ordebookQuery.data],
+    queryFn: async () => {
       if (ordebookQuery.data === undefined || provider === undefined) {
         return [];
       }
@@ -819,8 +824,9 @@ export const useAssetListFromOrderbook = (orderFilter: TraderOrderFilter) => {
       }
       return assets;
     },
-    { enabled: provider !== undefined, suspense: true }
-  );
+    enabled: provider !== undefined,
+    suspense: true
+  });
 };
 
 /**
@@ -829,17 +835,18 @@ export const useAssetListFromOrderbook = (orderFilter: TraderOrderFilter) => {
  * @returns
  */
 export const useOrderBook = (orderFilter: TraderOrderFilter) => {
-  return useQuery(
-    [GET_NFT_ORDERS, orderFilter],
-    async () => {
+  return useQuery({
+    queryKey: [GET_NFT_ORDERS, orderFilter],
+    queryFn: async () => {
       if (orderFilter.chainId === undefined) {
         return;
       }
 
       return await getOrderbookOrders(orderFilter);
     },
-    { enabled: orderFilter.chainId !== undefined, suspense: true }
-  );
+    enabled: orderFilter.chainId !== undefined,
+    suspense: true
+  });
 };
 
 export const GET_ASSET_METADATA_FROM_LIST = "GET_ASSET_METADATA_FROM_LIST";
@@ -850,9 +857,9 @@ export const GET_ASSET_METADATA_FROM_LIST = "GET_ASSET_METADATA_FROM_LIST";
  */
 export const useAssetMetadataFromList = (orderFilter: TraderOrderFilter) => {
   const assetListQuery = useAssetListFromOrderbook(orderFilter);
-  return useQuery(
-    [GET_ASSET_METADATA_FROM_LIST, assetListQuery.data],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ASSET_METADATA_FROM_LIST, assetListQuery.data],
+    queryFn: async () => {
       if (!assetListQuery.data) {
         return;
       }
@@ -874,8 +881,8 @@ export const useAssetMetadataFromList = (orderFilter: TraderOrderFilter) => {
       }
       return assetMetadata;
     },
-    { suspense: true }
-  );
+    suspense: true
+  });
 };
 
 export function useHiddenAssets() {
@@ -933,13 +940,13 @@ export function useBestSellOrderAssetRari(
   address?: string,
   id?: string
 ) {
-  return useQuery<AssetRari | undefined>(
-    [BEST_SELL_ORDER_RARIBLE, network, address, id],
-    () => {
+  return useQuery<AssetRari | undefined>({
+    queryKey: [BEST_SELL_ORDER_RARIBLE, network, address, id],
+    queryFn: () => {
       return undefined;
     },
-    { enabled: false }
-  );
+    enabled: false
+  });
 }
 
 export const GET_ASSET_APPROVAL = "GET_ASSET_APPROVAL";
@@ -949,9 +956,9 @@ export function useIsAssetApproved(
   asset?: SwappableAssetV4,
   address?: string
 ) {
-  return useQuery(
-    [GET_ASSET_APPROVAL, nftSwapSdk, address, asset],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ASSET_APPROVAL, nftSwapSdk, address, asset],
+    queryFn: async () => {
       if (
         address === undefined ||
         nftSwapSdk === undefined ||
@@ -962,5 +969,5 @@ export function useIsAssetApproved(
 
       return await nftSwapSdk?.loadApprovalStatus(asset, address);
     }
-  );
+  });
 }
