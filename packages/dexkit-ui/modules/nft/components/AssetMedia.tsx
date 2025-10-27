@@ -3,6 +3,7 @@ import { Box, CardMedia, Paper, Skeleton } from "@mui/material";
 import { Asset } from "@dexkit/core/types/nft";
 import { useAssetMetadata } from "../hooks";
 import { getNFTMediaSrcAndType } from "../utils";
+import { AssetAudio } from "./AssetAudio";
 import { AssetIframe } from "./AssetIframe";
 import { AssetImage } from "./AssetImage";
 import { AssetVideo } from "./AssetVideo";
@@ -95,8 +96,17 @@ export function AssetMedia({ asset, enableImageLightbox }: Props) {
           {nftSrcAndType.type === "iframe" && nftSrcAndType.src && (
             <AssetIframe src={nftSrcAndType.src} />
           )}
-          {nftSrcAndType.type === "mp4" && metadata?.animation_url && (
-            <AssetVideo src={metadata?.animation_url} />
+          {nftSrcAndType.type === "mp4" && nftSrcAndType.src && (
+            <AssetVideo
+              src={nftSrcAndType.src}
+              poster={metadata?.image}
+            />
+          )}
+          {nftSrcAndType.type === "audio" && nftSrcAndType.src && (
+            <AssetAudio
+              src={nftSrcAndType.src}
+              poster={metadata?.image}
+            />
           )}
         </Box>
       </CardMedia>

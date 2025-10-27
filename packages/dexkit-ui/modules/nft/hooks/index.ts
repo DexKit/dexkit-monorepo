@@ -61,30 +61,26 @@ export const GET_ASSET_BALANCE = "GET_ASSET_BALANCE";
 
 export function useAssetBalance(asset?: Asset, account?: string) {
   const { provider, chainId } = useWeb3React();
-  return useQuery([GET_ASSET_BALANCE, asset, account, chainId], async () => {
-    if (
-      chainId === undefined ||
-      provider === undefined ||
-      asset === undefined ||
-      account === undefined
-    ) {
-      return;
-    }
-    let balance: BigNumber | undefined;
+  return useQuery({
+    queryKey: [GET_ASSET_BALANCE, asset, account, chainId],
+    queryFn: async () => {
+      let balance: BigNumber | undefined;
 
-    if (asset?.protocol === "ERC1155") {
-      balance = await getERC1155Balance({
-        provider,
-        account,
-        contractAddress: asset.contractAddress,
-        tokenId: asset.id,
-      });
-    }
+      if (asset?.protocol === "ERC1155") {
+        balance = await getERC1155Balance({
+          provider: provider!,
+          account: account!,
+          contractAddress: asset.contractAddress,
+          tokenId: asset.id,
+        });
+      }
 
-    return {
-      asset,
-      balance,
-    } as AssetBalance;
+      return {
+        asset,
+        balance,
+      } as AssetBalance;
+    },
+    enabled: !!(chainId && provider && asset && account)
   });
 }
 
@@ -179,6 +175,24 @@ export function useAssetMetadata(
       }
       // Note: we are returning all metadata from dexkit api, so we check if asset has metadata before fetching it from the api
       if (asset?.metadata) {
+        const hasImage = asset.metadata.image && asset.metadata.image !== null && asset.metadata.image !== "";
+        const hasAnimationUrl = asset.metadata.animation_url && asset.metadata.animation_url !== "";
+
+        if ((!hasImage || !hasAnimationUrl) && asset.tokenURI) {
+          try {
+            const ipfsMetadata = await getAssetMetadata(
+              asset.tokenURI,
+              asset.metadata,
+              asset?.protocol === "ERC1155",
+              asset?.id
+            );
+
+            return { ...asset.metadata, ...ipfsMetadata };
+          } catch (e) {
+            return asset.metadata;
+          }
+        }
+
         return asset.metadata;
       }
 
