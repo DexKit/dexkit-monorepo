@@ -1,38 +1,52 @@
 import { ipfsUriToUrl } from "@dexkit/core/utils/ipfs";
-import { Box, CardMedia, Paper, useTheme } from "@mui/material";
+import { Box, CardMedia, Paper } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 interface Props {
   src: string;
+  poster?: string;
 }
 
-export function AssetVideo({ src }: Props) {
-  const theme = useTheme();
+export function AssetVideo({ src, poster }: Props) {
   return (
-    <Paper sx={{ maxWidth: "100%", height: "auto" }}>
+    <Paper
+      sx={{
+        width: "100%",
+        height: "100%",
+        maxWidth: "100%",
+        aspectRatio: "1",
+        position: "relative",
+        overflow: "hidden"
+      }}
+    >
       <CardMedia
         component="div"
-        sx={{ display: "block", maxWidth: "100%", height: "auto" }}
+        sx={{
+          width: "100%",
+          height: "100%",
+          position: "relative"
+        }}
       >
         <Box
+          component="video"
           sx={{
-            position: "relative",
             width: "100%",
-            height: (theme) => theme.spacing(36),
+            height: "100%",
+            objectFit: "contain",
+            backgroundColor: "background.default"
           }}
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+          poster={poster ? ipfsUriToUrl(poster) : undefined}
+          src={ipfsUriToUrl(src)}
         >
-          <video
-            width="100%"
-            height={theme.spacing(34)}
-            controls
-            loop
-            src={ipfsUriToUrl(src)}
-          >
-            <FormattedMessage
-              id="browser.not.support.video.tage"
-              defaultMessage={"Your browser does not support the video tag."}
-            />
-          </video>
+          <FormattedMessage
+            id="browser.not.support.video.tage"
+            defaultMessage="Your browser does not support the video tag."
+          />
         </Box>
       </CardMedia>
     </Paper>

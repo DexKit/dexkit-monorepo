@@ -321,14 +321,14 @@ export default function MediaDialog({
                   type="file"
                   hidden
                   ref={inputRef}
-                  accept="image/*, audio/*"
+                  accept="image/*, audio/*, video/*"
                 />
                 <Stack direction="row" alignItems="center" spacing={1}>
                   {isActive ? (
                     <Button variant="contained" onClick={handleClick}>
                       <FormattedMessage
-                        id="add.image"
-                        defaultMessage="Add Image"
+                        id="add.media"
+                        defaultMessage="Add Media"
                       />
                     </Button>
                   ) : (
@@ -371,18 +371,49 @@ export default function MediaDialog({
                         borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                       }}
                     >
-                      <Box
-                        sx={{
-                          backgroundImage: `url("${URL.createObjectURL(file)}")`,
-
-                          height: (theme) => theme.spacing(22),
-                          width: "100%",
-                          backgroundSize: "contain",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center",
-                          borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
-                        }}
-                      />
+                      {file.type?.startsWith('video/') ? (
+                        <Box
+                          component="video"
+                          src={URL.createObjectURL(file)}
+                          sx={{
+                            height: (theme) => theme.spacing(22),
+                            width: "100%",
+                            objectFit: "contain",
+                            borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                          }}
+                          controls
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      ) : file.type?.startsWith('audio/') ? (
+                        <Box
+                          sx={{
+                            height: (theme) => theme.spacing(22),
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                            background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                          }}
+                        >
+                          <Typography variant="h2" color="white">♪</Typography>
+                        </Box>
+                      ) : (
+                        <Box
+                          sx={{
+                            backgroundImage: `url("${URL.createObjectURL(file)}")`,
+                            height: (theme) => theme.spacing(22),
+                            width: "100%",
+                            backgroundSize: "contain",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                          }}
+                        />
+                      )}
                       <Box
                         sx={{
                           position: "absolute",
@@ -392,6 +423,7 @@ export default function MediaDialog({
                           bottom: 0,
                           right: 0,
                           borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                          pointerEvents: "none",
                         }}
                       />
                     </Box>
@@ -467,8 +499,8 @@ export default function MediaDialog({
                         }}
                       >
                         <FormattedMessage
-                          id="max.image.size"
-                          defaultMessage="Max image size: 2 Mb"
+                          id="max.file.size"
+                          defaultMessage="Max file size: 50 Mb"
                         />
                       </Typography>
                     </Box>
@@ -551,8 +583,8 @@ export default function MediaDialog({
                     >
                       <CustomButton onClick={handleClick}>
                         <FormattedMessage
-                          id="add.image"
-                          defaultMessage="Add image"
+                          id="add.media"
+                          defaultMessage="Add media"
                         />
                       </CustomButton>
                       {!search ? (
@@ -565,8 +597,8 @@ export default function MediaDialog({
                           </Typography>
                           <Typography variant={"body1"}>
                             <FormattedMessage
-                              id="max.image.size"
-                              defaultMessage="Max image size: 1 Mb"
+                              id="max.file.size"
+                              defaultMessage="Max file size: 50 Mb"
                             />
                           </Typography>
                         </>
@@ -679,18 +711,51 @@ export default function MediaDialog({
                             borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                           })}
                         >
-                          <Box
-                            sx={(theme) => ({
-                              borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
-                              backgroundImage: `url("${f.url}")`,
-                              backgroundSize: "contain",
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                              width: "100%",
-                              height: "100%",
-                              aspectRatio: "1/1",
-                            })}
-                          />
+                          {f.type?.startsWith('video/') ? (
+                            <Box
+                              component="video"
+                              src={f.url}
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                aspectRatio: "1/1",
+                                borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                              }}
+                              muted
+                              autoPlay
+                              loop
+                              playsInline
+                            />
+                          ) : f.type?.startsWith('audio/') ? (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                aspectRatio: "1/1",
+                                borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                                background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                              }}
+                            >
+                              <Typography variant="h4" color="white">♪</Typography>
+                            </Box>
+                          ) : (
+                            <Box
+                              sx={(theme) => ({
+                                borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                                backgroundImage: `url("${f.url}")`,
+                                backgroundSize: "contain",
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                width: "100%",
+                                height: "100%",
+                                aspectRatio: "1/1",
+                              })}
+                            />
+                          )}
                           <Box
                             sx={{
                               position: "absolute",

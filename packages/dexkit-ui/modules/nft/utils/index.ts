@@ -18,13 +18,36 @@ export function truncateErc1155TokenId(id?: string) {
   return `${String(id).substring(0, 6)}...${String(id).substring(id.length - 6, id.length)}`;
 }
 
-export function getNFTMediaSrcAndType(address: string, chainId: ChainId, tokenId: string, metadata?: AssetMetadata): { type: 'iframe' | 'image' | 'gif' | 'mp4', src?: string } {
+export function getNFTMediaSrcAndType(address: string, chainId: ChainId, tokenId: string, metadata?: AssetMetadata): { type: 'iframe' | 'image' | 'gif' | 'mp4' | 'audio', src?: string } {
 
   if (address.toLowerCase() === '0x5428dff180837ce215c8abe2054e048da311b751' && chainId === ChainId.Polygon) {
     return { type: 'iframe', src: `https://arpeggi.io/player?type=song&token=${tokenId}` }
   }
+
   if (metadata && metadata.animation_url) {
-    return { type: 'mp4' };
+    const animationUrl = metadata.animation_url.toLowerCase();
+
+    if (animationUrl.includes('.mp3') || animationUrl.includes('.wav') || animationUrl.includes('.ogg') || animationUrl.includes('.flac')) {
+      return { type: 'audio', src: metadata.animation_url };
+    }
+    else if (animationUrl.includes('.mp4') || animationUrl.includes('.mov') || animationUrl.includes('.webm')) {
+      return { type: 'mp4', src: metadata.animation_url };
+    }
+    else {
+      return { type: 'audio', src: metadata.animation_url };
+    }
+  }
+
+  if (metadata && metadata.image) {
+    const imageUrl = metadata.image.toLowerCase();
+
+    if (imageUrl.includes('.mp4') || imageUrl.includes('.mov') || imageUrl.includes('.webm')) {
+      return { type: 'mp4', src: metadata.image };
+    }
+
+    if (imageUrl.includes('.mp3') || imageUrl.includes('.wav') || imageUrl.includes('.ogg') || imageUrl.includes('.flac')) {
+      return { type: 'audio', src: metadata.image };
+    }
   }
 
   return { type: 'image' }
