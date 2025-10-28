@@ -14,8 +14,7 @@ export default function SidebarFilters({ onClose, title, children }: Props) {
   return (
     <Box
       sx={{
-        backgroundColor: (theme) => theme.palette.background.paper,
-        height: '100%',
+        backgroundColor: 'background.paper',
       }}
     >
       <SidebarFiltersContent>

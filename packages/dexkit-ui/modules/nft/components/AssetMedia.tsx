@@ -11,9 +11,10 @@ import { AssetVideo } from "./AssetVideo";
 interface Props {
   asset: Asset;
   enableImageLightbox?: boolean;
+  showVideoControls?: boolean;
 }
 
-export function AssetMedia({ asset, enableImageLightbox }: Props) {
+export function AssetMedia({ asset, enableImageLightbox, showVideoControls = false }: Props) {
   const { data: metadata, isLoading } = useAssetMetadata(asset);
 
   if (isLoading) {
@@ -100,6 +101,7 @@ export function AssetMedia({ asset, enableImageLightbox }: Props) {
             <AssetVideo
               src={nftSrcAndType.src}
               poster={metadata?.image}
+              showControls={showVideoControls}
             />
           )}
           {nftSrcAndType.type === "audio" && nftSrcAndType.src && (

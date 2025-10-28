@@ -192,7 +192,7 @@ const ImagePlugin: CellPlugin<Data> = {
   },
   id: "image-dexkit-plugin",
   title: "Image",
-  description: "Add Image from url or gallery",
+  description: "Add Image from URL or gallery",
   version: 1,
   controls: {
     type: 'autoform',

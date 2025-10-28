@@ -30,8 +30,18 @@ import remarkGfm from "remark-gfm";
 import { THIRDWEB_CONTRACTTYPE_TO_NAME } from "@dexkit/ui/constants/thirdweb";
 import { useContractCollection } from "@dexkit/ui/modules/nft/hooks/collection";
 import { useMemo } from "react";
-import Link from "../../../components/AppLink";
 import { PageHeader } from "../../../components/PageHeader";
+
+const getMediaTypeFromUrl = (url: string): 'image' | 'video' | 'audio' => {
+  const lowerUrl = url.toLowerCase();
+  if (lowerUrl.includes('.mp4') || lowerUrl.includes('.mov') || lowerUrl.includes('.webm')) {
+    return 'video';
+  }
+  if (lowerUrl.includes('.mp3') || lowerUrl.includes('.wav') || lowerUrl.includes('.ogg') || lowerUrl.includes('.flac')) {
+    return 'audio';
+  }
+  return 'image';
+};
 
 const Img = styled(Image)({});
 
@@ -153,15 +163,55 @@ export function ContractMetadataHeader({
                     overflow: "hidden",
                   })}
                 >
-                  <img
-                    src={ipfsUriToUrl(metadata?.image || serverMetadata?.image)}
-                    alt={metadata?.name}
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "cover"
-                    }}
-                  />
+                  {(() => {
+                    const imageUrl = metadata?.image || serverMetadata?.image;
+                    const mediaType = getMediaTypeFromUrl(imageUrl);
+
+                    if (mediaType === 'video') {
+                      return (
+                        <Box
+                          component="video"
+                          src={ipfsUriToUrl(imageUrl)}
+                          sx={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "cover",
+                          }}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      );
+                    } else if (mediaType === 'audio') {
+                      return (
+                        <Box
+                          sx={{
+                            height: "100%",
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                          }}
+                        >
+                          <Typography variant="h4" color="white">♪</Typography>
+                        </Box>
+                      );
+                    } else {
+                      return (
+                        <img
+                          src={ipfsUriToUrl(imageUrl)}
+                          alt={metadata?.name}
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "cover"
+                          }}
+                        />
+                      );
+                    }
+                  })()}
                 </Box>
               ) : (
                 <Avatar
@@ -323,11 +373,10 @@ export function ContractMetadataHeader({
                     <Grid container spacing={0.5} sx={{ mb: 1 }}>
                       <Grid size={getContractUrl(contractTypeV2 || metadata?.name) ? 6 : 12}>
                         <Button
-                          LinkComponent={Link}
-                          href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
-                          target="_blank"
-                          endIcon={<OpenInNewIcon fontSize="small" />}
                           size="small"
+                          href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
+                          endIcon={<OpenInNewIcon fontSize="small" />}
+                          target="_blank"
                           variant="outlined"
                           fullWidth
                           sx={{
@@ -390,11 +439,10 @@ export function ContractMetadataHeader({
                     alignItems="center"
                   >
                     <Button
-                      LinkComponent={Link}
-                      href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
-                      target="_blank"
-                      endIcon={<OpenInNewIcon fontSize="medium" />}
                       size="small"
+                      href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
+                      endIcon={<OpenInNewIcon fontSize="medium" />}
+                      target="_blank"
                       variant="outlined"
                       sx={{
                         fontSize: '0.875rem',

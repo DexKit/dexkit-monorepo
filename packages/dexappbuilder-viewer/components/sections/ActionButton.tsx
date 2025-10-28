@@ -19,7 +19,7 @@ export function ActionButton({
   return (
     <ButtonBase
       sx={{
-        background: (theme) => theme.palette.background.paper,
+        background: 'background.paper',
         borderRadius: (theme) => theme.shape.borderRadius,
         backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: "no-repeat",

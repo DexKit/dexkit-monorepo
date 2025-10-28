@@ -711,7 +711,7 @@ export default function MediaDialog({
                             borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                           })}
                         >
-                          {f.type?.startsWith('video/') ? (
+                          {f.mimeType?.startsWith('video/') ? (
                             <Box
                               component="video"
                               src={f.url}
@@ -727,7 +727,7 @@ export default function MediaDialog({
                               loop
                               playsInline
                             />
-                          ) : f.type?.startsWith('audio/') ? (
+                          ) : f.mimeType?.startsWith('audio/') ? (
                             <Box
                               sx={{
                                 width: "100%",

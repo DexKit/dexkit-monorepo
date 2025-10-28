@@ -1,5 +1,5 @@
 import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
-import { Box, Button, Grid, Stack } from '@mui/material';
+import { Box, Button, Grid, Stack, useMediaQuery, useTheme } from '@mui/material';
 import { Field, FieldArray, getIn, useFormikContext } from 'formik';
 import { TextField } from 'formik-mui';
 import { FormattedMessage } from 'react-intl';
@@ -21,19 +21,30 @@ export default function CollectionItemForm({
   const { setFieldValue, values, errors } =
     useFormikContext<CollectionItemsForm>();
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <Box>
-      <Grid container spacing={2}>
-        <Grid>
-          <ImageFormUpload
-            value={values.items[itemIndex]?.file || ''}
-            onSelectFile={(file: any) =>
-              setFieldValue(`items[${itemIndex}].file`, file)
-            }
-            error={Boolean(
-              errors.items && (errors.items[itemIndex] as any)?.file,
-            )}
-          />
+      <Grid container spacing={isMobile ? 1 : 2}>
+        <Grid size={{ xs: 12, md: 'auto' }}>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: isMobile ? 'center' : 'flex-start',
+            mb: isMobile ? 2 : 0
+          }}>
+            <ImageFormUpload
+              value={values.items[itemIndex]?.file || ''}
+              onSelectFile={(file: any) =>
+                setFieldValue(`items[${itemIndex}].file`, file)
+              }
+              error={Boolean(
+                errors.items && (errors.items[itemIndex] as any)?.file,
+              )}
+              imageHeight={isMobile ? 16 : 20}
+              imageWidth={isMobile ? 16 : 20}
+            />
+          </Box>
           {/*   <Box pt={2}>
             <GenerateAIImageButton
               description={values.items[itemIndex].description}
@@ -43,8 +54,8 @@ export default function CollectionItemForm({
             />
             </Box>*/}
         </Grid>
-        <Grid size="grow">
-          <Stack spacing={2}>
+        <Grid size={{ xs: 12, md: 'grow' }}>
+          <Stack spacing={isMobile ? 1.5 : 2}>
             {allowMultipleQuantity === true && (
               <Field
                 component={TextField}
@@ -54,6 +65,7 @@ export default function CollectionItemForm({
                   <FormattedMessage id="quantity" defaultMessage="Quantity" />
                 }
                 defaultValue={1}
+                fullWidth
               />
             )}
             <CompletationProvider
@@ -93,7 +105,7 @@ export default function CollectionItemForm({
                   }
                   fullWidth
                   multiline
-                  rows={3}
+                  rows={isMobile ? 2 : 3}
                   inputRef={ref}
                   InputProps={{
                     endAdornment: inputAdornment('end'),
@@ -104,7 +116,7 @@ export default function CollectionItemForm({
 
             {(values.items[itemIndex] as any)?.attributes?.length > 0 && (
               <Box>
-                <Stack spacing={2}>
+                <Stack spacing={isMobile ? 1 : 2}>
                   {values.items[itemIndex].attributes?.map(
                     (_: any, index: number) => (
                       <CollectionItemAttributeForm
@@ -125,6 +137,8 @@ export default function CollectionItemForm({
                   <Button
                     variant="outlined"
                     onClick={() => arrayHelper.push({})}
+                    fullWidth={isMobile}
+                    size={isMobile ? 'small' : 'medium'}
                   >
                     <FormattedMessage
                       id="add.attribute"

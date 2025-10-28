@@ -50,6 +50,7 @@ import { DefaultSlate } from "./plugins/DefaultSlate";
 import DexGeneratorFormPlugin from "./plugins/DexGeneratorFormPlugin";
 import ExchangePlugin from "./plugins/ExchangePlugin";
 import ImagePlugin from "./plugins/ImagePlugin";
+import MediaPlugin from "./plugins/MediaPlugin";
 import QrCodeReceive from "./plugins/QrCodeReceivePayment";
 import SearchNFTPlugin from "./plugins/SearchNFTPlugin";
 import StackPlugin from "./plugins/StackPlugin";
@@ -84,6 +85,7 @@ const cellPlugins = [
   ExchangePlugin,
   html5video,
   ImagePlugin,
+  MediaPlugin,
   AssetPlugin,
   AssetListPlugin,
   QrCodeReceive,
@@ -119,6 +121,7 @@ const nftPlugins = [
   divider,
   html5video,
   ImagePlugin,
+  MediaPlugin,
   AssetPlugin,
   AssetListPlugin,
   QrCodeReceive,
@@ -149,6 +152,7 @@ const swapPlugins = [
   divider,
   html5video,
   ImagePlugin,
+  MediaPlugin,
   QrCodeReceive,
   ExtendedSpacer,
   ShowCasePlugin,

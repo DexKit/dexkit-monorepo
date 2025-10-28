@@ -5,9 +5,10 @@ import { FormattedMessage } from "react-intl";
 interface Props {
   src: string;
   poster?: string;
+  showControls?: boolean;
 }
 
-export function AssetVideo({ src, poster }: Props) {
+export function AssetVideo({ src, poster, showControls = false }: Props) {
   return (
     <Paper
       sx={{
@@ -39,7 +40,7 @@ export function AssetVideo({ src, poster }: Props) {
           muted
           loop
           playsInline
-          controls
+          controls={showControls}
           poster={poster ? ipfsUriToUrl(poster) : undefined}
           src={ipfsUriToUrl(src)}
         >
