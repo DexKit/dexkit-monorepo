@@ -44,7 +44,13 @@ import {
   OrderBookItem,
   TraderOrderFilter,
 } from "../types";
-import { calculeFees, parseAssetApi } from "../utils";
+import {
+  calculeFees,
+  detectIPFSContentType,
+  getMediaTypeFromContentType,
+  getNFTMediaSrcAndType as getNFTMediaSrcAndTypeUtil,
+  parseAssetApi,
+} from "../utils";
 
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import {
@@ -522,6 +528,74 @@ export function useAccountAssetsBalance(
 }
 
 export const GET_ASSET_DATA = "GET_ASSET_DATA";
+
+const GET_IPFS_CONTENT_TYPE = "GET_IPFS_CONTENT_TYPE";
+
+export function useIPFSContentType(url: string | undefined) {
+  return useQuery<string | null, Error>(
+    [GET_IPFS_CONTENT_TYPE, url],
+    async (): Promise<string | null> => {
+      if (!url) return null;
+      return await detectIPFSContentType(url);
+    },
+    {
+      enabled: !!url,
+      staleTime: 10 * 60 * 1000,
+      gcTime: 30 * 60 * 1000,
+    } as any
+  );
+}
+
+export function useNFTMediaType(
+  address: string,
+  chainId: ChainId,
+  tokenId: string,
+  metadata?: AssetMetadata
+) {
+  const mediaTypeResult = getNFTMediaSrcAndTypeUtil(address, chainId, tokenId, metadata);
+
+  const needsDetection = mediaTypeResult.needsContentTypeDetection && mediaTypeResult.src;
+  const urlToDetect = needsDetection ? mediaTypeResult.src : undefined;
+  const { data: contentType, isLoading: isDetectingContentType } = useIPFSContentType(urlToDetect);
+
+  if (contentType && needsDetection && typeof contentType === 'string') {
+    const detectedType = getMediaTypeFromContentType(contentType);
+    if (detectedType) {
+      const correctSrc = metadata?.animation_url && (detectedType === 'mp4' || detectedType === 'audio')
+        ? metadata.animation_url
+        : metadata?.image || mediaTypeResult.src;
+
+      return {
+        type: detectedType,
+        src: correctSrc || mediaTypeResult.src,
+        isDetecting: false,
+      };
+    }
+  }
+
+  if (needsDetection && isDetectingContentType) {
+    return {
+      type: mediaTypeResult.type,
+      src: mediaTypeResult.src,
+      isDetecting: true,
+    };
+  }
+
+  let finalSrc = mediaTypeResult.src;
+  if (!finalSrc) {
+    if (mediaTypeResult.type === 'mp4' || mediaTypeResult.type === 'audio') {
+      finalSrc = metadata?.animation_url;
+    } else {
+      finalSrc = metadata?.image;
+    }
+  }
+
+  return {
+    type: mediaTypeResult.type,
+    src: finalSrc,
+    isDetecting: false,
+  };
+}
 
 export function useAsset(
   contractAddress?: string,

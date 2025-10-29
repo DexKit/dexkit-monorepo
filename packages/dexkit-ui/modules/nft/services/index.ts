@@ -42,21 +42,25 @@ export async function getAssetMetadata(
   isERC1155?: boolean,
   tokenId?: string,
 ) {
-  let uri = tokenURI;
+  let uri = tokenURI || '';
 
-  if (isERC1155 && tokenId && tokenURI && tokenURI?.search('/0x{id}') !== -1) {
-    uri = tokenURI.replace('0x{id}', tokenId);
-  }
-  if (isERC1155 && tokenId && tokenURI && tokenURI?.search('/{id}') !== -1) {
-    let formattedTokenId = tokenId;
+  if (tokenId && uri) {
+    const formattedTokenId = tokenId;
 
-    if (tokenId.length === 64) {
-      formattedTokenId = tokenId;
-    } else {
-      formattedTokenId = tokenId;
+    if (uri.includes('%7Bid%7D')) {
+      uri = uri.replace(/%7Bid%7D/g, formattedTokenId);
     }
 
-    uri = tokenURI.replace('{id}', formattedTokenId);
+    if (uri.includes('/0x{id}')) {
+      uri = uri.replace('/0x{id}', `/${formattedTokenId}`);
+    }
+    if (uri.includes('/0x%7Bid%7D')) {
+      uri = uri.replace('/0x%7Bid%7D', `/${formattedTokenId}`);
+    }
+
+    if (uri.includes('{id}')) {
+      uri = uri.replace(/{id}/g, formattedTokenId);
+    }
   }
 
   if (tokenURI?.startsWith('data:application/json;base64')) {
@@ -65,8 +69,9 @@ export async function getAssetMetadata(
   }
 
   try {
+    const finalUri = ipfsUriToUrl(uri || '');
     const response = await axios.get<AssetMetadata>(
-      ipfsUriToUrl(uri || ''),
+      finalUri,
       {
         timeout: 5000,
       }
@@ -77,7 +82,6 @@ export async function getAssetMetadata(
   }
 }
 
-//Return multiple assets at once
 export async function getAssetsData(
   provider: providers.JsonRpcProvider,
   contractAddress: string,

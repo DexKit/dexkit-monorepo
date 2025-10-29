@@ -1,8 +1,7 @@
 import { Box, CardMedia, Paper, Skeleton } from "@mui/material";
 
 import { Asset } from "@dexkit/core/types/nft";
-import { useAssetMetadata } from "../hooks";
-import { getNFTMediaSrcAndType } from "../utils";
+import { useAssetMetadata, useNFTMediaType } from "../hooks";
 import { AssetAudio } from "./AssetAudio";
 import { AssetIframe } from "./AssetIframe";
 import { AssetImage } from "./AssetImage";
@@ -16,6 +15,13 @@ interface Props {
 
 export function AssetMedia({ asset, enableImageLightbox, showVideoControls = false }: Props) {
   const { data: metadata, isLoading } = useAssetMetadata(asset);
+
+  const nftSrcAndType = useNFTMediaType(
+    asset.contractAddress,
+    asset.chainId,
+    asset.id,
+    metadata
+  );
 
   if (isLoading) {
     return (
@@ -52,12 +58,40 @@ export function AssetMedia({ asset, enableImageLightbox, showVideoControls = fal
     );
   }
 
-  const nftSrcAndType = getNFTMediaSrcAndType(
-    asset.contractAddress,
-    asset.chainId,
-    asset.id,
-    metadata
-  );
+  if (nftSrcAndType.isDetecting) {
+    return (
+      <Paper
+        sx={{
+          maxWidth: "100%",
+          height: "100%",
+          width: "100%",
+          position: "relative",
+          overflow: "hidden"
+        }}
+      >
+        <Box
+          sx={{
+            position: "relative",
+            overflow: "hidden",
+            paddingTop: { xs: "75%", sm: "100%" },
+          }}
+        >
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              display: "block",
+              width: "100%",
+              height: "100%",
+              borderRadius: "inherit"
+            }}
+          />
+        </Box>
+      </Paper>
+    );
+  }
 
   return (
     <Paper
@@ -88,9 +122,9 @@ export function AssetMedia({ asset, enableImageLightbox, showVideoControls = fal
             justifyContent: "center"
           }}
         >
-          {nftSrcAndType.type === "image" && (
+          {nftSrcAndType.type === "image" && nftSrcAndType.src && (
             <AssetImage
-              src={metadata?.image}
+              src={nftSrcAndType.src || metadata?.image}
               enableLightBox={enableImageLightbox}
             />
           )}
@@ -102,6 +136,12 @@ export function AssetMedia({ asset, enableImageLightbox, showVideoControls = fal
               src={nftSrcAndType.src}
               poster={metadata?.image}
               showControls={showVideoControls}
+            />
+          )}
+          {!nftSrcAndType.src && metadata?.image && (
+            <AssetImage
+              src={metadata.image}
+              enableLightBox={enableImageLightbox}
             />
           )}
           {nftSrcAndType.type === "audio" && nftSrcAndType.src && (
