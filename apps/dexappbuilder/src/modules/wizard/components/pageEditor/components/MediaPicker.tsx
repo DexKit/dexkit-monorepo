@@ -1,8 +1,9 @@
-import { Box, ButtonBase, Container, Stack, styled, Typography, useTheme } from '@mui/material';
+import { Alert, Box, ButtonBase, Container, Snackbar, Stack, styled, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 
 import { useIsMobile } from '@dexkit/core';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
+import { getAcceptedAudioTypes, getAcceptedVideoTypes, validateMultimediaFile } from '@dexkit/ui/utils/fileValidation';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import { connectField, useForm } from 'uniforms';
 
@@ -28,9 +29,32 @@ export const MediaPicker = connectField<{
   onChange: (v: string | void) => void;
 }>((props: any) => {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const theme = useTheme();
   const { formRef, onChange } = useForm();
+
+  const handleFileSelect = (file: any) => {
+    if (file instanceof File) {
+      const validation = validateMultimediaFile(file, ['mp4', 'mov', 'webm', 'avi', 'mp3', 'wav', 'ogg', 'flac', 'm4a']);
+      if (!validation.isValid) {
+        setValidationError(validation.error || 'Invalid file type');
+        return;
+      }
+    }
+
+    props.onChange(file.url);
+    setValidationError(null);
+
+    if (file.mimeType?.startsWith('video/')) {
+      const video = document.createElement('video');
+      video.src = file.url;
+      video.onloadedmetadata = () => {
+        formRef.change('width', video.videoWidth);
+        formRef.change('height', video.videoHeight);
+      };
+    }
+  };
 
   return (
     <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : 'inherit' }}>
@@ -41,21 +65,27 @@ export const MediaPicker = connectField<{
           fullWidth: true,
           onClose: () => {
             setOpenMediaDialog(false);
+            setValidationError(null);
           },
         }}
-        onConfirmSelectFile={(file) => {
-          props.onChange(file.url);
-
-          if (file.mimeType?.startsWith('video/')) {
-            const video = document.createElement('video');
-            video.src = file.url;
-            video.onloadedmetadata = () => {
-              formRef.change('width', video.videoWidth);
-              formRef.change('height', video.videoHeight);
-            };
-          }
-        }}
+        onConfirmSelectFile={handleFileSelect}
+        accept={`${getAcceptedVideoTypes()},${getAcceptedAudioTypes()}`}
       />
+
+      <Snackbar
+        open={!!validationError}
+        autoHideDuration={6000}
+        onClose={() => setValidationError(null)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setValidationError(null)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {validationError}
+        </Alert>
+      </Snackbar>
       <Stack alignItems="center">
         <ButtonBase
           onClick={() => {

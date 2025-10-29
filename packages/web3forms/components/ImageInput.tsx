@@ -1,7 +1,8 @@
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import MediaDialog from "@dexkit/ui/components/mediaDialog";
+import { getAcceptedMultimediaTypes, validateMultimediaFile } from "@dexkit/ui/utils/fileValidation";
 import ImageIcon from "@mui/icons-material/Image";
-import { Box, ButtonBase, Stack, Typography, useTheme } from "@mui/material";
+import { Alert, Box, ButtonBase, Snackbar, Stack, Typography, useTheme } from "@mui/material";
 import { useFormikContext } from "formik";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -25,10 +26,24 @@ export function ImageInput({ name, label }: ImageInputProps) {
   const { setFieldValue, values } = useFormikContext<any>();
 
   const [showDialog, setShowDialog] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleToggle = () => {
     setShowDialog((value) => !value);
-    // setFieldValue(name, undefined);
+    setValidationError(null);
+  };
+
+  const handleFileSelect = (file: any) => {
+    if (file instanceof File) {
+      const validation = validateMultimediaFile(file);
+      if (!validation.isValid) {
+        setValidationError(validation.error || 'Invalid file type');
+        return;
+      }
+    }
+
+    setFieldValue(name, file.url);
+    setValidationError(null);
   };
 
   const theme = useTheme();
@@ -42,8 +57,24 @@ export function ImageInput({ name, label }: ImageInputProps) {
           maxWidth: "lg",
           onClose: handleToggle,
         }}
-        onConfirmSelectFile={(file) => setFieldValue(name, file.url)}
+        onConfirmSelectFile={handleFileSelect}
+        accept={getAcceptedMultimediaTypes()}
       />
+
+      <Snackbar
+        open={!!validationError}
+        autoHideDuration={6000}
+        onClose={() => setValidationError(null)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setValidationError(null)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {validationError}
+        </Alert>
+      </Snackbar>
 
       <ButtonBase
         onClick={handleToggle}

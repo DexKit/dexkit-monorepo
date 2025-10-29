@@ -1,8 +1,9 @@
-import { ButtonBase, Container, Stack, styled, useTheme } from '@mui/material';
+import { Alert, ButtonBase, Container, Snackbar, Stack, styled, useTheme } from '@mui/material';
 import { useState } from 'react';
 
 import { useIsMobile } from '@dexkit/core';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
+import { getAcceptedImageTypes, validateImageFile } from '@dexkit/ui/utils/fileValidation';
 import ImageIcon from '@mui/icons-material/Image';
 import { connectField, useForm } from 'uniforms';
 
@@ -26,9 +27,30 @@ export const ImagePicker = connectField<{
   onChange: (v: string | void) => void;
 }>((props: any) => {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const theme = useTheme();
   const { formRef, onChange } = useForm();
+
+  const handleFileSelect = (file: any) => {
+    if (file instanceof File) {
+      const validation = validateImageFile(file);
+      if (!validation.isValid) {
+        setValidationError(validation.error || 'Invalid image file');
+        return;
+      }
+    }
+
+    props.onChange(file.url);
+    setValidationError(null);
+
+    const image = new Image();
+    image.src = file.url;
+    image.onload = () => {
+      formRef.change('width', image.width);
+      formRef.change('height', image.height);
+    };
+  };
 
   return (
     <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : 'inherit' }}>
@@ -39,21 +61,27 @@ export const ImagePicker = connectField<{
           fullWidth: true,
           onClose: () => {
             setOpenMediaDialog(false);
+            setValidationError(null);
           },
         }}
-        onConfirmSelectFile={(file) => {
-          props.onChange(file.url);
-
-          const image = new Image();
-
-          image.src = file.url;
-
-          image.onload = () => {
-            formRef.change('width', image.width);
-            formRef.change('height', image.height);
-          };
-        }}
+        onConfirmSelectFile={handleFileSelect}
+        accept={getAcceptedImageTypes()}
       />
+
+      <Snackbar
+        open={!!validationError}
+        autoHideDuration={6000}
+        onClose={() => setValidationError(null)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setValidationError(null)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {validationError}
+        </Alert>
+      </Snackbar>
       <Stack alignItems="center">
         <ButtonBase
           onClick={() => {
