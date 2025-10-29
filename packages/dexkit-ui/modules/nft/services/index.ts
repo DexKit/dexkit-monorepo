@@ -62,7 +62,6 @@ export async function getAssetMetadata(
   if (tokenURI?.startsWith('data:application/json;base64')) {
     const jsonURI = Buffer.from(tokenURI.substring(29), "base64").toString();
     return JSON.parse(jsonURI);
-
   }
 
   try {

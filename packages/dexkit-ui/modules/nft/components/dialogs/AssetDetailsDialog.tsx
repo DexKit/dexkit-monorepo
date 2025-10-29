@@ -30,7 +30,7 @@ function AssetDetailsDialog({ dialogProps, asset }: Props) {
       />
       <Divider />
       <DialogContent>
-        {asset && <AssetMedia asset={asset} />}
+        {asset && <AssetMedia asset={asset} showVideoControls={true} />}
         <AssetDetailsBase asset={asset} metadata={asset?.metadata} />
       </DialogContent>
     </Dialog>

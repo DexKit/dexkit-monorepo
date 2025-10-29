@@ -49,10 +49,10 @@ export default function ContractEditionContainer({ address, network }: Props) {
           </Button>
         </Grid>
 
-        <Grid size={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <TextField
             fullWidth
-            size="small"
+            size="medium"
             type="search"
             value={search}
             onChange={handleChangeSearch}
@@ -66,6 +66,13 @@ export default function ContractEditionContainer({ address, network }: Props) {
                   <Search color="primary" />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: { xs: 2, sm: 1 },
+                fontSize: { xs: '1rem', sm: '0.875rem' },
+                height: { xs: '48px', sm: '40px' }
+              }
             }}
           />
         </Grid>

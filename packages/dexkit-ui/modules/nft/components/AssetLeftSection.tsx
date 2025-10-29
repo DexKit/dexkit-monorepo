@@ -16,7 +16,7 @@ export function AssetLeftSection({
     <Grid container spacing={2}>
       <Grid size={12}>
         {asset ? (
-          <AssetMedia asset={asset} enableImageLightbox={true} />
+          <AssetMedia asset={asset} enableImageLightbox={true} showVideoControls={true} />
         ) : (
           <Box
             sx={{

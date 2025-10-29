@@ -2,8 +2,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 
-import { getIntegrationData } from '@/modules/wizard/services/integrations';
-import { ChainId, MY_APPS_ENDPOINT } from '@dexkit/core';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { Asset } from '@dexkit/core/types';
 import { isAddressEqual, omitNull } from '@dexkit/core/utils';
@@ -33,7 +31,6 @@ import {
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { ThirdwebSDK, useContractType } from '@thirdweb-dev/react';
-import axios from 'axios';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
@@ -78,137 +75,137 @@ const CollectionPage: NextPage<{
   disableSecondarySells: boolean;
   isLock: boolean;
 }) => {
-  const router = useRouter();
-  const { formatMessage } = useIntl();
-  const { address, network } = router.query;
-  const chainId = NETWORK_FROM_SLUG(network as string)?.chainId;
-  const [search, setSearch] = useState<string>();
+    const router = useRouter();
+    const { formatMessage } = useIntl();
+    const { address, network } = router.query;
+    const chainId = NETWORK_FROM_SLUG(network as string)?.chainId;
+    const [search, setSearch] = useState<string>();
 
-  const { data: contractType } = useContractType(address as string);
+    const { data: contractType } = useContractType(address as string);
 
-  const isDrop = useMemo(() => {
-    return contractType?.endsWith('drop');
-  }, [contractType]);
+    const isDrop = useMemo(() => {
+      return contractType?.endsWith('drop');
+    }, [contractType]);
 
-  const { data: collection } = useCollection(address as string, chainId);
+    const { data: collection } = useCollection(address as string, chainId);
 
-  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
+    const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.target.value);
+    };
 
-  const [buyNowChecked, setBuyNowChecked] = useState(false);
+    const [buyNowChecked, setBuyNowChecked] = useState(false);
 
-  const handleChangeBuyNow = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBuyNowChecked(event.target.checked);
-  };
+    const handleChangeBuyNow = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setBuyNowChecked(event.target.checked);
+    };
 
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  const handleCloseDrawer = () => setIsFiltersOpen(false);
+    const handleCloseDrawer = () => setIsFiltersOpen(false);
 
-  const renderSidebar = (onClose?: () => void) => {
-    return (
-      <SidebarFilters
-        title={<FormattedMessage id="filters" defaultMessage="Filters" />}
-        onClose={onClose}
-      >
-        <SidebarFiltersContent>
-          <Stack spacing={1}>
-            <TextField
-              fullWidth
-              size="small"
-              type="search"
-              value={search}
-              onChange={handleChangeSearch}
-              placeholder={formatMessage({
-                id: 'search.in.collection',
-                defaultMessage: 'Search in collection',
-              })}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Search color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Typography>
-              <FormattedMessage defaultMessage={'Status'} id={'status'} />
-            </Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={buyNowChecked}
-                    onChange={handleChangeBuyNow}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                  />
-                }
-                label={
-                  <FormattedMessage defaultMessage={'Buy now'} id={'buy.now'} />
-                }
-              />
-            </FormGroup>
-            <Typography>
-              <FormattedMessage defaultMessage={'Traits'} id={'traits'} />
-            </Typography>
-            <CollectionTraits address={address as string} chainId={chainId} />
-          </Stack>
-        </SidebarFiltersContent>
-      </SidebarFilters>
-    );
-  };
-
-  const renderDrawer = () => {
-    return (
-      <Drawer open={isFiltersOpen} onClose={handleCloseDrawer}>
-        <Box
-          sx={(theme) => ({ minWidth: `${theme.breakpoints.values.sm / 2}px` })}
+    const renderSidebar = (onClose?: () => void) => {
+      return (
+        <SidebarFilters
+          title={<FormattedMessage id="filters" defaultMessage="Filters" />}
+          onClose={onClose}
         >
-          {renderSidebar(handleCloseDrawer)}
-        </Box>
-      </Drawer>
+          <SidebarFiltersContent>
+            <Stack spacing={1}>
+              <TextField
+                fullWidth
+                size="small"
+                type="search"
+                value={search}
+                onChange={handleChangeSearch}
+                placeholder={formatMessage({
+                  id: 'search.in.collection',
+                  defaultMessage: 'Search in collection',
+                })}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Search color="primary" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Typography>
+                <FormattedMessage defaultMessage={'Status'} id={'status'} />
+              </Typography>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={buyNowChecked}
+                      onChange={handleChangeBuyNow}
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                  }
+                  label={
+                    <FormattedMessage defaultMessage={'Buy now'} id={'buy.now'} />
+                  }
+                />
+              </FormGroup>
+              <Typography>
+                <FormattedMessage defaultMessage={'Traits'} id={'traits'} />
+              </Typography>
+              <CollectionTraits address={address as string} chainId={chainId} />
+            </Stack>
+          </SidebarFiltersContent>
+        </SidebarFilters>
+      );
+    };
+
+    const renderDrawer = () => {
+      return (
+        <Drawer open={isFiltersOpen} onClose={handleCloseDrawer}>
+          <Box
+            sx={(theme) => ({ minWidth: `${theme.breakpoints.values.sm / 2}px` })}
+          >
+            {renderSidebar(handleCloseDrawer)}
+          </Box>
+        </Drawer>
+      );
+    };
+
+    const collectionPage = (
+      <>
+        <NextSeo title={collection?.name || ''} />
+        {renderDrawer()}
+
+        <CollectionSection
+          section={{
+            type: 'collection',
+            config: {
+              address: address as string,
+              network: network as string,
+              hideFilters: isDesktop,
+              hideAssets: false,
+              hideDrops: !isDrop,
+              hideHeader: false,
+              showPageHeader: true,
+              isLock,
+              disableSecondarySells,
+              showCollectionStats: true,
+              showSidebarOnDesktop: true,
+            },
+          }}
+        />
+      </>
     );
+    if (disableSecondarySells) {
+      return (
+        <MainLayout>
+          <Container>{collectionPage}</Container>
+        </MainLayout>
+      );
+    } else {
+      return <MainLayout disablePadding isPreview={false}>{collectionPage}</MainLayout>;
+    }
   };
-
-  const collectionPage = (
-    <>
-      <NextSeo title={collection?.name || ''} />
-      {renderDrawer()}
-
-      <CollectionSection
-        section={{
-          type: 'collection',
-          config: {
-            address: address as string,
-            network: network as string,
-            hideFilters: isDesktop,
-            hideAssets: false,
-            hideDrops: !isDrop,
-            hideHeader: false,
-            showPageHeader: true,
-            isLock,
-            disableSecondarySells,
-            showCollectionStats: true,
-            showSidebarOnDesktop: true,
-          },
-        }}
-      />
-    </>
-  );
-  if (disableSecondarySells) {
-    return (
-      <MainLayout>
-        <Container>{collectionPage}</Container>
-      </MainLayout>
-    );
-  } else {
-    return <MainLayout disablePadding isPreview={false}>{collectionPage}</MainLayout>;
-  }
-};
 
 function Wrapper(props: any) {
   const { chainId } = useWeb3React();

@@ -193,20 +193,45 @@ export function AssetListContractEdition({
               />{' '}
             </Button>
           </Grid>
-          <Grid size={2}>
-            <Typography variant="h6">{asset.metadata?.name || ''}</Typography>
-            <Box sx={{ maxWidth: '150px' }}>
-              <AssetMedia asset={asset} />
-            </Box>
-            <Typography>{asset.metadata?.description || ''}</Typography>
+          <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+            <Stack spacing={2} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+              <Typography variant="h6" textAlign={{ xs: 'center', sm: 'left' }}>
+                {asset.metadata?.name || ''}
+              </Typography>
+              <Box sx={{
+                maxWidth: { xs: '200px', sm: '150px' },
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center'
+              }}>
+                <AssetMedia asset={asset} />
+              </Box>
+              <Typography
+                variant="body2"
+                textAlign={{ xs: 'center', sm: 'left' }}
+                sx={{
+                  maxWidth: { xs: '100%', sm: '150px' },
+                  wordBreak: 'break-word'
+                }}
+              >
+                {asset.metadata?.description || ''}
+              </Typography>
+            </Stack>
           </Grid>
-          <Grid size={8}>
-            <Stack spacing={2}>
-              <Typography>
+          <Grid size={{ xs: 12, sm: 8, md: 9 }}>
+            <Stack spacing={3}>
+              <Typography variant="h6" textAlign={{ xs: 'center', sm: 'left' }}>
                 <FormattedMessage id={'you.own'} defaultMessage={'You own'} />:{' '}
                 {isLoadingAsset ? ' ' : assetSelected?.balance?.toString() || 0}
               </Typography>
-              <Stack spacing={2} direction={'row'}>
+              <Stack
+                spacing={2}
+                direction={{ xs: 'column', sm: 'row' }}
+                sx={{
+                  flexWrap: { xs: 'nowrap', sm: 'wrap' },
+                  alignItems: { xs: 'stretch', sm: 'flex-start' }
+                }}
+              >
                 {isLoadingAsset ? (
                   <Skeleton>
                     <Button>
@@ -221,6 +246,8 @@ export function AssetListContractEdition({
                     href={`/asset/${network}/${assetSelected?.contractAddress}/${assetSelected?.id}`}
                     target="_blank"
                     endIcon={<OpenInNewIcon />}
+                    size="medium"
+                    sx={{ width: { xs: '100%', sm: 'auto' } }}
                   >
                     <FormattedMessage
                       id="view.nft"
@@ -242,6 +269,8 @@ export function AssetListContractEdition({
                     href={`/drop/edition/${network}/${assetSelected?.contractAddress}/${assetSelected?.id}`}
                     target="_blank"
                     endIcon={<OpenInNewIcon />}
+                    size="medium"
+                    sx={{ width: { xs: '100%', sm: 'auto' } }}
                   >
                     <FormattedMessage
                       id="view.nft.drop"
@@ -254,7 +283,12 @@ export function AssetListContractEdition({
                   startIcon={<SendIcon />}
                   variant="contained"
                   disabled={assetSelected?.balance?.eq(0) || isLoadingAsset}
-                  sx={{ maxWidth: '200px' }}
+                  size="medium"
+                  sx={{
+                    width: { xs: '100%', sm: 'auto' },
+                    maxWidth: { xs: 'none', sm: '200px' },
+                    minWidth: { xs: 'auto', sm: '120px' }
+                  }}
                   onClick={() => {
                     setOpenTransferDialog(true);
                     setAssetTransfer(assetSelected);

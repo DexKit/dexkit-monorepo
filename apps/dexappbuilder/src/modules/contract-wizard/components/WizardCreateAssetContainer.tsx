@@ -252,7 +252,7 @@ function WizardCreateAssetContainer(props: Props) {
         <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
-              defaultMessage="To create NFTs, name and image are mandatory. When creating the nfts please wait till end, could take a while to finish! Mint max 30 each time! You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
+              defaultMessage="To create NFTs, name and image are mandatory. When creating the NFTs please wait till end, could take a while to finish! Mint max 30 each time! You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
               id="info.create.nfts"
               values={{
                 //@ts-ignore

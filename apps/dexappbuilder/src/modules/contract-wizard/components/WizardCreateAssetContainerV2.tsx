@@ -2,11 +2,11 @@ import CollectionItemsCard from '@/modules/contract-wizard/components/Collection
 import CreateAssetDialog from '@/modules/contract-wizard/components/dialogs/CreateAssetDialog';
 import { CollectionItemsSchema } from '@/modules/contract-wizard/constants/schemas';
 import {
-    useCreateAssetsMetadataMutation,
-    useCreateCollectionMetadataMutation,
-    useCreateItems,
-    useFetchAssetsMutation,
-    useLazyMintMutation,
+  useCreateAssetsMetadataMutation,
+  useCreateCollectionMetadataMutation,
+  useCreateItems,
+  useFetchAssetsMutation,
+  useLazyMintMutation,
 } from '@/modules/contract-wizard/hooks';
 import { CollectionItemsForm } from '@/modules/contract-wizard/types';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
@@ -16,18 +16,18 @@ import { Formik } from 'formik';
 import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
-    DEXKIT_DISCORD_SUPPORT_CHANNEL,
-    DEXKIT_NFT_METADATA_URI,
-    MIN_KIT_HOLDING_AI_GENERATION,
+  DEXKIT_DISCORD_SUPPORT_CHANNEL,
+  DEXKIT_NFT_METADATA_URI,
+  MIN_KIT_HOLDING_AI_GENERATION,
 } from 'src/constants';
 
 import { useContractCollection } from '@dexkit/ui/modules/nft/hooks/collection';
 import { useContractCreation } from '@dexkit/web3forms/hooks';
 import {
-    useContract,
-    useContractMetadata,
-    useMintNFT,
-    useTotalCount,
+  useContract,
+  useContractMetadata,
+  useMintNFT,
+  useTotalCount,
 } from '@thirdweb-dev/react';
 
 interface Props {
@@ -109,6 +109,7 @@ function WizardCreateAssetContainerV2(props: Props) {
 
   const handleCreateNFTs = async () => {
     try {
+
       if (
         address &&
         account &&
@@ -160,35 +161,39 @@ function WizardCreateAssetContainerV2(props: Props) {
 
           for (let index = 0; index < itemsToMint; index++) {
             const item = collectionItemsFormValues?.items[index];
-
             await mintNft({
-              metadata: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${
-                (totalCount?.toNumber() || 0) + totalItems
-              }`,
+              metadata: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${(totalCount?.toNumber() || 0) + totalItems
+                }`,
               to: account,
               supply: collectionItemsFormValues?.items[index].quantity,
             });
 
-            await uploadItemsMetadataMutation.mutateAsync({
-              nfts: [
-                {
-                  id: String((totalCount?.toNumber() || 0) + totalItems),
-                  tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${
-                    (totalCount?.toNumber() || 0) + totalItems
-                  }`,
-                  attributes: item.attributes || [],
-                  description: item.description || '',
-                  image: item.file || '',
-                  name: item.name || '',
-                  external_link: '',
-                },
-              ],
-              address,
-              network,
-            });
-
             totalItems++;
           }
+
+          const allNftsMetadata = [];
+          totalItems = 0;
+
+          for (let index = 0; index < itemsToMint; index++) {
+            const item = collectionItemsFormValues?.items[index];
+            allNftsMetadata.push({
+              id: String((totalCount?.toNumber() || 0) + totalItems),
+              tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${(totalCount?.toNumber() || 0) + totalItems
+                }`,
+              attributes: item.attributes || [],
+              description: item.description || '',
+              image: item.file || '',
+              name: item.name || '',
+              external_link: '',
+            });
+            totalItems++;
+          }
+
+          await uploadItemsMetadataMutation.mutateAsync({
+            nfts: allNftsMetadata,
+            address,
+            network,
+          });
         }
       }
       setItemsMinted([]);
@@ -265,7 +270,7 @@ function WizardCreateAssetContainerV2(props: Props) {
         <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
-              defaultMessage="To create NFTs, name and image are mandatory. When creating the nfts please wait till end, could take a while to finish! Mint max 30 each time! You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
+              defaultMessage="To create NFTs, name and image are mandatory. When creating the NFTs please wait till end, could take a while to finish! Mint max 30 each time! You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
               id="info.create.nfts"
               values={{
                 //@ts-ignore

@@ -3644,7 +3644,7 @@
     "defaultMessage": "Please don't close modal or reload app till finish data submission!"
   },
   "info.create.nfts": {
-    "defaultMessage": "To create NFTs, name and image are mandatory. When creating the nfts please wait till end, could take a while to finish!"
+    "defaultMessage": "To create NFTs, name and image are mandatory. When creating the NFTs please wait till end, could take a while to finish!"
   },
   "info.create.nfts.dialog": {
     "defaultMessage": "Please don't close modal or reload app till finish data submission!"

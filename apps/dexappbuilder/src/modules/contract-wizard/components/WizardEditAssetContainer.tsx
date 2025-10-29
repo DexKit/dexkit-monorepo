@@ -178,7 +178,7 @@ function WizardEditAssetContainer(props: Props) {
         <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
-              defaultMessage="To create NFTs, name and image are mandatory. When creating the nfts please wait till end, could take a while to finish!"
+              defaultMessage="To create NFTs, name and image are mandatory. When creating the NFTs please wait till end, could take a while to finish!"
               id="info.create.nfts"
             />
           </Alert>

@@ -63,6 +63,7 @@ interface Props {
   defaultAITab?: string;
   showAIGenerator?: boolean;
   onConfirmSelectFile?: (file: AccountFile) => void;
+  accept?: string;
 }
 
 const CustomImage = styled("img")(({ theme }) => ({
@@ -98,6 +99,7 @@ export default function MediaDialog({
   showAIGenerator,
   defaultPrompt,
   defaultAITab,
+  accept = "image/*, audio/*, video/*",
 }: Props) {
   const { onClose } = dialogProps;
   const { isActive } = useWeb3React();
@@ -155,6 +157,26 @@ export default function MediaDialog({
     }
   }, []);
 
+  const getFilteredFiles = () => {
+    if (!filesQuery.data?.files) return [];
+
+    if (accept.includes('video/') && accept.includes('audio/') && !accept.includes('image/')) {
+      return filesQuery.data.files.filter(file => {
+        const mimeType = file.mimeType || '';
+        return mimeType.startsWith('video/') || mimeType.startsWith('audio/');
+      });
+    }
+
+    if (accept.includes('image/') && !accept.includes('video/') && !accept.includes('audio/')) {
+      return filesQuery.data.files.filter(file => {
+        const mimeType = file.mimeType || '';
+        return mimeType.startsWith('image/');
+      });
+    }
+
+    return filesQuery.data.files;
+  };
+
   const handleClick = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.value = "";
@@ -169,11 +191,17 @@ export default function MediaDialog({
       const formData = new FormData();
       formData.append("file", file);
       fileUploadMutation.mutate(formData, {
-        onSuccess: () => {
+        onSuccess: (response) => {
+          if (response?.data && onConfirmSelectFile) {
+            onConfirmSelectFile(response.data);
+            onClose?.({}, "backdropClick");
+          }
           fileUploadMutation.reset();
           setFile(undefined);
           filesQuery.refetch();
         },
+        onError: (error: any) => {
+        }
       });
     }
   };
@@ -321,7 +349,7 @@ export default function MediaDialog({
                   type="file"
                   hidden
                   ref={inputRef}
-                  accept="image/*, audio/*, video/*"
+                  accept={accept}
                 />
                 <Stack direction="row" alignItems="center" spacing={1}>
                   {isActive ? (
@@ -428,54 +456,83 @@ export default function MediaDialog({
                       />
                     </Box>
                     <Stack spacing={2} direction={"row"}>
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        disabled={
-                          fileUploadMutation.isLoading ||
-                          fileUploadMutation.isSuccess ||
-                          file?.size > MAX_ACCOUNT_FILE_UPLOAD_SIZE
-                        }
-                        onClick={onUploadFile}
-                        startIcon={
-                          fileUploadMutation.isLoading && (
-                            <CircularProgress color="inherit" size="1rem" />
-                          )
-                        }
-                      >
-                        {fileUploadMutation.isLoading && (
-                          <>
-                            <FormattedMessage
-                              id="uploading"
-                              defaultMessage="Uploading"
-                            />{" "}
-                            {fileUploadProgress} %
-                          </>
-                        )}
-
-                        {fileUploadMutation.isSuccess && (
-                          <>
-                            <FormattedMessage
-                              id="uploaded"
-                              defaultMessage="Uploaded"
-                            />{" "}
-                            {fileUploadProgress} %
-                          </>
-                        )}
-
-                        {fileUploadMutation.isError && (
-                          <>
-                            <FormattedMessage
-                              id="error.try.again"
-                              defaultMessage="Error. Try again?"
+                      <Box sx={{ position: 'relative', minWidth: '120px' }}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          disabled={
+                            fileUploadMutation.isPending ||
+                            fileUploadMutation.isSuccess ||
+                            file?.size > MAX_ACCOUNT_FILE_UPLOAD_SIZE
+                          }
+                          onClick={onUploadFile}
+                          startIcon={
+                            fileUploadMutation.isPending && (
+                              <CircularProgress color="inherit" size="1rem" />
+                            )
+                          }
+                          sx={{
+                            position: 'relative',
+                            overflow: 'hidden',
+                            width: '100%',
+                            '& .progress-bar': {
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              height: '100%',
+                              backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                              transition: 'width 0.3s ease',
+                              zIndex: 1,
+                            },
+                            '& .progress-text': {
+                              position: 'relative',
+                              zIndex: 2,
+                            }
+                          }}
+                        >
+                          {fileUploadMutation.isPending && (
+                            <Box
+                              className="progress-bar"
+                              sx={{ width: `${fileUploadProgress}%` }}
                             />
-                          </>
-                        )}
+                          )}
 
-                        {fileUploadMutation.isIdle && (
-                          <FormattedMessage id="upload" defaultMessage="Upload" />
-                        )}
-                      </Button>
+                          <Box className="progress-text">
+                            {fileUploadMutation.isPending && (
+                              <>
+                                <FormattedMessage
+                                  id="uploading"
+                                  defaultMessage="Uploading"
+                                />{" "}
+                                {fileUploadProgress}%
+                              </>
+                            )}
+
+                            {fileUploadMutation.isSuccess && (
+                              <>
+                                <FormattedMessage
+                                  id="uploaded"
+                                  defaultMessage="Uploaded"
+                                />{" "}
+                                ✓
+                              </>
+                            )}
+
+                            {fileUploadMutation.isError && (
+                              <>
+                                <FormattedMessage
+                                  id="error.try.again"
+                                  defaultMessage="Error. Try again?"
+                                />
+                              </>
+                            )}
+
+                            {fileUploadMutation.isIdle && (
+                              <FormattedMessage id="upload" defaultMessage="Upload" />
+                            )}
+                          </Box>
+                        </Button>
+                      </Box>
 
                       <Button
                         color="warning"
@@ -574,7 +631,7 @@ export default function MediaDialog({
             {!file && (
               <Grid size={12}>
                 <Box display="flex" justifyContent="center">
-                  {filesQuery.isSuccess && filesQuery.data?.total === 0 && (
+                  {filesQuery.isSuccess && getFilteredFiles().length === 0 && (
                     <Stack
                       spacing={2}
                       justifyContent={"center"}
@@ -670,7 +727,7 @@ export default function MediaDialog({
 
             <Grid size={12}>
               <Grid container spacing={2}>
-                {filesQuery.data?.files?.map((f, key) => (
+                {getFilteredFiles().map((f, key) => (
                   <Grid size={{ xs: 6, sm: 3, md: 2 }} key={key}>
                     <Stack
                       spacing={2}
@@ -711,7 +768,7 @@ export default function MediaDialog({
                             borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                           })}
                         >
-                          {f.type?.startsWith('video/') ? (
+                          {f.mimeType?.startsWith('video/') ? (
                             <Box
                               component="video"
                               src={f.url}
@@ -727,7 +784,7 @@ export default function MediaDialog({
                               loop
                               playsInline
                             />
-                          ) : f.type?.startsWith('audio/') ? (
+                          ) : f.mimeType?.startsWith('audio/') ? (
                             <Box
                               sx={{
                                 width: "100%",
@@ -883,8 +940,7 @@ export default function MediaDialog({
             <Grid size={12}>
               <Box display="flex" justifyContent="flex-end">
                 {filesQuery.isSuccess &&
-                  filesQuery?.data &&
-                  filesQuery?.data?.total > 0 && (
+                  getFilteredFiles().length > 0 && (
                     <Pagination
                       page={page + 1}
                       onChange={(_ev, _page) => setPage(_page - 1)}

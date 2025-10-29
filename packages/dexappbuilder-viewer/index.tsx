@@ -11,6 +11,8 @@ import { SectionRender } from "./components/SectionRenderWithPlugin";
 import { WidgetProvider } from "./components/WidgetProvider";
 import { useWhitelabelConfigQuery } from "./hooks";
 
+export { default as MediaPlugin } from "./components/page-editor/plugins/MediaPlugin";
+
 interface Props {
   slug: string;
   section?: string;

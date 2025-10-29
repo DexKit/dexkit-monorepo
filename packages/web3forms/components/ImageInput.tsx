@@ -1,10 +1,22 @@
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import MediaDialog from "@dexkit/ui/components/mediaDialog";
+import { getAcceptedMultimediaTypes, validateMultimediaFile } from "@dexkit/ui/utils/fileValidation";
 import ImageIcon from "@mui/icons-material/Image";
-import { Box, ButtonBase, Stack, Typography, useTheme } from "@mui/material";
+import { Alert, Box, ButtonBase, Snackbar, Stack, Typography, useTheme } from "@mui/material";
 import { useFormikContext } from "formik";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
+
+const getMediaTypeFromUrl = (url: string): 'image' | 'video' | 'audio' => {
+  const lowerUrl = url.toLowerCase();
+  if (lowerUrl.includes('.mp4') || lowerUrl.includes('.mov') || lowerUrl.includes('.webm')) {
+    return 'video';
+  }
+  if (lowerUrl.includes('.mp3') || lowerUrl.includes('.wav') || lowerUrl.includes('.ogg') || lowerUrl.includes('.flac')) {
+    return 'audio';
+  }
+  return 'image';
+};
 export interface ImageInputProps {
   name: string;
   label: string;
@@ -14,10 +26,24 @@ export function ImageInput({ name, label }: ImageInputProps) {
   const { setFieldValue, values } = useFormikContext<any>();
 
   const [showDialog, setShowDialog] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleToggle = () => {
     setShowDialog((value) => !value);
-    // setFieldValue(name, undefined);
+    setValidationError(null);
+  };
+
+  const handleFileSelect = (file: any) => {
+    if (file instanceof File) {
+      const validation = validateMultimediaFile(file);
+      if (!validation.isValid) {
+        setValidationError(validation.error || 'Invalid file type');
+        return;
+      }
+    }
+
+    setFieldValue(name, file.url);
+    setValidationError(null);
   };
 
   const theme = useTheme();
@@ -31,8 +57,24 @@ export function ImageInput({ name, label }: ImageInputProps) {
           maxWidth: "lg",
           onClose: handleToggle,
         }}
-        onConfirmSelectFile={(file) => setFieldValue(name, file.url)}
+        onConfirmSelectFile={handleFileSelect}
+        accept={getAcceptedMultimediaTypes()}
       />
+
+      <Snackbar
+        open={!!validationError}
+        autoHideDuration={6000}
+        onClose={() => setValidationError(null)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setValidationError(null)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {validationError}
+        </Alert>
+      </Snackbar>
 
       <ButtonBase
         onClick={handleToggle}
@@ -49,18 +91,64 @@ export function ImageInput({ name, label }: ImageInputProps) {
         }}
       >
         {values[name] ? (
-          <img
-            src={getNormalizedUrl(values[name])}
-            style={{
-              border: `1px solid ${theme.palette.divider}`,
-              display: "block",
-              height: "100%",
-              width: "100%",
-              aspectRatio: "1/1",
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
+          (() => {
+            const mediaType = getMediaTypeFromUrl(values[name]);
+            if (mediaType === 'video') {
+              return (
+                <Box
+                  component="video"
+                  src={getNormalizedUrl(values[name])}
+                  sx={{
+                    border: `1px solid ${theme.palette.divider}`,
+                    display: "block",
+                    height: "100%",
+                    width: "100%",
+                    aspectRatio: "1/1",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              );
+            } else if (mediaType === 'audio') {
+              return (
+                <Box
+                  sx={{
+                    border: `1px solid ${theme.palette.divider}`,
+                    height: "100%",
+                    width: "100%",
+                    aspectRatio: "1/1",
+                    borderRadius: "50%",
+                    background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="h4" color="white">♪</Typography>
+                </Box>
+              );
+            } else {
+              return (
+                <img
+                  src={getNormalizedUrl(values[name])}
+                  style={{
+                    border: `1px solid ${theme.palette.divider}`,
+                    display: "block",
+                    height: "100%",
+                    width: "100%",
+                    aspectRatio: "1/1",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+              );
+            }
+          })()
         ) : (
           <Box
             sx={{
@@ -84,7 +172,7 @@ export function ImageInput({ name, label }: ImageInputProps) {
             >
               <ImageIcon sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }} color="inherit" />
               <Typography color="inherit" variant="caption">
-                <FormattedMessage id="image" defaultMessage="Image" />
+                <FormattedMessage id="media" defaultMessage="Media" />
               </Typography>
             </Stack>
           </Box>
