@@ -31,10 +31,13 @@ export default function UserActivityTable({ }: UserActivityTableProps) {
   const userActivityQuery = useUserActivity({ account, pageSize });
 
   const renderPages = () => {
-    if (
+    const hasNoPages =
       userActivityQuery.data?.pages &&
-      userActivityQuery.data?.pages.length === 0
-    ) {
+      userActivityQuery.data?.pages.length === 0;
+
+    const currentPageData = userActivityQuery.data?.pages?.[page]?.data || [];
+
+    if (hasNoPages || currentPageData.length === 0) {
       return (
         <TableRow>
           <TableCell {...({ colSpan: 5 } as any)}>
@@ -55,7 +58,7 @@ export default function UserActivityTable({ }: UserActivityTableProps) {
       userActivityQuery.data?.pages &&
       userActivityQuery.data?.pages.length > 0
     ) {
-      return userActivityQuery.data?.pages[page]?.data.map(
+      return currentPageData.map(
         (event: any, key: number) => (
           <UserActivityTableRow event={event} key={`event-${page}-${key}`} />
         )
@@ -102,7 +105,8 @@ export default function UserActivityTable({ }: UserActivityTableProps) {
               <TablePagination
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 page={page}
-                count={userActivityQuery.data?.pages[page]?.count || 0}
+                // Reflect filtered results; fall back to 0 when no data
+                count={userActivityQuery.data?.pages?.[page]?.data?.length || 0}
                 onPageChange={handlePageChange}
                 rowsPerPage={pageSize}
                 rowsPerPageOptions={isMobile ? [5] : [5, 10]}

@@ -43,6 +43,14 @@ export default function useUserActivity({
           { params: { page: pageParam, pageSize } }
         )
       )?.data;
+      // Remove offchain wallet events from the activity feed
+      // Currently we identify these as events of type 'connectAccount'
+      if (data?.data && Array.isArray(data.data)) {
+        return {
+          ...data,
+          data: data.data.filter((e: any) => e?.type !== "connectAccount"),
+        };
+      }
 
       return data;
     },
