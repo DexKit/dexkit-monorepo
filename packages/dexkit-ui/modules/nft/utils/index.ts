@@ -1,11 +1,69 @@
 import { ChainId } from "@dexkit/core/constants";
 import { Asset, AssetMetadata } from "@dexkit/core/types/nft";
+import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { getNetworkSlugFromChainId } from "@dexkit/core/utils/blockchain";
 import { UserFacingFeeStruct } from '@traderxyz/nft-swap-sdk';
 import { BigNumber } from "ethers";
 import { NETWORK_ID } from "../../../constants/enum";
 import { IS_CHAIN_SUPPORTED_BY_RARIBLE, MARKETPLACES, MARKETPLACES_INFO } from "../constants/marketplaces";
 import { AssetAPI, AssetBalance } from "../types";
+
+const contentTypeCache = new Map<string, Promise<string | null>>();
+
+export async function detectIPFSContentType(url: string): Promise<string | null> {
+  const normalizedUrl = ipfsUriToUrl(url);
+
+  if (contentTypeCache.has(normalizedUrl)) {
+    return contentTypeCache.get(normalizedUrl)!;
+  }
+
+  const contentTypePromise = (async () => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch(normalizedUrl, {
+        method: 'HEAD',
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+      const contentType = response.headers.get('content-type');
+      return contentType;
+    } catch (error) {
+      console.warn(`Failed to detect Content-Type for ${normalizedUrl}:`, error);
+      return null;
+    }
+  })();
+
+  contentTypeCache.set(normalizedUrl, contentTypePromise);
+
+  setTimeout(() => {
+    contentTypeCache.delete(normalizedUrl);
+  }, 10 * 60 * 1000);
+
+  return contentTypePromise;
+}
+
+export function getMediaTypeFromContentType(contentType: string | null): 'image' | 'mp4' | 'audio' | null {
+  if (!contentType) return null;
+
+  const lowerContentType = contentType.toLowerCase();
+
+  if (lowerContentType.startsWith('image/')) {
+    return 'image';
+  }
+
+  if (lowerContentType.startsWith('video/')) {
+    return 'mp4';
+  }
+
+  if (lowerContentType.startsWith('audio/')) {
+    return 'audio';
+  }
+
+  return null;
+}
 
 export function truncateErc1155TokenId(id?: string) {
   if (id === undefined) {
@@ -18,7 +76,7 @@ export function truncateErc1155TokenId(id?: string) {
   return `${String(id).substring(0, 6)}...${String(id).substring(id.length - 6, id.length)}`;
 }
 
-export function getNFTMediaSrcAndType(address: string, chainId: ChainId, tokenId: string, metadata?: AssetMetadata): { type: 'iframe' | 'image' | 'gif' | 'mp4' | 'audio', src?: string } {
+export function getNFTMediaSrcAndType(address: string, chainId: ChainId, tokenId: string, metadata?: AssetMetadata): { type: 'iframe' | 'image' | 'gif' | 'mp4' | 'audio', src?: string, needsContentTypeDetection?: boolean } {
 
   if (address.toLowerCase() === '0x5428dff180837ce215c8abe2054e048da311b751' && chainId === ChainId.Polygon) {
     return { type: 'iframe', src: `https://arpeggi.io/player?type=song&token=${tokenId}` }
@@ -27,26 +85,49 @@ export function getNFTMediaSrcAndType(address: string, chainId: ChainId, tokenId
   if (metadata && metadata.animation_url) {
     const animationUrl = metadata.animation_url.toLowerCase();
 
-    if (animationUrl.includes('.mp3') || animationUrl.includes('.wav') || animationUrl.includes('.ogg') || animationUrl.includes('.flac')) {
+    if (animationUrl.includes('.mp3') || animationUrl.includes('.wav') || animationUrl.includes('.ogg') || animationUrl.includes('.flac') || animationUrl.includes('.m4a')) {
       return { type: 'audio', src: metadata.animation_url };
     }
-    else if (animationUrl.includes('.mp4') || animationUrl.includes('.mov') || animationUrl.includes('.webm')) {
+    else if (animationUrl.includes('.mp4') || animationUrl.includes('.mov') || animationUrl.includes('.webm') || animationUrl.includes('.avi')) {
       return { type: 'mp4', src: metadata.animation_url };
     }
     else {
-      return { type: 'audio', src: metadata.animation_url };
+      const isIpfsUrl = animationUrl.includes('ipfs') || animationUrl.includes('dweb.link') || animationUrl.includes('/ipfs/');
+      if (isIpfsUrl) {
+        const urlPath = metadata.animation_url.split('?')[0].split('#')[0];
+        const hasVideoExtension = /\.(mp4|mov|webm|avi|mkv)$/i.test(urlPath);
+        const hasAudioExtension = /\.(mp3|wav|ogg|flac|m4a)$/i.test(urlPath);
+        const hasImageExtension = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico|avif)$/i.test(urlPath);
+
+        if (!hasVideoExtension && !hasAudioExtension && !hasImageExtension) {
+          return { type: 'mp4', src: metadata.animation_url, needsContentTypeDetection: true };
+        }
+      }
+      return { type: 'mp4', src: metadata.animation_url };
     }
   }
 
   if (metadata && metadata.image) {
     const imageUrl = metadata.image.toLowerCase();
 
-    if (imageUrl.includes('.mp4') || imageUrl.includes('.mov') || imageUrl.includes('.webm')) {
+    if (imageUrl.includes('.mp4') || imageUrl.includes('.mov') || imageUrl.includes('.webm') || imageUrl.includes('.avi')) {
       return { type: 'mp4', src: metadata.image };
     }
 
-    if (imageUrl.includes('.mp3') || imageUrl.includes('.wav') || imageUrl.includes('.ogg') || imageUrl.includes('.flac')) {
+    if (imageUrl.includes('.mp3') || imageUrl.includes('.wav') || imageUrl.includes('.ogg') || imageUrl.includes('.flac') || imageUrl.includes('.m4a')) {
       return { type: 'audio', src: metadata.image };
+    }
+
+    const isIpfsUrl = imageUrl.includes('ipfs') || imageUrl.includes('dweb.link') || imageUrl.includes('/ipfs/');
+    if (isIpfsUrl) {
+      const urlPath = metadata.image.split('?')[0].split('#')[0];
+      const hasImageExtension = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico|avif)$/i.test(urlPath);
+      const hasVideoExtension = /\.(mp4|mov|webm|avi|mkv)$/i.test(urlPath);
+      const hasAudioExtension = /\.(mp3|wav|ogg|flac|m4a)$/i.test(urlPath);
+
+      if (!hasImageExtension && !hasVideoExtension && !hasAudioExtension) {
+        return { type: 'image', src: metadata.image, needsContentTypeDetection: true };
+      }
     }
   }
 

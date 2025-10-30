@@ -72,7 +72,15 @@ export default function SelectNFTEditionDialog({
   const nfts = useAsyncMemo(
     async () => {
       if (isUnstake) {
+        if (!infoNfts || !Array.isArray(infoNfts)) {
+          return [];
+        }
+
         const [nfts, rewards] = infoNfts;
+
+        if (!nfts || (!Array.isArray(nfts) && typeof nfts[Symbol.iterator] !== 'function')) {
+          return [];
+        }
 
         let nftsArr: Promise<NFT>[] = [];
 
@@ -87,7 +95,7 @@ export default function SelectNFTEditionDialog({
         return await Promise.all(nftsArr);
       }
 
-      return accountNftsData;
+      return accountNftsData || [];
     },
     [],
     [accountNftsData, infoNfts, isUnstake]

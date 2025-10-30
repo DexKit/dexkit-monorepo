@@ -1,9 +1,9 @@
 import { ChainId } from "@dexkit/core";
-import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { getNetworkSlugFromChainId } from "@dexkit/core/utils/blockchain";
 import { AppExpandableTypography } from "@dexkit/ui/components/AppExpandableTypography";
 import Link from "@dexkit/ui/components/AppLink";
 import useContractMetadata from "@dexkit/ui/hooks/blockchain";
+import { NFTCardMedia } from "@dexkit/ui/modules/nft/components/NFTCardMedia";
 import { useAsset } from "@dexkit/ui/modules/nft/hooks";
 import { useJsonRpcProvider } from "@dexkit/ui/modules/wizard/hooks";
 import { ShowCaseItem } from "@dexkit/ui/modules/wizard/types/section";
@@ -12,7 +12,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   Divider,
   Skeleton,
   Stack,
@@ -680,15 +679,18 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
           sx={getHoverStyles()}
         >
           {item.imageUrl ? (
-            <CardMedia image={item.imageUrl} sx={{ aspectRatio: "1/1" }} />
+            <NFTCardMedia
+              metadata={{ image: item.imageUrl } as any}
+              chainId={item.chainId}
+              contractAddress={item.contractAddress}
+              aspectRatio="1/1"
+            />
           ) : contractMetadata.data?.image ? (
-            <CardMedia
-              image={
-                contractMetadata.data?.image
-                  ? ipfsUriToUrl(contractMetadata.data?.image)
-                  : undefined
-              }
-              sx={{ aspectRatio: "1/1" }}
+            <NFTCardMedia
+              metadata={contractMetadata.data as any}
+              chainId={item.chainId}
+              contractAddress={item.contractAddress}
+              aspectRatio="1/1"
             />
           ) : (
             <Skeleton
@@ -820,14 +822,13 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
           }/${item.tokenId}`}
         sx={getHoverStyles()}
       >
-        {nftQuery.data?.metadata?.image ? (
-          <CardMedia
-            image={
-              nftQuery.data?.metadata?.image
-                ? ipfsUriToUrl(nftQuery.data?.metadata?.image)
-                : undefined
-            }
-            sx={{ aspectRatio: "1/1" }}
+        {nftQuery.data?.metadata ? (
+          <NFTCardMedia
+            metadata={nftQuery.data.metadata as any}
+            chainId={item.chainId}
+            contractAddress={item.contractAddress}
+            tokenId={item.tokenId}
+            aspectRatio="1/1"
           />
         ) : (
           <Skeleton

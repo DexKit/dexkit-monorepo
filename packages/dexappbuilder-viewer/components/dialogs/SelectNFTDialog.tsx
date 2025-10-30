@@ -1,5 +1,5 @@
-import { getNormalizedUrl } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui";
+import { NFTCardMedia } from "@dexkit/ui/modules/nft/components/NFTCardMedia";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
@@ -8,7 +8,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -27,6 +26,7 @@ import {
   useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import { useCallback, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { FormattedMessage } from "react-intl";
 
 export default function SelectNFTDialog({
@@ -123,9 +123,19 @@ export default function SelectNFTDialog({
     [tokenIds]
   );
 
-  const renderCard = (nft: NFT) => {
+  const renderCard = (nft: NFT, index: number) => {
+    const shouldLoadImmediately = index < 6;
+    const { ref, inView } = useInView({
+      triggerOnce: true,
+      rootMargin: "100px",
+      skip: shouldLoadImmediately,
+    });
+
+    const shouldRender = shouldLoadImmediately || inView;
+
     return (
       <Card
+        ref={ref}
         sx={{
           borderColor: isSelected(nft.metadata.id)
             ? (theme) => theme.palette.primary.main
@@ -144,21 +154,23 @@ export default function SelectNFTDialog({
             p: 0
           }}
         >
-          {nft.metadata.image ? (
-            <CardMedia
-              image={getNormalizedUrl(nft.metadata.image)}
-              sx={{
-                aspectRatio: "1/1",
-                height: 200,
-                objectFit: "cover"
-              }}
+          {shouldRender ? (
+            <NFTCardMedia
+              metadata={nft.metadata as any}
+              network={network}
+              contractAddress={address}
+              tokenId={nft.metadata.id}
+              aspectRatio="1/1"
+              height={200}
+              priority={shouldLoadImmediately}
             />
           ) : (
             <Skeleton
               variant="rectangular"
               sx={{
                 aspectRatio: "1/1",
-                height: 200
+                height: 200,
+                width: "100%",
               }}
             />
           )}
@@ -193,7 +205,32 @@ export default function SelectNFTDialog({
               </Box>
             </Grid>
           )}
-          {nfts?.length === 0 && (
+          {(isLoadingNfts || (!nfts && !isLoading)) && (
+            <>
+              {[...Array(8)].map((_, key) => (
+                <Grid size={{ xs: 6, sm: 3 }} key={key}>
+                  <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                    <CardActionArea sx={{ height: "100%", display: "flex", flexDirection: "column", p: 0 }}>
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          aspectRatio: "1/1",
+                          height: 200,
+                          width: "100%",
+                        }}
+                      />
+                      <Divider />
+                      <CardContent sx={{ flexGrow: 1, p: 1.5 }}>
+                        <Skeleton variant="text" width="60%" height={20} sx={{ mb: 1 }} />
+                        <Skeleton variant="text" width="40%" height={16} />
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
+            </>
+          )}
+          {!isLoading && !isLoadingNfts && nfts?.length === 0 && (
             <Grid size={12}>
               <Box py={2}>
                 <Typography align="center" variant="h5">
@@ -212,9 +249,9 @@ export default function SelectNFTDialog({
               </Box>
             </Grid>
           )}
-          {nfts?.map((nft: NFT, key: number) => (
-            <Grid size={{ xs: 6, sm: 3 }} key={key}>
-              {renderCard(nft)}
+          {!isLoading && !isLoadingNfts && nfts?.map((nft: NFT, index: number) => (
+            <Grid size={{ xs: 6, sm: 3 }} key={nft.metadata.id || index}>
+              {renderCard(nft, index)}
             </Grid>
           ))}
         </Grid>

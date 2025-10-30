@@ -6,6 +6,17 @@ import { useIntl } from "react-intl";
 import useLightbox from "../../../components/lightBox/useLightBox";
 import { isWhitelistedDomain } from "../../../utils/image";
 
+function isIpfsUrlWithoutExtension(url: string): boolean {
+  const lowerUrl = url.toLowerCase();
+  const isIpfs = lowerUrl.includes('ipfs') || lowerUrl.includes('dweb.link') || lowerUrl.includes('/ipfs/');
+  if (!isIpfs) return false;
+
+  const urlPath = url.split('?')[0].split('#')[0];
+  const hasExtension = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$/i.test(urlPath);
+
+  return !hasExtension;
+}
+
 interface Props {
   src?: string;
   enableLightBox?: boolean;
@@ -42,11 +53,31 @@ export function AssetImage({ src, enableLightBox }: Props) {
             } : {},
           }}
         >
-          {isWhitelistedDomain(src) ? (
+          {isIpfsUrlWithoutExtension(src) ? (
+            <Box
+              component="img"
+              src={ipfsUriToUrl(src)}
+              alt={formatMessage({
+                id: "nft.image",
+                defaultMessage: "NFT Image",
+              })}
+              loading="lazy"
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "inherit"
+              }}
+            />
+          ) : isWhitelistedDomain(src) ? (
             <Image
               src={ipfsUriToUrl(src)}
               fill
               sizes="(max-width: 600px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              loading="lazy"
               style={{
                 position: "absolute",
                 top: 0,
@@ -65,6 +96,7 @@ export function AssetImage({ src, enableLightBox }: Props) {
               unoptimized={true}
               fill
               sizes="(max-width: 600px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              loading="lazy"
               style={{
                 position: "absolute",
                 top: 0,

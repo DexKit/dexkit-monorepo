@@ -198,11 +198,18 @@ export function useAsyncMemo<T>(
 
   useEffect(() => {
     async function load() {
-      const res = await cb(result);
-      if (!active) {
-        return;
+      try {
+        const res = await cb(result);
+        if (!active) {
+          return;
+        }
+        setResult(res);
+      } catch (error) {
+        console.warn('useAsyncMemo callback error:', error);
+        if (!active) {
+          return;
+        }
       }
-      setResult(res);
     }
 
     let active = true;
