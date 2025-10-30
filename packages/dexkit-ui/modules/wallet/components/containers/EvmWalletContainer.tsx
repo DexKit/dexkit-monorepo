@@ -256,9 +256,9 @@ const EvmWalletContainer = () => {
                           }}
                         >
                           {isBalancesVisible ? (
-                            <VisibilityIcon />
+                            <VisibilityIcon sx={{ color: 'text.primary' }} />
                           ) : (
-                            <VisibilityOffIcon />
+                            <VisibilityOffIcon sx={{ color: 'text.primary' }} />
                           )}
                         </IconButton>
                       </Stack>
