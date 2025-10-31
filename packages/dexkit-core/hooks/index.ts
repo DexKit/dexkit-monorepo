@@ -3,5 +3,4 @@ export * from "./misc";
 export * from "./nft";
 export * from "./wallet";
 
-
-export * from '@dexkit/ui/hooks/useBlockNumber';
+// Note: UI-specific hooks should be imported directly from @dexkit/ui by consumers

@@ -9,48 +9,82 @@
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "build": "tsup",
     "extract": "formatjs extract",
     "generate-lang-files": "yarn extract 'components/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/main.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
-    "@mui/lab": "^7.0.0-alpha.170",
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-interactions": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/builder-vite": "^0.4.2",
-    "@storybook/builder-webpack5": "^6.5.16",
+    "@babel/core": "^7.28.5",
+    "@mui/lab": "^7.0.1-beta.18",
+    "@storybook/addon-actions": "^9.0.8",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^10.0.2",
+    "@storybook/builder-vite": "^10.0.2",
+    "@storybook/builder-webpack5": "^10.0.2",
     "@storybook/manager-webpack5": "^6.5.16",
-    "@storybook/react": "^6.5.16",
-    "@storybook/testing-library": "^0.0.13",
-    "@vitejs/plugin-react": "^3.1.0",
-    "babel-loader": "^8.3.0",
-    "eslint": "^7.32.0",
+    "@storybook/react": "^10.0.2",
+    "@storybook/testing-library": "^0.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "babel-loader": "^10.0.0",
+    "eslint": "^9.38.0",
     "eslint-config-custom": "*",
     "react-docgen-typescript-loader": "^3.7.2",
-    "storybook": "^6.5.16",
-    "ts-loader": "^9.4.2",
+    "storybook": "^10.0.2",
+    "ts-loader": "^9.5.4",
     "tsconfig": "*",
-    "tsup": "^6.5.0",
-    "typescript": "5.8.3",
-    "vite": "^4.2.1"
+    "tsup": "^8.5.0",
+    "typescript": "5.9.3",
+    "vite": "^7.1.12"
   },
   "dependencies": {
-    "@0x/contract-addresses": "^8.7.0",
-    "@0x/protocol-utils": "^11.22.4",
+    "@0x/contract-addresses": "^8.13.0",
+    "@0x/protocol-utils": "^11.24.2",
     "@dexkit/core": "*",
     "@dexkit/ui": "*",
-    "@emotion/cache": "^11.7.1",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.4.0",
-    "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "7.3.2",
-    "@mui/lab": "^7.0.0-alpha.170",
-    "@mui/material": "7.3.2",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "7.3.4",
+    "@mui/lab": "^7.0.1-beta.18",
+    "@mui/material": "7.3.4",
     "@mui/x-data-grid": "^7.27.0",
     "@mui/x-date-pickers": "^7.27.0",
     "@noble/curves": "^1.8.1"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.js"
+    },
+    "./constants": {
+      "types": "./dist/constants.d.ts",
+      "import": "./dist/constants.js"
+    },
+    "./constants/messages": {
+      "types": "./dist/constants/messages.d.ts",
+      "import": "./dist/constants/messages.js"
+    },
+    "./services": {
+      "types": "./dist/services.d.ts",
+      "import": "./dist/services.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./components/TradeWidget": {
+      "types": "./dist/components/TradeWidget.d.ts",
+      "import": "./dist/components/TradeWidget.js"
+    }
   },
   "publishConfig": {
     "access": "public"

@@ -3,28 +3,144 @@
   "private": false,
   "version": "2.0.0",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js",
+      "require": "./dist/types.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js",
+      "require": "./dist/utils.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.js",
+      "require": "./dist/hooks.js"
+    },
+    "./services": {
+      "types": "./dist/services.d.ts",
+      "import": "./dist/services.js",
+      "require": "./dist/services.js"
+    },
+    "./constants": {
+      "types": "./dist/constants.d.ts",
+      "import": "./dist/constants.js",
+      "require": "./dist/constants.js"
+    },
+    "./constants/network": {
+      "types": "./dist/constants/network.d.ts",
+      "import": "./dist/constants/network.js",
+      "require": "./dist/constants/network.js"
+    },
+    "./constants/networks": {
+      "types": "./dist/constants/network.d.ts",
+      "import": "./dist/constants/network.js",
+      "require": "./dist/constants/network.js"
+    },
+    "./constants/enums": {
+      "types": "./dist/constants/enums.d.ts",
+      "import": "./dist/constants/enums.js",
+      "require": "./dist/constants/enums.js"
+    },
+    "./constants/abis": {
+      "types": "./dist/constants/abis.d.ts",
+      "import": "./dist/constants/abis.js",
+      "require": "./dist/constants/abis.js"
+    },
+    "./constants/userEvents": {
+      "types": "./dist/constants/userEvents.d.ts",
+      "import": "./dist/constants/userEvents.js",
+      "require": "./dist/constants/userEvents.js"
+    },
+    "./constants/zrx": {
+      "types": "./dist/constants/zrx.d.ts",
+      "import": "./dist/constants/zrx.js",
+      "require": "./dist/constants/zrx.js"
+    },
+    "./providers": {
+      "types": "./dist/providers.d.ts",
+      "import": "./dist/providers.js",
+      "require": "./dist/providers.js"
+    },
+    "./providers/DexKitContext": {
+      "types": "./dist/providers/DexKitContext.d.ts",
+      "import": "./dist/providers/DexKitContext.js",
+      "require": "./dist/providers/DexKitContext.js"
+    },
+    "./hooks/blockchain": {
+      "types": "./dist/hooks/blockchain.d.ts",
+      "import": "./dist/hooks/blockchain.js",
+      "require": "./dist/hooks/blockchain.js"
+    },
+    "./types/nft": {
+      "types": "./dist/types/nft.d.ts",
+      "import": "./dist/types/nft.js",
+      "require": "./dist/types/nft.js"
+    },
+    "./utils/ethers/isHexString": {
+      "types": "./dist/utils/ethers/isHexString.d.ts",
+      "import": "./dist/utils/ethers/isHexString.js",
+      "require": "./dist/utils/ethers/isHexString.js"
+    },
+    "./utils/ethers/isAddress": {
+      "types": "./dist/utils/ethers/isAddress.d.ts",
+      "import": "./dist/utils/ethers/isAddress.js",
+      "require": "./dist/utils/ethers/isAddress.js"
+    },
+    "./utils/ethers/abi/Interface": {
+      "types": "./dist/utils/ethers/abi/Interface.d.ts",
+      "import": "./dist/utils/ethers/abi/Interface.js",
+      "require": "./dist/utils/ethers/abi/Interface.js"
+    },
+    "./utils/ipfs": {
+      "types": "./dist/utils/ipfs.d.ts",
+      "import": "./dist/utils/ipfs.js",
+      "require": "./dist/utils/ipfs.js"
+    },
+    "./utils/blockchain": {
+      "types": "./dist/utils/blockchain.d.ts",
+      "import": "./dist/utils/blockchain.js",
+      "require": "./dist/utils/blockchain.js"
+    },
+    "./utils/ethers/parseUnits": {
+      "types": "./dist/utils/ethers/parseUnits.d.ts",
+      "import": "./dist/utils/ethers/parseUnits.js",
+      "require": "./dist/utils/ethers/parseUnits.js"
+    }
+  },
   "engines": {
     "node": "22.x"
   },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "build": "tsup"
   },
   "devDependencies": {
-    "@types/react": "19.1.0",
-    "@types/ua-parser-js": "^0.7.36",
-    "eslint": "^7.32.0",
+    "@types/react": "19.2.2",
+    "@types/ua-parser-js": "^0.7.39",
+    "eslint": "^9.38.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "@dexkit/evm-chains": "1.15.2",
-    "@mui/material": "^7.0.0",
+    "@mui/material": "^7.3.4",
     "axios": "0.30.0",
     "eth-url-parser": "^1.0.4",
-    "react": "19.1.0",
-    "ua-parser-js": "^1.0.35"
+    "react": "19.2.0",
+    "ua-parser-js": "^2.0.6"
   },
   "publishConfig": {
     "access": "public"

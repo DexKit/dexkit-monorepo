@@ -8,13 +8,13 @@
     "node": "22.x"
   },
   "dependencies": {
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^15.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.34.0"
+    "eslint": "^9.38.0",
+    "eslint-config-next": "^16.0.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5"
   },
   "devDependencies": {
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   },
   "publishConfig": {
     "access": "public"

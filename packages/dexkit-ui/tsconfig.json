@@ -1,18 +1,37 @@
 {
-  "extends": "tsconfig/react-library.json",
-  "include": [
-    ".",
-    "global.d.ts",
-    "modules/contract-wizard/components/ContractMetadataHeader.tsx",
-    "hooks/useColumns.tsx",
-    "../dexkit-core/providers/DexKitContext.tsx",
-    "../dexappbuilder-viewer/components/WidgetProvider.tsx"
-  ],
-  "compilerOptions": {
-    "resolveJsonModule": true,
-    "moduleResolution": "Bundler",
-    "target": "es2020",
-    "lib": ["es2021"]
-  },
-  "exclude": ["dist", "build", "node_modules"]
+	"extends": "tsconfig/react-library.json",
+	"include": [
+		".",
+		"global.d.ts",
+		"modules/contract-wizard/components/ContractMetadataHeader.tsx",
+		"hooks/useColumns.tsx",
+		"../dexkit-core/providers/DexKitContext.tsx",
+		"../dexappbuilder-viewer/components/WidgetProvider.tsx"
+	],
+	"compilerOptions": {
+		"resolveJsonModule": true,
+		"moduleResolution": "Bundler",
+		"target": "es2020",
+		"lib": ["es2021"],
+		"baseUrl": ".",
+		"paths": {
+			"@dexkit/ui": ["./index.ts"],
+			"@dexkit/ui/*": ["./*"],
+			"@dexkit/core/providers": ["../dexkit-core/providers/index.ts"],
+			"@dexkit/core/providers/DexKitContext": ["../dexkit-core/providers/DexKitContext.tsx"],
+			"@dexkit/core/constants": ["../dexkit-core/constants/index.ts"],
+			"@dexkit/core/constants/*": ["../dexkit-core/constants/*"],
+			"@dexkit/core/types": ["../dexkit-core/types/index.ts"],
+			"@dexkit/core/types/*": ["../dexkit-core/types/*"],
+			"@dexkit/core/hooks/*": ["../dexkit-core/hooks/*"],
+			"@dexkit/core/utils": ["../dexkit-core/utils/index.ts"],
+			"@dexkit/core/utils/*": ["../dexkit-core/utils/*"],
+			"@dexkit/core/services": ["../dexkit-core/services/index.ts"],
+			"@dexkit/core/services/*": ["../dexkit-core/services/*"],
+			"@dexkit/exchange/constants": ["../dexkit-exchange/constants/index.ts"],
+			"@dexkit/exchange/types": ["../dexkit-exchange/types/index.ts"],
+			"@dexkit/web3forms/types": ["../web3forms/types/index.ts"]
+		}
+	},
+	"exclude": ["dist", "build", "node_modules"]
 }

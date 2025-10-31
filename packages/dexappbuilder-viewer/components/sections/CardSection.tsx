@@ -1,4 +1,4 @@
-import Card from '@dexkit/dexappbuilder-viewer/components/Card';
+import Card from '../Card';
 import { CardPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { Box } from '@mui/material';
 import React from 'react';

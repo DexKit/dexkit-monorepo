@@ -12,7 +12,16 @@
       "ScriptHost",
       "ES2016.Array.Include",
       "ES2021.String"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@dexkit/ui": ["../dexkit-ui/index.ts"],
+      "@dexkit/ui/*": ["../dexkit-ui/*"],
+      "@dexkit/core": ["../dexkit-core/index.ts"],
+      "@dexkit/core/*": ["../dexkit-core/*"],
+      "@dexkit/web3forms/*": ["../web3forms/*"],
+      "@dexkit/exchange/*": ["../dexkit-exchange/*"]
+    }
   },
   "exclude": ["dist", "build", "node_modules"]
 }

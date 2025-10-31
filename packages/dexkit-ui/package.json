@@ -10,64 +10,404 @@
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=16384\" tsup",
     "release": "changeset publish",
     "extract": "formatjs extract",
     "generate-lang-files": "yarn extract './**/*.ts*' --ignore='**/*.d.ts' --out-file lang/main.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
-    "@mui/lab": "^7.0.0-alpha.170",
-    "@storybook/addon-actions": "^7.0.26",
-    "@storybook/addon-essentials": "^7.0.26",
-    "@storybook/addon-interactions": "^7.0.26",
-    "@storybook/addon-links": "^7.0.26",
-    "@storybook/nextjs": "^7.0.26",
-    "@storybook/react": "^7.0.26",
-    "@storybook/react-vite": "^7.0.26",
-    "@storybook/testing-library": "^0.2.0",
-    "@types/papaparse": "^5.3.9",
-    "babel-loader": "^8.3.0",
-    "eslint": "^7.32.0",
+    "@babel/core": "^7.28.5",
+    "@mui/lab": "^7.0.1-beta.18",
+    "@storybook/addon-actions": "^9.0.8",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^10.0.2",
+    "@storybook/nextjs": "^10.0.2",
+    "@storybook/react": "^10.0.2",
+    "@storybook/react-vite": "^10.0.2",
+    "@storybook/testing-library": "^0.2.2",
+    "@types/papaparse": "^5.3.16",
+    "babel-loader": "^10.0.0",
+    "eslint": "^9.38.0",
     "eslint-config-custom": "*",
     "react-docgen-typescript-loader": "^3.7.2",
-    "ts-loader": "^9.4.2",
+    "ts-loader": "^9.5.4",
     "tsconfig": "*",
-    "tsup": "^6.5.0",
-    "typescript": "5.8.3",
-    "vite": "^4.2.1"
+    "tsup": "^8.5.0",
+    "typescript": "5.9.3",
+    "@types/minimatch": "^5.1.2",
+    "vite": "^7.1.12"
   },
   "dependencies": {
     "@dexkit/core": "*",
     "@dexkit/evm-chains": "1.15.2",
     "@dexkit/wallet-connectors": "*",
-    "@emotion/cache": "^11.7.1",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.4.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.14.1",
     "@indexed-finance/multicall": "^2.0.0",
-    "@mui/icons-material": "7.3.2",
-    "@mui/lab": "^7.0.0-alpha.170",
-    "@mui/material": "7.3.2",
+    "@mui/icons-material": "7.3.4",
+    "@mui/lab": "^7.0.1-beta.18",
+    "@mui/material": "7.3.4",
     "@mui/x-data-grid": "^7.27.0",
     "@mui/x-date-pickers": "^7.27.0",
     "@noble/curves": "^1.8.1",
     "@transak/transak-sdk": "^3.0.1",
-    "decimal.js": "^10.4.3",
+    "decimal.js": "^10.6.0",
     "ethers": "^5.7.2",
     "jotai": "1.6.5",
     "jwt-decode": "^3.1.2",
-    "notistack": "^2.0.8",
-    "papaparse": "^5.4.1",
+    "notistack": "^3.0.2",
+    "papaparse": "^5.5.3",
     "qr-scanner": "^1.4.2",
     "react-intersection-observer": "^9.8.0",
     "react-markdown": "^8.0.3",
     "react-mask-editor": "^0.0.2",
-    "react-qr-code": "^2.0.15",
+    "react-qr-code": "^2.0.18",
     "react-window": "^1.8.10",
     "remark-gfm": "^3.0.1",
     "swiper": "^11.2.4",
-    "yet-another-react-lightbox": "^3.17.0",
+    "yet-another-react-lightbox": "^3.25.0",
     "zod": "^3.22.4"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.js"
+    },
+    "./hooks/useBlockNumber": {
+      "types": "./dist/hooks/useBlockNumber.d.ts",
+      "import": "./dist/hooks/useBlockNumber.js"
+    },
+    "./hooks/payments": {
+      "types": "./dist/hooks/payments.d.ts",
+      "import": "./dist/hooks/payments.js"
+    },
+    "./hooks/auth": {
+      "types": "./dist/hooks/auth.d.ts",
+      "import": "./dist/hooks/auth.js"
+    },
+    "./hooks/gatedConditions": {
+      "types": "./dist/hooks/gatedConditions.d.ts",
+      "import": "./dist/hooks/gatedConditions.js"
+    },
+    "./hooks/app/useProtectedAppConfig": {
+      "types": "./dist/hooks/app/useProtectedAppConfig.d.ts",
+      "import": "./dist/hooks/app/useProtectedAppConfig.js"
+    },
+    "./components": {
+      "types": "./dist/components.d.ts",
+      "import": "./dist/components.js"
+    },
+    "./components/AppLink": {
+      "types": "./dist/components/AppLink.d.ts",
+      "import": "./dist/components/AppLink.js"
+    },
+    "./components/AppDialogTitle": {
+      "types": "./dist/components/AppDialogTitle.d.ts",
+      "import": "./dist/components/AppDialogTitle.js"
+    },
+    "./components/CopyIconButton": {
+      "types": "./dist/components/CopyIconButton.d.ts",
+      "import": "./dist/components/CopyIconButton.js"
+    },
+    "./components/LazyComponent": {
+      "types": "./dist/components/LazyComponent.d.ts",
+      "import": "./dist/components/LazyComponent.js"
+    },
+    "./components/CodeSection": {
+      "types": "./dist/components/CodeSection.d.ts",
+      "import": "./dist/components/CodeSection.js"
+    },
+    "./components/DecimalInput": {
+      "types": "./dist/components/DecimalInput.d.ts",
+      "import": "./dist/components/DecimalInput.js"
+    },
+    "./components/gated-content/GatedConditionView": {
+      "types": "./dist/components/gated-content/GatedConditionView.d.ts",
+      "import": "./dist/components/gated-content/GatedConditionView.js"
+    },
+    "./components/ConnectWalletButton": {
+      "types": "./dist/components/ConnectWalletButton.d.ts",
+      "import": "./dist/components/ConnectWalletButton.js"
+    },
+    "./components/dialogs/AddCreditDialog": {
+      "types": "./dist/components/dialogs/AddCreditDialog.d.ts",
+      "import": "./dist/components/dialogs/AddCreditDialog.js"
+    },
+    "./components/EvmReceiveQRCode": {
+      "types": "./dist/components/EvmReceiveQRCode.d.ts",
+      "import": "./dist/components/EvmReceiveQRCode.js"
+    },
+    "./components/Widget": {
+      "types": "./dist/components/Widget.d.ts",
+      "import": "./dist/components/Widget.js"
+    },
+    "./providers/ThirdwebV4Provider": {
+      "types": "./dist/providers/ThirdwebV4Provider.d.ts",
+      "import": "./dist/providers/ThirdwebV4Provider.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js"
+    },
+    "./modules/swap/constants": {
+      "types": "./dist/modules/swap/constants.d.ts",
+      "import": "./dist/modules/swap/constants.js"
+    },
+    "./modules/nft/utils": {
+      "types": "./dist/modules/nft/utils.d.ts",
+      "import": "./dist/modules/nft/utils.js"
+    },
+    "./modules/nft/hooks": {
+      "types": "./dist/modules/nft/hooks.d.ts",
+      "import": "./dist/modules/nft/hooks.js"
+    },
+    "./modules/commerce/components/CommerceSection": {
+      "types": "./dist/modules/commerce/components/CommerceSection.d.ts",
+      "import": "./dist/modules/commerce/components/CommerceSection.js"
+    },
+    "./modules/nft/components/AssetMedia": {
+      "types": "./dist/modules/nft/components/AssetMedia.d.ts",
+      "import": "./dist/modules/nft/components/AssetMedia.js"
+    },
+    "./modules/nft/components/AssetImage": {
+      "types": "./dist/modules/nft/components/AssetImage.d.ts",
+      "import": "./dist/modules/nft/components/AssetImage.js"
+    },
+    "./modules/nft/components/NFTCardMedia": {
+      "types": "./dist/modules/nft/components/NFTCardMedia.d.ts",
+      "import": "./dist/modules/nft/components/NFTCardMedia.js"
+    },
+    "./modules/swap/hooks": {
+      "types": "./dist/modules/swap/hooks.d.ts",
+      "import": "./dist/modules/swap/hooks.js"
+    },
+    "./modules/nft/components/AssetListOrderbook": {
+      "types": "./dist/modules/nft/components/AssetListOrderbook.d.ts",
+      "import": "./dist/modules/nft/components/AssetListOrderbook.js"
+    },
+    "./constants": {
+      "types": "./dist/constants.d.ts",
+      "import": "./dist/constants.js"
+    },
+    "./modules/nft/components/AssetFromApi": {
+      "types": "./dist/modules/nft/components/AssetFromApi.d.ts",
+      "import": "./dist/modules/nft/components/AssetFromApi.js"
+    },
+    "./modules/nft/components/CollectionFromApi": {
+      "types": "./dist/modules/nft/components/CollectionFromApi.d.ts",
+      "import": "./dist/modules/nft/components/CollectionFromApi.js"
+    },
+    "./modules/nft/components/AssetLeftSection": {
+      "types": "./dist/modules/nft/components/AssetLeftSection.d.ts",
+      "import": "./dist/modules/nft/components/AssetLeftSection.js"
+    },
+    "./modules/nft/components/AssetOptionsProvider": {
+      "types": "./dist/modules/nft/components/AssetOptionsProvider.d.ts",
+      "import": "./dist/modules/nft/components/AssetOptionsProvider.js"
+    },
+    "./modules/nft/components/AssetPageActions": {
+      "types": "./dist/modules/nft/components/AssetPageActions.d.ts",
+      "import": "./dist/modules/nft/components/AssetPageActions.js"
+    },
+    "./modules/nft/components/AssetPageTitle": {
+      "types": "./dist/modules/nft/components/AssetPageTitle.d.ts",
+      "import": "./dist/modules/nft/components/AssetPageTitle.js"
+    },
+    "./modules/nft/components/AssetPricePaper": {
+      "types": "./dist/modules/nft/components/AssetPricePaper.d.ts",
+      "import": "./dist/modules/nft/components/AssetPricePaper.js"
+    },
+    "./modules/nft/components/AssetRightSection": {
+      "types": "./dist/modules/nft/components/AssetRightSection.d.ts",
+      "import": "./dist/modules/nft/components/AssetRightSection.js"
+    },
+    "./modules/nft/components/AssetTabs": {
+      "types": "./dist/modules/nft/components/AssetTabs.d.ts",
+      "import": "./dist/modules/nft/components/AssetTabs.js"
+    },
+    "./modules/nft/services/query": {
+      "types": "./dist/modules/nft/services/query.d.ts",
+      "import": "./dist/modules/nft/services/query.js"
+    },
+    "./modules/nft/services": {
+      "types": "./dist/modules/nft/services.d.ts",
+      "import": "./dist/modules/nft/services.js"
+    },
+    "./modules/nft/services/collection": {
+      "types": "./dist/modules/nft/services/collection.d.ts",
+      "import": "./dist/modules/nft/services/collection.js"
+    },
+    "./services/auth": {
+      "types": "./dist/services/auth.d.ts",
+      "import": "./dist/services/auth.js"
+    },
+    "./services/app": {
+      "types": "./dist/services/app.d.ts",
+      "import": "./dist/services/app.js"
+    },
+    "./services/app/config": {
+      "types": "./dist/services/app/config.d.ts",
+      "import": "./dist/services/app/config.js"
+    },
+    "./constants/api": {
+      "types": "./dist/constants/api.d.ts",
+      "import": "./dist/constants/api.js"
+    },
+    "./constants/enum": {
+      "types": "./dist/constants/enum.d.ts",
+      "import": "./dist/constants/enum.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./config/app.minimal.json": {
+      "default": "./dist/config/app.minimal.json"
+    },
+    "./config/app.json": {
+      "default": "./dist/config/app.json"
+    },
+    "./constants/messages/common": {
+      "types": "./dist/constants/messages/common.d.ts",
+      "import": "./dist/constants/messages/common.js"
+    },
+    "./hooks/useLocale": {
+      "types": "./dist/hooks/useLocale.d.ts",
+      "import": "./dist/hooks/useLocale.js"
+    },
+    "./hooks/useAppConfig": {
+      "types": "./dist/hooks/useAppConfig.d.ts",
+      "import": "./dist/hooks/useAppConfig.js"
+    },
+    "./hooks/useSiteId": {
+      "types": "./dist/hooks/useSiteId.d.ts",
+      "import": "./dist/hooks/useSiteId.js"
+    },
+    "./providers/DexkitProvider": {
+      "types": "./dist/providers/DexkitProvider.d.ts",
+      "import": "./dist/providers/DexkitProvider.js"
+    },
+    "./providers/SiteProvider": {
+      "types": "./dist/providers/SiteProvider.d.ts",
+      "import": "./dist/providers/SiteProvider.js"
+    },
+    "./providers/authStateProvider": {
+      "types": "./dist/providers/authStateProvider.d.ts",
+      "import": "./dist/providers/authStateProvider.js"
+    },
+    "./providers/authProvider": {
+      "types": "./dist/providers/authProvider.d.ts",
+      "import": "./dist/providers/authProvider.js"
+    },
+    "./providers/configWizardProvider": {
+      "types": "./dist/providers/configWizardProvider.d.ts",
+      "import": "./dist/providers/configWizardProvider.js"
+    },
+    "./context/AppConfigContext": {
+      "types": "./dist/context/AppConfigContext.d.ts",
+      "import": "./dist/context/AppConfigContext.js"
+    },
+    "./context/AdminContext": {
+      "types": "./dist/context/AdminContext.d.ts",
+      "import": "./dist/context/AdminContext.js"
+    },
+    "./modules/nft/types": {
+      "types": "./dist/modules/nft/types.d.ts",
+      "import": "./dist/modules/nft/types.js"
+    },
+    "./modules/swap/types": {
+      "types": "./dist/modules/swap/types.d.ts",
+      "import": "./dist/modules/swap/types.js"
+    },
+    "./modules/wizard/types": {
+      "types": "./dist/modules/wizard/types.d.ts",
+      "import": "./dist/modules/wizard/types.js"
+    },
+    "./modules/wizard/types/config": {
+      "types": "./dist/modules/wizard/types/config.d.ts",
+      "import": "./dist/modules/wizard/types/config.js"
+    },
+    "./modules/wizard/types/section": {
+      "types": "./dist/modules/wizard/types/section.d.ts",
+      "import": "./dist/modules/wizard/types/section.js"
+    },
+    "./modules/wizard/hooks/widget": {
+      "types": "./dist/modules/wizard/hooks/widget.d.ts",
+      "import": "./dist/modules/wizard/hooks/widget.js"
+    },
+    "./modules/nft/components/AssetHead": {
+      "types": "./dist/modules/nft/components/AssetHead.d.ts",
+      "import": "./dist/modules/nft/components/AssetHead.js"
+    },
+    "./components/layouts/authMain": {
+      "types": "./dist/components/layouts/authMain.d.ts",
+      "import": "./dist/components/layouts/authMain.js"
+    },
+    "./components/layouts/main": {
+      "types": "./dist/components/layouts/main.d.ts",
+      "import": "./dist/components/layouts/main.js"
+    },
+    "./components/PageHeader": {
+      "types": "./dist/components/PageHeader.d.ts",
+      "import": "./dist/components/PageHeader.js"
+    },
+    "./components/LoginAppButton": {
+      "types": "./dist/components/LoginAppButton.d.ts",
+      "import": "./dist/components/LoginAppButton.js"
+    },
+    "./components/ConnectButton": {
+      "types": "./dist/components/ConnectButton.d.ts",
+      "import": "./dist/components/ConnectButton.js"
+    },
+    "./modules/nft/components": {
+      "types": "./dist/modules/nft/components.d.ts",
+      "import": "./dist/modules/nft/components.js"
+    },
+    "./modules/nft/components/container/AssetStoreContainer": {
+      "types": "./dist/modules/nft/components/container/AssetStoreContainer.d.ts",
+      "import": "./dist/modules/nft/components/container/AssetStoreContainer.js"
+    },
+    "./modules/admin/components/tables/MaketplacesTableSkeleton": {
+      "types": "./dist/modules/admin/components/tables/MaketplacesTableSkeleton.d.ts",
+      "import": "./dist/modules/admin/components/tables/MaketplacesTableSkeleton.js"
+    },
+    "./modules/admin/components/tables/MarketplacesTableV2": {
+      "types": "./dist/modules/admin/components/tables/MarketplacesTableV2.d.ts",
+      "import": "./dist/modules/admin/components/tables/MarketplacesTableV2.js"
+    },
+    "./modules/admin/components/tables/PageTemplatesTable": {
+      "types": "./dist/modules/admin/components/tables/PageTemplatesTable.d.ts",
+      "import": "./dist/modules/admin/components/tables/PageTemplatesTable.js"
+    },
+    "./modules/admin/components/tables/Widgets": {
+      "types": "./dist/modules/admin/components/tables/Widgets.d.ts",
+      "import": "./dist/modules/admin/components/tables/Widgets.js"
+    },
+    "./modules/whitelabel/hooks/useWhitelabelConfigsByOwnerPaginatedQuery": {
+      "types": "./dist/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerPaginatedQuery.d.ts",
+      "import": "./dist/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerPaginatedQuery.js"
+    },
+    "./modules/whitelabel/hooks/useSendWidgetConfigMutation": {
+      "types": "./dist/modules/whitelabel/hooks/useSendWidgetConfigMutation.d.ts",
+      "import": "./dist/modules/whitelabel/hooks/useSendWidgetConfigMutation.js"
+    },
+    "./hooks/wallet": {
+      "types": "./dist/hooks/wallet.d.ts",
+      "import": "./dist/hooks/wallet.js"
+    },
+    "./config/widget.json": {
+      "default": "./dist/config/widget.json"
+    }
   },
   "publishConfig": {
     "access": "public"
