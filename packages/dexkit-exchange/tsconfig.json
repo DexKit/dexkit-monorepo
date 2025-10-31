@@ -8,6 +8,12 @@
     "typeRoots": [
       "node_modules/@0x/typescript-typings/types",
       "node_modules/@types"
-    ]
+    ],
+    "paths": {
+      "@dexkit/core": ["../dexkit-core/index.ts"],
+      "@dexkit/core/*": ["../dexkit-core/*"],
+      "@dexkit/ui/*": ["../dexkit-ui/*"],
+      "@dexkit/ui": ["../dexkit-ui/index.ts"]
+    }
   }
 }

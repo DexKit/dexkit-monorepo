@@ -6,8 +6,8 @@ import { Token, TokenPrices } from "../types";
 import { isAddressEqual } from "../utils";
 export * from './balances';
 
-import { ChainId } from "@dexkit/core/constants/enums";
 import axios from "axios";
+import { ChainId } from "../constants/enums";
 
 export const getERC20TokenAllowance = async (
   signer: providers.JsonRpcSigner,

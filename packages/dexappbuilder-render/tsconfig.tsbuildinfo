@@ -1,1 +1,1 @@
-{"root":["./src/createEmotionCache.ts","./src/index.tsx","./src/theme.ts","./src/components/AppMarketplaceProvider.tsx","./src/state/atoms.ts","./src/themes/boredape.ts","./src/themes/cryptopunk.ts","./src/themes/custom.ts","./src/themes/index.ts","./src/themes/kittygotchi.ts","./src/types/app.ts","./src/types/blockchain.ts","./src/utils/intl.ts"],"errors":true,"version":"5.8.3"}
+{"root":["./src/createEmotionCache.ts","./src/index.tsx","./src/widget.tsx","./src/components/AppMarketplaceProvider.tsx"],"version":"5.9.3"}

@@ -25,7 +25,15 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
   entry: {
-    index: 'index.tsx'
+    index: 'index.tsx',
+    'components/Card': 'components/Card.tsx',
+    'components/NFTGrid': 'components/NFTGrid.tsx',
+    'components/ProtectedContent': 'components/ProtectedContent.tsx',
+    'components/SectionsRenderer': 'components/SectionsRenderer.tsx',
+    'components/sections/AssetSection': 'components/sections/AssetSection/index.tsx',
+    'state/atoms': 'state/atoms.ts',
+    'themes/theme': 'themes/theme.ts',
+    'utils/intl': 'utils/intl.ts'
   },
   esbuildOptions(options) {
     options.alias = {
@@ -33,12 +41,18 @@ export default defineConfig({
     }
   },
   injectStyle: true,
-  format: ['iife', 'esm'],
+  format: ['esm'],
   //shims: true,
   minify: true,
   dts: true,
-
-  // esbuildPlugins: [replaceNodeBuiltIns()],
-  // plugins: [replaceNodeBuiltIns()],
-  //platform: 'browser'
+  platform: 'browser',
+  external: [
+    'next', 'next/*',
+    '@dexkit/ui', '@dexkit/ui/*',
+    '@dexkit/core', '@dexkit/core/*',
+    '@dexkit/exchange', '@dexkit/exchange/*',
+    '@dexkit/web3forms', '@dexkit/web3forms/*',
+    '@dexkit/dexappbuilder-viewer/*',
+    'fs', 'stream', 'zlib', 'http', 'https', 'crypto'
+  ]
 })

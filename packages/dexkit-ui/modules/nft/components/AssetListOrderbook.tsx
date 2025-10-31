@@ -1,38 +1,53 @@
-import { ChainId } from "@dexkit/core/constants";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import StoreIcon from "@mui/icons-material/Store";
+import { Grid, Stack, Typography } from "@mui/material";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
-import Link from "../../../components/AppLink";
-
-import { useAssetListFromOrderbook } from "../hooks";
-import { AssetCard } from "./AssetCard";
+import { useAssetsOrderBook } from "../hooks";
+import { parseAssetApi } from "../utils";
+import { BaseAssetCard } from "./BaseAssetCard";
+import { BaseAssetCardSkeleton } from "./BaseAssetCardSkeleton";
 
 interface Props {
-  contractAddress: string;
-  chainId?: ChainId;
-  search?: string;
+  contractAddress?: string;
+  chainId?: number;
 }
 
-export function AssetList({ contractAddress, search, chainId }: Props) {
-  const { data: assets } = useAssetListFromOrderbook({
-    nftToken: contractAddress as string,
+export function AssetList({ contractAddress, chainId }: Props) {
+  const assetOrderbookQuery = useAssetsOrderBook({
     chainId,
+    nftToken: contractAddress?.toLowerCase(),
   });
 
-  const filteredAssets = useMemo(() => {
-    return assets;
-  }, [search]);
+  const orderbook = assetOrderbookQuery.data;
+  const isLoading = assetOrderbookQuery.isLoading;
+
+  const filteredOrderbook = useMemo(() => {
+    return orderbook?.data || [];
+  }, [orderbook?.data]);
 
   return (
     <Grid container spacing={2}>
-      {filteredAssets?.map((asset, index) => (
-        <Grid size={{ xs: 6, sm: 2 }} key={index}>
-          <AssetCard asset={asset} lazyLoadMetadata />
+      {isLoading &&
+        [1, 2, 3, 4, 5].map((_, index) => (
+          <Grid size={{ xs: 6, sm: 3 }} key={index}>
+            <BaseAssetCardSkeleton />
+          </Grid>
+        ))}
+
+      {filteredOrderbook?.map((orderBookItem, index) => (
+        <Grid size={{ xs: 6, sm: 3 }} key={index}>
+          <BaseAssetCard
+            showAssetDetailsInDialog={true}
+            asset={parseAssetApi(orderBookItem.asset)}
+            orderBookItem={orderBookItem.order}
+            assetMetadata={parseAssetApi(orderBookItem.asset)?.metadata}
+          />
         </Grid>
       ))}
-      {filteredAssets?.length === 0 && (
+      {orderbook?.data?.length === 0 && !isLoading && (
         <Grid size={12}>
           <Stack justifyContent="center" alignItems="center">
+            <StoreIcon fontSize="large" />
             <Typography variant="h6">
               <FormattedMessage
                 id="no.available.offers"
@@ -42,23 +57,10 @@ export function AssetList({ contractAddress, search, chainId }: Props) {
             </Typography>
             <Typography variant="body1" color="textSecondary">
               <FormattedMessage
-                id="start.posting.offers.collection"
-                defaultMessage="Start posting offers for this collection"
-                description="Start posting offers for this collection"
+                id="collection.without.orders"
+                defaultMessage="Collection without listings. Came back later!"
               />
             </Typography>
-            <Button
-              LinkComponent={Link}
-              href="/order/create"
-              color="primary"
-              variant="contained"
-            >
-              <FormattedMessage
-                id="post.offers"
-                defaultMessage="Post offers"
-                description="Post offers"
-              />
-            </Button>
           </Stack>
         </Grid>
       )}

@@ -2,7 +2,7 @@ import {
   COINGECKO_IDS,
   EVM_CHAINS,
   WRAPPED_TOKEN_ADDRESSES,
-} from "@dexkit/evm-chains/constants";
+} from "@dexkit/evm-chains";
 import { Network } from "../types";
 import { ChainId } from "./enums";
 import {
@@ -145,133 +145,6 @@ NETS[ChainId.Mantle] = {
 };
 
 export const NETWORKS = NETS;
-
-/*export const NETWORKS: { [key: number]: Network } = {
-  [ChainId.Ethereum]: {
-    chainId: ChainId.Ethereum,
-    symbol: "ETH",
-    explorerUrl: "https://etherscan.io",
-    name: "Ethereum",
-    slug: "ethereum",
-    coingeckoPlatformId: "ethereum",
-    wrappedAddress: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
-    providerRpcUrl: `https://eth.llamarpc.com`,
-  },
-  [ChainId.Optimism]: {
-    chainId: ChainId.Optimism,
-    symbol: "OP",
-    coinName: "Ethereum",
-    coinSymbol: 'ETH',
-    coinImageUrl: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',
-    explorerUrl: "https://optimistic.etherscan.io",
-    name: "Optimism",
-    slug: "optimism",
-    coingeckoPlatformId: "ethereum",
-    wrappedAddress: "0x4200000000000000000000000000000000000006",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/optimism/info/logo.png",
-    providerRpcUrl: "https://rpc.ankr.com/optimism",
-  },
-  [ChainId.BSC]: {
-    chainId: ChainId.BSC,
-    symbol: "BNB",
-    coinName: 'Binance Coin',
-    explorerUrl: "https://bscscan.com",
-    name: "Smart Chain",
-    slug: "bsc",
-    coingeckoPlatformId: "binancecoin",
-    wrappedAddress: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-    providerRpcUrl: "https://bsc-dataseed.bnbchain.org",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png",
-  },
-  [ChainId.Polygon]: {
-    chainId: ChainId.Polygon,
-    symbol: "MATIC",
-    explorerUrl: "https://polygonscan.com",
-    name: "Polygon",
-    slug: "polygon",
-    coingeckoPlatformId: "matic-network",
-    wrappedAddress: `0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270`,
-    providerRpcUrl: `https://polygon-rpc.com`,
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
-  },
-  [ChainId.Arbitrum]: {
-    chainId: ChainId.Arbitrum,
-    symbol: "ARB",
-    coinName: "Ethereum",
-    coinSymbol: 'ETH',
-    coinImageUrl: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',
-    explorerUrl: "https://arbiscan.io",
-    name: "Arbitrum",
-    slug: "arbitrum",
-    coingeckoPlatformId: "ethereum",
-    wrappedAddress: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png",
-    providerRpcUrl: "https://rpc.ankr.com/arbitrum",
-  },
-
-
-
-  [ChainId.Avax]: {
-    chainId: ChainId.Avax,
-    symbol: "AVAX",
-    explorerUrl: "https://snowtrace.io",
-    name: "Avalanche",
-    slug: "avalanche",
-    coingeckoPlatformId: "avalanche-2",
-    wrappedAddress: "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
-    providerRpcUrl: "https://api.avax.network/ext/bc/C/rpc",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/avalanchec/info/logo.png",
-  },
-  [ChainId.Base]: {
-    chainId: ChainId.Base,
-    symbol: "BASE",
-    coinName: "Ethereum",
-    coinSymbol: 'ETH',
-    coinImageUrl: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',
-    explorerUrl: "https://basescan.org",
-    name: "Base",
-    slug: "base",
-    coingeckoPlatformId: "base",
-    wrappedAddress: "0x4200000000000000000000000000000000000006",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
-    providerRpcUrl: "https://mainnet.base.org",
-  },
-
-  [ChainId.Goerli]: {
-    chainId: ChainId.Goerli,
-    symbol: "GoerliETH",
-    explorerUrl: "https://goerli.etherscan.io/",
-    name: "Goerli",
-    slug: "goerli",
-    coingeckoPlatformId: "ethereum",
-    wrappedAddress: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
-    providerRpcUrl: "https://endpoints.omniatech.io/v1/eth/goerli/public",
-    testnet: IS_TESTNET,
-  },
-  [ChainId.Mumbai]: {
-    chainId: ChainId.Mumbai,
-    symbol: "MATIC",
-    explorerUrl: "https://mumbai.polygonscan.com",
-    name: "Mumbai",
-    slug: "mumbai",
-    coingeckoPlatformId: 'matic-network',
-    wrappedAddress: "0x9c3c9283d3e44854697cd22d3faa240cfb032889",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
-    providerRpcUrl: `https://rpc.ankr.com/polygon_mumbai`,
-    testnet: IS_TESTNET,
-  },
-};*/
 
 export const NETWORK_PROVIDER_URL = (chainId?: ChainId) =>
   chainId && NETWORKS[chainId] ? NETWORKS[chainId].providerRpcUrl : undefined;

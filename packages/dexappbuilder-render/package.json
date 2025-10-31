@@ -23,18 +23,18 @@
   },
   "devDependencies": {
     "tsconfig": "*",
-    "typescript": "5.4.3"
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "@dexkit/dexappbuilder-viewer": "*",
     "@dexkit/evm-chains": "^1.15.2",
     "@dexkit/ui": "*",
-    "@emotion/cache": "^11.7.1",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.4.0",
-    "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "7.3.2",
-    "@mui/lab": "^7.0.0-alpha.170",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "7.3.4",
+    "@mui/lab": "^7.0.1-beta.18",
     "@mui/material": "7.3.2",
     "@mui/x-data-grid": "^7.27.0",
     "@mui/x-date-pickers": "^7.27.0",
@@ -47,7 +47,8 @@
     "next-auth": "^4.20.1",
     "thirdweb": "^5.93.15",
     "react-intl": "^5.24.8",
-    "yet-another-react-lightbox": "^3.17.0"
+    "yet-another-react-lightbox": "^3.17.0",
+    "@tanstack/react-query": "^4.36.1"
   },
   "engines": {
     "node": "22.x"
