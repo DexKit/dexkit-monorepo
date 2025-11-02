@@ -9,9 +9,9 @@
     "node": "22.x"
   },
   "scripts": {
-    "lint": "TIMING=1 eslint \"**/*.ts*\"",
-    "build": "tsc -b",
+    "build": "rimraf dist && tsc -b",
     "dev": "tsc -w",
+    "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "release": "yarn build && changeset publish",
     "extract": "formatjs extract",
     "generate-lang-files": "yarn extract 'src/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/main.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
@@ -19,6 +19,7 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
+    "rimraf": "^5.0.5",
     "tsconfig": "*",
     "typescript": "5.8.3"
   },

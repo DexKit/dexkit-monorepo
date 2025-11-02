@@ -23,24 +23,25 @@ export function loadLocaleData(locale: string) {
 
 
 export function loadLocaleMessages(locale: string) {
+  // Usar rutas desde el package root para que funcionen tanto en desarrollo como con builds compilados
   switch (locale) {
     case "en-US":
-      return import('../constants/compiled-lang/en-US.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/en-US.json');
     case "pt-BR":
-      return import('../constants/compiled-lang/pt-BR.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/pt-BR.json');
     case "es-ES":
-      return import('../constants/compiled-lang/es-ES.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/es-ES.json');
     case "de-DE":
-      return import('../constants/compiled-lang/de-DE.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/de-DE.json');
     case "nn-NO":
-      return import('../constants/compiled-lang/nn-NO.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/nn-NO.json');
     case "fr-FR":
-      return import('../constants/compiled-lang/fr-FR.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/fr-FR.json');
     case "it-IT":
-      return import('../constants/compiled-lang/it-IT.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/it-IT.json');
     case "cs-CZ":
-        return import('../constants/compiled-lang/cs-CZ.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/cs-CZ.json');
     default:
-      return import('../constants/compiled-lang/en-US.json');
+      return import('@dexkit/dexappbuilder-viewer/constants/compiled-lang/en-US.json');
   }
 }

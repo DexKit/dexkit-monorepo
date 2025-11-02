@@ -1,10 +1,10 @@
-import Card from '@dexkit/dexappbuilder-viewer/components/Card';
 import { CardPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { Box } from '@mui/material';
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import Card from '../Card';
 import { usePreviewPlatform } from '../SectionsRenderer';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -74,7 +74,7 @@ export default function CardSection({ section }: Props) {
           },
         },
         '& .react-resizable-handle': {
-          display: editable ? 'block' : 'none', 
+          display: editable ? 'block' : 'none',
         },
       }}
     >

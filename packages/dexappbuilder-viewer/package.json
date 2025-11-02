@@ -2,7 +2,33 @@
   "name": "@dexkit/dexappbuilder-viewer",
   "private": false,
   "version": "2.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./constants/compiled-lang/cs-CZ.json": "./constants/compiled-lang/cs-CZ.json",
+    "./constants/compiled-lang/de-DE.json": "./constants/compiled-lang/de-DE.json",
+    "./constants/compiled-lang/en-US.json": "./constants/compiled-lang/en-US.json",
+    "./constants/compiled-lang/es-ES.json": "./constants/compiled-lang/es-ES.json",
+    "./constants/compiled-lang/fr-FR.json": "./constants/compiled-lang/fr-FR.json",
+    "./constants/compiled-lang/it-IT.json": "./constants/compiled-lang/it-IT.json",
+    "./constants/compiled-lang/nn-NO.json": "./constants/compiled-lang/nn-NO.json",
+    "./constants/compiled-lang/pt-BR.json": "./constants/compiled-lang/pt-BR.json",
+    "./utils/intl": {
+      "types": "./dist/utils/intl.d.ts",
+      "import": "./dist/utils/intl.js"
+    },
+    "./state/atoms": {
+      "types": "./dist/state/atoms.d.ts",
+      "import": "./dist/state/atoms.js"
+    }
+  },
   "scripts": {
+    "build": "rimraf dist && tsc -b",
+    "build:tsup": "rimraf dist && tsup",
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "storybook dev -p 6006",
     "build-umd": "tsup",
@@ -30,6 +56,7 @@
     "eslint-plugin-storybook": "^0.6.12",
     "prop-types": "^15.8.1",
     "react-docgen-typescript-loader": "^3.7.2",
+    "rimraf": "^5.0.5",
     "storybook": "^7.0.22",
     "ts-loader": "^9.4.2",
     "tsconfig": "*",

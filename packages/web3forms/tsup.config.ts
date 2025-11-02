@@ -25,5 +25,7 @@ export default defineConfig({
     'components/ContractFormView': 'components/ContractFormView.tsx',
     'hooks': 'hooks/index.ts',
     'services': 'services/index.ts'
-  }
+  },
+  outDir: 'dist',
+  dts: true
 })

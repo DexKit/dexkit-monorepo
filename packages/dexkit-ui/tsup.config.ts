@@ -1,5 +1,4 @@
 
-
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
@@ -27,6 +26,7 @@ export default defineConfig({
     'modules/wizard/constants': 'modules/wizard/constants/index.ts',
     'modules/wallet/components/containers/EvmWalletContainer': 'modules/wallet/components/containers/EvmWalletContainer.tsx'
   },
+  outDir: 'dist',
   platform: 'browser',
   dts: true
 })

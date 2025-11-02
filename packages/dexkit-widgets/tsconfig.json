@@ -1,12 +1,14 @@
 {
   "extends": "tsconfig/react-library.json",
   "include": ["."],
+  "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "outDir": "dist/",
-    "lib": ["ES5", "ES6", "ESNext", "ES2016", "DOM", "es2017"],
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "lib": ["ES5", "ES6", "ESNext", "ES2016", "ES2022", "DOM", "es2017"],
     "target": "ES6"
-  },
-  "exclude": ["dist", "build"]
+  }
 }

@@ -7,6 +7,8 @@
     "node": "22.x"
   },
   "scripts": {
+    "build": "rimraf dist && tsc -b",
+    "build:tsup": "rimraf dist && tsup",
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -30,6 +32,7 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "react-docgen-typescript-loader": "^3.7.2",
+    "rimraf": "^5.0.5",
     "ts-loader": "^9.4.2",
     "tsconfig": "*",
     "tsup": "^6.5.0",

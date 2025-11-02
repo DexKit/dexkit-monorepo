@@ -8,11 +8,14 @@
     "../dexkit-core/providers/DexKitContext.tsx",
     "../dexappbuilder-viewer/components/WidgetProvider.tsx"
   ],
+  "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "resolveJsonModule": true,
     "moduleResolution": "Bundler",
     "target": "es2020",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
     "lib": ["es2021"]
-  },
-  "exclude": ["dist", "build", "node_modules"]
+  }
 }

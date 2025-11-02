@@ -7,6 +7,8 @@
     "node": "22.x"
   },
   "scripts": {
+    "build": "rimraf dist && tsc -b",
+    "build:tsup": "rimraf dist && tsup",
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "release": "changeset publish"
   },
@@ -15,7 +17,9 @@
     "@types/ua-parser-js": "^0.7.36",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
+    "rimraf": "^5.0.5",
     "tsconfig": "*",
+    "tsup": "^6.5.0",
     "typescript": "5.8.3"
   },
   "dependencies": {

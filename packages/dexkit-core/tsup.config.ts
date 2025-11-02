@@ -1,5 +1,4 @@
 
-
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
@@ -15,6 +14,7 @@ export default defineConfig({
     'constants/enums': 'constants/enums.ts',
     'constants/abis': 'constants/abis/index.ts',
   },
+  outDir: 'dist',
   platform: 'browser',
   dts: true
 })

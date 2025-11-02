@@ -16,13 +16,16 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "rimraf dist && tsc -b",
+    "build:tsup": "rimraf dist && tsup",
     "dev": "tsc -w",
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "release": "changeset publish"
   },
   "devDependencies": {
+    "rimraf": "^5.0.5",
     "tsconfig": "*",
+    "tsup": "^6.5.0",
     "typescript": "5.4.3"
   },
   "dependencies": {

@@ -3,8 +3,11 @@
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
-    "baseUrl": ".", // This must be specified if "paths" is.
+    "baseUrl": ".",
     "moduleResolution": "Bundler",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
     "typeRoots": [
       "node_modules/@0x/typescript-typings/types",
       "node_modules/@types"
