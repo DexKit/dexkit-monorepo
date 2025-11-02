@@ -3,15 +3,16 @@
   "private": false,
   "type": "module",
   "version": "2.0.0",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "type": "./dist/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
     "./widget": {
-      "type": "./dist/widget.d.ts",
+      "types": "./dist/widget.d.ts",
       "import": "./dist/widget.js"
     }
   },

@@ -24,6 +24,18 @@
     "./state/atoms": {
       "types": "./dist/state/atoms.d.ts",
       "import": "./dist/state/atoms.js"
+    },
+    "./components/ProtectedContent": {
+      "types": "./dist/components/ProtectedContent.d.ts",
+      "import": "./dist/components/ProtectedContent.js"
+    },
+    "./components/SectionsRenderer": {
+      "types": "./dist/components/SectionsRenderer.d.ts",
+      "import": "./dist/components/SectionsRenderer.js"
+    },
+    "./themes/theme": {
+      "types": "./dist/themes/theme.d.ts",
+      "import": "./dist/themes/theme.js"
     }
   },
   "scripts": {
