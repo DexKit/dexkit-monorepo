@@ -13,7 +13,6 @@ export default defineConfig({
     'components/dialogs/ChooseNetworkDialog': 'components/dialogs/ChooseNetworkDialog.tsx',
     'components/dialogs/SignMessageDialog': 'components/dialogs/SignMessageDialog.tsx',
     'components/dialogs/SwitchNetworkDialog': 'components/dialogs/SwitchNetworkDialog.tsx',
-    'components/ConnectWalletDialog': 'components/ConnectWalletDialog.tsx',
     'components/dialogs/WatchTransactionDialog': 'components/dialogs/WatchTransactionDialog.tsx',
     'components/dialogs/HoldingKitDialog': 'components/dialogs/HoldingKitDialog.tsx',
     'components/dialogs/SelectCurrencyDialog': 'components/dialogs/SelectCurrencyDialog.tsx',

@@ -10,7 +10,6 @@ export default defineConfig({
     hooks: 'hooks/index.ts',
     services: 'services/index.ts',
     constants: 'constants/index.ts',
-    connectors: 'connectors.ts',
     'constants/network': 'constants/networks.ts',
     'constants/enums': 'constants/enums.ts',
     'constants/abis': 'constants/abis/index.ts',

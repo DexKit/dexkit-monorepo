@@ -1,5 +1,6 @@
 import AppConfirmDialog from "./AppConfirmDialog";
 import AppLink from './AppLink';
+import ConnectWalletDialog from './ConnectWalletDialog';
 import ConnectWalletMessage from './ConnectWalletMessage';
 import DKMDEditor from './DKMDEditor';
 import DKMDEditorField from './DKMDEditorField';
@@ -19,5 +20,5 @@ export * from "./SwitchNetworkButtonWithWarning";
 /* export * from "./ThirdwebProviderWrapper"; */
 export * from "./TransactionUpdater";
 
-export { AppConfirmDialog, AppLink, ConnectWalletMessage, DKMDEditor, DKMDEditorField, DKMDEditorInput, EvmReceiveForm, EvmReceiveQRCode, LazyYoutubeFrame, MarkdownDescriptionField, MarkdownRenderer };
+export { AppConfirmDialog, AppLink, ConnectWalletDialog, ConnectWalletMessage, DKMDEditor, DKMDEditorField, DKMDEditorInput, EvmReceiveForm, EvmReceiveQRCode, LazyYoutubeFrame, MarkdownDescriptionField, MarkdownRenderer };
 
