@@ -1,23 +1,28 @@
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Box } from "@mui/material";
-import { useWeb3React } from "@web3-react/core";
 import { useAtom } from "jotai";
 import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
 
+// @ts-ignore - TypeScript cannot resolve dynamic imports from next/dynamic during compilation
 const SwitchNetworkDialog = dynamic(
+  // @ts-ignore
   () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog")
-);
+) as any;
 
+// @ts-ignore - TypeScript cannot resolve dynamic imports from next/dynamic during compilation
 const ConnectWalletDialog = dynamic(
+  // @ts-ignore
   () => import("@dexkit/ui/components/ConnectWalletDialog")
-);
+) as any;
 
+// @ts-ignore - TypeScript cannot resolve dynamic imports from next/dynamic during compilation
 const WatchTransactionDialog = dynamic(
+  // @ts-ignore
   () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog")
-);
+) as any;
 
-import { useWalletActivate } from "@dexkit/core/hooks";
-import { WalletActivateParams } from "@dexkit/core/types";
+import { useWalletActivate } from "@dexkit/wallet-connectors/hooks";
 
 import { useConnectWalletDialog, useTransactionDialog } from "../hooks";
 import {
@@ -31,7 +36,7 @@ interface Props {
 }
 
 const WidgetLayout = ({ children }: Props) => {
-  const { connector, isActive } = useWeb3React();
+  const { isActive } = useWeb3React();
 
   const transactions = useTransactionDialog();
 
@@ -45,17 +50,17 @@ const WidgetLayout = ({ children }: Props) => {
   };
 
   const handleCloseTransactionDialog = () => {
-    transactions.setRedirectUrl(undefined);
-    transactions.setDialogIsOpen(false);
-    transactions.setHash(undefined);
-    transactions.setType(undefined);
-    transactions.setMetadata(undefined);
-    transactions.setError(undefined);
+    (transactions.setRedirectUrl as (value: string | undefined) => void)(undefined);
+    (transactions.setDialogIsOpen as (value: boolean) => void)(false);
+    (transactions.setHash as (value: string | undefined) => void)(undefined);
+    (transactions.setType as (value: string | undefined) => void)(undefined);
+    (transactions.setMetadata as (value: any) => void)(undefined);
+    (transactions.setError as (value: Error | undefined) => void)(undefined);
   };
 
   const handleCloseSwitchNetworkDialog = () => {
-    setSwitchChainId(undefined);
-    setSwitchOpen(false);
+    (setSwitchChainId as (value: number | undefined) => void)(undefined);
+    (setSwitchOpen as (value: boolean) => void)(false);
   };
 
   const walletActivate = useWalletActivate({
@@ -63,46 +68,24 @@ const WidgetLayout = ({ children }: Props) => {
     selectedWalletAtom,
   });
 
-  const handleActivateWallet = async (params: WalletActivateParams) => {
+  const handleActivateWallet = async (params: {
+    connectorName?: string;
+    loginType?: string;
+    email?: string;
+    icon?: string;
+    rdns?: string;
+    name?: string;
+    connectionType?: string;
+  }) => {
     await walletActivate.mutation.mutateAsync(params);
   };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // connector.activate();
-      const handleNetworkChange = (newNetwork: any, oldNetwork: any) => {
-        if (connector && connector.connectEagerly) {
-          connector.connectEagerly();
-        }
-
-        // When a Provider makes its initial connection, it emits a "network"
-        // event with a null oldNetwork along with the newNetwork. So, if the
-        // oldNetwork exists, it represents a changing network
-        //window.location.reload();
-      };
-
-      if (connector?.provider?.on) {
-        connector?.provider?.on("chainChanged", handleNetworkChange);
-      }
-
-      return () => {
-        if (connector?.provider?.removeListener) {
-          connector?.provider?.removeListener(
-            "chainChanged",
-            handleNetworkChange
-          );
-        }
-      };
+      // Note: connector is undefined in the new useWeb3React hook
+      // Provider events are handled by thirdweb/react hooks
     }
-  }, [connector, connector?.provider]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && connector) {
-      if (connector.connectEagerly) {
-        connector.connectEagerly();
-      }
-    }
-  }, [connector]);
+  }, []);
 
   return (
     <>

@@ -20,12 +20,12 @@ import Image from "next/image";
 import React, { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 
-import Link from "@dexkit/ui/components/AppLink";
-import type { AssetAPI } from "@dexkit/ui/modules/nft/types";
+import Link from "../AppLink";
+import type { AssetAPI } from "../../modules/nft/types";
 import type {
   AppConfig,
   SocialMedia,
-} from "@dexkit/ui/modules/wizard/types/config";
+} from "../../modules/wizard/types/config";
 import NavbarMenu from "../Menu";
 
 const XIcon = (props: any) => (

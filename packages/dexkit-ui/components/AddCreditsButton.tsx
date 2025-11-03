@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
 const AddCreditDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/AddCreditDialog"),
+  () => import("./dialogs/AddCreditDialog"),
   {
     ssr: false,
   }

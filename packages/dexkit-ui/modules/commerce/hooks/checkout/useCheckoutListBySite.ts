@@ -1,6 +1,5 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 import { Checkout } from "../../types";
 
 export const GET_CHECKOUT_LIST_BY_SITE = "GET_CHECKOUT_LIST_BY_SITE";
@@ -11,7 +10,7 @@ export default function useCheckoutListBySite(params: {
   limit: number;
   q?: string;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [GET_CHECKOUT_LIST_BY_SITE, params],

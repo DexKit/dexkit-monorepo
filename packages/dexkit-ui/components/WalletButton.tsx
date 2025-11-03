@@ -1,5 +1,5 @@
 import { truncateAddress } from "@dexkit/core/utils/blockchain";
-import { AccountBalance } from "@dexkit/ui/components/AccountBalance";
+import { AccountBalance } from "./AccountBalance";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";

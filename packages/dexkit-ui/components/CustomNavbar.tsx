@@ -29,7 +29,7 @@ import Image from "next/legacy/image";
 import React, { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
-import Link from "@dexkit/ui/components/AppLink";
+import Link from "./AppLink";
 import {
   useAuthUserQuery,
   useCurrency,

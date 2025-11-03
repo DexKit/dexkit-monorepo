@@ -1,6 +1,5 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export const GET_PRODUCT_IMAGES = "GET_PRODUCT_IMAGES";
 
@@ -11,7 +10,7 @@ export type UseProductImagesParams = {
 export default function useRemoveProductImages({
   productId,
 }: UseProductImagesParams) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(async ({ imageIds }: { imageIds: string[] }) => {
     if (!instance) {

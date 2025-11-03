@@ -1,11 +1,10 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 const GET_CHECKOUT_NETWORKS = "GET_CHECKOUT_NETWORKS";
 
 export default function useCheckoutNetworks() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [GET_CHECKOUT_NETWORKS],

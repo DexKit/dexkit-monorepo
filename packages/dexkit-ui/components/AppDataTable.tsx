@@ -20,6 +20,7 @@ import {
   GridRowModesModel,
   GridRowsProp,
   GridToolbarContainer,
+  GridToolbarProps,
 } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import Papa from "papaparse";
@@ -34,7 +35,7 @@ type ColumnType = {
   editable?: boolean;
 };
 
-interface EditToolbarProps {
+interface EditToolbarProps extends GridToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
     newModel: (oldModel: GridRowModesModel) => GridRowModesModel
@@ -73,7 +74,7 @@ function EditToolbar(props: EditToolbarProps) {
     fileReader.onload = function (ev: ProgressEvent<FileReader>) {
       const text = ev.target?.result;
 
-      if (typeof text === "string") {
+      if (typeof text === "string" && columns) {
         let csv = Papa.parse(text, { header: true });
 
         for (let column of columns) {
@@ -374,7 +375,7 @@ export default function AppDataTable<
 
               return newRow;
             }),
-          },
+          } as any,
         }}
       />
     </Box>

@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestHeaders } from "axios";
-import { ChainId } from "../../constants/enums";
+import { ChainId } from "@dexkit/core/constants/enums";
+import axios, { AxiosInstance } from "axios";
 
 import {
   ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
@@ -22,7 +22,7 @@ export class ZeroExApiClient {
   private axiosInstance: AxiosInstance;
 
   constructor(chainId: ChainId, zeroExApiKey?: string) {
-    const headers: AxiosRequestHeaders = {};
+    const headers: Record<string, string> = {};
 
     if (zeroExApiKey) {
       headers["0x-api-key"] = zeroExApiKey;

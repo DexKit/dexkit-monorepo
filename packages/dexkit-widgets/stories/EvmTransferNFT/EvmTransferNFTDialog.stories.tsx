@@ -61,7 +61,7 @@ Default.args = {
     nft: NFT,
     nftMetadata: NFTMetadata,
   },
-} as EvmTransferNftDialogProps;
+} as unknown as EvmTransferNftDialogProps;
 
 export const Loading = Template.bind({});
 
@@ -80,4 +80,4 @@ Loading.args = {
     nft: NFT,
     nftMetadata: NFTMetadata,
   },
-} as EvmTransferNftDialogProps;
+} as unknown as EvmTransferNftDialogProps;

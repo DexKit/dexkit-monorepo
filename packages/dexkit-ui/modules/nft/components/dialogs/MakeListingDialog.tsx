@@ -35,7 +35,7 @@ import { Token } from "@dexkit/core/types";
 import { Asset, AssetMetadata } from "@dexkit/core/types/nft";
 import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { isAddressEqual } from "@dexkit/core/utils/blockchain";
-import { isValidDecimal } from "@dexkit/core/utils/numbers";
+import { isValidDecimal } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Image from "next/image";

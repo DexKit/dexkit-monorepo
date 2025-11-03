@@ -2,7 +2,7 @@ import { ChainId } from "@dexkit/core/constants";
 import { Grid } from "@mui/material";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { WidgetContext } from "../../src/components/WidgetContext";
-import { OPTIMISM_TOKEN } from "../../src/constants";
+import { OPTIMISM_TOKEN } from "@dexkit/core/constants";
 import { SwapWidget, SwapWidgetProps } from "../../src/widgets/swap";
 import { TEST_TOKENS } from "../SelectCoinList/constants";
 

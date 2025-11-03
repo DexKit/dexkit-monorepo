@@ -1,7 +1,7 @@
 import type { ChainId } from "@dexkit/core";
 import { ERC20Abi } from "@dexkit/core/constants/abis";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
-import { useNetworkProvider } from "@dexkit/core/hooks/blockchain";
+import { useNetworkProvider } from "@dexkit/core/hooks";
 import type { Token } from "@dexkit/core/types";
 import type { CallInput } from "@indexed-finance/multicall";
 import { useMutation } from "@tanstack/react-query";

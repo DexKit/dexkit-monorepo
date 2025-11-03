@@ -1,9 +1,8 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export default function useCheckcart() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(async ({ productIds }: { productIds: string[] }) => {
     if (!instance) {

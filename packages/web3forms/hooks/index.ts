@@ -1,4 +1,5 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
+import { DexkitApiProviderState } from "@dexkit/core/types";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { providers } from "ethers";
 import {
@@ -320,7 +321,7 @@ export function useContractCreation() {
 }
 
 export function useIfpsUploadMutation() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useContext<DexkitApiProviderState>(DexkitApiProvider);
 
   return useMutation(
     async ({
@@ -364,7 +365,7 @@ export function useIfpsUploadMutation() {
 }
 
 export function useServerUploadMutation() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useContext<DexkitApiProviderState>(DexkitApiProvider);
 
   return useMutation(async ({ content }: { content: string }) => {
     if (instance) {
@@ -377,7 +378,7 @@ export function useServerUploadMutation() {
 }
 
 export function useServerUploadMerkleTreeMutation() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useContext<DexkitApiProviderState>(DexkitApiProvider);
 
   return useMutation(
     async ({
@@ -407,7 +408,7 @@ export function useIpfsFileListQuery({
   page?: number;
   onlyImages?: boolean;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useContext<DexkitApiProviderState>(DexkitApiProvider);
 
   return useInfiniteQuery<{ items: { cid: string }[]; nextCursor?: number }>(
     [IPFS_FILE_LIST_QUERY, page],

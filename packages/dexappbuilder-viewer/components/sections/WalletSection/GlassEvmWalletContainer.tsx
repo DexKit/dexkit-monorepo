@@ -74,7 +74,7 @@ import LoginAppButton from "@dexkit/ui/components/LoginAppButton";
 import { myAppsApi } from "@dexkit/ui/constants/api";
 import { useAppConfig, useAuth, useEvmCoins } from "@dexkit/ui/hooks";
 import { useActiveChainIds } from "@dexkit/ui/hooks/blockchain";
-import { useCurrency } from "@dexkit/ui/hooks/currency";
+import { useCurrency } from "@dexkit/ui/hooks";
 import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
 import { useForceThemeMode } from "@dexkit/ui/hooks/theme/useForceThemeMode";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";

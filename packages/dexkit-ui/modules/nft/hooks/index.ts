@@ -1,6 +1,6 @@
 import { ChainId } from "@dexkit/core/constants";
 import { NETWORKS } from "@dexkit/core/constants/networks";
-import { useNetworkProvider } from "@dexkit/core/hooks/blockchain";
+import { useNetworkProvider } from "@dexkit/core/hooks";
 import { Asset, AssetMetadata, SwapApiOrder } from "@dexkit/core/types/nft";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";

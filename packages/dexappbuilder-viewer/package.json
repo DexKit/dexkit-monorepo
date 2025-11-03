@@ -31,11 +31,216 @@
     },
     "./components/SectionsRenderer": {
       "types": "./dist/components/SectionsRenderer.d.ts",
-      "import": "./dist/components/SectionsRenderer.js"
+      "import": "./dist/components/SectionsRenderer.js",
+      "require": "./dist/components/SectionsRenderer.js"
+    },
+    "./components/SectionRender": {
+      "types": "./dist/components/SectionRender.d.ts",
+      "import": "./dist/components/SectionRender.js"
+    },
+    "./constants/section": {
+      "types": "./dist/constants/section.d.ts",
+      "import": "./dist/constants/section.js"
     },
     "./themes/theme": {
       "types": "./dist/themes/theme.d.ts",
       "import": "./dist/themes/theme.js"
+    },
+    "./themes/boredape": {
+      "types": "./dist/themes/boredape.d.ts",
+      "import": "./dist/themes/boredape.js"
+    },
+    "./themes/cryptopunk": {
+      "types": "./dist/themes/cryptopunk.d.ts",
+      "import": "./dist/themes/cryptopunk.js"
+    },
+    "./themes/custom": {
+      "types": "./dist/themes/custom.d.ts",
+      "import": "./dist/themes/custom.js"
+    },
+    "./themes/index": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.js"
+    },
+    "./themes/kittygotchi": {
+      "types": "./dist/themes/kittygotchi.d.ts",
+      "import": "./dist/themes/kittygotchi.js"
+    },
+    "./components/sections/MarketTradeSection": {
+      "types": "./dist/components/sections/MarketTradeSection.d.ts",
+      "import": "./dist/components/sections/MarketTradeSection.js"
+    },
+    "./components/sections/TokenErc20Section": {
+      "types": "./dist/components/sections/TokenErc20Section/index.d.ts",
+      "import": "./dist/components/sections/TokenErc20Section/index.js"
+    },
+    "./components/sections/AssetSection": {
+      "types": "./dist/components/sections/AssetSection/index.d.ts",
+      "import": "./dist/components/sections/AssetSection/index.js"
+    },
+    "./components/sections/CollectionSection": {
+      "types": "./dist/components/sections/CollectionSection.d.ts",
+      "import": "./dist/components/sections/CollectionSection.js"
+    },
+    "./components/sections/DropEditionListSection": {
+      "types": "./dist/components/sections/DropEditionListSection.d.ts",
+      "import": "./dist/components/sections/DropEditionListSection.js"
+    },
+    "./components/sections/EditionDropSection": {
+      "types": "./dist/components/sections/EditionDropSection.d.ts",
+      "import": "./dist/components/sections/EditionDropSection.js"
+    },
+    "./components/sections/NftDropSection": {
+      "types": "./dist/components/sections/NftDropSection.d.ts",
+      "import": "./dist/components/sections/NftDropSection.js"
+    },
+    "./components/sections/TokenDropSection": {
+      "types": "./dist/components/sections/TokenDropSection.d.ts",
+      "import": "./dist/components/sections/TokenDropSection.js"
+    },
+    "./components/sections/StakeErc1155Section": {
+      "types": "./dist/components/sections/StakeErc1155Section.d.ts",
+      "import": "./dist/components/sections/StakeErc1155Section.js"
+    },
+    "./components/sections/StakeErc20Section": {
+      "types": "./dist/components/sections/StakeErc20Section.d.ts",
+      "import": "./dist/components/sections/StakeErc20Section.js"
+    },
+    "./components/sections/StakeErc721Section": {
+      "types": "./dist/components/sections/StakeErc721Section.d.ts",
+      "import": "./dist/components/sections/StakeErc721Section.js"
+    },
+    "./components/NFTGrid": {
+      "types": "./dist/components/NFTGrid.d.ts",
+      "import": "./dist/components/NFTGrid.js"
+    },
+    "./components/NftDropSummary": {
+      "types": "./dist/components/NftDropSummary.d.ts",
+      "import": "./dist/components/NftDropSummary.js"
+    },
+    "./components/sections/ClaimAirdropERC20Section": {
+      "types": "./dist/components/sections/ClaimAirdropERC20Section.d.ts",
+      "import": "./dist/components/sections/ClaimAirdropERC20Section.js"
+    },
+    "./components/sections/ExchangeSection": {
+      "types": "./dist/components/sections/ExchangeSection.d.ts",
+      "import": "./dist/components/sections/ExchangeSection.js"
+    },
+    "./components/sections/RankingSection": {
+      "types": "./dist/components/sections/RankingSection.d.ts",
+      "import": "./dist/components/sections/RankingSection.js"
+    },
+    "./components/page-editor/plugins/AssetAltPlugin": {
+      "types": "./dist/components/page-editor/plugins/AssetAltPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/AssetAltPlugin.js"
+    },
+    "./components/page-editor/plugins/AssetListPlugin": {
+      "types": "./dist/components/page-editor/plugins/AssetListPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/AssetListPlugin.js"
+    },
+    "./components/page-editor/plugins/AssetPlugin": {
+      "types": "./dist/components/page-editor/plugins/AssetPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/AssetPlugin.js"
+    },
+    "./components/page-editor/plugins/ButtonPlugin": {
+      "types": "./dist/components/page-editor/plugins/ButtonPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ButtonPlugin.js"
+    },
+    "./components/page-editor/plugins/CarouselPlugin": {
+      "types": "./dist/components/page-editor/plugins/CarouselPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/CarouselPlugin.js"
+    },
+    "./components/page-editor/plugins/CodeSnippet": {
+      "types": "./dist/components/page-editor/plugins/CodeSnippet.d.ts",
+      "import": "./dist/components/page-editor/plugins/CodeSnippet.js"
+    },
+    "./components/page-editor/plugins/CollectionPlugin": {
+      "types": "./dist/components/page-editor/plugins/CollectionPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/CollectionPlugin.js"
+    },
+    "./components/page-editor/plugins/CollectionsPlugin": {
+      "types": "./dist/components/page-editor/plugins/CollectionsPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/CollectionsPlugin.js"
+    },
+    "./components/page-editor/plugins/ColumnPlugin": {
+      "types": "./dist/components/page-editor/plugins/ColumnPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ColumnPlugin.js"
+    },
+    "./components/page-editor/plugins/ContainerPlugin": {
+      "types": "./dist/components/page-editor/plugins/ContainerPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ContainerPlugin.js"
+    },
+    "./components/page-editor/plugins/ContractFormPlugin": {
+      "types": "./dist/components/page-editor/plugins/ContractFormPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ContractFormPlugin.js"
+    },
+    "./components/page-editor/plugins/CustomContentPluginTwitter": {
+      "types": "./dist/components/page-editor/plugins/CustomContentPluginTwitter.d.ts",
+      "import": "./dist/components/page-editor/plugins/CustomContentPluginTwitter.js"
+    },
+    "./components/page-editor/plugins/CustomLayoutPlugin": {
+      "types": "./dist/components/page-editor/plugins/CustomLayoutPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/CustomLayoutPlugin.js"
+    },
+    "./components/page-editor/plugins/DefaultSlate": {
+      "types": "./dist/components/page-editor/plugins/DefaultSlate.d.ts",
+      "import": "./dist/components/page-editor/plugins/DefaultSlate.js"
+    },
+    "./components/page-editor/plugins/DexGeneratorFormPlugin": {
+      "types": "./dist/components/page-editor/plugins/DexGeneratorFormPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/DexGeneratorFormPlugin.js"
+    },
+    "./components/page-editor/plugins/ExchangePlugin": {
+      "types": "./dist/components/page-editor/plugins/ExchangePlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ExchangePlugin.js"
+    },
+    "./components/page-editor/plugins/GridPlugin": {
+      "types": "./dist/components/page-editor/plugins/GridPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/GridPlugin.js"
+    },
+    "./components/page-editor/plugins/ImagePlugin": {
+      "types": "./dist/components/page-editor/plugins/ImagePlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ImagePlugin.js"
+    },
+    "./components/page-editor/plugins/MediaPlugin": {
+      "types": "./dist/components/page-editor/plugins/MediaPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/MediaPlugin.js"
+    },
+    "./components/page-editor/plugins/QrCodeReceivePayment": {
+      "types": "./dist/components/page-editor/plugins/QrCodeReceivePayment.d.ts",
+      "import": "./dist/components/page-editor/plugins/QrCodeReceivePayment.js"
+    },
+    "./components/page-editor/plugins/SearchNFTPlugin": {
+      "types": "./dist/components/page-editor/plugins/SearchNFTPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/SearchNFTPlugin.js"
+    },
+    "./components/page-editor/plugins/ShowCasePlugin": {
+      "types": "./dist/components/page-editor/plugins/ShowCasePlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/ShowCasePlugin.js"
+    },
+    "./components/page-editor/plugins/StackPlugin": {
+      "types": "./dist/components/page-editor/plugins/StackPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/StackPlugin.js"
+    },
+    "./components/page-editor/plugins/Swap2Plugin": {
+      "types": "./dist/components/page-editor/plugins/Swap2Plugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/Swap2Plugin.js"
+    },
+    "./components/page-editor/plugins/SwapPlugin": {
+      "types": "./dist/components/page-editor/plugins/SwapPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/SwapPlugin.js"
+    },
+    "./components/page-editor/plugins/TokenTradePlugin": {
+      "types": "./dist/components/page-editor/plugins/TokenTradePlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/TokenTradePlugin.js"
+    },
+    "./components/page-editor/plugins/UserContractFormPlugin": {
+      "types": "./dist/components/page-editor/plugins/UserContractFormPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/UserContractFormPlugin.js"
+    },
+    "./components/page-editor/plugins/WidgetPlugin": {
+      "types": "./dist/components/page-editor/plugins/WidgetPlugin.d.ts",
+      "import": "./dist/components/page-editor/plugins/WidgetPlugin.js"
     }
   },
   "scripts": {

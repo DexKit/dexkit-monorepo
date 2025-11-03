@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import Link from "@dexkit/ui/components/AppLink";
+import Link from "./AppLink";
 import { MenuTree } from "@dexkit/ui/modules/wizard/types/config";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import ExpandLess from "@mui/icons-material/ExpandLess";

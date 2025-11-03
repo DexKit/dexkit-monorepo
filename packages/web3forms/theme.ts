@@ -46,4 +46,4 @@ export default createTheme({
   alpha,
   lighten,
   darken,
-})
+} as any)

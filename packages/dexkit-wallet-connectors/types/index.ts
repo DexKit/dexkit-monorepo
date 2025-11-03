@@ -23,3 +23,11 @@ export interface ProviderInfo {
   rdns?: string
 }
 
+export interface BaseActivateParams {
+  connectorName?: string;
+}
+
+export interface DexkitApiProviderState {
+  instance: any | null;
+}
+

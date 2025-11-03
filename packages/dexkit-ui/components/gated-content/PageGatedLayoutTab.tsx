@@ -1,16 +1,17 @@
 import { Box, ButtonBase, Grid, Stack, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
-import MediaDialog from '@dexkit/ui/components/mediaDialog';
-import { AccountFile } from '@dexkit/ui/modules/file/types';
-import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import { Field, Formik, FormikHelpers } from 'formik';
 import { TextField } from 'formik-mui';
 import { useState } from 'react';
-import ChangeListener from '../../../../apps/dexappbuilder/src/modules/wizard/components/ChangeListener';
+import { AccountFile } from '../../modules/file/types';
+import { GatedPageLayout } from '../../modules/wizard/types';
+import MediaDialog from '../mediaDialog';
+// ChangeListener import removed - this file should be excluded from build per tsconfig.json
+// import ChangeListener from '../../../../apps/dexappbuilder/src/modules/wizard/components/ChangeListener';
 
-import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 import ImageIcon from '@mui/icons-material/Image';
+import CompletationProvider from '../CompletationProvider';
 
 export interface PageGatedLayoutTabProps {
   layout?: GatedPageLayout;
@@ -91,13 +92,14 @@ export default function PageGatedLayoutTab({
         setFieldTouched,
       }) => (
         <>
-          {touched.layout && (
+          {/* ChangeListener removed - this file is excluded from build per tsconfig.json */}
+          {/* {touched.layout && (
             <ChangeListener
               values={values}
               isValid={isValid}
               onChange={(values: any) => onSaveGatedLayout(values.layout)}
             />
-          )}
+          )} */}
 
           {showSelect && (
             <MediaDialog

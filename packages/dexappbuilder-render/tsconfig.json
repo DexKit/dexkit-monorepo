@@ -2,10 +2,14 @@
   "extends": "tsconfig/react-library.json",
   "include": ["src/**/*"],
   "compilerOptions": {
+    "composite": true,
     "moduleResolution": "Bundler",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": ".",
     "resolveJsonModule": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
     "target": "es2021",
     "declaration": true,
     "declarationMap": true,
@@ -20,6 +24,16 @@
     "noUncheckedIndexedAccess": false,
     "ignoreDeprecations": "5.0",
     "typeRoots": ["./node_modules/@types"],
+    "paths": {
+      "@dexkit/ui/*": ["../dexkit-ui/dist/*"],
+      "@dexkit/ui": ["../dexkit-ui/dist/index"],
+      "@dexkit/dexappbuilder-viewer/*": ["../dexappbuilder-viewer/dist/*"],
+      "@dexkit/dexappbuilder-viewer": ["../dexappbuilder-viewer/dist/index"],
+      "@dexkit/core/*": ["../dexkit-core/dist/*"],
+      "@dexkit/exchange/*": ["../dexkit-exchange/dist/*"],
+      "@dexkit/widgets/*": ["../dexkit-widgets/dist/*"],
+      "@dexkit/web3forms/*": ["../web3forms/dist/*"]
+    },
     "lib": [
       "DOM",
       "ES6",
@@ -29,5 +43,14 @@
       "ES2021.String"
     ]
   },
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["dist", "build", "node_modules"],
+  "references": [
+    { "path": "../dexappbuilder-viewer" },
+    { "path": "../dexkit-ui" },
+    { "path": "../dexkit-core" },
+    { "path": "../dexkit-exchange" },
+    { "path": "../dexkit-widgets" },
+    { "path": "../web3forms" },
+    { "path": "../dexkit-wallet-connectors" }
+  ]
 }

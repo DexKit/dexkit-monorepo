@@ -1,9 +1,11 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": [".", "../dexkit-ui/hooks/useBlockNumber.ts"],
+  "include": ["."],
   "exclude": ["dist", "build", "node_modules", "tsup.config.ts"],
   "compilerOptions": {
+    "composite": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "moduleResolution": "Bundler",
     "outDir": "./dist",
     "declaration": true,

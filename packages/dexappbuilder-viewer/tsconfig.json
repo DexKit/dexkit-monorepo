@@ -1,17 +1,22 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
+  "include": [".", "**/*.json", "global.d.ts"],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
+    "baseUrl": ".",
     "rootDir": ".",
+    "composite": true,
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
     "target": "es2021",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "skipLibCheck": true,
     "types": [],
+    "skipDefaultLibCheck": true,
     "lib": [
       "DOM",
       "ES6",
@@ -20,6 +25,26 @@
       "ES2016.Array.Include",
       "ES2021.String",
       "ES2022"
-    ]
-  }
+    ],
+    "paths": {
+      "@dexkit/widgets/src/hooks": ["../dexkit-widgets/src/hooks"],
+      "@dexkit/widgets/src/widgets/swap": ["../dexkit-widgets/src/widgets/swap"],
+      "@dexkit/widgets/src/widgets/swap/types": ["../dexkit-widgets/src/widgets/swap/types"],
+      "@dexkit/widgets/src/components/WidgetContext": ["../dexkit-widgets/src/components/WidgetContext"],
+      "@dexkit/widgets/src/constants/tokens": ["../dexkit-widgets/src/constants/tokens"],
+      "@dexkit/web3forms/types": ["../web3forms/types"],
+      "@dexkit/web3forms/components/ContractFormView": ["../web3forms/components/ContractFormView"],
+      "@dexkit/web3forms/constants/validation": ["../web3forms/constants/validation"],
+      "@dexkit/ui/hooks/currency": ["../dexkit-ui/hooks/currency"],
+      "@dexkit/ui/modules/commerce/components/containers/types": ["../dexkit-ui/modules/commerce/components/containers/types"]
+    }
+  },
+  "references": [
+    { "path": "../dexkit-widgets" },
+    { "path": "../dexkit-ui" },
+    { "path": "../dexkit-core" },
+    { "path": "../web3forms" },
+    { "path": "../dexkit-exchange" },
+    { "path": "../dexkit-wallet-connectors" }
+  ]
 }

@@ -11,7 +11,7 @@ export interface SelectIconGridProps {
   filters?: { query?: string; theme?: string };
 }
 
-import { MUI_ICONS } from "@dexkit/ui/constants/icons";
+import { MUI_ICONS } from "../constants/icons";
 
 export default function SelectIconGrid({
   onSelect,

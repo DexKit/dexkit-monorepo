@@ -36,8 +36,13 @@ export function AuthProvider(props: Props) {
     ) {
       loginMutation.mutateAsync().then((d) => {
         setIsLoggedIn(true);
-        if (d?.access_token) {
-          setUser(jwt_decode(d?.access_token));
+        if (d?.access_token && setUser) {
+          const decodedUser = jwt_decode(d?.access_token) as any;
+          // Ensure address is set from account if not in JWT
+          setUser({
+            ...decodedUser,
+            address: decodedUser?.address || account,
+          });
         }
       });
     }
@@ -47,21 +52,31 @@ export function AuthProvider(props: Props) {
     if (setUser) {
       if (isLoggedIn) {
         const accessToken = getAccessToken();
-        if (accessToken) {
-          setUser(jwt_decode(accessToken));
+        if (accessToken && account) {
+          const decodedUser = jwt_decode(accessToken) as any;
+          // Ensure address is set from account if not in JWT
+          setUser({
+            ...decodedUser,
+            address: decodedUser?.address || account,
+          });
         }
       } else {
         setUser(undefined);
       }
     }
-  }, [isLoggedIn, setUser]);
+  }, [isLoggedIn, setUser, account]);
 
   useEffect(() => {
     if (account && setIsLoggedIn && setUser) {
       getAccessTokenAndRefresh({ isWidget })
         .then((accessToken) => {
-          if (accessToken) {
-            setUser(jwt_decode(accessToken));
+          if (accessToken && setUser) {
+            const decodedUser = jwt_decode(accessToken) as any;
+            // Ensure address is set from account if not in JWT
+            setUser({
+              ...decodedUser,
+              address: decodedUser?.address || account,
+            });
             setIsLoggedIn(true);
           } else {
             setIsLoggedIn(false);

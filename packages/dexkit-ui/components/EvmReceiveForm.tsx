@@ -1,7 +1,7 @@
 import { EvmCoin } from "@dexkit/core/types";
 import Token from "@mui/icons-material/Token";
 
-import { useEnsNameQuery } from "@dexkit/core/hooks/wallet";
+import { useEnsNameQuery } from "@dexkit/core/hooks";
 import {
   Autocomplete,
   AutocompleteChangeReason,

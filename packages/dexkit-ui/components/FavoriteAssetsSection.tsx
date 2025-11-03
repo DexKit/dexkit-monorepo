@@ -1,6 +1,6 @@
 import { ChainId } from '@dexkit/core/constants';
-import CloseCircle from '@dexkit/ui/components/icons/CloseCircle';
-import WalletAssetsFilter from '@dexkit/ui/modules/wallet/components/WalletAssetsFilter';
+import CloseCircle from './icons/CloseCircle';
+import WalletAssetsFilter from '../modules/wallet/components/WalletAssetsFilter';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ImportExport from '@mui/icons-material/ImportExport';
@@ -25,9 +25,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { isAddressEqual } from '@dexkit/core/utils/blockchain';
 
 import { Asset } from '@dexkit/core/types/nft';
-import Funnel from '@dexkit/ui/components/icons/Filter';
-import { AssetCard } from '@dexkit/ui/modules/nft/components/AssetCard';
-import { useFavoriteAssets } from '@dexkit/ui/modules/nft/hooks';
+import Funnel from './icons/Filter';
+import { AssetCard } from '../modules/nft/components/AssetCard';
+import { useFavoriteAssets } from '../modules/nft/hooks';
 import RemoveFavoriteDialog from './RemoveFavoriteDialog';
 
 interface Props {

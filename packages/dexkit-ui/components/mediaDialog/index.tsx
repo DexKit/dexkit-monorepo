@@ -51,7 +51,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { AccountFile } from "../../modules/file/types";
 
 import { DexkitApiProvider } from "@dexkit/core/providers";
-import { truncateText } from "@dexkit/core/utils/text";
+import { truncateText } from "@dexkit/core/utils";
 import { myAppsApi } from "../../constants/api";
 import { useWalletConnect } from "../../hooks/wallet";
 import { ConnectButton } from "../ConnectButton";

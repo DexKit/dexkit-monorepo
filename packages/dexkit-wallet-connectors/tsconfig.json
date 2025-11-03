@@ -1,12 +1,18 @@
 {
   "extends": "tsconfig/react-library.json",
   "include": ["."],
-  "exclude": ["dist", "build", "node_modules"],
+  "exclude": ["dist", "build", "node_modules", "tsup.config.ts"],
   "compilerOptions": {
+    "composite": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
+    "skipLibCheck": true,
+    "types": [],
+    "moduleResolution": "Bundler",
+    "typeRoots": ["../node_modules/@types", "./node_modules/@types", "../../node_modules/@types"],
     "lib": [
       "DOM",
       "ES6",

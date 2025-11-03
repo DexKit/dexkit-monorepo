@@ -1,5 +1,5 @@
 import { ChainId } from "@dexkit/core/constants/enums";
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
@@ -8,7 +8,7 @@ import { DeployedContract } from "../../wizard/types";
 export function useImportContract() {
   const { account } = useWeb3React();
 
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(
     async ({
@@ -55,7 +55,7 @@ export function useListDeployedContracts({
   sort?: string[];
   filter?: any;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   const { account } = useWeb3React();
 
   const safeOwner = owner || account?.toLowerCase() || "";
@@ -111,7 +111,7 @@ export function useListDeployedContracts({
 }
 
 export function useContractVisibility() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(
     async ({ visibility, id }: { id: number; visibility: boolean }) => {

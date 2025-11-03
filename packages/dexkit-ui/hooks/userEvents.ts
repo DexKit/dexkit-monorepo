@@ -1,5 +1,5 @@
 import { UserEventsType } from "@dexkit/core/constants/userEvents";
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
@@ -122,7 +122,7 @@ export type CountFilter = {
 export const TOP_USER_EVENTS_QUERY = "TOP_USER_EVENTS_QUERY";
 
 export function useTopUserEvents({ filters }: { filters: CountFilter }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([TOP_USER_EVENTS_QUERY, filters], async () => {
     if (!filters.siteId) {
@@ -146,7 +146,7 @@ export function useTopUserEvents({ filters }: { filters: CountFilter }) {
 const COUNT_USER_EVENTS_QUERY = "COUNT_USER_EVENTS_QUERY";
 
 export function useCountUserEvents({ filters }: { filters: CountFilter }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([COUNT_USER_EVENTS_QUERY, filters], async () => {
     if (!filters.siteId) {
@@ -170,7 +170,7 @@ export function useCountUserEvents({ filters }: { filters: CountFilter }) {
 export const COUNT_EVENT_ACCOUNTS_QUERY = "COUNT_EVENT_ACCOUNTS_QUERY";
 
 export function useCountEventAccounts({ filters }: { filters: CountFilter }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([COUNT_EVENT_ACCOUNTS_QUERY, filters], async () => {
     if (!filters.siteId) {
@@ -205,7 +205,7 @@ type TokenFeesResult = {
 const SWAP_FEES_BY_TOKEN_QUERY = "SWAP_FEES_BY_TOKEN_QUERY";
 
 export function useSwapFeesByToken({ filters }: { filters: CountFilter }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([SWAP_FEES_BY_TOKEN_QUERY, filters], async () => {
     if (!filters.siteId) {
@@ -241,7 +241,7 @@ type DropNFTTokenResult = {
 const COUNT_COLLECTION_DROPS_QUERY = "COUNT_COLLECTION_DROPS_QUERY";
 
 export function useCountDropCollection({ filters }: { filters: CountFilter }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([COUNT_COLLECTION_DROPS_QUERY, filters], async () => {
     if (!filters.siteId) {
@@ -276,7 +276,7 @@ export function useCountDropCollectionByGroup({
   filters: CountFilter;
   group: string;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [COUNT_COLLECTION_DROPS_BY_GROUP_QUERY, filters, group],
@@ -327,7 +327,7 @@ export function useCountDropTokenByGroup({
   filters: CountFilter;
   group: string;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [COUNT_DROP_BY_TOKEN_GROUP_QUERY, filters, group],
@@ -361,7 +361,7 @@ export function useCountDropEditionByGroup({
   filters: CountFilter;
   group: string;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [COUNT_EDITION_DROPS_BY_GROUP_QUERY, filters, group],
@@ -400,7 +400,7 @@ type DropNFTEditionResult = {
 const COUNT_EDITION_DROPS_QUERY = "COUNT_EDITION_DROPS_QUERY";
 
 export function useCountDropEdition({ filters }: { filters: CountFilter }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([COUNT_EDITION_DROPS_QUERY, filters], async () => {
     if (!filters.siteId) {

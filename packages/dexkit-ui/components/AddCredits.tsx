@@ -1,4 +1,4 @@
-import AddCreditsButton from "@dexkit/ui/components/AddCreditsButton";
+import AddCreditsButton from "./AddCreditsButton";
 import {
   usePlanCheckoutMutation,
   useSubscription,

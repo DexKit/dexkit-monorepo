@@ -39,6 +39,9 @@ export interface ReviewMarketOrderDialogProps {
   chainId?: ChainId;
   reasonFailedGasless?: string;
   onConfirm: () => void;
+  isApproving?: boolean;
+  isApproval?: boolean;
+  onApprove?: () => void;
 }
 
 export default function ReviewMarketOrderDialog({

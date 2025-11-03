@@ -1,16 +1,16 @@
 import { useDexKitContext } from "@dexkit/ui";
 import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    NoSsr,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Alert,
+  Box,
+  Button,
+  Chip,
+  NoSsr,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -24,33 +24,34 @@ import Link from "../../../components/AppLink";
 import Calendar from "../../../components/icons/Calendar";
 
 import {
-    useApproveAssetMutation,
-    useAsset,
-    useAssetMetadata,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetMetadata,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from "../../nft/hooks";
 
 import {
-    NETWORK_EXPLORER,
-    NETWORK_SLUG,
+  NETWORK_EXPLORER,
+  NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import {
-    getERC20Decimals,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Symbol,
 } from "@dexkit/core/services/balances";
 import { SwapApiOrder } from "@dexkit/core/types/nft";
 import {
-    ipfsUriToUrl,
-    isAddressEqual,
-    truncateAddress,
+  ipfsUriToUrl,
+  isAddressEqual,
+  truncateAddress,
 } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import AppFeePercentageSpan from "../../../components/AppFeePercentageSpan";
-import { useSwitchNetwork, useTokenList } from "../../../hooks/blockchain";
+import { useTokenList } from "../../../hooks/blockchain";
 import { useCoinPricesQuery, useCurrency } from "../../../hooks/currency";
+import { useSwitchNetwork } from "../../../hooks/ui";
 import { OrderBookItem } from "../../nft/types";
 import { OrderPageActions } from "./OrderPageActions";
 
@@ -76,7 +77,7 @@ function OrderRightSection({ order }: Props) {
 
   const { createNotification, watchTransactionDialog } = useDexKitContext();
 
-  const nftSwapSdk = useSwapSdkV4({provider, chainId, signer});
+  const nftSwapSdk = useSwapSdkV4({ provider, chainId, signer });
 
   const switchNetwork = useSwitchNetwork();
 
@@ -125,8 +126,7 @@ function OrderRightSection({ order }: Props) {
     (hash: string, order: SwapApiOrder) => {
       if (asset !== undefined) {
         watchTransactionDialog.setRedirectUrl(
-          `/asset/${NETWORK_SLUG(asset?.chainId)}/${asset?.contractAddress}/${
-            asset?.id
+          `/asset/${NETWORK_SLUG(asset?.chainId)}/${asset?.contractAddress}/${asset?.id
           }`
         );
 
@@ -209,8 +209,7 @@ function OrderRightSection({ order }: Props) {
       }
 
       watchTransactionDialog.setRedirectUrl(
-        `/asset/${NETWORK_SLUG(asset?.chainId)}/${asset?.contractAddress}/${
-          asset?.id
+        `/asset/${NETWORK_SLUG(asset?.chainId)}/${asset?.contractAddress}/${asset?.id
         }`
       );
 
@@ -356,7 +355,7 @@ function OrderRightSection({ order }: Props) {
     const tempAsset: any = {
       tokenAddress: order?.nftToken,
       tokenId: order?.nftTokenId,
-      type: asset?.protocol === 'ERC1155' ? 'ERC1155' : 'ERC721';,
+      type: asset?.protocol === 'ERC1155' ? 'ERC1155' : 'ERC721',
     };
 
     const status = await nftSwapSdk?.loadApprovalStatus(tempAsset, account);
@@ -577,9 +576,8 @@ function OrderRightSection({ order }: Props) {
           </Typography>
 
           <Link
-            href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${
-              order?.order.maker
-            }`}
+            href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${order?.order.maker
+              }`}
             variant="body2"
             target="_blank"
           >
@@ -599,9 +597,8 @@ function OrderRightSection({ order }: Props) {
               <FormattedMessage id="visible.for" defaultMessage="Visible for" />
             </Typography>
             <Link
-              href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${
-                asset?.owner
-              }`}
+              href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${asset?.owner
+                }`}
               variant="body2"
               target="_blank"
             >

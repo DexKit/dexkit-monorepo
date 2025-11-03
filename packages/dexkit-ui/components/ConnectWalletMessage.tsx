@@ -1,4 +1,4 @@
-import { ConnectWalletButton } from "@dexkit/ui/components/ConnectWalletButton";
+import { ConnectWalletButton } from "./ConnectWalletButton";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import {
   Box,

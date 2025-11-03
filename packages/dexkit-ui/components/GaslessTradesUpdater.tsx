@@ -1,7 +1,7 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useEffect } from "react";
 
-import { useBlockNumber } from "@dexkit/ui/hooks/useBlockNumber";
+import { useBlockNumber } from "../hooks/useBlockNumber";
 import { useDexKitContext } from "../hooks";
 import { useSwapState } from "../modules/swap/hooks";
 import { useGaslessTradeStatusMutation } from "../modules/swap/hooks/useGaslessTradeStatusMutation";

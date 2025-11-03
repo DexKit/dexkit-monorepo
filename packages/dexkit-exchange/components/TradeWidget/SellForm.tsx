@@ -141,7 +141,7 @@ export default function SellForm({
   const handleQuotePrice = async () => {
     const quote = await quoteMutation.mutateAsync({
       buyToken: baseToken.address,
-      chainId: chainId?.toString() || "",
+      chainId: chainId as number,
       sellToken: quoteToken.address,
       affiliateAddress: affiliateAddress || "",
       buyAmount: parseUnits("1.0", baseToken.decimals).toString(),
@@ -206,7 +206,7 @@ export default function SellForm({
 
   const handleApprove = async () => {
     await approveTokenMutation.mutateAsync({
-      onSubmited: (hash: string) => {},
+      onSubmited: (hash: string) => { },
       spender: getZrxExchangeAddress(chainId),
       provider,
       tokenContract: baseToken?.address,
@@ -236,6 +236,7 @@ export default function SellForm({
         makerAmount: parsedAmountBN.toString(),
         makerToken: baseToken.address,
         provider,
+        account,
         takerAmount: total.toString(),
         takerToken: quoteToken.address,
       });

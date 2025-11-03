@@ -3,6 +3,106 @@
   "private": false,
   "version": "2.0.0",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./constants/enums": {
+      "types": "./dist/constants/enums.d.ts",
+      "import": "./dist/constants/enums.js"
+    },
+    "./constants/networks": {
+      "types": "./dist/constants/networks.d.ts",
+      "import": "./dist/constants/networks.js"
+    },
+    "./constants/evmChainImages": {
+      "types": "./dist/constants/evmChainImages.d.ts",
+      "import": "./dist/constants/evmChainImages.js"
+    },
+    "./constants/networkProvider": {
+      "types": "./dist/constants/networkProvider.d.ts",
+      "import": "./dist/constants/networkProvider.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./utils/ethers/*": {
+      "types": "./dist/utils/ethers/*.d.ts",
+      "import": "./dist/utils/ethers/*.js"
+    },
+    "./services": {
+      "types": "./dist/services/index.d.ts",
+      "import": "./dist/services/index.js"
+    },
+    "./utils/blockchain": {
+      "types": "./dist/utils/blockchain.d.ts",
+      "import": "./dist/utils/blockchain.js"
+    },
+    "./utils/browser": {
+      "types": "./dist/utils/browser.d.ts",
+      "import": "./dist/utils/browser.js"
+    },
+    "./utils/ipfs": {
+      "types": "./dist/utils/ipfs.d.ts",
+      "import": "./dist/utils/ipfs.js"
+    },
+    "./utils/numbers": {
+      "types": "./dist/utils/numbers.d.ts",
+      "import": "./dist/utils/numbers.js"
+    },
+    "./hooks/misc": {
+      "types": "./dist/hooks/misc.d.ts",
+      "import": "./dist/hooks/misc.js"
+    },
+    "./hooks/useDexKitContext": {
+      "types": "./dist/hooks/useDexKitContext.d.ts",
+      "import": "./dist/hooks/useDexKitContext.js"
+    },
+    "./constants/userEvents": {
+      "types": "./dist/constants/userEvents.d.ts",
+      "import": "./dist/constants/userEvents.js"
+    },
+    "./constants/permissions": {
+      "types": "./dist/constants/permissions.d.ts",
+      "import": "./dist/constants/permissions.js"
+    },
+    "./providers": {
+      "types": "./dist/providers/index.d.ts",
+      "import": "./dist/providers/index.js"
+    },
+    "./types/nft": {
+      "types": "./dist/types/nft.d.ts",
+      "import": "./dist/types/nft.js"
+    },
+    "./constants/zrx": {
+      "types": "./dist/constants/zrx.d.ts",
+      "import": "./dist/constants/zrx.js"
+    },
+    "./constants/abis": {
+      "types": "./dist/constants/abis/index.d.ts",
+      "import": "./dist/constants/abis/index.js"
+    },
+    "./services/balances": {
+      "types": "./dist/services/balances.d.ts",
+      "import": "./dist/services/balances.js"
+    }
+  },
   "engines": {
     "node": "22.x"
   },

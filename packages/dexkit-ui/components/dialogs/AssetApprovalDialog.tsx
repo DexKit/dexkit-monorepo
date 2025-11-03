@@ -10,7 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { TransactionStatus } from "../../../../apps/dexappbuilder/src/types/blockchain";
+
+// This file is excluded from build per tsconfig.json
+// TransactionStatus enum moved here to avoid dependency on apps/dexappbuilder
+export enum TransactionStatus {
+  Pending = 0,
+  Failed = 1,
+  Confirmed = 2,
+}
 
 interface Props {
   hash?: string;

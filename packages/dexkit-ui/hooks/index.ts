@@ -30,6 +30,7 @@ import { useLocale } from './useLocale';
 export * from "./auth";
 export * from "./blockchain";
 export * from "./currency";
+export * from "./gatedConditions";
 export * from "./ui";
 
 export * from "./useDexkitContextState";
@@ -136,9 +137,11 @@ export const WAIT_TRANSACTION_QUERY = "WAIT_TRANSACTION_QUERY";
 export function useWaitTransactionConfirmation({
   transactionHash,
   provider,
+  signer,
 }: {
   transactionHash?: string;
   provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
 }) {
   return useQuery(
     [WAIT_TRANSACTION_QUERY, transactionHash],

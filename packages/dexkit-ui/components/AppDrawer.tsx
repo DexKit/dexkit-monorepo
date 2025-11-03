@@ -29,31 +29,31 @@ import { FormattedMessage } from "react-intl";
 import DrawerMenu from "./DrawerMenu";
 
 import { useIsMobile } from "@dexkit/core/hooks";
-import WalletContent from "@dexkit/ui/components/WalletContent";
+import QrCodeScanner from "@mui/icons-material/QrCodeScanner";
+import { useAtom } from "jotai";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useState } from "react";
 import {
   useAuthUserQuery,
   useCurrency,
   useLocale,
   useShowSelectCurrency,
   useShowSelectLocale,
-} from "@dexkit/ui/hooks";
-import { useSidebarVariant } from "@dexkit/ui/hooks/useSidebarVariant";
-import QrCodeScanner from "@mui/icons-material/QrCodeScanner";
-import { useAtom } from "jotai";
-import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+} from "../hooks";
+import { useSidebarVariant } from "../hooks/useSidebarVariant";
 import { AppConfig } from "../modules/wizard/types/config";
 import { isMiniSidebarAtom } from "../state";
 import AppDefaultMenuList from "./AppDefaultMenuList";
 import Link from "./AppLink";
 import { ThemeModeSelector } from "./ThemeModeSelector";
+import WalletContent from "./WalletContent";
 
 import { useRouter } from "next/router";
 import { useWalletConnect } from "../hooks/wallet";
 import { ConnectButton } from "./ConnectButton";
 
 const ScanWalletQrCodeDialog = dynamic(
-  async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
+  async () => import("./dialogs/ScanWalletQrCodeDialog")
 );
 
 const CustomListItemSecondaryAction = styled(ListItemSecondaryAction)({

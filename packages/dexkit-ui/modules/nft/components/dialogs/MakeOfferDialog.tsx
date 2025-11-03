@@ -35,11 +35,11 @@ import { useTheme } from "@mui/material";
 import Image from "next/image";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
-import { useErc20Balance } from "@dexkit/core/hooks/coin";
+import { useErc20Balance } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { Asset } from "@dexkit/core/types/nft";
 import { ipfsUriToUrl } from "@dexkit/core/utils/ipfs";
-import { isValidDecimal } from "@dexkit/core/utils/numbers";
+import { isValidDecimal } from "@dexkit/core/utils";
 import * as Yup from "yup";
 import { AppDialogTitle } from "../../../../components/AppDialogTitle";
 import AppFeePercentageSpan from "../../../../components/AppFeePercentageSpan";

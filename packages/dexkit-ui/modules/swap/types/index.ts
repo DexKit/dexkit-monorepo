@@ -52,6 +52,12 @@ export type ZeroExQuote = {
   feeRecipient?: string;
 
   buyTokenPercentageFee?: number;
+
+  skipValidation?: boolean;
+
+  provider?: providers.Web3Provider;
+
+  signer?: providers.JsonRpcSigner;
 };
 
 export type ZeroExQuoteResponse = {
@@ -198,6 +204,12 @@ export type ZeroExQuoteGasless = {
   approval?: any;
 
   trade?: any;
+
+  skipValidation?: boolean;
+
+  provider?: providers.Web3Provider;
+
+  signer?: providers.JsonRpcSigner;
 };
 
 export type ZeroExQuoteMetaTransactionResponse = {

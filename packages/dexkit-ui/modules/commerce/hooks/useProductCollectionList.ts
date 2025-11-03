@@ -1,7 +1,6 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { GridSortModel } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export const GET_PRODUCT_COLLECTION_LIST = "GET_PRODUCT_COLLECTION_LIST";
 
@@ -11,7 +10,7 @@ export default function useProductCollectionList(params: {
   q?: string;
   sortModel?: GridSortModel;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [GET_PRODUCT_COLLECTION_LIST, params],

@@ -134,11 +134,13 @@ export function useTokenAllowanceQuery({
   account,
   spender,
   signer,
+  provider,
 }: {
   account?: string;
   tokenAddress?: string | null;
   spender?: string;
   signer?: providers.JsonRpcSigner;
+  provider?: providers.Web3Provider;
 }) {
   return useQuery(
     [TOKEN_ALLOWANCE_QUERY, tokenAddress, account, spender],
@@ -166,12 +168,14 @@ export function useApproveToken() {
       signer,
       onSubmited,
       amount,
+      provider,
     }: {
       amount?: BigNumber;
       spender?: string;
       tokenContract?: string;
       signer?: providers.JsonRpcSigner;
       onSubmited: (hash: string) => void;
+      provider?: providers.Web3Provider;
     }) => {
       if (!tokenContract || !spender) {
         return;

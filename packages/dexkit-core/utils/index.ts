@@ -10,6 +10,8 @@ import { EvmCoin, TokenWhitelabelApp } from "../types";
 
 export * from "./ipfs";
 export * from "./numbers";
+export * from "./text";
+export * from "./userAgent";
 
 export const omitNull = (obj: any) => {
   Object.keys(obj)

@@ -3,7 +3,38 @@ import { copyToClipboard } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
 import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
 import { ShareType } from "@dexkit/ui/modules/commerce/components/containers/types";
-import { generateShareLink } from "@dexkit/ui/modules/commerce/components/containers/utils";
+
+// Local function equivalent to generateShareLink until the module export is resolved
+function generateShareLink(
+  text: string,
+  url: string,
+  type: ShareType
+): string {
+  const encodedText = encodeURIComponent(text);
+  const encodedURL = encodeURIComponent(url);
+
+  switch (type) {
+    case "telegram":
+      return `https://t.me/share/url?url=${encodedURL}&text=${encodedText}`;
+    case "whatsapp":
+      return `https://wa.me/?text=${encodedText}`;
+    case "pinterest":
+      const imageURL = "https://example.com/image.jpg";
+      return `https://pinterest.com/pin/create/button/?url=${encodedURL}&media=${encodeURIComponent(
+        imageURL
+      )}&description=${encodedText}`;
+    case "email":
+      return `mailto:?body=${encodedText}`;
+    case "link":
+      return url;
+    case "facebook":
+      return `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}&quote=${encodedText}`;
+    case "x":
+      return `https://twitter.com/intent/tweet?text=${encodedText}`;
+    default:
+      throw new Error("Unsupported share type");
+  }
+}
 import EmailIcon from "@mui/icons-material/Email";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import FileCopyIcon from "@mui/icons-material/FileCopy";

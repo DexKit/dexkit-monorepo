@@ -1,10 +1,9 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
 import { CheckoutWebhookSettingsType } from "../types";
 
 export default function useUpdateCheckoutWebhookSettings() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(async (data: CheckoutWebhookSettingsType) => {
     if (!instance) {

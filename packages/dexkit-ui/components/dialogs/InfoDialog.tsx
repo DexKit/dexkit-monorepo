@@ -1,4 +1,4 @@
-import { AppDialogTitle } from '@dexkit/ui/components/AppDialogTitle';
+import { AppDialogTitle } from '../AppDialogTitle';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';

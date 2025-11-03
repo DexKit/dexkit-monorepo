@@ -43,8 +43,7 @@ import dynamic from "next/dynamic";
 import { NetworkSelectButton } from "@dexkit/ui/components/NetworkSelectButton";
 
 import ImportTokenDialog from "@dexkit/ui/components/dialogs/ImportTokenDialog";
-import { useAppConfig, useAuth, useEvmCoins, useSwitchNetworkMutation } from "@dexkit/ui/hooks";
-import { useCurrency } from "@dexkit/ui/hooks/currency";
+import { useAppConfig, useAuth, useEvmCoins, useSwitchNetworkMutation, useCurrency } from "@dexkit/ui/hooks";
 import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
 import UserActivityTable from "@dexkit/ui/modules/wallet/components/UserActivityTable";
 import WalletTableRow from "@dexkit/ui/modules/wallet/components/WalletTableRow";

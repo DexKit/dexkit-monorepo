@@ -1,5 +1,5 @@
-import { AppDialogTitle } from "@dexkit/ui";
-import FormikDecimalInput from "@dexkit/ui/components/FormikDecimalInput";
+import { AppDialogTitle } from "../AppDialogTitle";
+import FormikDecimalInput from "../FormikDecimalInput";
 import {
   useBuyCreditsCheckout,
   useCryptoCheckout,

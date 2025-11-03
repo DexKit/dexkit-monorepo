@@ -1,6 +1,5 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export const NOTIFICATIONS_QUERY = "NOTIFICATIONS_QUERY";
 
@@ -10,7 +9,7 @@ export default function useNotifications(params: {
   status: string;
   scope: string;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([NOTIFICATIONS_QUERY, params], async () => {
     if (!instance) {

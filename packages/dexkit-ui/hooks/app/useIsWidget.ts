@@ -1,4 +1,4 @@
-import { useDexKitContext } from "@dexkit/core/hooks/useDexKitContext";
+import { useDexKitContext } from "@dexkit/core/hooks";
 
 
 

@@ -1,12 +1,12 @@
-import { useWalletActivate } from "@dexkit/core/hooks";
-import { WalletActivateParams } from "@dexkit/core/types";
+import { TokenWhitelabelApp } from "@dexkit/core/types";
 import { DexkitProvider } from "@dexkit/ui/components";
 import ConnectWalletDialog from "@dexkit/ui/components/ConnectWalletDialog";
 import { AppNotification } from "@dexkit/ui/types";
+import { useWalletActivate } from "@dexkit/wallet-connectors/hooks";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { createTheme, Grid } from "@mui/material";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useWeb3React } from "@web3-react/core";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useState } from "react";
@@ -15,6 +15,10 @@ import { SwapWidget, SwapWidgetProps } from "../../src/widgets/swap";
 const transactionsAtom = atom<{}>({});
 const notificationsAtom = atom<AppNotification[]>([]);
 const selectedWalletAtom = atomWithStorage<string>("connector", "");
+const tokensAtom = atom<TokenWhitelabelApp[]>([]);
+const assetsAtom = atom<{ [key: string]: any }>({});
+const hiddenAssetsAtom = atom<{ [key: string]: boolean }>({});
+const currencyUserAtom = atom<string>("usd");
 
 function Component(props: SwapWidgetProps) {
   const { isActive } = useWeb3React();
@@ -35,7 +39,7 @@ function Component(props: SwapWidgetProps) {
           fullWidth: true,
           onClose: handleClose,
         }}
-        activate={async (params: WalletActivateParams) => {
+        activate={async (params: any) => {
           walletActivate.mutation.mutateAsync(params);
         }}
         activeConnectorName={walletActivate.connectorName}
@@ -73,6 +77,10 @@ const Template: ComponentStory<typeof SwapWidget> = (args: SwapWidgetProps) => {
         defaultLocale={locale}
         selectedWalletAtom={selectedWalletAtom}
         transactionsAtom={transactionsAtom}
+        tokensAtom={tokensAtom}
+        assetsAtom={assetsAtom}
+        hiddenAssetsAtom={hiddenAssetsAtom}
+        currencyUserAtom={currencyUserAtom}
         notificationTypes={{}}
         notificationsAtom={notificationsAtom}
         theme={createTheme()}

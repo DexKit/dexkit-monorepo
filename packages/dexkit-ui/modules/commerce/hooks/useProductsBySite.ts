@@ -1,6 +1,5 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export const GET_PRODUCTS_BY_SITE = "GET_PRODUCTS_BY_SITE";
 
@@ -14,7 +13,7 @@ export default function useProductsBySite(params: {
 }) {
   const { siteId, page, limit, query } = params;
 
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([GET_PRODUCTS_BY_SITE, params], async () => {
     if (!instance) {

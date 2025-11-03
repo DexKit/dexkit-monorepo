@@ -7,35 +7,35 @@ import {
   useShowSelectLocale,
   useSignMessageDialog,
   useSwitchNetwork,
-} from "@dexkit/ui/hooks/ui";
+} from "../../hooks/ui";
 
-import { useDexKitContext } from "@dexkit/ui/hooks/useDexKitContext";
+import { useDexKitContext } from "../../hooks/useDexKitContext";
 
 import dynamic from "next/dynamic";
 
 const SignMessageDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SignMessageDialog")
+  () => import("../dialogs/SignMessageDialog")
 );
 const SwitchNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog")
+  () => import("../dialogs/SwitchNetworkDialog")
 );
 
 const WatchTransactionDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog")
+  () => import("../dialogs/WatchTransactionDialog")
 );
 const AppTransactionWatchDialog = dynamic(
-  () => import("@dexkit/ui/components/AppTransactionWatchDialog")
+  () => import("../AppTransactionWatchDialog")
 );
 
 const HoldingKitDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/HoldingKitDialog")
+  () => import("../dialogs/HoldingKitDialog")
 );
 
 const SelectCurrencyDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectCurrencyDialog")
+  () => import("../dialogs/SelectCurrencyDialog")
 );
 const SelectLanguageDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectLanguageDialog")
+  () => import("../dialogs/SelectLanguageDialog")
 );
 
 let runnedEagerly = false;
@@ -153,7 +153,7 @@ export function GlobalDialogs() {
 
   return (
     <>
-      {showSelectCurrency && (
+      {showSelectCurrency.isOpen && (
         <SelectCurrencyDialog
           dialogProps={{
             open: showSelectCurrency.isOpen,
@@ -163,7 +163,7 @@ export function GlobalDialogs() {
           }}
         />
       )}
-      {holdsKitDialog && (
+      {holdsKitDialog.isOpen && (
         <HoldingKitDialog
           dialogProps={{
             open: holdsKitDialog.isOpen,
@@ -174,7 +174,7 @@ export function GlobalDialogs() {
         />
       )}
 
-      {showSelectLocale && (
+      {showSelectLocale.isOpen && (
         <SelectLanguageDialog
           dialogProps={{
             open: showSelectLocale.isOpen,

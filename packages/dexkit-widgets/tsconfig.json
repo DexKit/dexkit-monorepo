@@ -3,12 +3,16 @@
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
+    "composite": true,
+    "rootDir": ".",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "lib": ["ES5", "ES6", "ESNext", "ES2016", "ES2022", "DOM", "es2017"],
-    "target": "ES6"
+    "target": "ES6",
+    "skipLibCheck": true,
+    "types": []
   }
 }

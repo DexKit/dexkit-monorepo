@@ -1,5 +1,5 @@
-import type { AssetAPI } from "@dexkit/ui/modules/nft/types";
-import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
+import type { AssetAPI } from "../../modules/nft/types";
+import type { AppConfig } from "../../modules/wizard/types/config";
 import getLocaleMessages from "../i18n";
 import { getConfig } from "../whitelabel";
 

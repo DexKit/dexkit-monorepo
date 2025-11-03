@@ -58,7 +58,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
-import contractTutorials from "../../../../../../apps/dexappbuilder/src/constants/contract-tutorials.json";
+import contractTutorials from "../../../../constants/contract-tutorials.json";
 import { THIRDWEB_CLIENT_ID } from "../../../../constants/thirdweb";
 import { useSaveContractDeployed } from "../../../forms/hooks";
 

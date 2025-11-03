@@ -1,12 +1,11 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export const GET_PRODUCT_COLLECTION_ITEMS_QUERY =
   "GET_PRODUCT_COLLECTION_ITEMS_QUERY";
 
 export default function useProductCollectionItems(params: { id?: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [GET_PRODUCT_COLLECTION_ITEMS_QUERY, params],

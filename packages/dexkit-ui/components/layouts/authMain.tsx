@@ -1,6 +1,6 @@
 import React from "react";
 
-import { AuthProvider } from "@dexkit/ui/providers/authProvider";
+import { AuthProvider } from "../../providers/authProvider";
 import { ConfigWizardProvider } from "../../providers/configWizardProvider";
 import MainLayout from "./main";
 

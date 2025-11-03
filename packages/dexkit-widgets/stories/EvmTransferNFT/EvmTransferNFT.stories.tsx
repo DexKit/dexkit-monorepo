@@ -52,7 +52,7 @@ Default.args = {
   isLoadingNftMetadata: false,
   nft: NFT,
   nftMetadata: NFTMetadata,
-} as EvmTransferNftProps;
+} as unknown as EvmTransferNftProps;
 
 export const Loading = Template.bind({});
 
@@ -66,4 +66,4 @@ Loading.args = {
   isLoadingNftMetadata: true,
   nft: NFT,
   nftMetadata: NFTMetadata,
-} as EvmTransferNftProps;
+} as unknown as EvmTransferNftProps;

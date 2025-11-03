@@ -1,5 +1,7 @@
 import { Notifications } from "@mui/icons-material";
 
+import type { Transaction as CoreTransaction } from "@dexkit/core/types";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Button,
   Dialog,
@@ -10,7 +12,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useWeb3React } from "@web3-react/core";
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
@@ -29,18 +30,43 @@ export default function AppTransactionsDialog({
   const { onClose } = DialogProps;
   const { chainId } = useWeb3React();
 
-  const [transactions, updateTransactions] = useAtom(transactionsAtom);
+  const [transactions, setTransactions] = useAtom(transactionsAtom);
+
+  const updateTransactions = (
+    updater?: (prev: { [key: string]: CoreTransaction } | undefined) => { [key: string]: CoreTransaction } | undefined
+  ) => {
+    if (updater === undefined) {
+      (setTransactions as (value: { [key: string]: CoreTransaction } | undefined) => void)(undefined);
+      return;
+    }
+    (setTransactions as (updater: (prev: { [key: string]: CoreTransaction } | undefined) => { [key: string]: CoreTransaction } | undefined) => void)((prev: { [key: string]: CoreTransaction } | undefined) => {
+      const coreTxs = prev as { [key: string]: CoreTransaction } | undefined;
+      return updater(coreTxs);
+    });
+  };
 
   const transactionList = useMemo(() => {
-    return Object.keys(transactions as { [key: string]: Transaction }).map(
-      (key) => (transactions as { [key: string]: Transaction })[key]
-    );
+    if (!transactions) return [];
+    const transactionsMap = transactions as { [key: string]: CoreTransaction };
+    return Object.keys(transactionsMap).map((key) => {
+      const coreTx = transactionsMap[key];
+      // Convert Core Transaction to Widget Transaction (add hash field)
+      const widgetTx: Transaction = {
+        hash: key, // Use the key as hash
+        status: coreTx.status,
+        created: coreTx.created,
+        chainId: coreTx.chainId as Transaction["chainId"],
+        checked: coreTx.checked,
+        title: coreTx.title,
+      };
+      return widgetTx;
+    });
   }, [transactions]);
 
   const uncheckedTransactions = useAtomValue(uncheckedTransactionsAtom);
 
   const handleClearNotifications = () => {
-    updateTransactions({});
+    updateTransactions(undefined);
   };
 
   const renderNotificationsList = () => {
@@ -62,8 +88,9 @@ export default function AppTransactionsDialog({
 
   const handleClose = () => {
     if (uncheckedTransactions.length > 0) {
-      updateTransactions((txs: { [key: string]: Transaction }) => {
-        let newTxs: { [key: string]: Transaction } = { ...txs };
+      updateTransactions((txs: { [key: string]: CoreTransaction } | undefined) => {
+        if (!txs) return undefined;
+        let newTxs: { [key: string]: CoreTransaction } = { ...txs };
 
         for (let tx of Object.keys(newTxs)) {
           newTxs[tx] = { ...newTxs[tx], checked: true };

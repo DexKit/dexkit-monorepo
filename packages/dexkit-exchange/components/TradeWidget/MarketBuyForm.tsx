@@ -118,6 +118,8 @@ export default function MarketBuyForm({
     (async () => {
       if (amount && Number(amount) > 0) {
         let newQuote = await quoteMutation.mutateAsync({
+          chainId: chainId as number,
+          taker: account || "",
           buyToken: baseToken.address,
           sellToken: quoteToken.address,
           affiliateAddress: affiliateAddress ? affiliateAddress : "",

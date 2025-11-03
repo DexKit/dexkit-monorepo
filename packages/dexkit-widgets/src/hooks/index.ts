@@ -4,7 +4,7 @@ import { ChainId, TransactionStatus, TransactionType } from "@dexkit/core/consta
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { WRAPPED_TOKEN_ADDRESS } from "@dexkit/core/constants/networks";
-import { Token, TransactionMetadata } from "@dexkit/core/types";
+import { Token, TransactionMetadata, Transaction as CoreTransaction } from "@dexkit/core/types";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { BigNumber, Contract, providers } from "ethers";
 import { useAtom } from "jotai";
@@ -330,64 +330,64 @@ export function useTransactionDialog() {
 
   const { chainId } = useWeb3React();
 
-  const watch = useCallback((hash: string) => {
-    (setHash as any)(hash);
-  }, []);
+  const watch = useCallback((hashValue: string) => {
+    (setHash as (value: string | undefined) => void)(hashValue);
+  }, [setHash]);
 
-  const open = useCallback((type: string, values: Record<string, any>) => {
-    (setDialogIsOpen as any)(true);
-    ((setValues as any) as any)(values);
-    ((setType as any) as any)(type);
-  }, []);
+  const open = useCallback((typeValue: string, valuesData: Record<string, unknown>) => {
+    (setDialogIsOpen as (value: boolean) => void)(true);
+    (setValues as (value: Record<string, unknown> | undefined) => void)(valuesData);
+    (setType as (value: string | undefined) => void)(typeValue);
+  }, [setDialogIsOpen, setValues, setType]);
 
   const close = useCallback(() => {
-    (setDialogIsOpen as any)(false);
-    (setType as any)(undefined);
-    (setValues as any)(undefined);
-  }, []);
+    (setDialogIsOpen as (value: boolean) => void)(false);
+    (setType as (value: string | undefined) => void)(undefined);
+    (setValues as (value: Record<string, unknown> | undefined) => void)(undefined);
+  }, [setDialogIsOpen, setType, setValues]);
 
   const showDialog = useCallback(
-    (open: boolean, metadata?: TransactionMetadata, type?: TransactionType) => {
-      (setDialogIsOpen as any)(open);
-      (setMetadata as any)(metadata);
+    (isDialogOpen: boolean, dialogMetadata?: TransactionMetadata, dialogType?: TransactionType) => {
+      (setDialogIsOpen as (value: boolean) => void)(isDialogOpen);
+      (setMetadata as (value: TransactionMetadata | undefined) => void)(dialogMetadata);
 
-      if (!open) {
-        (setHash as any)(undefined);
-        (setMetadata as any)(undefined);
-        (setType as any)(undefined);
+      if (!isDialogOpen) {
+        (setHash as (value: string | undefined) => void)(undefined);
+        (setMetadata as (value: TransactionMetadata | undefined) => void)(undefined);
+        (setType as (value: string | undefined) => void)(undefined);
       }
     },
-    []
+    [setDialogIsOpen, setMetadata, setHash, setType]
   );
 
   const setDialogError = useCallback(
-    (error?: Error) => {
+    (errorValue?: Error) => {
       if (isOpen) {
-        (setError as any)(error);
+        (setError as (value: Error | undefined) => void)(errorValue);
       }
     },
-    [(setError as any), isOpen]
+    [setError, isOpen]
   );
 
   const addTransaction = useCallback(
-    (hash: string, type: TransactionType, metadata?: TransactionMetadata) => {
+    (hashValue: string, txType: TransactionType, txMetadata?: TransactionMetadata) => {
       if (chainId !== undefined) {
-        (setHash as any)(hash);
+        (setHash as (value: string | undefined) => void)(hashValue);
 
-        updateTransactions((txs: { [key: string]: Transaction } | undefined) => ({
+        updateTransactions((txs: { [key: string]: CoreTransaction } | undefined) => ({
           ...txs,
-          [hash]: {
+          [hashValue]: {
             chainId,
             created: new Date().getTime(),
             status: TransactionStatus.Pending,
-            type,
-            metadata,
+            type: txType,
+            metadata: txMetadata,
             checked: false,
           },
         }));
       }
     },
-    [chainId]
+    [chainId, setHash, updateTransactions]
   );
 
   return {
@@ -395,17 +395,18 @@ export function useTransactionDialog() {
     open,
     close,
     redirectUrl,
-    setRedirectUrl: setRedirectUrl as any,
+    setRedirectUrl,
     error,
     hash,
     metadata,
     type,
-    watch: (setHash as any),
+    watch,
     isOpen,
-    setDialogIsOpen: (setDialogIsOpen as any),
-    setError: (setError as any),
-    setMetadata: (setMetadata as any),
-    setType: (setType as any),
+    setDialogIsOpen,
+    setError,
+    setMetadata,
+    setType,
+    setHash,
     showDialog,
     setDialogError,
     addTransaction,

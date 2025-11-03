@@ -3,6 +3,34 @@
   "private": false,
   "version": "0.8.0",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./connectors": {
+      "types": "./dist/connectors/index.d.ts",
+      "import": "./dist/connectors/index.js"
+    },
+    "./thirdweb/client": {
+      "types": "./dist/thirdweb/client.d.ts",
+      "import": "./dist/thirdweb/client.js"
+    },
+    "./hooks/useWeb3React": {
+      "types": "./dist/hooks/useWeb3React.d.ts",
+      "import": "./dist/hooks/useWeb3React.js"
+    },
+    "./services/zrx/constants": {
+      "types": "./dist/services/zrx/constants.d.ts",
+      "import": "./dist/services/zrx/constants.js"
+    }
+  },
   "engines": {
     "node": "22.x"
   },

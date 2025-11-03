@@ -1,16 +1,21 @@
 {
   "extends": "tsconfig/react-library.json",
   "include": ["."],
-  "exclude": ["dist", "build", "node_modules"],
+  "exclude": ["dist", "dist/**", "build", "build/**", "node_modules", "node_modules/**", "stories", "stories/**", "tsup.config.ts"],
   "compilerOptions": {
+    "composite": true,
     "baseUrl": ".",
+    "rootDir": ".",
+    "skipLibCheck": true,
     "moduleResolution": "Bundler",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
+    "types": [],
     "typeRoots": [
       "node_modules/@0x/typescript-typings/types",
       "node_modules/@types"
-    ]
+    ],
+    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include", "ES2021.String", "ES2022"]
   }
 }

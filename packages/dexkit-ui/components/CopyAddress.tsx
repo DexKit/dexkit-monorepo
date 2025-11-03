@@ -1,7 +1,7 @@
 import { copyToClipboard } from '@dexkit/core/utils';
-import CopyIconButton from '@dexkit/ui/components/CopyIconButton';
 import FileCopy from '@mui/icons-material/FileCopy';
 import { useIntl } from 'react-intl';
+import CopyIconButton from './CopyIconButton';
 
 interface Props {
   account: string;

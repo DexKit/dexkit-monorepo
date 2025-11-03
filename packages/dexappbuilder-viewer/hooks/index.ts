@@ -1,5 +1,6 @@
+import type { SiteResponse } from "@dexkit/ui/modules/wizard/types/config";
 import { getConfig } from '@dexkit/ui/services/whitelabel';
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 export const QUERY_WHITELABEL_CONFIG_NAME = 'GET_WHITELABEL_CONFIG_QUERY';
 
@@ -16,12 +17,12 @@ export const useWhitelabelConfigQuery = ({
   domain?: string;
   slug?: string;
   page?: string;
-}) => {
-  return useQuery(
+}): UseQueryResult<SiteResponse | undefined, unknown> => {
+  return useQuery<SiteResponse | undefined>(
     [QUERY_WHITELABEL_CONFIG_NAME, domain || '', slug || ''],
     async () => {
       if (domain === undefined && slug === undefined) {
-        return;
+        return undefined;
       }
 
       return (await getConfig({ domain, slug, appPage: page })).data;

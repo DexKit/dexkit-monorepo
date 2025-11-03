@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { DexKitContext } from "../providers/DexKitContext";
+import { DexKitContext, DexkitContextState } from "../providers/DexKitContext";
 
-
-export function useDexKitContext() {
+export function useDexKitContext(): DexkitContextState {
   return useContext(DexKitContext);
 }

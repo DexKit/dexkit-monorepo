@@ -183,6 +183,7 @@ export default function BuyForm({
         makerAmount: cost.toString(),
         makerToken: quoteToken.address,
         provider,
+        account,
         takerAmount: takerAmount.toString(),
         takerToken: baseToken.address,
       });
@@ -222,7 +223,7 @@ export default function BuyForm({
 
   const handleApprove = async () => {
     await approveTokenMutation.mutateAsync({
-      onSubmited: (hash: string) => {},
+      onSubmited: (hash: string) => { },
       spender: getZrxExchangeAddress(chainId),
       provider,
       tokenContract: quoteToken?.address,

@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChainId } from "@dexkit/core/constants";
 import { TokenWhitelabelApp } from "@dexkit/core/types";
 import { DexkitProvider } from "@dexkit/ui/components";
-import { ThemeMode } from "@dexkit/ui/constants/enum";
 import { AppNotification } from "@dexkit/ui/types";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { atom } from "jotai";
@@ -47,8 +46,8 @@ const InitConnector = () => {
   const { connector } = useWeb3React();
 
   useEffect(() => {
-    if (connector.connectEagerly) {
-      connector.connectEagerly();
+    if (connector && (connector as any).connectEagerly) {
+      (connector as any).connectEagerly();
     }
   }, [connector]);
 
@@ -66,12 +65,12 @@ const Template: ComponentStory<typeof ContractFormView> = (args) => {
           theme={theme}
           locale="en-US"
           notificationTypes={{}}
-          themeMode={ThemeMode.light}
           assetsAtom={atom({})}
+          hiddenAssetsAtom={atom<{ [key: string]: boolean }>({})}
           currencyUserAtom={atom("")}
           tokensAtom={atom<TokenWhitelabelApp[]>([])}
           notificationsAtom={atom<AppNotification[]>([])}
-          onChangeLocale={() => {}}
+          onChangeLocale={() => { }}
           transactionsAtom={atom<{}>({})}
           selectedWalletAtom={atom<string>("")}
         >
@@ -83,9 +82,14 @@ const Template: ComponentStory<typeof ContractFormView> = (args) => {
               chainId: ChainId.Ethereum,
               fields: {
                 retrieve: {
+                  name: "retrieve",
                   visible: true,
+                  lockInputs: false,
+                  hideInputs: false,
                   callOnMount: false,
-                  readOnly: false,
+                  collapse: false,
+                  hideLabel: false,
+                  callToAction: "",
                   input: {},
                 },
               },

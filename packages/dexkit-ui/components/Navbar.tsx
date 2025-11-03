@@ -35,20 +35,15 @@ import dynamic from "next/dynamic";
 import Image from "next/legacy/image";
 import { FormattedMessage } from "react-intl";
 
-import { WalletButton } from "@dexkit/ui/components/WalletButton";
+import { WalletButton } from "./WalletButton";
 
 import Wallet from "./icons/Wallet";
 
 const SelectNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
+  () => import("./dialogs/SelectNetworkDialog")
 );
 
 import { getChainLogoImage, getChainName } from "@dexkit/core/utils/blockchain";
-import Link from "@dexkit/ui/components/AppLink";
-import NotificationsDialog from "@dexkit/ui/components/dialogs/NotificationsDialog";
-import { SearchBar } from "@dexkit/ui/components/SearchBar";
-import SearchBarMobile from "@dexkit/ui/components/SearchBarMobile";
-import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
   useAuthUserQuery,
   useCurrency,
@@ -63,15 +58,20 @@ import {
   useShowSelectLocale,
   useThemeMode
 } from "@dexkit/ui/hooks";
-import CommercePopover from "@dexkit/ui/modules/commerce/components/CommercePopover";
 import { AppConfig, NavbarGlassSettings } from "@dexkit/ui/modules/wizard/types/config";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
+import { ThemeMode } from "../constants/enum";
 import { useSiteId } from "../hooks/useSiteId";
 import CommerceCartIconButton from "../modules/commerce/components/CommerceCartIconButton";
+import CommercePopover from "../modules/commerce/components/CommercePopover";
+import Link from "./AppLink";
 import { ConnectWalletButton } from "./ConnectWalletButton";
 import CustomNavbar from "./CustomNavbar";
+import NotificationsDialog from "./dialogs/NotificationsDialog";
 import NavbarMenu from "./NavbarMenu";
+import { SearchBar } from "./SearchBar";
+import SearchBarMobile from "./SearchBarMobile";
 import { ThemeModeSelector } from "./ThemeModeSelector";
 
 interface Props {

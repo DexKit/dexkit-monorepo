@@ -1,6 +1,5 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 import { FeatUsage, Subscription } from "../types/ai";
 
 interface ServerParams {
@@ -13,7 +12,7 @@ interface ServerParams {
 export const SUBSCRIPTION_QUERY = "SUBSCRIPTION_QUERY";
 
 export function useSubscription() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   return useQuery<Subscription>(
     [SUBSCRIPTION_QUERY],
     async () => {
@@ -24,7 +23,7 @@ export function useSubscription() {
 }
 
 export function useBuyCreditsCheckout() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(async ({ amount }: { amount: number }) => {
     return (
@@ -38,7 +37,7 @@ export function useBuyCreditsCheckout() {
 export const CREDIT_HISTORY = "CREDIT_HISTORY";
 
 export function useCreditHistory(params: ServerParams) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([CREDIT_HISTORY], async () => {
     return (await instance?.get("/payments/credit-history", { params }))?.data;
@@ -46,7 +45,7 @@ export function useCreditHistory(params: ServerParams) {
 }
 
 export function useCryptoCheckout() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(async (params: { intent: string; amount: string }) => {
     return (await instance?.post("/payments/crypto-checkout-session", params))
@@ -57,7 +56,7 @@ export function useCryptoCheckout() {
 export const CRYPTO_CHECKOUT_ITEMS = "CRYPTO_CHECKOUT_ITEMS";
 
 export function useCheckoutItems({ id }: { id: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery([CRYPTO_CHECKOUT_ITEMS, id], async () => {
     return (await instance?.get(`/payments/checkout-session/${id}/items`))
@@ -66,7 +65,7 @@ export function useCheckoutItems({ id }: { id: string }) {
 }
 
 export function useConfirmCheckout() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(
     async ({
@@ -93,7 +92,7 @@ export function useConfirmCheckout() {
 export const CHECKOUT_STATUS = "CHECKOUT_STATUS";
 
 export function useCheckoutData({ id }: { id: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useQuery(
     [CHECKOUT_STATUS, id],
@@ -107,7 +106,7 @@ export function useCheckoutData({ id }: { id: string }) {
 export const PLAN_COSTS = "PLAN_COSTS";
 
 export function usePlanCosts(slug?: string) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   return useQuery([PLAN_COSTS, slug], async () => {
     if (!slug) {
       return [];
@@ -119,14 +118,14 @@ export function usePlanCosts(slug?: string) {
 export const PLANS_QUERY = "PLANS_QUERY";
 
 export function usePlanPrices() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   return useQuery([PLANS_QUERY], async () => {
     return (await instance?.get(`/payments/plans`))?.data;
   });
 }
 
 export function usePlanCheckoutMutation() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(async ({ plan }: { plan: string }) => {
     return (
@@ -139,7 +138,7 @@ export function usePlanCheckoutMutation() {
 export const ACTIVE_FEAT_USAGE_QUERY = "ACTIVE_FEAT_USAGE_QUERY";
 
 export function useActiveFeatUsage({ slug }: { slug: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   return useQuery<FeatUsage>(
     [ACTIVE_FEAT_USAGE_QUERY],
     async () => {
@@ -150,14 +149,14 @@ export function useActiveFeatUsage({ slug }: { slug: string }) {
 }
 
 export function useActivatePremiumMutation({ isWidget }: { isWidget?: boolean }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   return useMutation(async ({ siteId }: { siteId?: number }) => {
     return instance?.post(`/premium-appbuilder/charge-amount${isWidget ? '-widget' : ''}`, { siteId });
   });
 }
 
 export function useDisablePremiumMutation({ isWidget }: { isWidget?: boolean }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   return useMutation(async ({ siteId }: { siteId?: number }) => {
     return instance?.post(`/premium-appbuilder/disable${isWidget ? '-widget' : ''}`, { siteId });
   });

@@ -5,7 +5,7 @@ import SelectCoinsList, {
   SelectCoinListProps,
 } from "../../src/components/SelectCoinList";
 import { WidgetContext } from "../../src/components/WidgetContext";
-import { Token } from "../../src/types";
+import { Token } from "@dexkit/core/types";
 import { TEST_TOKENS } from "./constants";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

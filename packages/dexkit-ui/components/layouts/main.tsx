@@ -6,8 +6,8 @@ import React, { useEffect, useMemo } from "react";
 const AppDrawer = dynamic(() => import("../AppDrawer"));
 
 import { useIsMobile } from "@dexkit/core";
+import { isMobile } from "@dexkit/core/utils";
 import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
-import { isMobile } from "@dexkit/wallet-connectors/utils/userAgent";
 import {
   useAppConfig,
   useAppNFT,

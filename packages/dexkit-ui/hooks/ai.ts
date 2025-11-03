@@ -1,8 +1,8 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
-import { useContext } from "react";
 import { useIntl } from "react-intl";
+import { useContext } from "react";
 import { useEditSiteId } from ".";
 import { GenerateImagesContext } from "../context/GenerateImagesContext";
 import { AI_MODEL, ImageGenerate, TextImproveAction } from "../types/ai";
@@ -10,7 +10,7 @@ import { dataURItoBlob } from "../utils/image";
 
 export function useCompletation() {
   const { editSiteId } = useEditSiteId();
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useMutation(
     async ({
@@ -35,7 +35,7 @@ export function useCompletation() {
 }
 
 export function useImageGenerate() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   const { editSiteId } = useEditSiteId();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -53,7 +53,7 @@ export function useImageGenerate() {
 }
 
 export function useSaveImages() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   const { enqueueSnackbar } = useSnackbar();
   const { formatMessage } = useIntl();
@@ -77,7 +77,7 @@ export function useSaveImages() {
 }
 
 export function useGenVariants() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   const { editSiteId } = useEditSiteId();
   return useMutation(
     async ({ url, numImages }: { url: string; numImages: number }) => {
@@ -88,7 +88,7 @@ export function useGenVariants() {
 }
 
 export function useEditImage() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
   const { editSiteId } = useEditSiteId();
 
   return useMutation(

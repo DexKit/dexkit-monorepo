@@ -1,4 +1,5 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
+import { DexkitApiProviderState } from "@dexkit/core/types";
 import { useDexKitContext, useEditSiteId } from "@dexkit/ui/hooks";
 import { useUserEventsList } from "@dexkit/ui/hooks/userEvents";
 import { useAppRankingQuery } from "@dexkit/ui/modules/wizard/hooks/ranking";
@@ -66,7 +67,7 @@ export default function ReferralSection({
   const { editSiteId } = useEditSiteId();
   const siteId = siteIdGlobal || editSiteId;
 
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useContext<DexkitApiProviderState>(DexkitApiProvider);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tabValue, setTabValue] = useState(0);

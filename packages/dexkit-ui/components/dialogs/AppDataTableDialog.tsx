@@ -1,4 +1,4 @@
-import AppDataTable from "@dexkit/ui/components/AppDataTable";
+import AppDataTable from "../AppDataTable";
 import {
   Alert,
   Box,

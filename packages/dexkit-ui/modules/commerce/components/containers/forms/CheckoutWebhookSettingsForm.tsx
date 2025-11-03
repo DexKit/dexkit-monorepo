@@ -54,9 +54,9 @@ function CheckoutWebhookSettingsFormBase({
     >
       {({ submitForm, isValid, isSubmitting }) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <Field
                   component={TextField}
                   name="webhookSecret"
@@ -69,7 +69,7 @@ function CheckoutWebhookSettingsFormBase({
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <Field
                   component={TextField}
                   name="webhookUrl"
@@ -84,10 +84,10 @@ function CheckoutWebhookSettingsFormBase({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <div>
               <Stack spacing={2} justifyContent="flex-end" direction="row">
                 <Button

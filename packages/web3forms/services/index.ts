@@ -1,6 +1,6 @@
 import { ChainId } from "@dexkit/core/constants";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
-import axios from "axios";
+import axios, { type Method } from "axios";
 import { ETHER_SCAN_API_URL } from "../constants";
 
 export async function generatePinataKey(secretKey: string) {
@@ -27,7 +27,7 @@ export async function generatePinataKey(secretKey: string) {
   });
 
   var config = {
-    method: "post",
+    method: "post" as Method,
     url: "https://api.pinata.cloud/users/generateApiKey",
     headers: {
       Authorization: "Bearer PINATA JWT",

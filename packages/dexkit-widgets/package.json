@@ -2,6 +2,46 @@
   "name": "@dexkit/widgets",
   "version": "2.0.0",
   "private": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./src/hooks": {
+      "types": "./dist/src/hooks/index.d.ts",
+      "import": "./dist/src/hooks/index.js"
+    },
+    "./src/widgets/swap": {
+      "types": "./dist/src/widgets/swap/index.d.ts",
+      "import": "./dist/src/widgets/swap/index.js"
+    },
+    "./src/widgets/swap/types": {
+      "types": "./dist/src/widgets/swap/types.d.ts",
+      "import": "./dist/src/widgets/swap/types.js"
+    },
+    "./src/widgets/swap/constants/supportedChainIds": {
+      "types": "./dist/src/widgets/swap/constants/supportedChainIds.d.ts",
+      "import": "./dist/src/widgets/swap/constants/supportedChainIds.js"
+    },
+    "./src/components/WidgetContext": {
+      "types": "./dist/src/components/WidgetContext.d.ts",
+      "import": "./dist/src/components/WidgetContext.js"
+    },
+    "./src/constants/tokens": {
+      "types": "./dist/src/constants/tokens.d.ts",
+      "import": "./dist/src/constants/tokens.js"
+    },
+    "./src/types/api": {
+      "types": "./dist/src/types/api.d.ts",
+      "import": "./dist/src/types/api.js"
+    },
+    "./src/utils": {
+      "types": "./dist/src/utils/index.d.ts",
+      "import": "./dist/src/utils/index.js"
+    }
+  },
   "engines": {
     "node": "22.x"
   },

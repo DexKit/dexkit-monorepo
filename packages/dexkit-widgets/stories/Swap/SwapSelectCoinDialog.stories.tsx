@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { WidgetContext } from "../../src/components/WidgetContext";
 
-import { Token } from "../../src/types";
+import { Token } from "@dexkit/core/types";
 import SwapSelectCoinDialog, {
   SwapSelectCoinDialogProps,
 } from "../../src/widgets/swap/SwapSelectCoinDialog";

@@ -2,6 +2,58 @@
   "name": "@dexkit/web3forms",
   "version": "2.0.0",
   "private": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./components/ContractFormView": {
+      "types": "./dist/components/ContractFormView.d.ts",
+      "import": "./dist/components/ContractFormView.js"
+    },
+    "./components/GenericForm": {
+      "types": "./dist/components/GenericForm.d.ts",
+      "import": "./dist/components/GenericForm.js"
+    },
+    "./hooks/useTrustedForwarders": {
+      "types": "./dist/hooks/useTrustedForwarders.d.ts",
+      "import": "./dist/hooks/useTrustedForwarders.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./components/ContractDeployForm": {
+      "types": "./dist/components/ContractDeployForm.d.ts",
+      "import": "./dist/components/ContractDeployForm.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./utils/validators": {
+      "types": "./dist/utils/validators.d.ts",
+      "import": "./dist/utils/validators.js"
+    },
+    "./components/DecimalInput": {
+      "types": "./dist/components/DecimalInput.d.ts",
+      "import": "./dist/components/DecimalInput.js"
+    }
+  },
   "engines": {
     "node": "22.x"
   },
@@ -26,6 +78,7 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "@types/minimatch": "^5.1.2",
     "@vitejs/plugin-react": "^3.1.0",
     "babel-loader": "^8.3.0",
     "eslint": "^7.32.0",

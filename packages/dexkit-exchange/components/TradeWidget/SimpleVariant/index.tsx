@@ -18,9 +18,11 @@ import { FormattedMessage } from "react-intl";
 import { OrderMarketType } from "../../../constants";
 import TradeWidgetTabAlt from "../TradeWidgetTabAlt";
 import MarketForm from "./MarketForm";
+// @ts-ignore - TypeScript cannot resolve dynamic imports from next/dynamic during compilation
 const SwapSettingsDialog = dynamic(
+  // @ts-ignore
   () => import("@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog")
-);
+) as any;
 
 export interface TradeWidgetSimpleVariantProps {
   isActive: boolean;
@@ -181,37 +183,37 @@ export default function TradeWidgetSimpleVariant({
 
               {(show === OrderMarketType.buy ||
                 show === OrderMarketType.sell) && (
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  {show === OrderMarketType.buy && (
-                    <FormattedMessage
-                      id="buy.token.symbol"
-                      defaultMessage="Buy {tokenSymbol}"
-                      values={{
-                        tokenSymbol: baseToken?.symbol.toUpperCase(),
-                      }}
-                    />
-                  )}
-                  {show === OrderMarketType.sell && (
-                    <FormattedMessage
-                      id="sell.token.symbol"
-                      defaultMessage="Sell {tokenSymbol}"
-                      values={{
-                        tokenSymbol: baseToken?.symbol.toUpperCase(),
-                      }}
-                    />
-                  )}
-                  <IconButton
-                    size="small"
-                    onClick={() => setShowSettings(true)}
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
                   >
-                    <SettingsIcon />
-                  </IconButton>
-                </Stack>
-              )}
+                    {show === OrderMarketType.buy && (
+                      <FormattedMessage
+                        id="buy.token.symbol"
+                        defaultMessage="Buy {tokenSymbol}"
+                        values={{
+                          tokenSymbol: baseToken?.symbol.toUpperCase(),
+                        }}
+                      />
+                    )}
+                    {show === OrderMarketType.sell && (
+                      <FormattedMessage
+                        id="sell.token.symbol"
+                        defaultMessage="Sell {tokenSymbol}"
+                        values={{
+                          tokenSymbol: baseToken?.symbol.toUpperCase(),
+                        }}
+                      />
+                    )}
+                    <IconButton
+                      size="small"
+                      onClick={() => setShowSettings(true)}
+                    >
+                      <SettingsIcon />
+                    </IconButton>
+                  </Stack>
+                )}
             </>
           }
           titleTypographyProps={{ variant: "body1" }}

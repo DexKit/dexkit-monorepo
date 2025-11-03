@@ -39,8 +39,8 @@ import { useDebounce } from '@dexkit/core/hooks/misc';
 
 import { Asset } from '@dexkit/core/types/nft';
 import { ipfsUriToUrl } from '@dexkit/core/utils/ipfs';
-import { AppDialogTitle } from '@dexkit/ui/components/AppDialogTitle';
-import Link from '@dexkit/ui/components/AppLink';
+import { AppDialogTitle } from '../AppDialogTitle';
+import Link from '../AppLink';
 import {
   useAsset,
   useAssetMetadata,

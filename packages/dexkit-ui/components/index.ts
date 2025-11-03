@@ -18,6 +18,9 @@ export * from "./icons/OpenSea";
 export * from "./SwitchNetworkButtonWithWarning";
 /* export * from "./ThirdwebProviderWrapper"; */
 export * from "./TransactionUpdater";
+// Force compilation of ShareMenu by referencing it
+export { default as ShareMenu } from "./dialogs/ShareMenu";
+export type { ShareMenuProps } from "./dialogs/ShareMenu";
 
 export { AppConfirmDialog, AppLink, ConnectWalletMessage, DKMDEditor, DKMDEditorField, DKMDEditorInput, EvmReceiveForm, EvmReceiveQRCode, LazyYoutubeFrame, MarkdownDescriptionField, MarkdownRenderer };
 

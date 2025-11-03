@@ -41,6 +41,7 @@ export const useWhitelabelConfigsByOwnerPaginatedQuery = ({
       return { data: [], total: 0 };
     }
   }, {
+    enabled: !!owner,
     refetchOnWindowFocus: false
   });
 };

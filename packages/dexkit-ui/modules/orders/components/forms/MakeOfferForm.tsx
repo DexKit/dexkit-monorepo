@@ -30,7 +30,7 @@ import { MIN_ORDER_DATE_TIME } from "../../../../constants";
 import { useTokenList } from "../../../../hooks/blockchain";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
-import { useErc20Balance } from "@dexkit/core/hooks/coin";
+import { useErc20Balance } from "@dexkit/core/hooks";
 import { TokenWhitelabelApp } from "@dexkit/core/types";
 import { Asset } from "@dexkit/core/types/nft";
 import { ipfsUriToUrl, isAddressEqual } from "@dexkit/core/utils";

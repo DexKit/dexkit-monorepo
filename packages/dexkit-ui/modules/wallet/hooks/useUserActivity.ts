@@ -1,6 +1,5 @@
-import { DexkitApiProvider } from "@dexkit/core/providers";
+import { useDexkitApiProvider } from "@dexkit/core/providers";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 export const USER_ACTIVITY_QUERY = "USER_ACTIVITY_QUERY";
 
@@ -32,7 +31,7 @@ export default function useUserActivity({
   account,
   pageSize,
 }: UserActivityParams) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = useDexkitApiProvider();
 
   return useInfiniteQuery(
     [USER_ACTIVITY_QUERY, account, pageSize],

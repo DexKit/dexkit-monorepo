@@ -1,10 +1,10 @@
-import Link from "@dexkit/ui/components/AppLink";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Icon from "@mui/material/Icon";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import Link from "./AppLink";
 import NavbarMenuAlt from "./NavbarMenuAlt";
 
 interface Props {

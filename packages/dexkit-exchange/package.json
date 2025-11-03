@@ -2,6 +2,78 @@
   "name": "@dexkit/exchange",
   "version": "2.0.0",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./constants/messages": {
+      "types": "./dist/constants/messages.d.ts",
+      "import": "./dist/constants/messages.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./constants/zrx": {
+      "types": "./dist/constants/zrx.d.ts",
+      "import": "./dist/constants/zrx.js"
+    },
+    "./contexts": {
+      "types": "./dist/contexts/index.d.ts",
+      "import": "./dist/contexts/index.js"
+    },
+    "./components/TradingGraph": {
+      "types": "./dist/components/TradingGraph/index.d.ts",
+      "import": "./dist/components/TradingGraph/index.js"
+    },
+    "./components/dialogs/SelectPairDialog": {
+      "types": "./dist/components/dialogs/SelectPairDialog.d.ts",
+      "import": "./dist/components/dialogs/SelectPairDialog.js"
+    },
+    "./components/PairInfo": {
+      "types": "./dist/components/PairInfo/index.d.ts",
+      "import": "./dist/components/PairInfo/index.js"
+    },
+    "./components/TradeWidget": {
+      "types": "./dist/components/TradeWidget/index.d.ts",
+      "import": "./dist/components/TradeWidget/index.js"
+    },
+    "./components/TradeWidget/SimpleVariant": {
+      "types": "./dist/components/TradeWidget/SimpleVariant/index.d.ts",
+      "import": "./dist/components/TradeWidget/SimpleVariant/index.js"
+    },
+    "./components/OrderWidget": {
+      "types": "./dist/components/OrderWidget.d.ts",
+      "import": "./dist/components/OrderWidget.js"
+    },
+    "./hooks/zrx": {
+      "types": "./dist/hooks/zrx.d.ts",
+      "import": "./dist/hooks/zrx.js"
+    },
+    "./hooks/zrx/useZrxCancelOrderMutation": {
+      "types": "./dist/hooks/zrx/useZrxCancelOrderMutation.d.ts",
+      "import": "./dist/hooks/zrx/useZrxCancelOrderMutation.js"
+    },
+    "./components/ExchangeSettingsForm": {
+      "types": "./dist/components/ExchangeSettingsForm/index.d.ts",
+      "import": "./dist/components/ExchangeSettingsForm/index.js"
+    }
+  },
   "engines": {
     "node": "22.x"
   },

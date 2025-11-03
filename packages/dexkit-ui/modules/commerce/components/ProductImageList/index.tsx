@@ -24,11 +24,11 @@ export default function ProductImageList({
   return (
     <Grid container spacing={2}>
       {images.map((img, key) => (
-        <Grid xs={3} key={key}>
+        <Grid size={{ xs: 3 }} key={key}>
           <CustomImage src={img} />
         </Grid>
       ))}
-      <Grid size={3}>
+      <Grid size={{ xs: 3 }}>
         <ButtonBase
           onClick={onClick}
           sx={(theme) => ({

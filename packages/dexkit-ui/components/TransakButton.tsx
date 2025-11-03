@@ -8,6 +8,11 @@ import { useCurrency } from "../hooks/currency";
 
 interface Props {
   label?: string;
+  buttonProps?: {
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | string;
+    variant?: "text" | "outlined" | "contained" | string;
+    [key: string]: any;
+  };
 }
 
 export function InitTransak({ currency, account }: { currency?: string, account?: string }) {
@@ -37,7 +42,7 @@ export function InitTransak({ currency, account }: { currency?: string, account?
 
 
 
-export function TransakButton({ label }: Props) {
+export function TransakButton({ label, buttonProps }: Props) {
   const { account, isActive } = useWeb3React();
   const appConfig = useAppConfig();
   const currency = useCurrency();
@@ -55,14 +60,19 @@ export function TransakButton({ label }: Props) {
     transak.current?.init();
   };
 
+  const { variant, color, ...restButtonProps } = buttonProps || {};
+
   return (
     <Button
       onClick={handleBuy}
       disabled={!isActive}
-      variant="contained"
-      color="primary"
+      variant={(variant as any) || "contained"}
+      color={(color as any) || "primary"}
+      {...restButtonProps}
     >
       <FormattedMessage id="buy" defaultMessage={label || "Buy"} />
     </Button>
   );
 }
+
+export default TransakButton;

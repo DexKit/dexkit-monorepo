@@ -41,18 +41,38 @@ export function useSendLimitOrderMutation() {
       takerToken,
       chainId,
       maker,
+      provider,
+      account,
     }: {
       expirationTime: number;
       makerAmount: string;
       makerToken: string;
-      signer: providers.JsonRpcSigner;
+      signer?: providers.JsonRpcSigner;
       takerAmount: string;
       takerToken: string;
       chainId: ChainId;
       maker?: string;
+      provider?: providers.Web3Provider;
+      account?: string;
     }) => {
       if (!maker) {
         return null;
+      }
+
+      let finalSigner = signer;
+      if (!finalSigner && provider && account) {
+        try {
+          finalSigner = provider.getSigner(account);
+        } catch (e) {
+          try {
+            finalSigner = provider.getSigner();
+          } catch (e2) {
+          }
+        }
+      }
+
+      if (!finalSigner) {
+        throw new Error("Signer is required. Provide either signer or provider with account.");
       }
 
       const signedOrder = await createZrxOrder({
@@ -61,7 +81,7 @@ export function useSendLimitOrderMutation() {
         expirationTime,
         makerAmount: new BigNumber(makerAmount),
         makerToken,
-        signer,
+        signer: finalSigner,
         takerAmount: new BigNumber(takerAmount),
         takerToken,
       });

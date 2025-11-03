@@ -1,6 +1,5 @@
 import { copyToClipboard, truncateAddress } from "@dexkit/core/utils";
 import { useEvmCoins, useLogoutAccountMutation } from "@dexkit/ui";
-import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Avatar,
@@ -17,6 +16,7 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import CopyIconButton from "./CopyIconButton";
 
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import dynamic from "next/dynamic";
@@ -24,8 +24,6 @@ import dynamic from "next/dynamic";
 import { NETWORK_IMAGE, NETWORK_NAME } from "@dexkit/core/constants/networks";
 import { useIsMobile } from "@dexkit/core/hooks";
 
-import { AccountBalance } from "@dexkit/ui/components/AccountBalance";
-import TransakWidget from "@dexkit/ui/components/Transak";
 import FileCopy from "@mui/icons-material/FileCopy";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Logout from "@mui/icons-material/Logout";
@@ -42,21 +40,27 @@ import {
 } from "thirdweb/react";
 import { useWalletConnect } from "../hooks/wallet";
 import { useBalanceVisible } from "../modules/wallet/hooks";
+import { AccountBalance } from "./AccountBalance";
+import TransakWidget from "./TransakButton";
 
+// @ts-ignore - TypeScript cannot resolve dynamic imports from next/dynamic during compilation
 const EvmReceiveDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
-);
+  // @ts-ignore
+  () => import("./dialogs/EvmReceiveDialog")
+) as any;
 
 const EvmTransferCoinDialog = dynamic(
   () =>
     import(
-      "@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
+      "../modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
     )
 );
 
+// @ts-ignore - TypeScript cannot resolve dynamic imports from next/dynamic during compilation
 const SelectNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
-);
+  // @ts-ignore
+  () => import("./dialogs/SelectNetworkDialog")
+) as any;
 
 export interface WalletContentProps {
   onClosePopover?: () => void;

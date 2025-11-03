@@ -17,7 +17,7 @@ import type {
 import { Button, CssBaseline, Stack, Typography } from "@mui/material";
 import { PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 
-import { DexKitContext } from "@dexkit/core/providers/DexKitContext";
+import { DexKitContext } from "@dexkit/core/providers";
 import { ThemeProvider, useColorScheme } from "@mui/material/styles";
 import React from "react";
 import { AppErrorBoundary } from "../components/AppErrorBoundary";
