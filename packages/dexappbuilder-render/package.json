@@ -13,16 +13,51 @@
     "./widget": {
       "type": "./dist/widget.d.ts",
       "import": "./dist/widget.js"
-    }
+    },
+    "./dexkit-core": "./dist/dexkit-core.js",
+    "./dexkit-core/types": "./dist/dexkit-core/types.js",
+    "./dexkit-core/utils": "./dist/dexkit-core/utils.js",
+    "./dexkit-core/hooks": "./dist/dexkit-core/hooks.js",
+    "./dexkit-core/services": "./dist/dexkit-core/services.js",
+    "./dexkit-core/constants": "./dist/dexkit-core/constants.js",
+    "./dexkit-core/providers": "./dist/dexkit-core/providers.js",
+    "./dexkit-core/constants/network": "./dist/dexkit-core/constants/network.js",
+    "./dexkit-core/constants/enums": "./dist/dexkit-core/constants/enums.js",
+    "./dexkit-core/constants/abis": "./dist/dexkit-core/constants/abis.js",
+    "./dexkit-ui": "./dist/dexkit-ui.js",
+    "./dexkit-ui/components": "./dist/dexkit-ui/components.js",
+    "./dexkit-ui/hooks": "./dist/dexkit-ui/hooks.js",
+    "./dexkit-ui/types": "./dist/dexkit-ui/types.js",
+    "./dexkit-ui/state": "./dist/dexkit-ui/state.js",
+    "./dexkit-exchange": "./dist/dexkit-exchange.js",
+    "./dexkit-exchange/hooks": "./dist/dexkit-exchange/hooks.js",
+    "./dexkit-exchange/types": "./dist/dexkit-exchange/types.js",
+    "./dexkit-exchange/services": "./dist/dexkit-exchange/services.js",
+    "./dexkit-exchange/constants": "./dist/dexkit-exchange/constants.js",
+    "./dexkit-exchange/contexts": "./dist/dexkit-exchange/contexts.js",
+    "./dexkit-wallet-connectors": "./dist/dexkit-wallet-connectors.js",
+    "./dexkit-wallet-connectors/hooks": "./dist/dexkit-wallet-connectors/hooks.js",
+    "./dexkit-wallet-connectors/connectors": "./dist/dexkit-wallet-connectors/connectors.js",
+    "./dexkit-widgets": "./dist/dexkit-widgets.js",
+    "./dexkit-unlock-widget": "./dist/dexkit-unlock-widget.js",
+    "./dexkit-web3forms": "./dist/dexkit-web3forms.js",
+    "./dexkit-web3forms/hooks": "./dist/dexkit-web3forms/hooks.js",
+    "./dexkit-web3forms/types": "./dist/dexkit-web3forms/types.js",
+    "./dexkit-web3forms/services": "./dist/dexkit-web3forms/services.js",
+    "./dexkit-web3forms/components/ContractFormView": "./dist/dexkit-web3forms/components/ContractFormView.js",
+    "./dexappbuilder-viewer": "./dist/dexappbuilder-viewer.js"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "rimraf dist && cross-env NODE_OPTIONS=\"--max-old-space-size=16384\" tsup",
     "dev": "tsc -w",
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "release": "changeset publish"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.5",
     "tsconfig": "*",
+    "tsup": "^6.5.0",
     "typescript": "5.4.3"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 
 import { createThirdwebClient } from "thirdweb";
-
+import type { Wallet } from "thirdweb/wallets";
 
 import {
   createWallet,
@@ -14,7 +14,7 @@ export const client = createThirdwebClient({
 
 
 
-export const wallets = [
+export const wallets: Wallet[] = [
   inAppWallet({
     auth: {
       options: [
