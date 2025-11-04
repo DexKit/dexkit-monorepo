@@ -36,6 +36,7 @@ import {
 } from '@tanstack/react-query';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
+import { SnackbarProvider } from 'notistack';
 import { ThirdwebProvider } from 'thirdweb/react';
 interface MyAppProps extends AppProps<PageProps> {
   emotionCache?: EmotionCache;
@@ -121,24 +122,27 @@ export default function MyApp(props: MyAppProps) {
                   <QueryClientProvider client={queryClient}>
                     <Hydrate state={pageProps.dehydratedState}>
                       <DefaultSeo {...SEO} />
-                      <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <AppMarketplaceProvider
-                          appLocaleMessages={appLocaleMessages}
-                        >
-                          <Backdrop
-                            open={loading}
-                            sx={{
-                              color:
-                                (theme as any)?.colorSchemes?.light?.palette?.primary
-                                  ?.main || theme.palette.primary.main,
-                              zIndex: theme.zIndex.drawer + 1,
-                            }}
+                      {/* @ts-ignore - notistack types issue with React 19 */}
+                      <SnackbarProvider maxSnack={3}>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <AppMarketplaceProvider
+                            appLocaleMessages={appLocaleMessages}
                           >
-                            <CircularProgress color="inherit" size={80} />
-                          </Backdrop>
-                          {getLayout(<Component {...pageProps} />)}
-                        </AppMarketplaceProvider>
-                      </LocalizationProvider>
+                            <Backdrop
+                              open={loading}
+                              sx={{
+                                color:
+                                  (theme as any)?.colorSchemes?.light?.palette?.primary
+                                    ?.main || theme.palette.primary.main,
+                                zIndex: theme.zIndex.drawer + 1,
+                              }}
+                            >
+                              <CircularProgress color="inherit" size={80} />
+                            </Backdrop>
+                            {getLayout(<Component {...pageProps} />)}
+                          </AppMarketplaceProvider>
+                        </LocalizationProvider>
+                      </SnackbarProvider>
                     </Hydrate>
                   </QueryClientProvider>
                 </ThirdwebProvider>

@@ -26,7 +26,7 @@ import PinterestIcon from "@mui/icons-material/Pinterest";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 
 const OPTIONS: {
   value: string;
@@ -61,7 +61,7 @@ const OPTIONS: {
     {
       value: "x",
       title: <FormattedMessage id="x" defaultMessage="X" />,
-      icon: <XIcon />, // Assuming you have an icon for X
+      icon: <XIcon />,
     },
   ];
 
