@@ -1,3 +1,5 @@
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
+import { join } from 'path';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
@@ -40,6 +42,7 @@ export default defineConfig({
     'dexkit-core/services': '../dexkit-core/services/index.ts',
     'dexkit-core/services/balances': '../dexkit-core/services/balances.ts',
     'dexkit-core/constants': '../dexkit-core/constants/index.ts',
+    'dexkit-core/constants/networks': '../dexkit-core/constants/networks.ts',
     'dexkit-core/constants/chainsViem': '../dexkit-core/constants/chainsViem.ts',
     'dexkit-core/constants/evmChainImages': '../dexkit-core/constants/evmChainImages.ts',
     'dexkit-core/constants/networkProvider': '../dexkit-core/constants/networkProvider.ts',
@@ -56,9 +59,28 @@ export default defineConfig({
     'dexkit-ui/index': '../dexkit-ui/index.ts',
     'dexkit-ui/components': '../dexkit-ui/components/index.ts',
     'dexkit-ui/hooks': '../dexkit-ui/hooks/index.ts',
+    'dexkit-ui/hooks/useLocale': '../dexkit-ui/hooks/useLocale.ts',
+    'dexkit-ui/hooks/useSiteId': '../dexkit-ui/hooks/useSiteId.ts',
+    'dexkit-ui/hooks/useAppConfig': '../dexkit-ui/hooks/useAppConfig.ts',
+    'dexkit-ui/hooks/auth': '../dexkit-ui/hooks/auth.ts',
+    'dexkit-ui/hooks/account': '../dexkit-ui/hooks/account.ts',
+    'dexkit-ui/hooks/wallet': '../dexkit-ui/hooks/wallet.ts',
+    'dexkit-ui/hooks/apiKey': '../dexkit-ui/hooks/apiKey.ts',
+    'dexkit-ui/hooks/gatedConditions': '../dexkit-ui/hooks/gatedConditions.ts',
+    'dexkit-ui/hooks/userEvents': '../dexkit-ui/hooks/userEvents.ts',
+    'dexkit-ui/hooks/theme/useThemeMode': '../dexkit-ui/hooks/theme/useThemeMode.ts',
+    'dexkit-ui/hooks/app/useAppWizardConfig': '../dexkit-ui/hooks/app/useAppWizardConfig.ts',
+    'dexkit-ui/hooks/app/useAppNFT': '../dexkit-ui/hooks/app/useAppNFT.ts',
+    'dexkit-ui/hooks/app/useEditWidgetId': '../dexkit-ui/hooks/app/useEditWidgetId.ts',
+    'dexkit-ui/hooks/app/useIsWidget': '../dexkit-ui/hooks/app/useIsWidget.ts',
+    'dexkit-ui/hooks/app/useProtectedAppConfig': '../dexkit-ui/hooks/app/useProtectedAppConfig.ts',
     'dexkit-ui/types': '../dexkit-ui/types/index.ts',
     'dexkit-ui/state': '../dexkit-ui/state/index.ts',
     'dexkit-ui/types/config': '../dexkit-ui/modules/wizard/types/config.ts',
+    'dexkit-ui/modules/admin/components/tables/MaketplacesTableSkeleton': '../dexkit-ui/modules/admin/components/tables/MaketplacesTableSkeleton.tsx',
+    'dexkit-ui/modules/admin/components/tables/MarketplacesTableV2': '../dexkit-ui/modules/admin/components/tables/MarketplacesTableV2/index.tsx',
+    'dexkit-ui/modules/evm-burn-nft/components/dialogs/EvmBurnNftDialog': '../dexkit-ui/modules/evm-burn-nft/components/dialogs/EvmBurnNftDialog.tsx',
+    'dexkit-ui/modules/evm-transfer-nft/components/dialogs/EvmTransferNftDialog': '../dexkit-ui/modules/evm-transfer-nft/components/dialogs/EvmTransferNftDialog.tsx',
     'dexkit-ui/components/dialogs/ChooseNetworkDialog': '../dexkit-ui/components/dialogs/ChooseNetworkDialog.tsx',
     'dexkit-ui/components/dialogs/SignMessageDialog': '../dexkit-ui/components/dialogs/SignMessageDialog.tsx',
     'dexkit-ui/components/dialogs/SwitchNetworkDialog': '../dexkit-ui/components/dialogs/SwitchNetworkDialog.tsx',
@@ -66,14 +88,33 @@ export default defineConfig({
     'dexkit-ui/components/dialogs/HoldingKitDialog': '../dexkit-ui/components/dialogs/HoldingKitDialog.tsx',
     'dexkit-ui/components/dialogs/SelectCurrencyDialog': '../dexkit-ui/components/dialogs/SelectCurrencyDialog.tsx',
     'dexkit-ui/components/dialogs/SelectLanguageDialog': '../dexkit-ui/components/dialogs/SelectLanguageDialog.tsx',
+    'dexkit-ui/components/dialogs/SelectIconDialog': '../dexkit-ui/components/dialogs/SelectIconDialog.tsx',
+    'dexkit-ui/components/dialogs/AppDataTableDialog': '../dexkit-ui/components/dialogs/AppDataTableDialog.tsx',
     'dexkit-ui/components/mediaDialog': '../dexkit-ui/components/mediaDialog/index.tsx',
+    'dexkit-ui/components/layouts/main': '../dexkit-ui/components/layouts/main.tsx',
+    'dexkit-ui/components/layouts/authMain': '../dexkit-ui/components/layouts/authMain.tsx',
+    'dexkit-ui/components/layouts/GlobalDialogs': '../dexkit-ui/components/layouts/GlobalDialogs.tsx',
+    'dexkit-ui/components/LoginAppButton': '../dexkit-ui/components/LoginAppButton.tsx',
+    'dexkit-ui/components/AppLink': '../dexkit-ui/components/AppLink.tsx',
+    'dexkit-ui/components/AppConfirmDialog': '../dexkit-ui/components/AppConfirmDialog.tsx',
+    'dexkit-ui/components/AppErrorBoundary': '../dexkit-ui/components/AppErrorBoundary.tsx',
+    'dexkit-ui/components/ConnectButton': '../dexkit-ui/components/ConnectButton.tsx',
+    'dexkit-ui/components/PageHeader': '../dexkit-ui/components/PageHeader.tsx',
+    'dexkit-ui/components/AppDialogTitle': '../dexkit-ui/components/AppDialogTitle.tsx',
+    'dexkit-ui/components/CompletationProvider': '../dexkit-ui/components/CompletationProvider.tsx',
     'dexkit-ui/modules/nft': '../dexkit-ui/modules/nft/index.ts',
     'dexkit-ui/modules/nft/hooks': '../dexkit-ui/modules/nft/hooks/index.ts',
+    'dexkit-ui/modules/nft/hooks/collection': '../dexkit-ui/modules/nft/hooks/collection.ts',
     'dexkit-ui/modules/nft/services': '../dexkit-ui/modules/nft/services/index.ts',
+    'dexkit-ui/modules/nft/services/query': '../dexkit-ui/modules/nft/services/query.ts',
+    'dexkit-ui/modules/nft/services/collection': '../dexkit-ui/modules/nft/services/collection.ts',
     'dexkit-ui/modules/nft/types': '../dexkit-ui/modules/nft/types/index.ts',
     'dexkit-ui/modules/nft/utils': '../dexkit-ui/modules/nft/utils/index.ts',
     'dexkit-ui/modules/nft/constants': '../dexkit-ui/modules/nft/constants/index.ts',
     'dexkit-ui/modules/nft/components': '../dexkit-ui/modules/nft/components/index.ts',
+    'dexkit-ui/modules/nft/components/AssetFromApi': '../dexkit-ui/modules/nft/components/AssetFromApi.tsx',
+    'dexkit-ui/modules/nft/components/AssetMedia': '../dexkit-ui/modules/nft/components/AssetMedia.tsx',
+    'dexkit-ui/modules/nft/components/BaseAssetCard': '../dexkit-ui/modules/nft/components/BaseAssetCard.tsx',
     'dexkit-ui/modules/forms/hooks': '../dexkit-ui/modules/forms/hooks/index.ts',
     'dexkit-ui/modules/forms/components/FormInfoCard': '../dexkit-ui/modules/forms/components/FormInfoCard.tsx',
     'dexkit-ui/modules/forms/services': '../dexkit-ui/modules/forms/services/index.ts',
@@ -102,7 +143,16 @@ export default defineConfig({
     'dexkit-ui/modules/token/types': '../dexkit-ui/modules/token/types/index.ts',
     'dexkit-ui/modules/whitelabel/services': '../dexkit-ui/modules/whitelabel/services/index.ts',
     'dexkit-ui/modules/whitelabel/types': '../dexkit-ui/modules/whitelabel/types/index.ts',
+    'dexkit-ui/modules/whitelabel/hooks/useDeleteMyAppMutation': '../dexkit-ui/modules/whitelabel/hooks/useDeleteMyAppMutation.ts',
+    'dexkit-ui/modules/whitelabel/hooks/useDeletePageTemplateMutation': '../dexkit-ui/modules/whitelabel/hooks/useDeletePageTemplateMutation.ts',
+    'dexkit-ui/modules/whitelabel/hooks/usePageTemplatesByOwnerQuery': '../dexkit-ui/modules/whitelabel/hooks/usePageTemplatesByOwnerQuery.ts',
+    'dexkit-ui/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerQuery': '../dexkit-ui/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerQuery.ts',
+    'dexkit-ui/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerPaginatedQuery': '../dexkit-ui/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerPaginatedQuery.ts',
+    'dexkit-ui/modules/whitelabel/hooks/useSendConfigMutation': '../dexkit-ui/modules/whitelabel/hooks/useSendConfigMutation.ts',
+    'dexkit-ui/modules/whitelabel/hooks/useSendWidgetConfigMutation': '../dexkit-ui/modules/whitelabel/hooks/useSendWidgetConfigMutation.ts',
     'dexkit-ui/modules/contract-wizard/hooks': '../dexkit-ui/modules/contract-wizard/hooks/index.ts',
+    'dexkit-ui/modules/contract-wizard/hooks/thirdweb': '../dexkit-ui/modules/contract-wizard/hooks/thirdweb.ts',
+    'dexkit-ui/modules/contract-wizard/components/ContractMetadataHeader': '../dexkit-ui/modules/contract-wizard/components/ContractMetadataHeader.tsx',
     'dexkit-ui/services/whitelabel': '../dexkit-ui/services/whitelabel.ts',
     'dexkit-ui/services/userEvents': '../dexkit-ui/services/userEvents.ts',
     'dexkit-ui/services/token': '../dexkit-ui/services/token.ts',
@@ -127,6 +177,12 @@ export default defineConfig({
     'dexkit-ui/types/magic': '../dexkit-ui/types/magic.ts',
     'dexkit-ui/types/app': '../dexkit-ui/types/app.ts',
     'dexkit-ui/types/ai': '../dexkit-ui/types/ai/index.ts',
+    'dexkit-ui/constants': '../dexkit-ui/constants/index.ts',
+    'dexkit-ui/constants/enum': '../dexkit-ui/constants/enum.ts',
+    'dexkit-ui/constants/api': '../dexkit-ui/constants/api.ts',
+    'dexkit-ui/constants/messages/common': '../dexkit-ui/constants/messages/common.ts',
+    'dexkit-ui/constants/userEventNames': '../dexkit-ui/constants/userEventNames.tsx',
+    'dexkit-ui/constants/featPayments': '../dexkit-ui/constants/featPayments.ts',
     'dexkit-ui/providers/configWizardProvider': '../dexkit-ui/providers/configWizardProvider.tsx',
     'dexkit-ui/providers/authStateProvider': '../dexkit-ui/providers/authStateProvider.tsx',
     'dexkit-ui/providers/authProvider': '../dexkit-ui/providers/authProvider.tsx',
@@ -134,6 +190,13 @@ export default defineConfig({
     'dexkit-ui/providers/SiteProvider': '../dexkit-ui/providers/SiteProvider.tsx',
     'dexkit-ui/providers/DexkitProvider': '../dexkit-ui/providers/DexkitProvider.tsx',
     'dexkit-ui/theme': '../dexkit-ui/theme.ts',
+    'dexkit-ui/context/AppConfigContext': '../dexkit-ui/context/AppConfigContext.tsx',
+    'dexkit-ui/context/AdminContext': '../dexkit-ui/context/AdminContext.tsx',
+    'dexkit-ui/context/AppWizardConfigContext': '../dexkit-ui/context/AppWizardConfigContext.ts',
+    'dexkit-ui/context/AuthContext': '../dexkit-ui/context/AuthContext.tsx',
+    'dexkit-ui/context/CompletationContext': '../dexkit-ui/context/CompletationContext.tsx',
+    'dexkit-ui/context/GenerateImagesContext': '../dexkit-ui/context/GenerateImagesContext.tsx',
+    'dexkit-ui/context/MagicStateContext': '../dexkit-ui/context/MagicStateContext.tsx',
     'dexkit-exchange/utils': '../dexkit-exchange/utils/index.ts',
 
     // @dexkit/exchange - modules
@@ -214,7 +277,9 @@ export default defineConfig({
 
     // @dexkit/widgets - modules
     'dexkit-widgets/index': '../dexkit-widgets/src/index.tsx',
+    'dexkit-widgets/src/widgets/swap': '../dexkit-widgets/src/widgets/swap/index.tsx',
     'dexkit-widgets/hooks': '../dexkit-widgets/src/hooks/index.ts',
+    'dexkit-widgets/src/hooks': '../dexkit-widgets/src/hooks/index.ts',
     'dexkit-widgets/types': '../dexkit-widgets/src/types/index.ts',
     'dexkit-widgets/utils': '../dexkit-widgets/src/utils/index.ts',
     'dexkit-widgets/services': '../dexkit-widgets/src/services/index.ts',
@@ -242,17 +307,26 @@ export default defineConfig({
     'dexappbuilder-viewer/hooks': '../dexappbuilder-viewer/hooks/index.ts',
     'dexappbuilder-viewer/types': '../dexappbuilder-viewer/types/index.ts',
     'dexappbuilder-viewer/utils': '../dexappbuilder-viewer/utils/intl.ts',
+    'dexappbuilder-viewer/utils/intl': '../dexappbuilder-viewer/utils/intl.ts',
     'dexappbuilder-viewer/themes': '../dexappbuilder-viewer/themes/index.ts',
+    'dexappbuilder-viewer/themes/index': '../dexappbuilder-viewer/themes/index.ts',
     'dexappbuilder-viewer/themes/theme': '../dexappbuilder-viewer/themes/theme.ts',
+    'dexappbuilder-viewer/themes/boredape': '../dexappbuilder-viewer/themes/boredape.ts',
+    'dexappbuilder-viewer/themes/cryptopunk': '../dexappbuilder-viewer/themes/cryptopunk.ts',
+    'dexappbuilder-viewer/themes/custom': '../dexappbuilder-viewer/themes/custom.ts',
+    'dexappbuilder-viewer/themes/kittygotchi': '../dexappbuilder-viewer/themes/kittygotchi.ts',
     'dexappbuilder-viewer/constants': '../dexappbuilder-viewer/constants/index.ts',
     'dexappbuilder-viewer/constants/section': '../dexappbuilder-viewer/constants/section.ts',
     'dexappbuilder-viewer/state': '../dexappbuilder-viewer/state/atoms.ts',
+    'dexappbuilder-viewer/state/atoms': '../dexappbuilder-viewer/state/atoms.ts',
     'dexappbuilder-viewer/state/app': '../dexappbuilder-viewer/state/app.ts',
     'dexappbuilder-viewer/state/blockchain': '../dexappbuilder-viewer/state/blockchain.ts',
     'dexappbuilder-viewer/components/SectionRender': '../dexappbuilder-viewer/components/SectionRender.tsx',
     'dexappbuilder-viewer/components/SectionsRenderer': '../dexappbuilder-viewer/components/SectionsRenderer.tsx',
     'dexappbuilder-viewer/components/ProtectedContent': '../dexappbuilder-viewer/components/ProtectedContent.tsx',
     'dexappbuilder-viewer/components/WidgetProvider': '../dexappbuilder-viewer/components/WidgetProvider.tsx',
+    'dexappbuilder-viewer/components/NFTGrid': '../dexappbuilder-viewer/components/NFTGrid.tsx',
+    'dexappbuilder-viewer/components/NftDropSummary': '../dexappbuilder-viewer/components/NftDropSummary.tsx',
   },
   platform: 'browser',
   dts: false,
@@ -278,17 +352,170 @@ export default defineConfig({
     'events',
     'assert',
     'process',
+    'react',
+    'react-dom',
+    'react/jsx-runtime',
+    'react/jsx-dev-runtime',
+    'react-query',
+    '@tanstack/react-query',
+    'ethers',
+    '@indexed-finance/multicall',
+    'react-qr-code',
+    'react-lazy-with-preload',
+    '@react-page/editor',
+    'slate-react-presentation',
+    '@0x/utils',
+    '@0x/protocol-utils',
+    'html-react-parser',
+    'react-swipeable-views',
+    'react-swipeable-views-utils',
     '@base-org/account',
     '@web3-react/core',
+    'form-data',
+    'isomorphic-unfetch',
+    'isomorphic-fetch',
+    '@thirdweb-dev/wallets',
+    '@thirdweb-dev/react',
+    /^@thirdweb-dev\/.*/,
+    '@uiw/react-md-editor',
+    '@uiw/react-markdown-preview',
+    'rehype-prism-plus',
+    'decode-named-character-reference',
+    'axios',
   ],
   esbuildOptions(options) {
     options.alias = {
-      'react/jsx-runtime.js': 'react/jsx-runtime'
+      'react/jsx-runtime.js': 'react/jsx-runtime',
+      'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
     };
+
+    options.plugins = options.plugins || [];
+    options.plugins.push({
+      name: 'fix-react-jsx-runtime-imports',
+      setup(build) {
+        build.onLoad({ filter: /\.(ts|tsx|js|jsx)$/ }, async (args) => {
+          try {
+            const contents = readFileSync(args.path, 'utf8');
+            const modified = contents
+              .replace(/from\s+["']react\/jsx-runtime\.js["']/g, 'from "react/jsx-runtime"')
+              .replace(/from\s+["']react\/jsx-dev-runtime\.js["']/g, 'from "react/jsx-dev-runtime"')
+              .replace(/["']react\/jsx-runtime\.js["']/g, '"react/jsx-runtime"')
+              .replace(/["']react\/jsx-dev-runtime\.js["']/g, '"react/jsx-dev-runtime"');
+
+            if (modified !== contents) {
+              return {
+                contents: modified,
+                loader: args.path.endsWith('.tsx') ? 'tsx' : args.path.endsWith('.ts') ? 'ts' : 'js',
+              };
+            }
+          } catch (error) {
+          }
+        });
+      },
+    });
+    options.plugins.push({
+      name: 'fix-compiled-lang-imports',
+      setup(build) {
+        build.onLoad({ filter: /\.ts$/ }, async (args) => {
+          if (args.path.includes('dexkit-ui/services/i18n')) {
+            const contents = readFileSync(args.path, 'utf8');
+            const modified = contents.replace(
+              /import\(`\.\.\/constants\/compiled-lang\/([^`]+)`\)/g,
+              "import(`./dexkit-ui/constants/compiled-lang/$1`)"
+            );
+            return {
+              contents: modified,
+              loader: 'ts',
+            };
+          }
+        });
+      },
+    });
   },
   replaceNodeEnv: true,
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
+  },
+  onSuccess: async () => {
+    const jsonFiles = [
+      '../dexkit-ui/config/app.minimal.json',
+      '../dexkit-ui/config/app.json',
+      '../dexkit-ui/config/app.boredape.json',
+      '../dexkit-ui/config/app.cryptopunks.json',
+      '../dexkit-ui/config/app.kittygotchi.json',
+      '../dexkit-ui/config/app.mutantboredape.json',
+      '../dexkit-ui/config/widget.json',
+    ];
+
+    const compiledLangFiles = [
+      '../dexkit-ui/constants/compiled-lang/cs-CZ.json',
+      '../dexkit-ui/constants/compiled-lang/de-DE.json',
+      '../dexkit-ui/constants/compiled-lang/en-US.json',
+      '../dexkit-ui/constants/compiled-lang/es-ES.json',
+      '../dexkit-ui/constants/compiled-lang/fr-FR.json',
+      '../dexkit-ui/constants/compiled-lang/it-IT.json',
+      '../dexkit-ui/constants/compiled-lang/nn-NO.json',
+      '../dexkit-ui/constants/compiled-lang/pt-BR.json',
+    ];
+
+    const distDir = join(process.cwd(), 'dist');
+
+    for (const jsonFile of jsonFiles) {
+      try {
+        const sourcePath = join(process.cwd(), jsonFile);
+        const fileName = jsonFile.split('/').pop()!;
+        const targetDir = join(distDir, 'dexkit-ui', 'config');
+        const targetPath = join(targetDir, fileName);
+
+        mkdirSync(targetDir, { recursive: true });
+
+        copyFileSync(sourcePath, targetPath);
+        console.log(`✓ Copied ${fileName} to ${targetPath}`);
+      } catch (error) {
+        console.warn(`⚠ Could not copy ${jsonFile}:`, error);
+      }
+    }
+
+    for (const jsonFile of compiledLangFiles) {
+      try {
+        const sourcePath = join(process.cwd(), jsonFile);
+        const fileName = jsonFile.split('/').pop()!;
+        const targetDir = join(distDir, 'dexkit-ui', 'constants', 'compiled-lang');
+        const targetPath = join(targetDir, fileName);
+
+        mkdirSync(targetDir, { recursive: true });
+
+        copyFileSync(sourcePath, targetPath);
+        console.log(`✓ Copied ${fileName} to ${targetPath}`);
+      } catch (error) {
+        console.warn(`⚠ Could not copy ${jsonFile}:`, error);
+      }
+    }
+
+    console.log('⧖ Fixing react/jsx-runtime imports...');
+    const fixJsxRuntimeImports = (dir: string) => {
+      const files = readdirSync(dir);
+      for (const file of files) {
+        const filePath = join(dir, file);
+        const stat = statSync(filePath);
+        if (stat.isDirectory()) {
+          fixJsxRuntimeImports(filePath);
+        } else if (file.endsWith('.js')) {
+          try {
+            let content = readFileSync(filePath, 'utf8');
+            const originalContent = content;
+            content = content.replace(/react\/jsx-runtime\.js/g, 'react/jsx-runtime');
+            content = content.replace(/react\/jsx-dev-runtime\.js/g, 'react/jsx-dev-runtime');
+            if (content !== originalContent) {
+              writeFileSync(filePath, content, 'utf8');
+              console.log(`✓ Fixed react/jsx-runtime imports in ${filePath}`);
+            }
+          } catch (error) {
+          }
+        }
+      }
+    };
+    fixJsxRuntimeImports(distDir);
   },
 });
 

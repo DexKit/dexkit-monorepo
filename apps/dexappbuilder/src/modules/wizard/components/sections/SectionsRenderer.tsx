@@ -5,6 +5,7 @@ import {
   ButtonBase,
   Divider,
   Grid,
+  NoSsr,
   Paper,
   Portal,
   Stack,
@@ -18,7 +19,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SectionRender } from '../section-config/SectionRender';
 import { SECTIONS_TYPE_DATA_ICONS } from '../section-config/Sections';
 
@@ -76,8 +77,13 @@ interface Props {
 
 export function SectionsRenderer({ sections, layout, editable, onLayoutChange }: Props) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileQuery = useMediaQuery(theme.breakpoints.down('sm'));
+  const [isMobile, setIsMobile] = useState(false);
   const [tab, setTab] = useState('tab-0');
+  
+  useEffect(() => {
+    setIsMobile(isMobileQuery);
+  }, [isMobileQuery]);
 
   const sectionsToRender = sections.map((section, key) => {
     if (isMobile && section?.hideMobile) {
@@ -335,14 +341,18 @@ export function SectionsRenderer({ sections, layout, editable, onLayoutChange }:
     );
   }
 
-  return <Box sx={{
-    width: '100%',
-    mx: 0,
-    px: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch'
-  }}>
-    {sectionsToRender}
-  </Box>;
+  return (
+    <NoSsr>
+      <Box sx={{
+        width: '100%',
+        mx: 0,
+        px: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch'
+      }}>
+        {sectionsToRender}
+      </Box>
+    </NoSsr>
+  );
 }

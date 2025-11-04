@@ -20,7 +20,7 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 import Close from "@mui/icons-material/Close";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 
 export interface ShareMenuProps {
