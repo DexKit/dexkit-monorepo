@@ -118,8 +118,10 @@ export function useSwapNativePrice({
               const buyAmountUnits = formatUnits(BigInt(buyAmount), buyToken.decimals);
               const sellAmountUnits = formatUnits(BigInt(sellAmount), 18);
 
+              const rate = Number(buyAmountUnits) / Number(sellAmountUnits);
+
               return {
-                sellTokenToEthRate: (Number(buyAmountUnits) / Number(sellAmountUnits)).toString(),
+                sellTokenToEthRate: rate.toString(),
                 buyAmountUnits,
                 sellAmountUnits,
               };
