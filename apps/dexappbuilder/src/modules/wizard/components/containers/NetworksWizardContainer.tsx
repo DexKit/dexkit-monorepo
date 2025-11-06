@@ -27,6 +27,7 @@ export default function NetworksWizardContainer({
   siteId,
   onSave,
   config,
+  onChange,
   onHasChanges,
 }: NetworksWizardContainerProps) {
   const theme = useTheme();
@@ -39,7 +40,24 @@ export default function NetworksWizardContainer({
   const { enqueueSnackbar } = useSnackbar();
 
   const [exclude, setExclude] = useState<number[]>([]);
-  const [currentActive, setCurrentActive] = useState<number[]>(activeChainIds);
+  const [currentActive, setCurrentActive] = useState<number[]>(
+    config?.activeChainIds || activeChainIds
+  );
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (config?.activeChainIds && !isEditing) {
+      const configIds = config.activeChainIds;
+      const currentIds = currentActive;
+      const arraysEqual =
+        configIds.length === currentIds.length &&
+        configIds.every((id, index) => id === currentIds[index]);
+
+      if (!arraysEqual) {
+        setCurrentActive(configIds);
+      }
+    }
+  }, [config?.activeChainIds, isEditing, currentActive]);
 
   useEffect(() => {
     if (
@@ -74,21 +92,38 @@ export default function NetworksWizardContainer({
 
   const handleDelete = async () => {
     try {
-      if (exclude.length > 0 && siteId !== undefined) {
-        /*    onSave({
-          ...config,
-          activeChainIds: activeChainIds.filter((ac) => !exclude.includes(ac)),
-        });*/
-        setCurrentActive(currentActive.filter((c: any) => !exclude.includes(c)));
-        setExclude([]);
-        setIsEditing(false);
-      }
+      if (exclude.length > 0) {
+        const newActiveChainIds = currentActive.filter((c: any) => !exclude.includes(c));
 
-      /* enqueueSnackbar(formatMessage({ id: 'saved', defaultMessage: 'Saved' }), {
-        variant: 'success',
-      });*/
+        if (newActiveChainIds.length > 0) {
+          setCurrentActive(newActiveChainIds);
+
+          if (onChange) {
+            onChange({
+              ...config,
+              activeChainIds: newActiveChainIds,
+            });
+          }
+
+          onSave({
+            ...config,
+            activeChainIds: newActiveChainIds,
+          });
+
+          setExclude([]);
+          setIsEditing(false);
+        } else {
+          enqueueSnackbar(
+            formatMessage({
+              id: 'you.need.at.least.one.network.selected',
+              defaultMessage: 'You need at least one network selected'
+            }),
+            { variant: 'warning' }
+          );
+        }
+      }
     } catch (err) {
-      // enqueueSnackbar(String(err), { variant: 'error' });
+      enqueueSnackbar(String(err), { variant: 'error' });
     }
   };
 
@@ -115,8 +150,6 @@ export default function NetworksWizardContainer({
   const handleClose = () => {
     setShowNetworks(false);
   };
-
-  const [isEditing, setIsEditing] = useState(false);
 
   const handleEdit = () => {
     setIsEditing(true);
