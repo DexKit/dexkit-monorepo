@@ -127,31 +127,63 @@ export const getCoinPrices = async ({
   tokens: Token[];
   currency: string;
 }): Promise<TokenPrices> => {
-  const priceResponce = (
-    await axios.get<{ [key: string]: { [key: string]: number } }>(
-      `${COINGECKO_ENDPOIT}/simple/price?ids=${tokens
-        .map((c) => c.coingeckoId)
-        .join(",")}&vs_currencies=${currency}`
-    )
-  ).data;
+  const coingeckoIds = tokens.map((c) => c.coingeckoId).filter(Boolean);
 
-  const results: TokenPrices = {};
-
-  for (const key of Object.keys(priceResponce)) {
-    const result = priceResponce[key];
-    const amount = result[currency];
-    const token = tokens.find((c) => c.coingeckoId === key);
-
-    if (token?.chainId) {
-      results[token.chainId] = {
-        [isAddressEqual(token.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
+  if (coingeckoIds.length === 0) {
+    const results: TokenPrices = {};
+    tokens.forEach(token => {
+      if (token?.chainId) {
+        if (!results[token.chainId]) {
+          results[token.chainId] = {};
+        }
+        results[token.chainId][isAddressEqual(token.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
           ? constants.AddressZero
-          : token.address]: { [currency]: amount },
-      };
-    }
+          : token.address] = {};
+      }
+    });
+    return results;
   }
 
-  return results;
+  const url = `${COINGECKO_ENDPOIT}/simple/price?ids=${coingeckoIds.join(",")}&vs_currencies=${currency}`;
+
+  try {
+    const priceResponce = (
+      await axios.get<{ [key: string]: { [key: string]: number } }>(url)
+    ).data;
+
+    const results: TokenPrices = {};
+
+    for (const key of Object.keys(priceResponce)) {
+      const result = priceResponce[key];
+      const amount = result[currency];
+      const token = tokens.find((c) => c.coingeckoId === key);
+
+      if (token?.chainId) {
+        const address = isAddressEqual(token.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
+          ? constants.AddressZero
+          : token.address;
+        if (!results[token.chainId]) {
+          results[token.chainId] = {};
+        }
+        results[token.chainId][address] = { [currency]: amount };
+      }
+    }
+
+    return results;
+  } catch (error) {
+    const results: TokenPrices = {};
+    tokens.forEach(token => {
+      if (token?.chainId) {
+        if (!results[token.chainId]) {
+          results[token.chainId] = {};
+        }
+        results[token.chainId][isAddressEqual(token.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
+          ? constants.AddressZero
+          : token.address] = {};
+      }
+    });
+    return results;
+  }
 };
 
 export async function getPricesByChain(

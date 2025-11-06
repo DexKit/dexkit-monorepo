@@ -139,12 +139,16 @@ export const getCoinPrices = async ({
   tokens: Token[];
   currency: string;
 }): Promise<TokenPrices> => {
+  const coingeckoIds = tokens.map((c) => c.coingeckoId).filter(Boolean);
+
+  if (coingeckoIds.length === 0) {
+    return {};
+  }
+
+  const url = `${COINGECKO_ENDPOIT}/simple/price?ids=${coingeckoIds.join(",")}&vs_currencies=${currency}`;
+
   const priceResponce = (
-    await axios.get<{ [key: string]: { [key: string]: number } }>(
-      `${COINGECKO_ENDPOIT}/simple/price?ids=${tokens
-        .map((c) => c.coingeckoId)
-        .join(",")}&vs_currencies=${currency}`
-    )
+    await axios.get<{ [key: string]: { [key: string]: number } }>(url)
   ).data;
 
   const results: TokenPrices = {};

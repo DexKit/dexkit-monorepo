@@ -96,18 +96,27 @@ export function useSwapCurrencyPrice({
         const sellTokenToEthRate = quotePriceSellToken.data?.sellTokenToEthRate;
 
         if (t && buyTokenToEthRate && sellTokenToEthRate) {
-          const price = t[zeroAddress];
+          const constantsAddressZero = '0x0000000000000000000000000000000000000000';
+          const price1 = t[zeroAddress];
+          const price2 = t[constantsAddressZero];
+          const price3 = t[zeroAddress.toLowerCase()];
+          const price4 = t[constantsAddressZero.toLowerCase()];
+          const price = price1 || price2 || price3 || price4;
+
+          if (!price) {
+            return { isLoadingPrice: false };
+          }
+
           const currencyPrice = price[currency];
+          const buyPriceValue = currencyPrice / Number(buyTokenToEthRate);
+          const sellPriceValue = currencyPrice / Number(sellTokenToEthRate);
+
+          const buyPriceFormatted = intl.formatNumber(buyPriceValue, { style: "currency", currency });
+          const sellPriceFormatted = intl.formatNumber(sellPriceValue, { style: "currency", currency });
 
           return {
-            buyPrice: intl.formatNumber(
-              (currencyPrice / Number(buyTokenToEthRate)),
-              { style: "currency", currency }
-            ),
-            sellPrice: intl.formatNumber(
-              (currencyPrice / Number(sellTokenToEthRate)),
-              { style: "currency", currency }
-            ),
+            buyPrice: buyPriceFormatted,
+            sellPrice: sellPriceFormatted,
             isLoadingPrice: false,
           };
         }
@@ -118,9 +127,9 @@ export function useSwapCurrencyPrice({
 
     const hasTokens = Boolean(params.buyToken && params.sellToken);
     const isActuallyLoading = quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading;
-    
-    return { 
-      isLoadingPrice: hasTokens && isActuallyLoading 
+
+    return {
+      isLoadingPrice: hasTokens && isActuallyLoading
     };
   }, [
     params.buyToken,

@@ -186,8 +186,8 @@ export default function SwapTokenFieldMatcha({
                   sx={{
                     backgroundColor: (theme) =>
                       theme.palette.mode === "dark"
-                        ? theme.palette.background.default
-                        : theme.palette.grey[200],
+                        ? "background.paper"
+                        : "background.paper",
                     borderRadius: (theme) => theme.shape.borderRadius,
                   }}
                 >
@@ -205,8 +205,8 @@ export default function SwapTokenFieldMatcha({
                 sx={{
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
-                      ? theme.palette.background.default
-                      : theme.palette.grey[200],
+                      ? "background.paper"
+                      : "background.paper",
                   borderRadius: (theme) => theme.shape.borderRadius,
                 }}
               >

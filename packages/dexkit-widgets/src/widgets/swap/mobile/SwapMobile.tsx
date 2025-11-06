@@ -33,6 +33,7 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import { BigNumber as EthersBigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils";
 import { useRef, useState } from "react";
+import { formatBigNumber } from "../../../utils";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
 import SwapTokenFieldMobile from "./SwapTokenFieldMobile";
 
@@ -355,7 +356,12 @@ export default function SwapMobile({
           </Stack>
 
           <Typography variant="body2" sx={{ opacity: 0.9, color: 'success.contrastText' }}>
-            1 {sellToken.symbol} = {(Number(buyAmount.toString()) / Number(sellAmount.toString())).toFixed(6)} {buyToken.symbol}
+            1 {sellToken.symbol} = {(() => {
+              const sellAmountFormatted = Number(formatBigNumber(sellAmount, sellToken.decimals));
+              const buyAmountFormatted = Number(formatBigNumber(buyAmount, buyToken.decimals));
+              const rate = sellAmountFormatted > 0 ? buyAmountFormatted / sellAmountFormatted : 0;
+              return rate.toFixed(6);
+            })()} {buyToken.symbol}
           </Typography>
 
           <Button

@@ -93,7 +93,6 @@ export function TOKEN_ICON_URL(addr: string, chainId?: ChainId) {
       return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/assets/${address}/logo.png`;
     case ChainId.Base:
       return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/assets/${address}/logo.png`;
-    // Nuevas redes compatibles con 0x API v2 2025 - usar Ethereum como fallback para iconos
     case ChainId.Linea:
     case ChainId.Scroll:
     case ChainId.Mantle:
@@ -132,7 +131,7 @@ export const BNB_TOKEN: Token = {
   address: ZEROEX_NATIVE_TOKEN_ADDRESS,
   name: "BNB",
   symbol: "BNB",
-  coingeckoId: "binance-smart-chain",
+  coingeckoId: "binancecoin",
   decimals: 18,
   logoURI:
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png",
@@ -143,7 +142,7 @@ export const MATIC_TOKEN: Token = {
   address: ZEROEX_NATIVE_TOKEN_ADDRESS,
   name: "Matic",
   symbol: "MATIC",
-  coingeckoId: "matic-network",
+  coingeckoId: "polygon-ecosystem-token",
   decimals: 18,
   logoURI:
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
@@ -154,7 +153,7 @@ export const CRONOS_TOKEN: Token = {
   address: ZEROEX_NATIVE_TOKEN_ADDRESS,
   name: "Cronos",
   symbol: "CRO",
-  coingeckoId: "cronos",
+  coingeckoId: "crypto-com-chain",
   decimals: 18,
   logoURI:
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cronos/info/logo.png",
@@ -165,7 +164,7 @@ export const OPTIMISM_TOKEN: Token = {
   address: ZEROEX_NATIVE_TOKEN_ADDRESS,
   name: "Optimism",
   symbol: "ETH",
-  coingeckoId: "optimism",
+  coingeckoId: "ethereum",
   decimals: 18,
   logoURI:
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/optimism/info/logo.png",
@@ -191,7 +190,6 @@ export const NATIVE_TOKENS: { [key: number]: Token } = {
   [ChainId.Arbitrum]: ETHEREUM_TOKEN,
   [ChainId.Avax]: AVALANCHE_TOKEN,
   [ChainId.Base]: ETHEREUM_TOKEN,
-  // Nuevas redes compatibles con 0x API v2 2025 - todas usan ETH como token nativo
   [ChainId.Linea]: ETHEREUM_TOKEN,
   [ChainId.Scroll]: ETHEREUM_TOKEN,
   [ChainId.Mantle]: ETHEREUM_TOKEN,

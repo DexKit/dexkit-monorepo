@@ -20,6 +20,7 @@ import {
 } from "@dexkit/ui/modules/swap/types";
 import { Info, Settings, SwapVert } from "@mui/icons-material";
 import type { UseQueryResult } from "@tanstack/react-query";
+import { formatBigNumber } from "../../../utils";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
 import SwapTokenFieldCompact from "./SwapTokenFieldCompact";
 
@@ -293,7 +294,12 @@ export default function SwapCompact({
         <Box sx={{ mt: 1, px: { xs: 0.5, sm: 1 } }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="caption" color="text.secondary">
-              Rate: 1 {sellToken.symbol} = {(Number(buyAmount.toString()) / Number(sellAmount.toString())).toFixed(4)} {buyToken.symbol}
+              Rate: 1 {sellToken.symbol} = {(() => {
+                const sellAmountFormatted = Number(formatBigNumber(sellAmount, sellToken.decimals));
+                const buyAmountFormatted = Number(formatBigNumber(buyAmount, buyToken.decimals));
+                const rate = sellAmountFormatted > 0 ? buyAmountFormatted / sellAmountFormatted : 0;
+                return rate.toFixed(4);
+              })()} {buyToken.symbol}
             </Typography>
             <Tooltip title={
               (() => {
