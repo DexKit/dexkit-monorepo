@@ -198,8 +198,8 @@ export default function SwapConfirmMatchaDialog({
                       borderRadius: (theme.shape.borderRadius as any) / 2,
                       backgroundColor:
                         theme.palette.mode === "dark"
-                          ? theme.palette.background.default
-                          : theme.palette.grey[300],
+                          ? "background.paper"
+                          : "background.paper",
                     })}
                   >
                     <Stack
@@ -247,8 +247,8 @@ export default function SwapConfirmMatchaDialog({
                           borderRadius: "50%",
                           backgroundColor: (theme) =>
                             theme.palette.mode === "dark"
-                              ? theme.palette.background.default
-                              : theme.palette.grey[300],
+                              ? "background.paper"
+                              : "background.paper",
                           border: (theme) =>
                             `4px solid ${theme.palette.background.paper}`,
                         }}
@@ -264,8 +264,8 @@ export default function SwapConfirmMatchaDialog({
                       borderRadius: (theme.shape.borderRadius as any) / 2,
                       backgroundColor:
                         theme.palette.mode === "dark"
-                          ? theme.palette.background.default
-                          : theme.palette.grey[300],
+                          ? "background.paper"
+                          : "background.paper",
                     })}
                   >
                     <Stack

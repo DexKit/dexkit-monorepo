@@ -116,7 +116,7 @@ function SwitchNetworkDialog({
           position: 'sticky',
           top: 0,
           zIndex: theme.zIndex.appBar,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: "background.paper",
           borderBottom: `1px solid ${theme.palette.divider}`,
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(1.5) : theme.spacing(2),

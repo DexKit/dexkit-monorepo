@@ -8,7 +8,7 @@ import Close from '@mui/icons-material/Close';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import NetworksContainerList from '../NetworksContainerList';
@@ -18,6 +18,7 @@ import ViewNetworkInfoDialog from '../dialogs/ViewNetworkInfoDialog';
 export interface NetworksWizardContainerProps {
   siteId?: number;
   config: Partial<AppConfig>;
+  initialConfig?: Partial<AppConfig>;
   onSave: (config: Partial<AppConfig>) => void;
   onChange: (config: Partial<AppConfig>) => void;
   onHasChanges?: (changes: boolean) => void;
@@ -27,6 +28,7 @@ export default function NetworksWizardContainer({
   siteId,
   onSave,
   config,
+  initialConfig,
   onChange,
   onHasChanges,
 }: NetworksWizardContainerProps) {
@@ -44,27 +46,45 @@ export default function NetworksWizardContainer({
     config?.activeChainIds || activeChainIds
   );
   const [isEditing, setIsEditing] = useState(false);
+  const initialConfigRef = useRef<number[]>((initialConfig?.activeChainIds || config?.activeChainIds || []));
 
   useEffect(() => {
-    if (config?.activeChainIds && !isEditing) {
-      const configIds = config.activeChainIds;
-      const currentIds = currentActive;
-      const arraysEqual =
-        configIds.length === currentIds.length &&
-        configIds.every((id, index) => id === currentIds[index]);
+    if (initialConfig?.activeChainIds && !isEditing) {
+      const serverConfigIds = initialConfig.activeChainIds;
+      const configChanged =
+        initialConfigRef.current.length !== serverConfigIds.length ||
+        !initialConfigRef.current.every((id) => serverConfigIds.includes(id)) ||
+        !serverConfigIds.every((id) => initialConfigRef.current.includes(id));
 
-      if (!arraysEqual) {
-        setCurrentActive(configIds);
+      if (configChanged) {
+        initialConfigRef.current = [...serverConfigIds];
       }
     }
-  }, [config?.activeChainIds, isEditing, currentActive]);
+
+    if (config?.activeChainIds && !isEditing) {
+      const configIds = config.activeChainIds;
+
+      setCurrentActive((prevCurrentActive) => {
+        const arraysEqual =
+          configIds.length === prevCurrentActive.length &&
+          configIds.every((id, index) => id === prevCurrentActive[index]);
+
+        if (!arraysEqual) {
+          return configIds;
+        }
+        return prevCurrentActive;
+      });
+    }
+  }, [config?.activeChainIds, initialConfig?.activeChainIds, isEditing]);
 
   useEffect(() => {
-    if (
-      activeChainIds.length === currentActive.length &&
-      activeChainIds.filter((c: any) => currentActive.includes(c)).length ===
-      activeChainIds.length
-    ) {
+    const initialChainIds = initialConfig?.activeChainIds || initialConfigRef.current;
+    const arraysEqual =
+      initialChainIds.length === currentActive.length &&
+      initialChainIds.every((id) => currentActive.includes(id)) &&
+      currentActive.every((id) => initialChainIds.includes(id));
+
+    if (arraysEqual) {
       if (onHasChanges) {
         onHasChanges(false);
       }
@@ -75,7 +95,7 @@ export default function NetworksWizardContainer({
       }
       setHasChanged(true);
     }
-  }, [activeChainIds, currentActive]);
+  }, [currentActive, initialConfig?.activeChainIds, onHasChanges]);
 
   const handleChange = (active: number[]) => {
     setExclude(active);
@@ -133,15 +153,22 @@ export default function NetworksWizardContainer({
     setShowNetworks(false);
 
     try {
-      setCurrentActive(currentActive.concat(ids));
+      const newIds = ids.filter((id) => !currentActive.includes(id));
+      const newActiveChainIds = [...currentActive, ...newIds];
 
-      /*  onSave({
-        ...config,
-        activeChainIds: activeChainIds.concat(ids || []),
-      });*/
-      /*  enqueueSnackbar(formatMessage({ id: 'saved', defaultMessage: 'Saved' }), {
-        variant: 'success',
-      });*/
+      setCurrentActive(newActiveChainIds);
+
+      setHasChanged(true);
+      if (onHasChanges) {
+        onHasChanges(true);
+      }
+
+      if (onChange) {
+        onChange({
+          ...config,
+          activeChainIds: newActiveChainIds,
+        });
+      }
     } catch (err) {
       enqueueSnackbar(String(err), { variant: 'error' });
     }

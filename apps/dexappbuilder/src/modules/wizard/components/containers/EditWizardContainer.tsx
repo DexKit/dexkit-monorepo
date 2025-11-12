@@ -190,7 +190,6 @@ export function EditWizardContainer({ site }: Props) {
   const config = useMemo(() => {
     if (site?.config) {
       const parsedConfig = JSON.parse(site?.config);
-      // Check if pre generated pages exists
       if (parsedConfig.pages && !parsedConfig.pages['swap']) {
         parsedConfig.pages['swap'] = {
           key: 'swap',
@@ -306,11 +305,24 @@ export function EditWizardContainer({ site }: Props) {
 
   useEffect(() => {
     if (config) {
-      setWizardConfig({ ...config });
-    }
-  }, [activeMenu, config]);
+      setWizardConfig((prevWizardConfig) => {
+        if (!hasChanges || !prevWizardConfig) {
+          const configChainIds = config.activeChainIds || [];
+          const wizardChainIds = prevWizardConfig?.activeChainIds || [];
+          const chainIdsMatch =
+            configChainIds.length === wizardChainIds.length &&
+            configChainIds.every((id) => wizardChainIds.includes(id)) &&
+            wizardChainIds.every((id) => configChainIds.includes(id));
 
-  // Pages forms
+          if (!prevWizardConfig || chainIdsMatch) {
+            return { ...config };
+          }
+        }
+        return prevWizardConfig;
+      });
+    }
+  }, [config, hasChanges]);
+
   const handleCloseConfirmSendConfig = () => {
     setShowConfirmSendConfig(false);
   };
@@ -322,9 +334,10 @@ export function EditWizardContainer({ site }: Props) {
     const newSite = { ...site, config: wizardConfig };
 
     await sendConfigMutation.mutateAsync(newSite, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
+        await queryClient.refetchQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
         setHasChanges(false);
-        queryClient.invalidateQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
       },
     });
 
@@ -579,7 +592,6 @@ export function EditWizardContainer({ site }: Props) {
                     <FormattedMessage id="edit.app" defaultMessage="Edit App" />
                   </Typography>
 
-                  {/* <TourButton />*/}
                 </Stack>
               ) : (
                 <>
@@ -858,17 +870,17 @@ export function EditWizardContainer({ site }: Props) {
                       <IntegrationsWizardContainer siteId={site?.id} />
                     )}
 
-                    {activeMenu === ActiveMenu.Networks && config && (
+                    {activeMenu === ActiveMenu.Networks && (wizardConfig || config) && (
                       <NetworksWizardContainer
                         siteId={site?.id}
-                        config={config}
+                        config={wizardConfig || config}
+                        initialConfig={config}
                         onSave={handleSave}
                         onChange={handleChange}
                         onHasChanges={setHasChanges}
                       />
                     )}
 
-                    {/*DexContract*/}
                     {activeMenu === ActiveMenu.CreateContract && (
                       <CreateContractContainer
                         onGoToContract={({ address, network }: any) => {
