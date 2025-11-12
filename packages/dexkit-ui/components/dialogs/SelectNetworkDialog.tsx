@@ -44,29 +44,11 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   const intl = useIntl();
   const { mode } = useColorScheme();
 
-  const getBackgroundColor = () => {
-    if (isDarkMode) {
-      return '#212529';
-    }
-    return theme.palette.background.default;
-  };
-
-  const getPaperColor = () => {
-    if (isDarkMode) {
-      return '#212529';
-    }
-    return theme.palette.background.paper;
-  };
-
   const getInputBackgroundColor = () => {
     if (isDarkMode) {
-      return '#212529';
+      return 'background.paper';
     }
     return theme.palette.background.paper;
-  };
-
-  const getButtonBackgroundColor = () => {
-    return theme.palette.primary.main;
   };
 
   const getButtonTextColor = () => {
@@ -184,7 +166,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           position: 'sticky',
           top: 0,
           zIndex: 10002,
-          backgroundColor: getPaperColor(),
+          backgroundColor: "background.paper",
           borderBottom: `1px solid ${theme.palette.divider}`,
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
@@ -402,7 +384,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(2) : theme.spacing(1.5),
           gap: isMobile ? theme.spacing(1) : theme.spacing(0.5),
-          backgroundColor: getPaperColor(),
+          backgroundColor: "background.paper",
           borderTop: `1px solid ${theme.palette.divider}`,
           zIndex: 10002,
         }}
@@ -410,9 +392,9 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
         <Button
           variant="contained"
           color="primary"
-          disabled={switchNetworkMutation.isLoading || chainId === undefined}
+          disabled={switchNetworkMutation.isPending || chainId === undefined}
           startIcon={
-            switchNetworkMutation.isLoading ? (
+            switchNetworkMutation.isPending ? (
               <CircularProgress color="inherit" size="1rem" />
             ) : undefined
           }
@@ -422,10 +404,10 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             flex: isMobile ? 1 : 'none',
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
-            backgroundColor: getButtonBackgroundColor(),
+            backgroundColor: "background.paper",
             color: getButtonTextColor(),
             '&:hover': {
-              backgroundColor: theme.palette.primary.dark,
+              backgroundColor: "background.paper",
             },
             '&:disabled': {
               backgroundColor: theme.palette.action.disabledBackground,
@@ -440,7 +422,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           />
         </Button>
         <Button
-          disabled={switchNetworkMutation.isLoading}
+          disabled={switchNetworkMutation.isPending}
           onClick={handleClose}
           size={isMobile ? "large" : "medium"}
           sx={{
