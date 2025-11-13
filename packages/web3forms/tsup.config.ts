@@ -24,6 +24,8 @@ export default defineConfig({
     'types': 'types/index.ts',
     'components/ContractFormView': 'components/ContractFormView.tsx',
     'hooks': 'hooks/index.ts',
-    'services': 'services/index.ts'
+    'services': 'services/index.ts',
+    'utils': 'utils/index.ts',
+    'constants': 'constants/index.ts'
   }
 })

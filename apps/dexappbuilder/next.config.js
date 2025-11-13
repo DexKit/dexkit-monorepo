@@ -1,3 +1,12 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const dexappbuilderRenderPackage = path.resolve(__dirname, '../../packages/dexappbuilder-render');
+const dexappbuilderRenderDist = path.resolve(__dirname, '../../packages/dexappbuilder-render/dist');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -46,7 +55,7 @@ const nextConfig = {
     'mui-color-input',
     'formik-mui',
   ],
-  webpack(config) {
+  webpack(config, { isServer }) {
     /*config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
@@ -55,9 +64,95 @@ const nextConfig = {
 
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@dexkit/core': '@dexkit/dexappbuilder-render/dexkit-core',
+      '@dexkit/ui': '@dexkit/dexappbuilder-render/dexkit-ui',
+      '@dexkit/exchange': '@dexkit/dexappbuilder-render/dexkit-exchange',
+      '@dexkit/widgets': '@dexkit/dexappbuilder-render/dexkit-widgets',
+      '@dexkit/wallet-connectors': '@dexkit/dexappbuilder-render/dexkit-wallet-connectors',
+      '@dexkit/web3forms': '@dexkit/dexappbuilder-render/dexkit-web3forms',
+      '@dexkit/dexappbuilder-viewer': '@dexkit/dexappbuilder-render/dexappbuilder-viewer',
+      [path.resolve(dexappbuilderRenderDist, 'constants/compiled-lang')]: path.resolve(dexappbuilderRenderDist, 'dexkit-ui/constants/compiled-lang'),
       'react/jsx-runtime.js': 'react/jsx-runtime',
       'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
     };
+
+    const originalPlugins = config.resolve.plugins || [];
+    config.resolve.plugins = [
+      ...originalPlugins,
+      {
+        apply(resolver) {
+          const target = resolver.ensureHook('resolve');
+          
+          resolver
+            .getHook('described-resolve')
+            .tapAsync('FixCompiledLangImports', (request, resolveContext, callback) => {
+              if (request.request && request.request.includes('../constants/compiled-lang')) {
+                const issuer = request.context?.issuer || '';
+                const path = request.path || '';
+                const isFromChunk = issuer.includes('chunk-') || issuer.includes('dexappbuilder-render/dist');
+                const isFromDexappbuilderRender = issuer.includes(dexappbuilderRenderDist) || path.includes(dexappbuilderRenderDist);
+                
+                if (isFromChunk || isFromDexappbuilderRender) {
+                  const fixedRequest = request.request.replace(
+                    /\.\.\/constants\/compiled-lang/g,
+                    './dexkit-ui/constants/compiled-lang'
+                  );
+                  
+                  const newRequest = {
+                    ...request,
+                    request: fixedRequest,
+                  };
+                  
+                  return resolver.doResolve(target, newRequest, `fixed compiled-lang import path from chunk`, resolveContext, callback);
+                }
+              }
+              return callback();
+            });
+          
+          resolver
+            .getHook('described-resolve')
+            .tapAsync('DexkitAliasResolver', (request, resolveContext, callback) => {
+              if (!request.request || !request.request.startsWith('@dexkit/')) {
+                return callback();
+              }
+
+              if (request.request.includes('dexappbuilder-render')) {
+                return callback();
+              }
+
+              const packageMappings = {
+                '@dexkit/core': 'dexkit-core',
+                '@dexkit/ui': 'dexkit-ui',
+                '@dexkit/exchange': 'dexkit-exchange',
+                '@dexkit/widgets': 'dexkit-widgets',
+                '@dexkit/wallet-connectors': 'dexkit-wallet-connectors',
+                '@dexkit/web3forms': 'dexkit-web3forms',
+                '@dexkit/dexappbuilder-viewer': 'dexappbuilder-viewer',
+              };
+
+              const parts = request.request.split('/');
+              const packageName = parts[0];
+
+              if (packageMappings[packageName]) {
+                const mappedPackage = packageMappings[packageName];
+                const subpath = parts.slice(1).join('/');
+                const newRequest = subpath
+                  ? `@dexkit/dexappbuilder-render/${mappedPackage}/${subpath}`
+                  : `@dexkit/dexappbuilder-render/${mappedPackage}`;
+
+                const newRequestObj = {
+                  ...request,
+                  request: newRequest,
+                };
+
+                return resolver.doResolve(target, newRequestObj, `aliased @dexkit package to ${newRequest}`, resolveContext, callback);
+              }
+
+              return callback();
+            });
+        },
+      },
+    ];
 
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js', '.jsx'],

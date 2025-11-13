@@ -94,6 +94,7 @@
     "next": "15.5.5",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
+    "notistack": "^2.0.8",
     "next-seo": "^5.4.0",
     "qrcode.react": "^3.0.2",
     "qs": "^6.11.0",

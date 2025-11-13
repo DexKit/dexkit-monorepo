@@ -93,7 +93,7 @@ export default function OwnershipWizardContainer({
             },
             '.MuiTab-root': {
               fontSize: isMobile ? '0.85rem' : 'inherit',
-              padding: isMobile ? theme.spacing(1, 1.5) : 'inherit',
+              padding: isMobile ? '8px 12px' : 'inherit',
               minWidth: isMobile ? 'auto' : undefined,
               flex: isMobile ? '1 1 auto' : undefined,
             },
@@ -119,7 +119,7 @@ export default function OwnershipWizardContainer({
               />
             </TabList>
           </Box>
-          <TabPanel value="1" sx={{ padding: isMobile ? theme.spacing(1, 0) : 'inherit' }}>
+          <TabPanel value="1" sx={{ padding: isMobile ? '8px 0' : 'inherit' }}>
             <Grid size={12}>
               {data === false && (
                 <Alert
@@ -127,7 +127,7 @@ export default function OwnershipWizardContainer({
                   sx={{
                     fontSize: isMobile ? '0.85rem' : 'inherit',
                     '& .MuiAlert-message': {
-                      padding: isMobile ? theme.spacing(0.5) : 'inherit'
+                      padding: isMobile ? '4px' : 'inherit'
                     }
                   }}
                 >
@@ -157,7 +157,7 @@ export default function OwnershipWizardContainer({
               )}
             </Grid>*/}
           </TabPanel>
-          <TabPanel value="2" sx={{ padding: isMobile ? theme.spacing(1, 0) : 'inherit' }}>
+          <TabPanel value="2" sx={{ padding: isMobile ? '8px 0' : 'inherit' }}>
             <SiteMetadataSection
               id={site?.id}
               slug={site?.slug}
