@@ -1,4 +1,4 @@
-import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
+import { AppConfig, AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import {
   Box,
   Button,
@@ -30,12 +30,12 @@ import Search from '@mui/icons-material/SearchOutlined';
 import { useMemo, useState } from 'react';
 import { SECTION_CONFIG } from '../../constants/sections';
 import { PageSectionKey } from '../../hooks/sections';
+import VibecoderDialog from '../dialogs/VibecoderDialog';
 import PageSection from './PageSection';
 import PageSectionsHeader from './PageSectionsHeader';
 import SectionTypeAutocomplete from './SectionTypeAutocomplete';
 import SectionsPagination from './SectionsPagination';
 import VisibilityAutocomplete from './VisibilityAutocomplete';
-import VibecoderDialog from '../dialogs/VibecoderDialog';
 
 function getSectionType(
   section: AppPageSection,
@@ -317,252 +317,252 @@ export default function PageSections({
             page={page}
             pageKey={pageKey}
           />
-        <Box
-          sx={{
-            width: '100%',
-            px: 0,
-            ml: 0,
-          }}
-        >
-          <Stack spacing={theme.spacing(0.5)} sx={{ width: '100%' }}>
-            <Stack
-              spacing={theme.spacing(0.5)}
-              direction={isMobile ? 'column' : 'row'}
-              sx={{ width: '100%' }}
-            >
-              <Grid
-                container
+          <Box
+            sx={{
+              width: '100%',
+              px: 0,
+              ml: 0,
+            }}
+          >
+            <Stack spacing={theme.spacing(0.5)} sx={{ width: '100%' }}>
+              <Stack
                 spacing={theme.spacing(0.5)}
-                sx={{
-                  width: '100%',
-                  px: isMobile ? 0 : 0,
-                  pb: isMobile ? 0 : theme.spacing(2),
-                }}
+                direction={isMobile ? 'column' : 'row'}
+                sx={{ width: '100%' }}
               >
                 <Grid
-                  size={{
-                    xs: 12,
-                    sm: isMobile ? 12 : 6
-                  }}>
-                  <Stack
-                    spacing={theme.spacing(0.5)}
-                    direction="row"
-                    justifyContent="space-between"
-                    sx={{
-                      width: '100%',
-                      ml: 0,
-                    }}
-                  >
-                    <Button
-                      size={isMobile ? 'small' : 'medium'}
-                      startIcon={
-                        <Add fontSize={isMobile ? 'small' : 'medium'} />
-                      }
-                      onClick={onAddSection}
-                      variant="outlined"
+                  container
+                  spacing={theme.spacing(0.5)}
+                  sx={{
+                    width: '100%',
+                    px: isMobile ? 0 : 0,
+                    pb: isMobile ? 0 : theme.spacing(2),
+                  }}
+                >
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: isMobile ? 12 : 6
+                    }}>
+                    <Stack
+                      spacing={theme.spacing(0.5)}
+                      direction="row"
+                      justifyContent="space-between"
                       sx={{
-                        flex: 1,
-                        maxWidth: 'calc(50% - 4px)',
-                        px: isMobile ? 1.5 : 1,
-                        pb: isMobile ? undefined : 1.5,
-                        pt: isMobile ? undefined : 1.5,
-                        '& .MuiButton-startIcon': {
-                          marginRight: isMobile ? 0.25 : 0.5,
-                          '& > *:nth-of-type(1)': {
-                            fontSize: isMobile ? 16 : 20,
-                          },
-                        },
-                        '& .MuiButton-label': {
-                          whiteSpace: 'nowrap',
-                        },
+                        width: '100%',
+                        ml: 0,
                       }}
                     >
-                      {isMobile ? (
-                        <FormattedMessage
-                          id="add.section.short"
-                          defaultMessage="Section"
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id="add.section"
-                          defaultMessage="Add section"
-                        />
-                      )}
-                    </Button>
-                    <Button
-                      size={isMobile ? 'small' : 'medium'}
-                      startIcon={
-                        <Add fontSize={isMobile ? 'small' : 'medium'} />
-                      }
-                      onClick={onAddCustomSection}
-                      variant="outlined"
-                      sx={{
-                        flex: 1,
-                        maxWidth: 'calc(50% - 4px)',
-                        px: isMobile ? 1.5 : 1,
-                        pb: isMobile ? undefined : 1.5,
-                        pt: isMobile ? undefined : 1.5,
-                        '& .MuiButton-startIcon': {
-                          marginRight: isMobile ? 0.25 : 0.5,
-                          '& > *:nth-of-type(1)': {
-                            fontSize: isMobile ? 16 : 20,
-                          },
-                        },
-                        '& .MuiButton-label': {
-                          whiteSpace: 'nowrap',
-                        },
-                      }}
-                    >
-                      {isMobile ? (
-                        <FormattedMessage
-                          id="add.custom.short"
-                          defaultMessage="Custom"
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id="add.custom.section"
-                          defaultMessage="Add custom section"
-                        />
-                      )}
-                    </Button>
-                  </Stack>
-                </Grid>
-                <Grid
-                  sx={{ mt: isMobile ? theme.spacing(0.5) : 0 }}
-                  size={{
-                    xs: 12,
-                    sm: isMobile ? 12 : 6
-                  }}>
-                  <Stack
-                    spacing={0.25}
-                    direction="row"
-                    sx={{ width: '100%', ml: isMobile ? 0 : 0 }}
-                    justifyContent="flex-end"
-                    alignItems="center"
-                  >
-                    <Box sx={{ width: 'auto' }}>
-                      <LazyTextField
-                        value={query}
-                        onChange={handleChangeQuery}
-                        TextFieldProps={{
-                          size: isMobile ? 'small' : 'medium',
-                          variant: 'standard',
-                          sx: {
-                            width: '100%',
-                            maxWidth: isMobile ? '130px' : '200px',
-                            pb: isMobile ? undefined : 1,
-                            '& .MuiInputBase-root': {
-                              fontSize: isMobile ? '0.875rem' : 'inherit',
-                              height: isMobile ? undefined : '40px',
-                              alignItems: 'center',
+                      <Button
+                        size={isMobile ? 'small' : 'medium'}
+                        startIcon={
+                          <Add fontSize={isMobile ? 'small' : 'medium'} />
+                        }
+                        onClick={onAddSection}
+                        variant="outlined"
+                        sx={{
+                          flex: 1,
+                          maxWidth: 'calc(50% - 4px)',
+                          px: isMobile ? 1.5 : 1,
+                          pb: isMobile ? undefined : 1.5,
+                          pt: isMobile ? undefined : 1.5,
+                          '& .MuiButton-startIcon': {
+                            marginRight: isMobile ? 0.25 : 0.5,
+                            '& > *:nth-of-type(1)': {
+                              fontSize: isMobile ? 16 : 20,
                             },
                           },
-                          InputProps: {
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Search
-                                  fontSize={isMobile ? 'small' : 'medium'}
-                                />
-                              </InputAdornment>
-                            ),
+                          '& .MuiButton-label': {
+                            whiteSpace: 'nowrap',
                           },
-                          placeholder: formatMessage({
-                            id: 'search.dots',
-                            defaultMessage: 'Search...',
-                          }),
                         }}
-                      />
-                    </Box>
-                    <IconButton
-                      onClick={() => setShowFilters(!showFilters)}
-                      size={isMobile ? 'small' : 'medium'}
-                      sx={{ p: 0.25, mb: isMobile ? undefined : 1 }}
-                    >
-                      {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
-                    </IconButton>
-                  </Stack>
-                </Grid>
-              </Grid>
-            </Stack>
-
-            {isMobile && <Box sx={{ height: 20 }} />}
-
-            {showFilters && (
-              <Collapse in={showFilters} sx={{ width: '100%' }}>
-                <Card>
-                  <Box p={2}>
-                    <Grid
-                      container
-                      spacing={2}
-                      alignItems="center"
-                      justifyContent="flex-start"
-                    >
-                      <Grid
-                        size={{
-                          xs: 12,
-                          sm: 4
-                        }}>
-                        <FormControl fullWidth>
-                          <InputLabel shrink>
-                            <FormattedMessage
-                              id="section.type"
-                              defaultMessage="Section Type"
-                            />
-                          </InputLabel>
-                          <SectionTypeAutocomplete
-                            sectionType={sectionType}
-                            setSectionType={setSectionType}
+                      >
+                        {isMobile ? (
+                          <FormattedMessage
+                            id="add.section.short"
+                            defaultMessage="Section"
                           />
-                        </FormControl>
-                      </Grid>
-                      <Grid
-                        size={{
-                          xs: 12,
-                          sm: 4
-                        }}>
-                        <VisibilityAutocomplete
-                          onChange={(desktop, mobile) => {
-                            setHideDesktop(desktop);
-                            setHideMobile(mobile);
+                        ) : (
+                          <FormattedMessage
+                            id="add.section"
+                            defaultMessage="Add section"
+                          />
+                        )}
+                      </Button>
+                      <Button
+                        size={isMobile ? 'small' : 'medium'}
+                        startIcon={
+                          <Add fontSize={isMobile ? 'small' : 'medium'} />
+                        }
+                        onClick={onAddCustomSection}
+                        variant="outlined"
+                        sx={{
+                          flex: 1,
+                          maxWidth: 'calc(50% - 4px)',
+                          px: isMobile ? 1.5 : 1,
+                          pb: isMobile ? undefined : 1.5,
+                          pt: isMobile ? undefined : 1.5,
+                          '& .MuiButton-startIcon': {
+                            marginRight: isMobile ? 0.25 : 0.5,
+                            '& > *:nth-of-type(1)': {
+                              fontSize: isMobile ? 16 : 20,
+                            },
+                          },
+                          '& .MuiButton-label': {
+                            whiteSpace: 'nowrap',
+                          },
+                        }}
+                      >
+                        {isMobile ? (
+                          <FormattedMessage
+                            id="add.custom.short"
+                            defaultMessage="Custom"
+                          />
+                        ) : (
+                          <FormattedMessage
+                            id="add.custom.section"
+                            defaultMessage="Add custom section"
+                          />
+                        )}
+                      </Button>
+                    </Stack>
+                  </Grid>
+                  <Grid
+                    sx={{ mt: isMobile ? theme.spacing(0.5) : 0 }}
+                    size={{
+                      xs: 12,
+                      sm: isMobile ? 12 : 6
+                    }}>
+                    <Stack
+                      spacing={0.25}
+                      direction="row"
+                      sx={{ width: '100%', ml: isMobile ? 0 : 0 }}
+                      justifyContent="flex-end"
+                      alignItems="center"
+                    >
+                      <Box sx={{ width: 'auto' }}>
+                        <LazyTextField
+                          value={query}
+                          onChange={handleChangeQuery}
+                          TextFieldProps={{
+                            size: isMobile ? 'small' : 'medium',
+                            variant: 'standard',
+                            sx: {
+                              width: '100%',
+                              maxWidth: isMobile ? '130px' : '200px',
+                              pb: isMobile ? undefined : 1,
+                              '& .MuiInputBase-root': {
+                                fontSize: isMobile ? '0.875rem' : 'inherit',
+                                height: isMobile ? undefined : '40px',
+                                alignItems: 'center',
+                              },
+                            },
+                            InputProps: {
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <Search
+                                    fontSize={isMobile ? 'small' : 'medium'}
+                                  />
+                                </InputAdornment>
+                              ),
+                            },
+                            placeholder: formatMessage({
+                              id: 'search.dots',
+                              defaultMessage: 'Search...',
+                            }),
                           }}
-                          desktop={hideDesktop}
-                          mobile={hideMobile}
                         />
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Card>
-              </Collapse>
-            )}
-
-            <Box sx={{ width: '100%', mt: isMobile ? 8 : 1 }}>
-              <Grid
-                container
-                spacing={0}
-                sx={{ width: '100%', px: 0, ml: isMobile ? 0 : 0 }}
-              >
-                {renderSections()}
-                <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} size={12}>
-                  <SectionsPagination
-                    pageSize={pageSize}
-                    from={offset}
-                    to={limit}
-                    onChange={(pageSize) => {
-                      setCurrPage(0);
-                      setPageSize(pageSize);
-                    }}
-                    onChangePage={(page: number) => setCurrPage(page)}
-                    count={filteredSections.length}
-                    pageCount={pageList.length}
-                    page={currPage}
-                  />
+                      </Box>
+                      <IconButton
+                        onClick={() => setShowFilters(!showFilters)}
+                        size={isMobile ? 'small' : 'medium'}
+                        sx={{ p: 0.25, mb: isMobile ? undefined : 1 }}
+                      >
+                        {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
+                      </IconButton>
+                    </Stack>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-          </Stack>
-        </Box>
-      </Stack>
-    </DndContext>
+              </Stack>
+
+              {isMobile && <Box sx={{ height: 20 }} />}
+
+              {showFilters && (
+                <Collapse in={showFilters} sx={{ width: '100%' }}>
+                  <Card>
+                    <Box p={2}>
+                      <Grid
+                        container
+                        spacing={2}
+                        alignItems="center"
+                        justifyContent="flex-start"
+                      >
+                        <Grid
+                          size={{
+                            xs: 12,
+                            sm: 4
+                          }}>
+                          <FormControl fullWidth>
+                            <InputLabel shrink>
+                              <FormattedMessage
+                                id="section.type"
+                                defaultMessage="Section Type"
+                              />
+                            </InputLabel>
+                            <SectionTypeAutocomplete
+                              sectionType={sectionType}
+                              setSectionType={setSectionType}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            sm: 4
+                          }}>
+                          <VisibilityAutocomplete
+                            onChange={(desktop, mobile) => {
+                              setHideDesktop(desktop);
+                              setHideMobile(mobile);
+                            }}
+                            desktop={hideDesktop}
+                            mobile={hideMobile}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Card>
+                </Collapse>
+              )}
+
+              <Box sx={{ width: '100%', mt: isMobile ? 8 : 1 }}>
+                <Grid
+                  container
+                  spacing={0}
+                  sx={{ width: '100%', px: 0, ml: isMobile ? 0 : 0 }}
+                >
+                  {renderSections()}
+                  <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} size={12}>
+                    <SectionsPagination
+                      pageSize={pageSize}
+                      from={offset}
+                      to={limit}
+                      onChange={(pageSize) => {
+                        setCurrPage(0);
+                        setPageSize(pageSize);
+                      }}
+                      onChangePage={(page: number) => setCurrPage(page)}
+                      count={filteredSections.length}
+                      pageCount={pageList.length}
+                      page={currPage}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Stack>
+          </Box>
+        </Stack>
+      </DndContext>
     </>
   );
 }

@@ -11,6 +11,7 @@ import {
   GatedPageLayout,
 } from '@dexkit/ui/modules/wizard/types';
 import {
+  AppConfig,
   AppPage,
   AppPageOptions,
   PageSectionsLayout,
