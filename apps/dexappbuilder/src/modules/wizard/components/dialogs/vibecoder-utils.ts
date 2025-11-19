@@ -17,6 +17,12 @@ export enum AppType {
   GENERAL = 'general',
 }
 
+export enum VibecoderIntent {
+  GENERATE_SECTIONS = 'generate-sections',
+  GENERATE_LOGO = 'generate-logo',
+  GENERATE_SEO = 'generate-seo',
+}
+
 export interface AppTypeRequirements {
   requiredSections: string[];
   optionalSections?: string[];
@@ -255,6 +261,28 @@ export function getThemeInfo(appConfig?: AppConfig): {
   }
 
   return themeInfo;
+}
+
+export function detectVibecoderIntent(prompt: string): VibecoderIntent {
+  const lowerPrompt = prompt.toLowerCase();
+
+  if (
+    /\b(logo|logos|generate.*logo|create.*logo|make.*logo|design.*logo|logo.*for|logo.*app)\b/.test(
+      lowerPrompt,
+    )
+  ) {
+    return VibecoderIntent.GENERATE_LOGO;
+  }
+
+  if (
+    /\b(seo|meta|description|title|search.*engine|optimize.*search|generate.*seo|create.*seo|seo.*for|seo.*page)\b/.test(
+      lowerPrompt,
+    )
+  ) {
+    return VibecoderIntent.GENERATE_SEO;
+  }
+
+  return VibecoderIntent.GENERATE_SECTIONS;
 }
 
 export function detectAppType(prompt: string): AppType {

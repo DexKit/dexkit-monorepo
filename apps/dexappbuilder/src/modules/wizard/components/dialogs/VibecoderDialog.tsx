@@ -45,17 +45,20 @@ import {
   AppType,
   buildEnhancedPrompt,
   detectAppType,
+  detectVibecoderIntent,
   extractColorsFromPrompt,
   extractNetworkFromPrompt,
   extractTokensFromPrompt,
   getThemeInfo,
   validateGeneratedSections,
+  VibecoderIntent,
 } from './vibecoder-utils';
 
 interface Props {
   dialogProps: DialogProps;
   pageKey?: string;
   onSave?: (sections: AppPageSection[]) => void;
+  onSaveConfig?: (config: Partial<AppConfig>) => void;
   appConfig?: AppConfig;
   site?: string;
 }
@@ -74,6 +77,7 @@ export default function VibecoderDialog({
   dialogProps,
   pageKey,
   onSave,
+  onSaveConfig,
   appConfig,
   site,
 }: Props) {
@@ -112,6 +116,13 @@ export default function VibecoderDialog({
   const [detectedAppType, setDetectedAppType] = useState<AppType | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState<number>(-1);
+  const [generatedLogos, setGeneratedLogos] = useState<string[]>([]);
+  const [generatedSeo, setGeneratedSeo] = useState<{
+    title: string;
+    description: string;
+    keywords?: string[];
+    pageKey?: string;
+  } | null>(null);
 
   // Calcular costo estimado para el modelo seleccionado
   const estimatedCost = useMemo(() => {
@@ -250,6 +261,8 @@ export default function VibecoderDialog({
       setPrompt('');
       setError(null);
       setDetectedAppType(null);
+      setGeneratedLogos([]);
+      setGeneratedSeo(null);
     }
   }, [dialogProps.open]);
 
@@ -276,47 +289,70 @@ export default function VibecoderDialog({
     setIsGenerating(true);
 
     try {
-      const appType = detectAppType(prompt);
-      setDetectedAppType(appType);
+      const intent = detectVibecoderIntent(prompt);
 
-      const enhancedPrompt = buildEnhancedPrompt(prompt, appType, appConfig);
+      if (intent === VibecoderIntent.GENERATE_SECTIONS) {
+        const appType = detectAppType(prompt);
+        setDetectedAppType(appType);
+      } else {
+        setDetectedAppType(null);
+      }
 
-      // Intentar usar el endpoint real de generación
       let result: {
-        sections: AppPageSection[];
+        sections?: AppPageSection[];
         detectedColors?: string[];
+        logoUrls?: string[];
+        seo?: {
+          title: string;
+          description: string;
+          keywords?: string[];
+          pageKey?: string;
+        };
         usage?: {
           input_tokens: number;
           output_tokens: number;
         };
+        chatId?: number;
       } | null = null;
 
       try {
-        // Llamar al endpoint real de generación
+        let finalPrompt = prompt;
+        if (intent === VibecoderIntent.GENERATE_SECTIONS) {
+          const appType = detectAppType(prompt);
+          finalPrompt = buildEnhancedPrompt(prompt, appType, appConfig);
+        }
+
         result = await generateSectionsMutation.mutateAsync({
-          prompt: enhancedPrompt,
+          prompt: finalPrompt,
           model: selectedModel,
           siteId: site ? parseInt(site) : undefined,
+          intent: intent,
+          pageKey: pageKey,
         });
 
-        // Si la respuesta incluye información de uso, calcular el costo real
         if (result?.usage) {
           const realCost = calculateRealCost(
             selectedModel,
             result.usage.input_tokens,
             result.usage.output_tokens,
           );
-          // El backend ya debería haber consumido los créditos, pero refrescamos para estar seguros
           await refetchCredits();
         }
       } catch (apiError: any) {
-        // Si el endpoint no existe o hay error, usar mock (modo desarrollo)
-        console.warn('VibeCoder API endpoint not available, using mock generation:', apiError);
+        if (intent !== VibecoderIntent.GENERATE_SECTIONS) {
+          setError(
+            formatMessage({
+              id: 'vibecoder.api.error',
+              defaultMessage: 'Error generating content. Please try again.',
+            })
+          );
+          setIsGenerating(false);
+          return;
+        }
 
-        // Simular delay de generación
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        // Si no hay resultado del API, generar mock sections
+        const appType = detectAppType(prompt);
         const requirements = APP_TYPE_REQUIREMENTS[appType];
         const mockSections: AppPageSection[] = [];
         const tokens = extractTokensFromPrompt(prompt);
@@ -480,23 +516,46 @@ export default function VibecoderDialog({
         };
       }
 
-      // Validar las secciones generadas
-      const validation = validateGeneratedSections(result.sections, appType);
-      if (!validation.valid) {
-        setError(
-          formatMessage({
-            id: 'vibecoder.validation.error',
-            defaultMessage: 'Validation errors: {errors}',
-          }, { errors: validation.errors.join(', ') })
-        );
-        return;
+      if (intent === VibecoderIntent.GENERATE_SECTIONS && result.sections) {
+        const appType = detectAppType(prompt);
+        const validation = validateGeneratedSections(result.sections, appType);
+        if (!validation.valid) {
+          setError(
+            formatMessage({
+              id: 'vibecoder.validation.error',
+              defaultMessage: 'Validation errors: {errors}',
+            }, { errors: validation.errors.join(', ') })
+          );
+          return;
+        }
+
+        setGeneratedSections(result.sections);
+        saveToHistory(result.sections, prompt, appType);
+      } else if (intent === VibecoderIntent.GENERATE_LOGO && result.logoUrls) {
+        setError(null);
+        setGeneratedLogos(result.logoUrls);
+        setGeneratedSections([]);
+      } else if (intent === VibecoderIntent.GENERATE_SEO && result.seo) {
+        setError(null);
+        setGeneratedSeo(result.seo);
+        setGeneratedSections([]);
+
+        // Save SEO to appConfig
+        if (onSaveConfig && result.seo) {
+          const targetPageKey = result.seo.pageKey || pageKey || 'home';
+          onSaveConfig({
+            seo: {
+              ...(appConfig?.seo || {}),
+              [targetPageKey]: {
+                title: result.seo.title,
+                description: result.seo.description,
+                images: appConfig?.seo?.[targetPageKey]?.images || [],
+              },
+            },
+          });
+        }
       }
 
-      setGeneratedSections(result.sections);
-
-      saveToHistory(result.sections, prompt, appType);
-
-      // Refrescar créditos y prompts gratis después de generar
       await refetchCredits();
 
     } catch (err) {
@@ -521,6 +580,39 @@ export default function VibecoderDialog({
     setGeneratedSections([]);
     setError(null);
     setDetectedAppType(null);
+    setGeneratedLogos([]);
+    setGeneratedSeo(null);
+  };
+
+  const handleSelectLogo = (logoUrl: string) => {
+    if (onSaveConfig) {
+      onSaveConfig({
+        logo: {
+          ...(appConfig?.logo || {}),
+          url: logoUrl,
+        },
+      });
+      setGeneratedLogos([]);
+      setError(null);
+    }
+  };
+
+  const handleSaveSeo = () => {
+    if (onSaveConfig && generatedSeo) {
+      const targetPageKey = generatedSeo.pageKey || pageKey || 'home';
+      onSaveConfig({
+        seo: {
+          ...(appConfig?.seo || {}),
+          [targetPageKey]: {
+            title: generatedSeo.title,
+            description: generatedSeo.description,
+            images: appConfig?.seo?.[targetPageKey]?.images || [],
+          },
+        },
+      });
+      setGeneratedSeo(null);
+      handleClose();
+    }
   };
 
   return (
@@ -902,6 +994,133 @@ export default function VibecoderDialog({
                 </>
               )}
 
+              {generatedLogos.length > 0 && (
+                <>
+                  <Divider sx={{ my: 2 }} />
+                  <Typography variant="subtitle2" gutterBottom>
+                    <FormattedMessage
+                      id="vibecoder.generated.logos"
+                      defaultMessage="Generated Logos ({count})"
+                      values={{ count: generatedLogos.length }}
+                    />
+                  </Typography>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 2,
+                      mt: 1,
+                      bgcolor: 'background.default',
+                    }}
+                  >
+                    <Stack direction="row" spacing={2} flexWrap="wrap">
+                      {generatedLogos.map((logoUrl, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            position: 'relative',
+                            border: 2,
+                            borderColor: 'divider',
+                            borderRadius: 1,
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            '&:hover': {
+                              borderColor: 'primary.main',
+                            },
+                          }}
+                        >
+                          <img
+                            src={logoUrl}
+                            alt={`Logo ${index + 1}`}
+                            style={{
+                              width: 150,
+                              height: 150,
+                              objectFit: 'contain',
+                              display: 'block',
+                            }}
+                            onClick={() => handleSelectLogo(logoUrl)}
+                          />
+                          <Button
+                            size="small"
+                            variant="contained"
+                            fullWidth
+                            onClick={() => handleSelectLogo(logoUrl)}
+                            sx={{ mt: 1 }}
+                          >
+                            <FormattedMessage
+                              id="vibecoder.select.logo"
+                              defaultMessage="Select Logo"
+                            />
+                          </Button>
+                        </Box>
+                      ))}
+                    </Stack>
+                  </Paper>
+                </>
+              )}
+
+              {generatedSeo && (
+                <>
+                  <Divider sx={{ my: 2 }} />
+                  <Typography variant="subtitle2" gutterBottom>
+                    <FormattedMessage
+                      id="vibecoder.generated.seo"
+                      defaultMessage="Generated SEO for {page}"
+                      values={{ page: generatedSeo.pageKey || pageKey || 'home' }}
+                    />
+                  </Typography>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 2,
+                      mt: 1,
+                      bgcolor: 'background.default',
+                    }}
+                  >
+                    <Stack spacing={2}>
+                      <Box>
+                        <Typography variant="caption" color="text.secondary">
+                          <FormattedMessage id="vibecoder.seo.title" defaultMessage="Title" />
+                        </Typography>
+                        <Typography variant="body2" fontWeight="medium">
+                          {generatedSeo.title}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Typography variant="caption" color="text.secondary">
+                          <FormattedMessage
+                            id="vibecoder.seo.description"
+                            defaultMessage="Description"
+                          />
+                        </Typography>
+                        <Typography variant="body2">
+                          {generatedSeo.description}
+                        </Typography>
+                      </Box>
+                      {generatedSeo.keywords && generatedSeo.keywords.length > 0 && (
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            <FormattedMessage
+                              id="vibecoder.seo.keywords"
+                              defaultMessage="Keywords"
+                            />
+                          </Typography>
+                          <Stack direction="row" spacing={0.5} flexWrap="wrap" gap={0.5} sx={{ mt: 0.5 }}>
+                            {generatedSeo.keywords.map((keyword, index) => (
+                              <Chip
+                                key={index}
+                                label={keyword}
+                                size="small"
+                                variant="outlined"
+                              />
+                            ))}
+                          </Stack>
+                        </Box>
+                      )}
+                    </Stack>
+                  </Paper>
+                </>
+              )}
+
               <Box sx={{ flex: 1 }} />
 
               <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
@@ -912,17 +1131,30 @@ export default function VibecoderDialog({
                 >
                   <FormattedMessage id="cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleSave}
-                  disabled={generatedSections.length === 0}
-                  sx={{ flex: 1 }}
-                >
-                  <FormattedMessage
-                    id="vibecoder.save.sections"
-                    defaultMessage="Save Sections"
-                  />
-                </Button>
+                {generatedSections.length > 0 && (
+                  <Button
+                    variant="contained"
+                    onClick={handleSave}
+                    sx={{ flex: 1 }}
+                  >
+                    <FormattedMessage
+                      id="vibecoder.save.sections"
+                      defaultMessage="Save Sections"
+                    />
+                  </Button>
+                )}
+                {generatedSeo && onSaveConfig && (
+                  <Button
+                    variant="contained"
+                    onClick={handleSaveSeo}
+                    sx={{ flex: 1 }}
+                  >
+                    <FormattedMessage
+                      id="vibecoder.save.seo"
+                      defaultMessage="Save SEO"
+                    />
+                  </Button>
+                )}
               </Stack>
             </Box>
           </Panel>

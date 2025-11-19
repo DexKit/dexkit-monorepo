@@ -2,6 +2,7 @@ import LazyTextField from '@dexkit/ui/components/LazyTextField';
 
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
+  AppConfig,
   AppPage,
   GatedCondition,
   PageSectionsLayout,
@@ -63,6 +64,7 @@ export interface PagesProps {
   previewUrl?: string;
   isMobile?: boolean;
   appConfig?: any;
+  onSaveConfig?: (config: Partial<AppConfig>) => void;
 }
 
 export default function Pages({
@@ -83,6 +85,7 @@ export default function Pages({
   previewUrl,
   isMobile,
   appConfig,
+  onSaveConfig,
 }: PagesProps) {
   const [query, setQuery] = useState('');
 
@@ -308,6 +311,7 @@ export default function Pages({
                 siteId={site}
                 appConfig={appConfig}
                 site={site}
+                onSaveConfig={onSaveConfig}
               />
             </Grid>
           )}

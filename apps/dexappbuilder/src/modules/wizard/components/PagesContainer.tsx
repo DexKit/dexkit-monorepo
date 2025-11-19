@@ -8,6 +8,7 @@ import {
   GatedPageLayout,
 } from '@dexkit/ui/modules/wizard/types';
 import {
+  AppConfig,
   AppPage,
   AppPageOptions,
   PageSectionsLayout,
@@ -61,6 +62,7 @@ interface Props {
   previewUrl?: string;
   site?: string;
   appConfig?: any;
+  onSaveConfig?: (config: Partial<AppConfig>) => void;
 }
 
 export function PagesContainer({
@@ -75,6 +77,7 @@ export function PagesContainer({
   setPages,
   site,
   appConfig,
+  onSaveConfig,
 }: Props) {
   const [showConfirmRemove, setShowConfirmRemove] = useState(false);
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number>(-1);

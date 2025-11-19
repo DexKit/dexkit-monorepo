@@ -83,6 +83,7 @@ export interface PageSectionsProps {
   hideEmbedMenu?: boolean;
   appConfig?: any;
   site?: string;
+  onSaveConfig?: (config: Partial<AppConfig>) => void;
 }
 
 export default function PageSections({
@@ -105,6 +106,7 @@ export default function PageSections({
   hideEmbedMenu,
   appConfig,
   site,
+  onSaveConfig,
 }: PageSectionsProps) {
   const isMobile = useIsMobile();
   const theme = useTheme();
@@ -290,6 +292,7 @@ export default function PageSections({
         }}
         pageKey={pageKey}
         onSave={handleSaveVibecoderSections}
+        onSaveConfig={onSaveConfig}
         appConfig={appConfig}
         site={site}
       />

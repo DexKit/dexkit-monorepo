@@ -55,15 +55,24 @@ export function useGenerateVibecoderSections() {
       prompt,
       model,
       siteId,
+      chatId,
+      intent,
+      pageKey,
     }: {
       prompt: string;
       model: AI_MODEL;
       siteId?: number;
+      chatId?: number;
+      intent?: 'generate-sections' | 'generate-logo' | 'generate-seo';
+      pageKey?: string;
     }) => {
       const response = await instance?.post('/ai/vibecoder/generate-sections', {
         prompt,
         model,
         siteId,
+        chatId,
+        intent,
+        pageKey,
       });
       return response?.data;
     },

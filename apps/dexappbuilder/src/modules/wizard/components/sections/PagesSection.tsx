@@ -56,6 +56,7 @@ interface Props {
   activeSection?: PageSectionKey;
   site?: string;
   appConfig?: any;
+  onSaveConfig?: (config: Partial<AppConfig>) => void;
 }
 
 export default function PagesSection({
@@ -87,6 +88,7 @@ export default function PagesSection({
   previewUrl,
   site,
   appConfig,
+  onSaveConfig,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
@@ -188,6 +190,7 @@ export default function PagesSection({
           activeSection={activeSection}
           onUpdateGatedConditions={onUpdateGatedConditions}
           appConfig={appConfig}
+          onSaveConfig={onSaveConfig}
         />
       </Stack>
     </>
