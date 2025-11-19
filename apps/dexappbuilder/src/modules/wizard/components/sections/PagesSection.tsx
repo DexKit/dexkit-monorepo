@@ -55,6 +55,7 @@ interface Props {
   previewUrl?: string;
   activeSection?: PageSectionKey;
   site?: string;
+  appConfig?: any;
 }
 
 export default function PagesSection({
@@ -85,6 +86,7 @@ export default function PagesSection({
   pages,
   previewUrl,
   site,
+  appConfig,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
@@ -185,6 +187,7 @@ export default function PagesSection({
           previewUrl={previewUrl}
           activeSection={activeSection}
           onUpdateGatedConditions={onUpdateGatedConditions}
+          appConfig={appConfig}
         />
       </Stack>
     </>

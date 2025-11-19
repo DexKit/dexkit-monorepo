@@ -60,6 +60,7 @@ interface Props {
   onChangeSections: () => void;
   previewUrl?: string;
   site?: string;
+  appConfig?: any;
 }
 
 export function PagesContainer({
@@ -73,6 +74,7 @@ export function PagesContainer({
   pages,
   setPages,
   site,
+  appConfig,
 }: Props) {
   const [showConfirmRemove, setShowConfirmRemove] = useState(false);
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number>(-1);
@@ -624,6 +626,7 @@ export function PagesContainer({
         }
         previewUrl={previewUrl}
         site={site}
+        appConfig={appConfig}
       />
     </>
   );

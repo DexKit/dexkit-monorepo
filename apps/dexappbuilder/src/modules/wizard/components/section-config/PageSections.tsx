@@ -35,6 +35,7 @@ import PageSectionsHeader from './PageSectionsHeader';
 import SectionTypeAutocomplete from './SectionTypeAutocomplete';
 import SectionsPagination from './SectionsPagination';
 import VisibilityAutocomplete from './VisibilityAutocomplete';
+import VibecoderDialog from '../dialogs/VibecoderDialog';
 
 function getSectionType(
   section: AppPageSection,
@@ -80,6 +81,8 @@ export interface PageSectionsProps {
   pageKey?: string;
   siteId?: string;
   hideEmbedMenu?: boolean;
+  appConfig?: any;
+  site?: string;
 }
 
 export default function PageSections({
@@ -100,6 +103,8 @@ export default function PageSections({
   onAddCustomSection,
   onPreview,
   hideEmbedMenu,
+  appConfig,
+  site,
 }: PageSectionsProps) {
   const isMobile = useIsMobile();
   const theme = useTheme();
@@ -108,6 +113,7 @@ export default function PageSections({
   const [hideMobile, setHideMobile] = useState(false);
 
   const [showFilters, setShowFilters] = useState(false);
+  const [openVibecoder, setOpenVibecoder] = useState(false);
 
   const [sectionType, setSectionType] = useState<SectionType>(
     '' as SectionType,
@@ -144,6 +150,22 @@ export default function PageSections({
     return (name: string) => {
       onChangeName(index, name);
     };
+  };
+
+  const handleOpenVibecoder = () => {
+    setOpenVibecoder(true);
+  };
+
+  const handleCloseVibecoder = () => {
+    setOpenVibecoder(false);
+  };
+
+  const handleSaveVibecoderSections = (sections: AppPageSection[]) => {
+    // TODO: Here the generated sections should be added directly
+    // For now, the user will have to add them manually after generating them
+    sections.forEach((section) => {
+      onAdd();
+    });
   };
 
   const [query, setQuery] = useState('');
@@ -260,26 +282,38 @@ export default function PageSections({
   };
 
   return (
-    <DndContext
-      onDragEnd={handleDragEnd}
-      autoScroll={{
-        threshold: {
-          x: 0,
-          y: 0.1,
-        },
-      }}
-    >
-      <Stack spacing={0} sx={{ width: '100%' }}>
-        <PageSectionsHeader
-          onClose={onClose}
-          onClone={onClone}
-          onEmbed={onEmbed}
-          onEditTitle={(title) => onEditTitle(pageKey || '', title)}
-          onEditLayout={onEditLayout}
-          onPreview={onPreview}
-          page={page}
-          pageKey={pageKey}
-        />
+    <>
+      <VibecoderDialog
+        dialogProps={{
+          open: openVibecoder,
+          onClose: handleCloseVibecoder,
+        }}
+        pageKey={pageKey}
+        onSave={handleSaveVibecoderSections}
+        appConfig={appConfig}
+        site={site}
+      />
+      <DndContext
+        onDragEnd={handleDragEnd}
+        autoScroll={{
+          threshold: {
+            x: 0,
+            y: 0.1,
+          },
+        }}
+      >
+        <Stack spacing={0} sx={{ width: '100%' }}>
+          <PageSectionsHeader
+            onClose={onClose}
+            onClone={onClone}
+            onEmbed={onEmbed}
+            onEditTitle={(title) => onEditTitle(pageKey || '', title)}
+            onEditLayout={onEditLayout}
+            onPreview={onPreview}
+            onOpenVibecoder={handleOpenVibecoder}
+            page={page}
+            pageKey={pageKey}
+          />
         <Box
           sx={{
             width: '100%',
@@ -526,5 +560,6 @@ export default function PageSections({
         </Box>
       </Stack>
     </DndContext>
+    </>
   );
 }

@@ -62,6 +62,7 @@ export interface PagesProps {
   site?: string;
   previewUrl?: string;
   isMobile?: boolean;
+  appConfig?: any;
 }
 
 export default function Pages({
@@ -81,6 +82,7 @@ export default function Pages({
   site,
   previewUrl,
   isMobile,
+  appConfig,
 }: PagesProps) {
   const [query, setQuery] = useState('');
 
@@ -304,6 +306,8 @@ export default function Pages({
                 onChangeName={handleChangeName(selectedKey)}
                 onEditLayout={handleEditLayout}
                 siteId={site}
+                appConfig={appConfig}
+                site={site}
               />
             </Grid>
           )}

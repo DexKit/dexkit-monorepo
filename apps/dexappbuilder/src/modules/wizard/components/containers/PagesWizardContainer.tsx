@@ -224,6 +224,7 @@ export default function PagesWizardContainer({
             setShowAddPage={setShowAddPage}
             previewUrl={previewUrl}
             site={siteSlug?.toString()}
+            appConfig={config}
           />
         </Grid>
         <Grid size={12}>
