@@ -1,13 +1,15 @@
-import { Box, NoSsr, Paper } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Box, IconButton, NoSsr, Paper } from "@mui/material";
 import { useColorScheme } from "@mui/material/styles";
 import dynamic from "next/dynamic";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 const AppDrawer = dynamic(() => import("../AppDrawer"));
 
 import { useIsMobile } from "@dexkit/core";
 import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { isMobile } from "@dexkit/wallet-connectors/utils/userAgent";
+import { useTheme } from "@mui/material";
 import {
   useAppConfig,
   useAppNFT,
@@ -15,6 +17,7 @@ import {
   useThemeMode,
 } from "../../hooks";
 import { useNavbarVariant } from "../../hooks/useNavbarVariant";
+import { useSidebarVariant } from "../../hooks/useSidebarVariant";
 import BottomBar from "../BottomBar";
 import { Footer } from "../Footer";
 import Navbar from "../Navbar";
@@ -37,9 +40,25 @@ const WrapperLayout = ({ children, appConfig, isPreview }: {
   const isDrawerOpen = useDrawerIsOpen();
   const isMobileUI = useIsMobile();
   const { isBottom } = useNavbarVariant(appConfig);
+  const theme = useTheme();
+  const { isDense, isProminent, getSidebarWidth } = useSidebarVariant(appConfig);
 
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
   const mobileView = isMobile || isMobileUI;
+  const prevMobileView = useRef(mobileView);
+
+  useEffect(() => {
+    if (prevMobileView.current && !mobileView && isDrawerOpen.isOpen) {
+      isDrawerOpen.setIsOpen(false);
+    }
+    prevMobileView.current = mobileView;
+  }, [mobileView, isDrawerOpen]);
+
+  const getMobileSidebarWidth = () => {
+    if (isDense) return 180;
+    if (isProminent) return 320;
+    return getSidebarWidth || theme.breakpoints.values.sm / 2;
+  };
 
 
   if (isBottom && !mobileView) {
@@ -59,49 +78,96 @@ const WrapperLayout = ({ children, appConfig, isPreview }: {
     );
   }
 
-  if (appConfig.menuSettings?.layout?.type === "sidebar" && !mobileView) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "stretch",
-          minHeight: "100vh",
-        }}
-      >
-        <Paper
+  if (appConfig.menuSettings?.layout?.type === "sidebar") {
+    if (!mobileView) {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "stretch",
+            minHeight: "100vh",
+          }}
+        >
+          <Paper
+            sx={{
+              position: "relative",
+              minHeight: "100vh",
+              zIndex: 1
+            }}
+            square
+            variant="elevation"
+          >
+            <Box sx={{
+              position: "sticky",
+              top: 72,
+              zIndex: 1
+            }}>
+              <AppDrawer
+                appConfig={appConfig}
+                open={true}
+                onClose={handleCloseDrawer}
+              />
+            </Box>
+          </Paper>
+          <Box
+            style={{
+              flex: 1,
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {children}
+          </Box>
+        </Box>
+      );
+    } else {
+      return (
+        <Box
           sx={{
             position: "relative",
             minHeight: "100vh",
-            zIndex: 1
-          }}
-          square
-          variant="elevation"
-        >
-          <Box sx={{
-            position: "sticky",
-            top: 72,
-            zIndex: 1
-          }}>
-            <AppDrawer
-              appConfig={appConfig}
-              open={isDrawerOpen.isOpen}
-              onClose={handleCloseDrawer}
-            />
-          </Box>
-        </Paper>
-        <Box
-          style={{
-            flex: 1,
-            margin: 0,
             display: "flex",
             flexDirection: "column",
           }}
         >
-          {children}
+          <AppDrawer
+            appConfig={appConfig}
+            open={isDrawerOpen.isOpen}
+            onClose={handleCloseDrawer}
+          />
+          {!isDrawerOpen.isOpen && (
+            <IconButton
+              onClick={() => isDrawerOpen.setIsOpen(true)}
+              sx={{
+                position: "fixed",
+                top: 16,
+                left: 16,
+                zIndex: 1300,
+                backgroundColor: "transparent",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
+              }}
+            >
+              <MenuIcon sx={{ color: "text.primary" }} />
+            </IconButton>
+          )}
+          <Box
+            sx={{
+              flex: 1,
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
+          >
+            {children}
+          </Box>
         </Box>
-      </Box>
-    );
+      );
+    }
   } else {
     return (
       <Box
