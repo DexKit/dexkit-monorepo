@@ -6,6 +6,7 @@ import Close from '@mui/icons-material/Close';
 import Code from '@mui/icons-material/Code';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
+import AutoAwesome from '@mui/icons-material/AutoAwesome';
 import { Button, ButtonBase, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -17,6 +18,7 @@ export interface PageSectionsHeaderProps {
   onEmbed?: () => void;
   onEditTitle: (title: string) => void;
   onEditLayout: () => void;
+  onOpenVibecoder?: () => void;
   page: AppPage;
   pageKey?: string;
 }
@@ -28,6 +30,7 @@ export default function PageSectionsHeader({
   onClone,
   onEditTitle,
   onEditLayout,
+  onOpenVibecoder,
   page,
   pageKey,
 }: PageSectionsHeaderProps) {
@@ -177,6 +180,21 @@ export default function PageSectionsHeader({
             }}
           >
             <FormattedMessage id="embed" defaultMessage="Embed" />
+          </Button>
+        )}
+        {onOpenVibecoder && (
+          <Button
+            onClick={onOpenVibecoder}
+            startIcon={<AutoAwesome fontSize={isMobile ? 'small' : 'medium'} />}
+            size={isMobile ? 'small' : 'medium'}
+            variant="contained"
+            color="primary"
+            sx={{
+              minWidth: isMobile ? 'auto' : undefined,
+              px: isMobile ? 0.5 : 2,
+            }}
+          >
+            <FormattedMessage id="vibecoder" defaultMessage="VibeCoder" />
           </Button>
         )}
         <Button
