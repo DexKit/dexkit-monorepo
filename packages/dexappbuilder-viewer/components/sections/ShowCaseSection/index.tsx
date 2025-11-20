@@ -386,9 +386,9 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
 
   return (
     <Container sx={{
-      p: { xs: 0, ms: 2 },
+      p: { xs: 0, sm: 2 },
       '@media (max-width: 600px)': {
-        px: 1,
+        px: 2,
       },
     }}>
       <Box

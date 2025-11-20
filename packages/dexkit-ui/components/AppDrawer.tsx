@@ -95,24 +95,32 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isMini, isDense, isProminent, isSidebar, startExpanded } = useSidebarVariant(appConfig);
 
   const [isMiniSidebar, setIsMiniSidebar] = useAtom(isMiniSidebarAtom);
+  const [isMounted, setIsMounted] = useState(false);
   const hasInitialized = useRef(false);
 
   useEffect(() => {
-    if (isMini && startExpanded !== undefined && !hasInitialized.current) {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMini && startExpanded !== undefined && !hasInitialized.current && isMounted) {
       const storedValue = localStorage.getItem('dexkit-ui.isMiniSidebar');
       if (storedValue === null) {
         setIsMiniSidebar(!startExpanded);
       }
       hasInitialized.current = true;
     }
-  }, [isMini, startExpanded, setIsMiniSidebar]);
+  }, [isMini, startExpanded, setIsMiniSidebar, isMounted]);
 
   const isMiniOpen = useMemo(() => {
     if (isMini) {
+      if (!isMounted) {
+        return startExpanded === false ? true : false;
+      }
       return isMiniSidebar;
     }
     return false;
-  }, [isMiniSidebar, isMini]);
+  }, [isMiniSidebar, isMini, isMounted, startExpanded]);
 
   const handleToggleMini = () => {
     if (isMobile) {
@@ -303,75 +311,11 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
           </Stack>
         )}
         {isMobile && (
-          <Stack
-            direction="column"
-            alignItems="center"
-            spacing={1}
-            px={1}
-            py={1}
-          >
-            {appConfig && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  mb: 1,
-                }}
-              >
-                {colorSchemeMode === 'dark' && appConfig.logoDark?.url ? (
-                  <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
-                    <Image
-                      src={appConfig.logoDark.url}
-                      alt={appConfig.name}
-                      title={appConfig.name}
-                      width={Math.max(1, Number(appConfig.logoDark?.width || 48))}
-                      height={Math.max(1, Number(appConfig.logoDark?.height || 48))}
-                      style={{
-                        objectFit: 'contain',
-                        maxWidth: '100%',
-                        height: 'auto',
-                      }}
-                    />
-                  </Link>
-                ) : appConfig.logo?.url ? (
-                  <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
-                    <Image
-                      src={appConfig.logo.url}
-                      alt={appConfig.name}
-                      title={appConfig.name}
-                      width={Math.max(1, Number(appConfig.logo?.width || 48))}
-                      height={Math.max(1, Number(appConfig.logo?.height || 48))}
-                      style={{
-                        objectFit: 'contain',
-                        maxWidth: '100%',
-                        height: 'auto',
-                      }}
-                    />
-                  </Link>
-                ) : (
-                  <Link
-                    href="/"
-                    sx={{
-                      textDecoration: 'none',
-                      color: 'text.primary',
-                      fontSize: '1rem',
-                      fontWeight: 600,
-                      textAlign: 'center',
-                    }}
-                  >
-                    {appConfig.name}
-                  </Link>
-                )}
-              </Box>
-            )}
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-              <IconButton onClick={onClose}>
-                <MenuIcon sx={{ color: 'text.primary' }} />
-              </IconButton>
-            </Box>
-          </Stack>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', px: 1, py: 1 }}>
+            <IconButton onClick={onClose}>
+              <MenuIcon sx={{ color: 'text.primary' }} />
+            </IconButton>
+          </Box>
         )}
 
         {(isMobile || !isMiniOpen) && (
@@ -409,6 +353,67 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                             <Avatar />
                           </Link>
                         </Stack>
+                      )}
+
+                      {isMobile && appConfig && (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                            maxWidth: '120px',
+                          }}
+                        >
+                          {colorSchemeMode === 'dark' && appConfig.logoDark?.url ? (
+                            <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', maxWidth: '100%' }}>
+                              <Image
+                                src={appConfig.logoDark.url}
+                                alt={appConfig.name}
+                                title={appConfig.name}
+                                width={Math.max(1, Math.round(Number(appConfig.logoDark?.width || 48) * 0.5))}
+                                height={Math.max(1, Math.round(Number(appConfig.logoDark?.height || 48) * 0.5))}
+                                style={{
+                                  objectFit: 'contain',
+                                  maxWidth: '100%',
+                                  height: 'auto',
+                                }}
+                              />
+                            </Link>
+                          ) : appConfig.logo?.url ? (
+                            <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', maxWidth: '100%' }}>
+                              <Image
+                                src={appConfig.logo.url}
+                                alt={appConfig.name}
+                                title={appConfig.name}
+                                width={Math.max(1, Math.round(Number(appConfig.logo?.width || 48) * 0.5))}
+                                height={Math.max(1, Math.round(Number(appConfig.logo?.height || 48) * 0.5))}
+                                style={{
+                                  objectFit: 'contain',
+                                  maxWidth: '100%',
+                                  height: 'auto',
+                                }}
+                              />
+                            </Link>
+                          ) : (
+                            <Link
+                              href="/"
+                              sx={{
+                                textDecoration: 'none',
+                                color: 'text.primary',
+                                fontSize: '0.875rem',
+                                fontWeight: 600,
+                                textAlign: 'center',
+                                maxWidth: '100%',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                              }}
+                            >
+                              {appConfig.name}
+                            </Link>
+                          )}
+                        </Box>
                       )}
 
                       <IconButton onClick={handleOpenQrCode}>

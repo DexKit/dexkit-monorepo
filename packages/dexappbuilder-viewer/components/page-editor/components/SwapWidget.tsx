@@ -6,6 +6,8 @@ import { useSwapState } from "@dexkit/ui/modules/swap/hooks";
 import { SwapConfig } from "@dexkit/ui/modules/wizard/types";
 import { SwapWidget as Swap } from "@dexkit/widgets/src/widgets/swap";
 import { ChainConfig } from "@dexkit/widgets/src/widgets/swap/types";
+import { Box } from "@mui/material";
+import { useIsMobile } from "@dexkit/core";
 import { useAtomValue } from "jotai";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
@@ -131,36 +133,54 @@ function SwapWidget(props: Props) {
       }));
   }, [allTokens]);
 
+  const isMobile = useIsMobile();
+
   return (
-    <Swap
-      {...swapState}
-      activeChainIds={activeChainIds}
-      renderOptions={{
-        ...swapState.renderOptions,
-        useGasless: formData?.useGasless,
-        myTokensOnlyOnSearch: formData?.myTokensOnlyOnSearch,
-        variant: variant,
-        enableUrlParams: enableUrlParams,
-        enableImportExterTokens: formData?.enableImportExternTokens,
-        disableNetworkChange: formData?.disableNetworkChange,
-        disableNetworkSelector: formData?.disableNetworkSelector,
-        keepTokenAlwaysPresent: formData?.keepTokenAlwaysPresent,
-        lockedToken: formData?.lockedToken,
-        configsByChain:
-          enableUrlParams && configParams?.configByChainParams
-            ? configParams.configByChainParams
-            : configByChain
-              ? configByChain
-              : {},
-        defaultChainId: selectedChainId || chainId || ChainId.Ethereum,
-        currency: currency.currency,
-        zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
-        transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
-        featuredTokens,
-        nonFeaturedTokens,
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        overflowX: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        "& > *": {
+          width: "100%",
+          maxWidth: isMobile ? "100%" : "450px",
+          margin: "0 auto",
+        },
       }}
-      swapFees={swapState.swapFees}
-    />
+    >
+      <Swap
+        {...swapState}
+        activeChainIds={activeChainIds}
+        renderOptions={{
+          ...swapState.renderOptions,
+          useGasless: formData?.useGasless,
+          myTokensOnlyOnSearch: formData?.myTokensOnlyOnSearch,
+          variant: variant,
+          enableUrlParams: enableUrlParams,
+          enableImportExterTokens: formData?.enableImportExternTokens,
+          disableNetworkChange: formData?.disableNetworkChange,
+          disableNetworkSelector: formData?.disableNetworkSelector,
+          keepTokenAlwaysPresent: formData?.keepTokenAlwaysPresent,
+          lockedToken: formData?.lockedToken,
+          configsByChain:
+            enableUrlParams && configParams?.configByChainParams
+              ? configParams.configByChainParams
+              : configByChain
+                ? configByChain
+                : {},
+          defaultChainId: selectedChainId || chainId || ChainId.Ethereum,
+          currency: currency.currency,
+          zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
+          transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
+          featuredTokens,
+          nonFeaturedTokens,
+        }}
+        swapFees={swapState.swapFees}
+      />
+    </Box>
   );
 }
 
