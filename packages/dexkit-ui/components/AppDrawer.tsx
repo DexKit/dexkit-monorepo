@@ -7,15 +7,15 @@ import {
   Drawer,
   IconButton,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
   ListSubheader,
   Paper,
   Stack,
-  styled,
   Typography,
+  useColorScheme,
   useTheme,
 } from "@mui/material";
 
@@ -41,13 +41,14 @@ import { useSidebarVariant } from "@dexkit/ui/hooks/useSidebarVariant";
 import QrCodeScanner from "@mui/icons-material/QrCodeScanner";
 import { useAtom } from "jotai";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AppConfig } from "../modules/wizard/types/config";
 import { isMiniSidebarAtom } from "../state";
 import AppDefaultMenuList from "./AppDefaultMenuList";
 import Link from "./AppLink";
 import { ThemeModeSelector } from "./ThemeModeSelector";
 
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useWalletConnect } from "../hooks/wallet";
 import { ConnectButton } from "./ConnectButton";
@@ -55,14 +56,6 @@ import { ConnectButton } from "./ConnectButton";
 const ScanWalletQrCodeDialog = dynamic(
   async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
 );
-
-const CustomListItemSecondaryAction = styled(ListItemSecondaryAction)({
-  display: "flex",
-  alignItems: "center",
-  alignContent: "center",
-  justifyContent: "center",
-  height: "100%",
-});
 
 interface Props {
   open: boolean;
@@ -74,6 +67,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isActive } = useWeb3React();
   const { connectWallet } = useWalletConnect();
   const theme = useTheme();
+  const { mode: colorSchemeMode } = useColorScheme();
   const handleConnectWallet = () => {
     connectWallet();
     onClose();
@@ -101,25 +95,31 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isMini, isDense, isProminent, isSidebar, startExpanded } = useSidebarVariant(appConfig);
 
   const [isMiniSidebar, setIsMiniSidebar] = useAtom(isMiniSidebarAtom);
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (isMini && startExpanded !== undefined && !hasInitialized.current) {
+      const storedValue = localStorage.getItem('dexkit-ui.isMiniSidebar');
+      if (storedValue === null) {
+        setIsMiniSidebar(!startExpanded);
+      }
+      hasInitialized.current = true;
+    }
+  }, [isMini, startExpanded, setIsMiniSidebar]);
 
   const isMiniOpen = useMemo(() => {
     if (isMini) {
-      if (startExpanded !== undefined) {
-        return !startExpanded;
-      }
       return isMiniSidebar;
     }
     return false;
-  }, [isMiniSidebar, isMini, startExpanded]);
-
-  useEffect(() => {
-    if (isMini && startExpanded !== undefined && isMiniSidebar !== !startExpanded) {
-      setIsMiniSidebar(!startExpanded);
-    }
-  }, [isMini, startExpanded, isMiniSidebar, setIsMiniSidebar]);
+  }, [isMiniSidebar, isMini]);
 
   const handleToggleMini = () => {
-    setIsMiniSidebar((value) => !value);
+    if (isMobile) {
+      onClose();
+    } else {
+      setIsMiniSidebar((value) => !value);
+    }
   };
 
   const [showQrCode, setShowQrCode] = useState(false);
@@ -144,7 +144,12 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const handleOpenQrCode = () => setShowQrCode(true);
 
   const getSidebarWidth = () => {
-    if (!isMobile && isSidebar && isMiniOpen) return "auto";
+    if (isMobile) {
+      if (isDense) return "180px";
+      if (isProminent) return "320px";
+      return `${theme.breakpoints.values.sm / 2}px`;
+    }
+    if (isSidebar && isMini && isMiniOpen) return "64px";
     if (isDense) return "180px";
     if (isProminent) return "320px";
     return `${theme.breakpoints.values.sm / 2}px`;
@@ -157,6 +162,10 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
           display: "block",
           width: getSidebarWidth(),
           height: isSidebar && !isMobile ? "100%" : "auto",
+          transition: theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
           ...(isDense && {
             "& .MuiListItemButton-root": {
               minHeight: "32px",
@@ -224,20 +233,148 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
 
         })}
       >
-        {isMini && (
+        {isMini && !isMobile && (
           <Stack
-            direction="row"
-            justifyContent={isMiniOpen ? "center" : "flex-end"}
+            direction="column"
+            alignItems="center"
+            spacing={1}
             px={1}
             py={1}
           >
+            {appConfig && !isMiniOpen && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  mb: 1,
+                }}
+              >
+                {colorSchemeMode === 'dark' && appConfig.logoDark?.url ? (
+                  <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
+                    <Image
+                      src={appConfig.logoDark.url}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      width={Math.max(1, Number(appConfig.logoDark?.width || 48))}
+                      height={Math.max(1, Number(appConfig.logoDark?.height || 48))}
+                      style={{
+                        objectFit: 'contain',
+                        maxWidth: '100%',
+                        height: 'auto',
+                      }}
+                    />
+                  </Link>
+                ) : appConfig.logo?.url ? (
+                  <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
+                    <Image
+                      src={appConfig.logo.url}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      width={Math.max(1, Number(appConfig.logo?.width || 48))}
+                      height={Math.max(1, Number(appConfig.logo?.height || 48))}
+                      style={{
+                        objectFit: 'contain',
+                        maxWidth: '100%',
+                        height: 'auto',
+                      }}
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    href="/"
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'text.primary',
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      textAlign: 'center',
+                    }}
+                  >
+                    {appConfig.name}
+                  </Link>
+                )}
+              </Box>
+            )}
             <IconButton onClick={handleToggleMini}>
               {isMiniOpen ? <MenuIcon sx={{ color: 'text.primary' }} /> : <MenuOpenIcon sx={{ color: 'text.primary' }} />}
             </IconButton>
           </Stack>
         )}
-
         {isMobile && (
+          <Stack
+            direction="column"
+            alignItems="center"
+            spacing={1}
+            px={1}
+            py={1}
+          >
+            {appConfig && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  mb: 1,
+                }}
+              >
+                {colorSchemeMode === 'dark' && appConfig.logoDark?.url ? (
+                  <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
+                    <Image
+                      src={appConfig.logoDark.url}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      width={Math.max(1, Number(appConfig.logoDark?.width || 48))}
+                      height={Math.max(1, Number(appConfig.logoDark?.height || 48))}
+                      style={{
+                        objectFit: 'contain',
+                        maxWidth: '100%',
+                        height: 'auto',
+                      }}
+                    />
+                  </Link>
+                ) : appConfig.logo?.url ? (
+                  <Link href="/" sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
+                    <Image
+                      src={appConfig.logo.url}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      width={Math.max(1, Number(appConfig.logo?.width || 48))}
+                      height={Math.max(1, Number(appConfig.logo?.height || 48))}
+                      style={{
+                        objectFit: 'contain',
+                        maxWidth: '100%',
+                        height: 'auto',
+                      }}
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    href="/"
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'text.primary',
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      textAlign: 'center',
+                    }}
+                  >
+                    {appConfig.name}
+                  </Link>
+                )}
+              </Box>
+            )}
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+              <IconButton onClick={onClose}>
+                <MenuIcon sx={{ color: 'text.primary' }} />
+              </IconButton>
+            </Box>
+          </Stack>
+        )}
+
+        {(isMobile || !isMiniOpen) && (
           <Box>
             {!isActive ? (
               <Box p={2}>
@@ -282,7 +419,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                   <Divider />
                 </>
 
-                {isMobile && <WalletContent onClosePopover={onClose} />}
+                <WalletContent onClosePopover={onClose} />
               </Stack>
             )}
           </Box>
@@ -292,12 +429,12 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
           <DrawerMenu
             menu={appConfig?.menuTree}
             onClose={onClose}
-            isMini={!isMobile && isMiniOpen}
+            isMini={isMobile ? false : isMiniOpen}
           />
         ) : (
           <AppDefaultMenuList onClose={onClose} />
         )}
-        {isMobile && (
+        {isMobile && !isMiniOpen && (
           <List
             disablePadding
             subheader={
@@ -309,7 +446,29 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
               </>
             }
           >
-            <ListItemButton divider onClick={handleShowSelectLocaleDialog}>
+            <ListItem
+              divider
+              onClick={handleShowSelectLocaleDialog}
+              sx={{
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.action.hover,
+                },
+              }}
+              secondaryAction={
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <ChevronRightIcon color="primary" />
+                </Box>
+              }
+            >
               <ListItemIcon>
                 <Language sx={{ color: 'text.primary' }} />
               </ListItemIcon>
@@ -327,11 +486,30 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                   </Typography>
                 }
               />
-              <CustomListItemSecondaryAction>
-                <ChevronRightIcon color="primary" />
-              </CustomListItemSecondaryAction>
-            </ListItemButton>
-            <ListItemButton divider onClick={handleShowSelectCurrencyDialog}>
+            </ListItem>
+            <ListItem
+              divider
+              onClick={handleShowSelectCurrencyDialog}
+              sx={{
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.action.hover,
+                },
+              }}
+              secondaryAction={
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <ChevronRightIcon color="primary" />
+                </Box>
+              }
+            >
               <ListItemIcon>
                 <AttachMoney sx={{ color: 'text.primary' }} />
               </ListItemIcon>
@@ -349,10 +527,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                   </Typography>
                 }
               />
-              <CustomListItemSecondaryAction>
-                <ChevronRightIcon color="primary" />
-              </CustomListItemSecondaryAction>
-            </ListItemButton>
+            </ListItem>
             <ListItemButton divider>
               <ListItemIcon />
               <ListItemText primary={<ThemeModeSelector />} />
@@ -363,18 +538,77 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
     );
   };
 
-  if (!isMobile && appConfig?.menuSettings?.layout?.type === "sidebar") {
+  if (appConfig?.menuSettings?.layout?.type === "sidebar") {
+    if (isMobile) {
+      return (
+        <>
+          {showQrCode && (
+            <ScanWalletQrCodeDialog
+              DialogProps={{
+                open: showQrCode,
+                maxWidth: "sm",
+                fullWidth: true,
+                onClose: handleOpenQrCodeScannerClose,
+                fullScreen: isMobile,
+              }}
+              onResult={handleAddressResult}
+            />
+          )}
+          <Drawer
+            variant="temporary"
+            anchor="left"
+            open={open}
+            onClose={onClose}
+            slotProps={{
+              paper: {
+                variant: "elevation",
+                sx: {
+                  width: getSidebarWidth(),
+                  transition: theme.transitions.create("width", {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.enteringScreen,
+                  }),
+                }
+              }
+            }}
+            ModalProps={{
+              keepMounted: true,
+            }}
+          >
+            {renderContent()}
+          </Drawer>
+        </>
+      );
+    }
+
     return (
-      <Paper
-        sx={{
-          display: "block",
-          height: "100%",
-        }}
-        square
-        variant="elevation"
-      >
-        {renderContent()}
-      </Paper>
+      <>
+        {showQrCode && (
+          <ScanWalletQrCodeDialog
+            DialogProps={{
+              open: showQrCode,
+              maxWidth: "sm",
+              fullWidth: true,
+              onClose: handleOpenQrCodeScannerClose,
+              fullScreen: isMobile,
+            }}
+            onResult={handleAddressResult}
+          />
+        )}
+        <Paper
+          sx={{
+            display: "block",
+            height: "100%",
+            width: getSidebarWidth(),
+            maxWidth: getSidebarWidth(),
+            minWidth: getSidebarWidth(),
+          }}
+          square
+          variant="elevation"
+        >
+          {renderContent()}
+        </Paper>
+      </>
     );
   }
 
@@ -393,7 +627,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
         />
       )}
       <Drawer
-        PaperProps={{ variant: "elevation" }}
+        slotProps={{ paper: { variant: "elevation" } }}
         open={open}
         onClose={onClose}
       >
