@@ -34,7 +34,7 @@ import "@react-page/plugins-video/lib/index.css";
 import "@react-page/plugins-spacer/lib/index.css";
 import ExtendedSpacer from "./plugins/ExtendedSpacerPlugin";
 
-import { Theme, styled } from "@mui/material";
+import { Box, Theme, styled } from "@mui/material";
 import { BuilderKit } from "../../constants";
 import AssetAltPlugin from "./plugins/AssetAltPlugin";
 import AssetListPlugin from "./plugins/AssetListPlugin";
@@ -214,17 +214,85 @@ export default function PageEditor(props: Props) {
   }, [builderKit]);
 
   return (
-    <Editor
-      components={{
-        BottomToolbar: CustomToolbar,
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        overflowX: "hidden",
+        "& .react-page-editable": {
+          maxWidth: "100%",
+          overflowX: "hidden",
+        },
+        "& .react-page-row": {
+          width: "100%",
+          maxWidth: "100%",
+          flexWrap: "wrap",
+        },
+        // Mobile responsive styles
+        "@media (max-width: 600px)": {
+          "& .react-page-editable": {
+            paddingLeft: "0 !important",
+            paddingRight: "0 !important",
+            width: "100% !important",
+            maxWidth: "100% !important",
+            overflowX: "hidden !important",
+          },
+          "& .react-page-row": {
+            marginLeft: "0 !important",
+            marginRight: "0 !important",
+            width: "100% !important",
+            maxWidth: "100% !important",
+            flexWrap: "wrap !important",
+          },
+          "& .react-page-cell": {
+            paddingLeft: "0 !important",
+            paddingRight: "0 !important",
+            flexBasis: "100% !important",
+            width: "100% !important",
+            minWidth: "100% !important",
+            maxWidth: "100% !important",
+            boxSizing: "border-box !important",
+          },
+          "& [class*='react-page-cell-xs-'], & [class*='react-page-cell-sm-'], & [class*='react-page-cell-md-'], & [class*='react-page-cell-lg-']": {
+            flexBasis: "100% !important",
+            width: "100% !important",
+            minWidth: "100% !important",
+            maxWidth: "100% !important",
+          },
+          "& .react-page-cell-inner": {
+            width: "100% !important",
+            maxWidth: "100% !important",
+            boxSizing: "border-box !important",
+            overflow: "hidden !important",
+          },
+          "& .react-page-cell-inner > *": {
+            maxWidth: "100% !important",
+            boxSizing: "border-box !important",
+          },
+          "& img, & video, & iframe, & canvas, & svg": {
+            maxWidth: "100% !important",
+            height: "auto !important",
+          },
+          "& table": {
+            width: "100% !important",
+            display: "block !important",
+            overflowX: "auto !important",
+          },
+        },
       }}
-      //@ts-ignore
-      cellPlugins={plugins}
-      value={JSON.parse(value || "null")}
-      onChange={onChangeValue}
-      readOnly={readOnly}
-      //@ts-ignore
-      uiTheme={theme}
-    />
+    >
+      <Editor
+        components={{
+          BottomToolbar: CustomToolbar,
+        }}
+        //@ts-ignore
+        cellPlugins={plugins}
+        value={JSON.parse(value || "null")}
+        onChange={onChangeValue}
+        readOnly={readOnly}
+        //@ts-ignore
+        uiTheme={theme}
+      />
+    </Box>
   );
 }

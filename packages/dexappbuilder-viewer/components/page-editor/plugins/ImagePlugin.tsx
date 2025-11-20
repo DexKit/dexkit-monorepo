@@ -38,15 +38,18 @@ const ImagePlugin: CellPlugin<Data> = {
     const imageWidth = data.width ? data.width : 250;
     const imageHeight = data.height ? data.height : 250;
 
+    const skeletonWidth = isMobile ? Math.min(imageWidth, 400) : imageWidth;
+    const skeletonHeight = isMobile ? (skeletonWidth * imageHeight) / imageWidth : imageHeight;
+
     let image;
     if (src && src.startsWith(DEXKIT_BASE_FILES_HOST)) {
       image = (
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div style={{ position: 'relative', display: 'inline-block', maxWidth: '100%', overflow: 'hidden' }}>
           {!imageLoaded && !isEditMode && (
             <Skeleton
               variant="rectangular"
-              width={imageWidth}
-              height={imageHeight}
+              width={skeletonWidth}
+              height={skeletonHeight}
               sx={{
                 borderRadius: data.borderRadius
                   ? `${data.borderRadius}%`
@@ -55,6 +58,13 @@ const ImagePlugin: CellPlugin<Data> = {
                 top: 0,
                 left: 0,
                 zIndex: 1,
+                maxWidth: '100%',
+                ...(isMobile && {
+                  width: '100%',
+                  maxWidth: '400px',
+                  aspectRatio: `${imageWidth} / ${imageHeight}`,
+                  height: 'auto',
+                }),
               }}
             />
           )}
@@ -77,12 +87,12 @@ const ImagePlugin: CellPlugin<Data> = {
       );
     } else {
       image = (
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div style={{ position: 'relative', display: 'inline-block', maxWidth: '100%', overflow: 'hidden' }}>
           {!imageLoaded && !isEditMode && (
             <Skeleton
               variant="rectangular"
-              width={imageWidth}
-              height={imageHeight}
+              width={skeletonWidth}
+              height={skeletonHeight}
               sx={{
                 borderRadius: data.borderRadius
                   ? `${data.borderRadius}%`
@@ -91,6 +101,13 @@ const ImagePlugin: CellPlugin<Data> = {
                 top: 0,
                 left: 0,
                 zIndex: 1,
+                maxWidth: '100%',
+                ...(isMobile && {
+                  width: '100%',
+                  maxWidth: '400px',
+                  aspectRatio: `${imageWidth} / ${imageHeight}`,
+                  height: 'auto',
+                }),
               }}
             />
           )}

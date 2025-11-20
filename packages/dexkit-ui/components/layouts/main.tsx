@@ -161,6 +161,8 @@ const WrapperLayout = ({ children, appConfig, isPreview }: {
               display: "flex",
               flexDirection: "column",
               width: "100%",
+              maxWidth: "100%",
+              px: { xs: 2, sm: 0 },
             }}
           >
             {children}
@@ -171,11 +173,13 @@ const WrapperLayout = ({ children, appConfig, isPreview }: {
   } else {
     return (
       <Box
-        style={{
+        sx={{
           minHeight: "100vh",
           margin: 0,
           display: "flex",
           flexDirection: "column",
+          width: "100%",
+          maxWidth: "100%",
         }}
       >
         {children}
@@ -242,7 +246,15 @@ const MainLayout = ({
       <WrapperLayout appConfig={appConfig} isPreview={isPreview}>
         {mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant !== "alt" && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         {mobileView && !appConfig.menuSettings?.layout?.type && <Navbar appConfig={appConfig} isPreview={isPreview} />}
-        <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
+        <Box
+          sx={{
+            flex: 1,
+            py: disablePadding ? 0 : { xs: 2, sm: 4 },
+            px: { xs: 2, sm: 0 },
+            width: "100%",
+            maxWidth: "100%",
+          }}
+        >
           <GlobalDialogs />
           <div>
             {children}
