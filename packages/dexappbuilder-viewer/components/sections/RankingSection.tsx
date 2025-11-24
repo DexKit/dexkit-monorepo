@@ -62,8 +62,6 @@ export default function RankingSection({ section }: RankingSectionProps) {
   const rows = queryRanking.data?.data ? queryRanking.data?.data : [];
   const ranking = queryRanking.data?.ranking;
 
-  console.log(ranking);
-
   const columns = useMemo(() => {
     return [
       {
@@ -117,33 +115,34 @@ export default function RankingSection({ section }: RankingSectionProps) {
   }, [ranking?.groupByReferral]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid size={12}>
-        <Typography variant="h6">
-          {queryRanking?.data?.ranking?.title || ""}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {queryRanking?.data?.ranking?.description || ""}
-        </Typography>
+    <Box sx={{ px: 2, py: 3 }}>
+      <Grid container spacing={2}>
+        <Grid size={12}>
+          <Typography variant="h6">
+            {queryRanking?.data?.ranking?.title || ""}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {queryRanking?.data?.ranking?.description || ""}
+          </Typography>
+        </Grid>
+        <Grid size={12}>
+          <DataGrid
+            getRowId={(row: any) => row.account}
+            rows={rows}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            columns={columns}
+            pageSizeOptions={[
+              { label: "5", value: 5 },
+              { label: "10", value: 10 },
+              { label: "50", value: 50 },
+              { label: "100", value: 100 },
+            ]}
+            sx={{ minHeight: 300 }}
+            slots={{ noRowsOverlay: NoRows, noResultsOverlay: NoRows }}
+          />
+        </Grid>
       </Grid>
-      <Grid size={12}>
-        <DataGrid
-          getRowId={(row: any) => row.account}
-          rowCount={rows.length}
-          rows={rows}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          columns={columns}
-          pageSizeOptions={[
-            { label: "5", value: 5 },
-            { label: "10", value: 10 },
-            { label: "50", value: 50 },
-            { label: "100", value: 100 },
-          ]}
-          sx={{ minHeight: 300 }}
-          slots={{ noRowsOverlay: NoRows, noResultsOverlay: NoRows }}
-        />
-      </Grid>
-    </Grid>
+    </Box>
   );
 }

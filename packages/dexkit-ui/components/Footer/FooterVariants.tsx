@@ -1004,12 +1004,12 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         return (
           <Typography component="span" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
             {customSignature.showAppName && (
-              <>
+              <React.Fragment key="app-name-fragment">
                 <Link href="/" sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
                   {appConfig.name}
                 </Link>
                 {" · "}
-              </>
+              </React.Fragment>
             )}
             {customSignature.showLoveBy && "made with ❤️ by "}
             <Link
@@ -1308,7 +1308,11 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
     if (showAppSignature || footerConfig.customSignature?.enabled) {
       const signatureElements = renderMinimalSignature();
       if (signatureElements) {
-        signatureItems.push(signatureElements);
+        signatureItems.push(
+          <React.Fragment key="signature-fragment">
+            {signatureElements}
+          </React.Fragment>
+        );
       }
     }
 
