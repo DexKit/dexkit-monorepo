@@ -10,9 +10,11 @@ import {
   Button,
   Card,
   CardContent,
+  Divider,
   Grid,
   InputAdornment,
   Skeleton,
+  Slider,
   Stack,
   Typography,
   useMediaQuery,
@@ -67,6 +69,21 @@ export function RankingSectionForm({
     title?: string;
   }>();
 
+  const [paddingConfig, setPaddingConfig] = useState<{
+    desktop?: {
+      top?: number;
+      bottom?: number;
+      left?: number;
+      right?: number;
+    };
+    mobile?: {
+      top?: number;
+      bottom?: number;
+      left?: number;
+      right?: number;
+    };
+  }>(section?.settings?.paddingConfig || {});
+
   const handleChange = (value: string) => {
     let filter = queryOptions.filter;
     if (value) {
@@ -86,11 +103,14 @@ export function RankingSectionForm({
           ...section,
           type: 'ranking',
           title: title,
-          settings: { rankingId: id },
+          settings: { 
+            rankingId: id,
+            paddingConfig: paddingConfig,
+          },
         });
       }
     },
-    [saveOnChange],
+    [saveOnChange, paddingConfig, section],
   );
 
   const handleSave = useCallback(() => {
@@ -99,10 +119,42 @@ export function RankingSectionForm({
         ...section,
         type: 'ranking',
         title: selectedRanking.title,
-        settings: { rankingId: selectedRanking.id },
+        settings: { 
+          rankingId: selectedRanking.id,
+          paddingConfig: paddingConfig,
+        },
       });
     }
-  }, [onSave, selectedRanking]);
+  }, [onSave, selectedRanking, paddingConfig, section]);
+
+  const handlePaddingChange = (
+    device: 'desktop' | 'mobile',
+    side: 'top' | 'bottom' | 'left' | 'right',
+    value: number | number[]
+  ) => {
+    const numValue = Array.isArray(value) ? value[0] : value;
+    const newPaddingConfig = {
+      ...paddingConfig,
+      [device]: {
+        ...paddingConfig[device],
+        [side]: numValue,
+      },
+    };
+    
+    setPaddingConfig(newPaddingConfig);
+
+    if (saveOnChange && selectedRanking?.id) {
+      onChange({
+        ...section,
+        type: 'ranking',
+        title: selectedRanking.title,
+        settings: {
+          rankingId: selectedRanking.id,
+          paddingConfig: newPaddingConfig,
+        },
+      });
+    }
+  };
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -117,6 +169,9 @@ export function RankingSectionForm({
         id: section.settings.rankingId,
         title: section.title,
       });
+    }
+    if (section?.settings?.paddingConfig) {
+      setPaddingConfig(section.settings.paddingConfig);
     }
   }, [section]);
 
@@ -223,6 +278,196 @@ export function RankingSectionForm({
               )}
           </Grid>
         </Grid>
+
+        {selectedRanking && (
+          <Grid size={12}>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="h6" gutterBottom>
+              <FormattedMessage
+                id="padding.configuration"
+                defaultMessage="Padding Configuration"
+              />
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              <FormattedMessage
+                id="padding.configuration.description"
+                defaultMessage="Configure the padding for desktop and mobile devices separately"
+              />
+            </Typography>
+
+            <Grid container spacing={3} sx={{ mt: 1 }}>
+              <Grid size={12}>
+                <Typography variant="subtitle1" gutterBottom>
+                  <FormattedMessage
+                    id="desktop.padding"
+                    defaultMessage="Desktop Padding"
+                  />
+                </Typography>
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.top"
+                    defaultMessage="Top"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.desktop?.top ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('desktop', 'top', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.bottom"
+                    defaultMessage="Bottom"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.desktop?.bottom ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('desktop', 'bottom', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.left"
+                    defaultMessage="Left"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.desktop?.left ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('desktop', 'left', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.right"
+                    defaultMessage="Right"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.desktop?.right ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('desktop', 'right', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+
+              <Grid size={12} sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  <FormattedMessage
+                    id="mobile.padding"
+                    defaultMessage="Mobile Padding"
+                  />
+                </Typography>
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.top"
+                    defaultMessage="Top"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.mobile?.top ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('mobile', 'top', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.bottom"
+                    defaultMessage="Bottom"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.mobile?.bottom ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('mobile', 'bottom', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.left"
+                    defaultMessage="Left"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.mobile?.left ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('mobile', 'left', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+              <Grid size={12} sx={{ px: 2 }}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="padding.right"
+                    defaultMessage="Right"
+                  />
+                </Typography>
+                <Slider
+                  value={paddingConfig.mobile?.right ?? 0}
+                  onChange={(_, value) =>
+                    handlePaddingChange('mobile', 'right', value)
+                  }
+                  min={0}
+                  max={20}
+                  step={1}
+                  marks
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
 
         {showSaveButton && (
           <Grid size={12}>

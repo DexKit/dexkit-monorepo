@@ -58,7 +58,10 @@ export const PreviewPortal = ({ index, site, page, previewPlatform = 'mobile' }:
   const url = useMemo(() => {
     const temp = new URL(getWindowUrl());
 
-    temp.pathname = `/admin/preview/${site}/${page}`;
+    const slug = site || 'undefined';
+    const pageName = page || 'undefined';
+
+    temp.pathname = `/_site/${slug}/admin/preview/${slug}/${pageName}`;
 
     if (index !== undefined && index >= 0) {
       temp.searchParams.set('index', index.toString());

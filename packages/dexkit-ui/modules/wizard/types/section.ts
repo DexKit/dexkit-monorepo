@@ -607,6 +607,20 @@ export interface RankingPageSection extends PageSection {
   type: "ranking";
   settings: {
     rankingId?: number;
+    paddingConfig?: {
+      desktop?: {
+        top?: number;
+        bottom?: number;
+        left?: number;
+        right?: number;
+      };
+      mobile?: {
+        top?: number;
+        bottom?: number;
+        left?: number;
+        right?: number;
+      };
+    };
   };
 }
 

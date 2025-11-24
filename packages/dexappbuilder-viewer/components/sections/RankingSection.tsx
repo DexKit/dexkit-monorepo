@@ -1,4 +1,4 @@
-import { Box, Grid, Link, Stack, Typography } from "@mui/material";
+import { Box, Grid, Link, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import { useAppRankingQuery } from "@dexkit/ui/modules/wizard/hooks/ranking";
 import { RankingPageSection } from "@dexkit/ui/modules/wizard/types/section";
@@ -49,6 +49,8 @@ const NoRows: React.FC = () => {
 
 export default function RankingSection({ section }: RankingSectionProps) {
   const { account, chainId } = useWeb3React();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
@@ -62,7 +64,36 @@ export default function RankingSection({ section }: RankingSectionProps) {
   const rows = queryRanking.data?.data ? queryRanking.data?.data : [];
   const ranking = queryRanking.data?.ranking;
 
-  console.log(ranking);
+  const paddingConfig = section.settings?.paddingConfig;
+  const currentPadding = isMobile
+    ? paddingConfig?.mobile
+    : paddingConfig?.desktop;
+
+  const paddingSx = useMemo(() => {
+    const padding: any = {};
+
+    if (currentPadding?.top !== undefined) {
+      padding.pt = currentPadding.top;
+    }
+    if (currentPadding?.bottom !== undefined) {
+      padding.pb = currentPadding.bottom;
+    }
+    if (currentPadding?.left !== undefined) {
+      padding.pl = currentPadding.left;
+    }
+    if (currentPadding?.right !== undefined) {
+      padding.pr = currentPadding.right;
+    }
+
+    if (Object.keys(padding).length === 0) {
+      return {
+        px: { xs: 2, sm: 2 },
+        py: { xs: 3, sm: 3 },
+      };
+    }
+
+    return padding;
+  }, [currentPadding]);
 
   const columns = useMemo(() => {
     return [
@@ -117,33 +148,34 @@ export default function RankingSection({ section }: RankingSectionProps) {
   }, [ranking?.groupByReferral]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid size={12}>
-        <Typography variant="h6">
-          {queryRanking?.data?.ranking?.title || ""}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {queryRanking?.data?.ranking?.description || ""}
-        </Typography>
+    <Box sx={paddingSx}>
+      <Grid container spacing={2}>
+        <Grid size={12}>
+          <Typography variant="h6">
+            {queryRanking?.data?.ranking?.title || ""}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {queryRanking?.data?.ranking?.description || ""}
+          </Typography>
+        </Grid>
+        <Grid size={12}>
+          <DataGrid
+            getRowId={(row: any) => row.account}
+            rows={rows}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            columns={columns}
+            pageSizeOptions={[
+              { label: "5", value: 5 },
+              { label: "10", value: 10 },
+              { label: "50", value: 50 },
+              { label: "100", value: 100 },
+            ]}
+            sx={{ minHeight: 300 }}
+            slots={{ noRowsOverlay: NoRows, noResultsOverlay: NoRows }}
+          />
+        </Grid>
       </Grid>
-      <Grid size={12}>
-        <DataGrid
-          getRowId={(row: any) => row.account}
-          rowCount={rows.length}
-          rows={rows}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          columns={columns}
-          pageSizeOptions={[
-            { label: "5", value: 5 },
-            { label: "10", value: 10 },
-            { label: "50", value: 50 },
-            { label: "100", value: 100 },
-          ]}
-          sx={{ minHeight: 300 }}
-          slots={{ noRowsOverlay: NoRows, noResultsOverlay: NoRows }}
-        />
-      </Grid>
-    </Grid>
+    </Box>
   );
 }
