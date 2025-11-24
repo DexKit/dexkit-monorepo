@@ -146,6 +146,8 @@ export default function PagesSection({
           onSave={handleSave}
           onSaveName={handleSaveName}
           index={currentIndex}
+          site={site}
+          page={page}
         />
       )}
       {isOpenEditor && (

@@ -51,6 +51,8 @@ interface Props {
   index: number;
   section?: AppPageSection;
   builderKit?: BuilderKit;
+  site?: string;
+  page?: string;
 }
 
 function ResizeHandle() {
@@ -86,6 +88,8 @@ export default function EditSectionDialog({
   index,
   section,
   builderKit,
+  site,
+  page,
 }: Props) {
   const { onClose } = dialogProps;
   const { formatMessage } = useIntl();
@@ -302,6 +306,9 @@ export default function EditSectionDialog({
       enableOverflow={true}
       editable={sectionType === 'card'}
       onLayoutChange={sectionType === 'card' ? handleLayoutChange : undefined}
+      site={site}
+      page={page}
+      index={index}
     />
   );
 

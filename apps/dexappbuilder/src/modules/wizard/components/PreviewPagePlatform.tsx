@@ -104,7 +104,7 @@ export default function PreviewPagePlatform({
             alignContent={'center'}
             sx={{ flex: 1 }}
           >
-            <PreviewPortal page={page} site={site} index={index} />
+            <PreviewPortal page={page} site={site} index={index} previewPlatform={previewPlatform} />
           </Stack>
         )}
       </Box>

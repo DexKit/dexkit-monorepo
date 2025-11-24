@@ -1,4 +1,4 @@
-import { Box, Grid, Link, Stack, Typography } from "@mui/material";
+import { Box, Grid, Link, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import { useAppRankingQuery } from "@dexkit/ui/modules/wizard/hooks/ranking";
 import { RankingPageSection } from "@dexkit/ui/modules/wizard/types/section";
@@ -49,6 +49,8 @@ const NoRows: React.FC = () => {
 
 export default function RankingSection({ section }: RankingSectionProps) {
   const { account, chainId } = useWeb3React();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
@@ -61,6 +63,37 @@ export default function RankingSection({ section }: RankingSectionProps) {
 
   const rows = queryRanking.data?.data ? queryRanking.data?.data : [];
   const ranking = queryRanking.data?.ranking;
+
+  const paddingConfig = section.settings?.paddingConfig;
+  const currentPadding = isMobile
+    ? paddingConfig?.mobile
+    : paddingConfig?.desktop;
+
+  const paddingSx = useMemo(() => {
+    const padding: any = {};
+
+    if (currentPadding?.top !== undefined) {
+      padding.pt = currentPadding.top;
+    }
+    if (currentPadding?.bottom !== undefined) {
+      padding.pb = currentPadding.bottom;
+    }
+    if (currentPadding?.left !== undefined) {
+      padding.pl = currentPadding.left;
+    }
+    if (currentPadding?.right !== undefined) {
+      padding.pr = currentPadding.right;
+    }
+
+    if (Object.keys(padding).length === 0) {
+      return {
+        px: { xs: 2, sm: 2 },
+        py: { xs: 3, sm: 3 },
+      };
+    }
+
+    return padding;
+  }, [currentPadding]);
 
   const columns = useMemo(() => {
     return [
@@ -115,7 +148,7 @@ export default function RankingSection({ section }: RankingSectionProps) {
   }, [ranking?.groupByReferral]);
 
   return (
-    <Box sx={{ px: 2, py: 3 }}>
+    <Box sx={paddingSx}>
       <Grid container spacing={2}>
         <Grid size={12}>
           <Typography variant="h6">
