@@ -371,6 +371,24 @@ export function detectAppType(prompt: string): AppType {
   return AppType.GENERAL;
 }
 
+export function detectAppCreationRequest(prompt: string): AppType | null {
+  const lowerPrompt = prompt.toLowerCase();
+
+  const creationPatterns = [
+    /\bcreate\s+(?:a|an|my|new)\s+(?:swap|exchange|wallet|nft.*store|marketplace)\s+(?:app|application|dapp)\b/,
+    /\b(?:build|make|set\s+up|start)\s+(?:a|an|my|new)\s+(?:swap|exchange|wallet|nft.*store|marketplace)\s+(?:app|application|dapp)\b/,
+    /\b(?:i\s+want\s+to|i\s+need\s+to|let's)\s+(?:create|build|make)\s+(?:a|an|my|new)\s+(?:swap|exchange|wallet|nft.*store|marketplace)\s+(?:app|application|dapp)\b/,
+  ];
+
+  const isCreationRequest = creationPatterns.some(pattern => pattern.test(lowerPrompt));
+
+  if (!isCreationRequest) {
+    return null;
+  }
+
+  return detectAppType(prompt);
+}
+
 export function buildEnhancedPrompt(
   userPrompt: string,
   appType: AppType,
@@ -599,5 +617,164 @@ export function validateGeneratedSections(
     valid: errors.length === 0,
     errors,
   };
+}
+
+export function buildContextualPrompt(
+  prompt: string,
+  appConfig: AppConfig,
+  chatHistory: any[] = []
+): string {
+  const appConfigStr = JSON.stringify(appConfig, null, 2);
+
+  const themeInfo = getThemeInfo(appConfig);
+
+  let contextualPrompt = `Current AppConfig context:
+${appConfigStr}
+
+Theme information:
+${JSON.stringify(themeInfo, null, 2)}
+
+User request: ${prompt}
+
+Instructions:
+- Analyze the user's request in the context of the current AppConfig
+- If the user wants to create/edit pages, sections, SEO, or theme, provide the changes in the "changes" field
+- Always use colors from the theme configuration when generating HTML or code
+- Explain what you changed and suggest next steps
+- If creating a swap or exchange section, ask which variant the user prefers if not specified
+- Return valid JSON with the structure specified in the system message`;
+
+  return contextualPrompt;
+}
+
+export function extractAppConfigChanges(aiResponse: string): Partial<AppConfig> | null {
+  try {
+    const cleanedText = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const parsed = JSON.parse(cleanedText);
+
+    if (parsed.changes && typeof parsed.changes === 'object') {
+      return parsed.changes as Partial<AppConfig>;
+    }
+
+    return null;
+  } catch (error) {
+    const changesMatch = aiResponse.match(/"changes"\s*:\s*\{[\s\S]*?\}/);
+    if (changesMatch) {
+      try {
+        const changesStr = changesMatch[0].replace(/"changes"\s*:\s*/, '');
+        return JSON.parse(changesStr);
+      } catch (e) {
+      }
+    }
+
+    return null;
+  }
+}
+
+export function validateAppConfigChanges(changes: Partial<AppConfig>): {
+  valid: boolean;
+  errors: string[];
+} {
+  const errors: string[] = [];
+
+  if (changes.pages && typeof changes.pages !== 'object') {
+    errors.push('pages must be an object');
+  }
+
+  if (changes.theme && typeof changes.theme !== 'string') {
+    errors.push('theme must be a string');
+  }
+
+  if (changes.seo && typeof changes.seo !== 'object') {
+    errors.push('seo must be an object');
+  }
+
+  if (changes.pages) {
+    for (const [pageKey, page] of Object.entries(changes.pages)) {
+      if (!page || typeof page !== 'object') {
+        errors.push(`Page ${pageKey} must be an object`);
+        continue;
+      }
+
+      if (page.sections && !Array.isArray(page.sections)) {
+        errors.push(`Page ${pageKey} sections must be an array`);
+      }
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}
+
+export function applyThemeColorsToHTML(html: string, appConfig?: AppConfig): string {
+  if (!appConfig) {
+    return html;
+  }
+
+  const themeInfo = getThemeInfo(appConfig);
+
+  let updatedHtml = html;
+
+  if (themeInfo.primaryColor) {
+    updatedHtml = updatedHtml.replace(
+      /(color|background-color|border-color):\s*['"]?#?(primary|#[0-9a-fA-F]{3,6})['"]?/gi,
+      `$1: ${themeInfo.primaryColor}`
+    );
+  }
+
+  if (themeInfo.secondaryColor) {
+    updatedHtml = updatedHtml.replace(
+      /(color|background-color|border-color):\s*['"]?#?(secondary|#[0-9a-fA-F]{3,6})['"]?/gi,
+      `$1: ${themeInfo.secondaryColor}`
+    );
+  }
+
+  if (themeInfo.backgroundColor) {
+    updatedHtml = updatedHtml.replace(
+      /(background|background-color):\s*['"]?#?(background|#[0-9a-fA-F]{3,6})['"]?/gi,
+      `$1: ${themeInfo.backgroundColor}`
+    );
+  }
+
+  if (themeInfo.textColor) {
+    updatedHtml = updatedHtml.replace(
+      /(color):\s*['"]?#?(text|#[0-9a-fA-F]{3,6})['"]?/gi,
+      `$1: ${themeInfo.textColor}`
+    );
+  }
+
+  return updatedHtml;
+}
+
+export function detectVariantRequest(prompt: string): {
+  needsVariant: boolean;
+  sectionType?: string;
+} {
+  const lowerPrompt = prompt.toLowerCase();
+
+  if (lowerPrompt.includes('swap') && (lowerPrompt.includes('variant') || lowerPrompt.includes('style') || lowerPrompt.includes('type'))) {
+    return {
+      needsVariant: true,
+      sectionType: 'swap',
+    };
+  }
+
+  if (lowerPrompt.includes('exchange') && (lowerPrompt.includes('variant') || lowerPrompt.includes('style') || lowerPrompt.includes('type'))) {
+    return {
+      needsVariant: true,
+      sectionType: 'exchange',
+    };
+  }
+
+  return {
+    needsVariant: false,
+  };
+}
+
+export function buildVariantPrompt(sectionType: string, availableVariants: string[]): string {
+  return `The user wants to create a ${sectionType} section. Please ask which variant they prefer from these options: ${availableVariants.join(', ')}. 
+If they don't specify, use the default variant (${availableVariants[0]}).`;
 }
 

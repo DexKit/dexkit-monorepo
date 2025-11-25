@@ -12,6 +12,7 @@ import MarketplacesTableV2 from '@dexkit/ui/modules/admin/components/tables/Mark
 import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { default as Add, default as AddIcon } from '@mui/icons-material/Add';
+import AutoAwesome from '@mui/icons-material/AutoAwesome';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Search from '@mui/icons-material/Search';
 import {
@@ -289,32 +290,54 @@ export const AdminIndexPage: NextPage = () => {
               alignItems={isMobile ? "stretch" : "center"}
               justifyContent="space-between"
               sx={{ pt: isMobile ? 0 : 1 }}
-              spacing={isMobile ? 1 : 0}
+              spacing={isMobile ? 1 : 1}
             >
-              <Button
-                href="/admin/setup"
-                LinkComponent={Link}
-                startIcon={<AddIcon />}
-                variant="contained"
-                color="primary"
-                fullWidth={isMobile}
-                size={isMobile ? "small" : "medium"}
-                sx={{
-                  mb: isMobile ? 1 : 0,
-                  py: isMobile ? 1 : undefined,
-                  fontSize: isMobile ? '0.875rem' : undefined,
-                  maxHeight: isMobile ? '40px' : undefined,
-                  color: 'white !important',
-                  '&:hover': {
-                    color: 'white !important'
-                  },
-                  '& .MuiButton-startIcon': {
-                    color: 'white !important'
-                  }
-                }}
+              <Stack
+                direction={isMobile ? "column" : "row"}
+                spacing={1}
+                sx={{ width: isMobile ? '100%' : 'auto' }}
               >
-                <FormattedMessage id="new.app" defaultMessage="New App" />
-              </Button>
+                <Button
+                  href="/admin/setup"
+                  LinkComponent={Link}
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                  color="primary"
+                  fullWidth={isMobile}
+                  size={isMobile ? "small" : "medium"}
+                  sx={{
+                    mb: isMobile ? 1 : 0,
+                    py: isMobile ? 1 : undefined,
+                    fontSize: isMobile ? '0.875rem' : undefined,
+                    maxHeight: isMobile ? '40px' : undefined,
+                    color: 'white !important',
+                    '&:hover': {
+                      color: 'white !important'
+                    },
+                    '& .MuiButton-startIcon': {
+                      color: 'white !important'
+                    }
+                  }}
+                >
+                  <FormattedMessage id="new.app" defaultMessage="New App" />
+                </Button>
+                <Button
+                  onClick={() => window.dispatchEvent(new Event('openVibecoder'))}
+                  variant="outlined"
+                  color="primary"
+                  fullWidth={isMobile}
+                  size={isMobile ? "small" : "medium"}
+                  startIcon={<AutoAwesome fontSize={isMobile ? 'small' : 'medium'} />}
+                  sx={{
+                    mb: isMobile ? 1 : 0,
+                    py: isMobile ? 1 : undefined,
+                    fontSize: isMobile ? '0.875rem' : undefined,
+                    maxHeight: isMobile ? '40px' : undefined,
+                  }}
+                >
+                  <FormattedMessage id="try.vibecoding" defaultMessage="Try Vibecoding" />
+                </Button>
+              </Stack>
 
               {isMobile && <TextField
                 value={search}

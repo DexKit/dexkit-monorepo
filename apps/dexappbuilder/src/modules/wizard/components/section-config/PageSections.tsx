@@ -313,7 +313,6 @@ export default function PageSections({
             onEditTitle={(title) => onEditTitle(pageKey || '', title)}
             onEditLayout={onEditLayout}
             onPreview={onPreview}
-            onOpenVibecoder={handleOpenVibecoder}
             page={page}
             pageKey={pageKey}
           />
