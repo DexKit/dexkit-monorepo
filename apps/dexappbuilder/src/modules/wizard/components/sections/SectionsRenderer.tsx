@@ -72,11 +72,13 @@ interface Props {
   layout?: PageSectionsLayout;
   editable?: boolean;
   onLayoutChange?: (layouts: any) => void;
+  previewPlatform?: 'mobile' | 'desktop';
 }
 
-export function SectionsRenderer({ sections, layout, editable, onLayoutChange }: Props) {
+export function SectionsRenderer({ sections, layout, editable, onLayoutChange, previewPlatform }: Props) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = previewPlatform ? previewPlatform === 'mobile' : isMobileDevice;
   const [tab, setTab] = useState('tab-0');
 
   const sectionsToRender = sections.map((section, key) => {

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsRenderer';
+import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
 
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
@@ -14,7 +14,7 @@ import { useEffect, useMemo } from 'react';
 import { useAdminWhitelabelConfigQuery } from 'src/hooks/whitelabel';
 import { getAppConfig } from 'src/services/app';
 
-import { Box, CssBaseline, ThemeProvider, useTheme } from '@mui/material';
+import { Box, CircularProgress, CssBaseline, Stack, ThemeProvider, useTheme } from '@mui/material';
 import Head from 'next/head';
 import PreviewAuthLayout from 'src/components/layouts/PreviewAuthLayout';
 import { getTheme } from 'src/theme';
@@ -34,6 +34,10 @@ function PreviewPage() {
   }, [data]);
 
   const [sections, layout] = useMemo(() => {
+    if (!router.isReady || !appConfig || !page) {
+      return [[], undefined];
+    }
+
     const sectionIndex = index !== undefined ? parseInt(index as string) : -1;
 
     if (sectionIndex >= 0) {
@@ -48,13 +52,23 @@ function PreviewPage() {
       appConfig ? appConfig.pages[page as string]?.sections ?? [] : [],
       appConfig?.pages[page as string]?.layout,
     ];
-  }, [appConfig, page, index]);
+  }, [appConfig, page, index, router.isReady]);
 
   const disableLayoutFlag = false;
 
-  const isMobileView = platform === 'mobile';
-  const isDesktopView = platform === 'desktop';
-  const isDarkMode = themeMode === 'dark';
+  const platformValue = Array.isArray(platform) ? platform[0] : platform;
+  const previewPlatform = useMemo(() => {
+    if (!router.isReady) {
+      return 'desktop';
+    }
+    return (platformValue === 'mobile' || platformValue === 'desktop')
+      ? platformValue
+      : 'desktop';
+  }, [platformValue, router.isReady]);
+  const isMobileView = previewPlatform === 'mobile';
+  const isDesktopView = previewPlatform === 'desktop';
+  const themeModeValue = Array.isArray(themeMode) ? themeMode[0] : themeMode;
+  const isDarkMode = themeModeValue === 'dark';
 
   const currentTheme = useMemo(() => {
     if (!appConfig) {
@@ -67,7 +81,7 @@ function PreviewPage() {
     if (baseTheme && baseTheme.theme) {
       const colorScheme = isDarkMode ? 'dark' : 'light';
       const currentColorScheme = baseTheme.theme.colorSchemes?.[colorScheme];
-      
+
       if (currentColorScheme) {
         const themeWithCorrectMode = {
           ...baseTheme.theme,
@@ -186,25 +200,42 @@ function PreviewPage() {
           }
         `}</style>
       </Head>
-      <Box
-        sx={{
-          width: isDesktopView ? '100%' : (isMobileView ? '100vw' : 'auto'),
-          height: isMobileView ? '100vh' : 'auto',
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          bgcolor: 'background.default',
-          color: 'text.primary',
-        }}
-      >
-        <PreviewAuthLayout
-          noSsr
-          disableLayout={disableLayoutFlag}
-          appConfig={appConfig}
-          isPreview={true}
+      {!router.isReady ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100vh',
+            bgcolor: 'background.default',
+          }}
         >
-          <SectionsRenderer sections={sections} layout={layout} />
-        </PreviewAuthLayout>
-      </Box>
+          <Stack spacing={2} alignItems="center">
+            <CircularProgress />
+          </Stack>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            width: isDesktopView ? '100%' : (isMobileView ? '100vw' : 'auto'),
+            height: isMobileView ? '100vh' : 'auto',
+            overflow: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            bgcolor: 'background.default',
+            color: 'text.primary',
+          }}
+        >
+          <PreviewAuthLayout
+            noSsr
+            disableLayout={disableLayoutFlag}
+            appConfig={appConfig}
+            isPreview={true}
+          >
+            <SectionsRenderer sections={sections} layout={layout} previewPlatform={previewPlatform} />
+          </PreviewAuthLayout>
+        </Box>
+      )}
     </ThemeProvider>
   );
 }
