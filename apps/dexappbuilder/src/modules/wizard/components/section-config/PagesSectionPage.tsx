@@ -6,6 +6,7 @@ import {
   GatedPageLayout,
 } from '@dexkit/ui/modules/wizard/types';
 import {
+  AppConfig,
   AppPage,
   AppPageOptions,
   PageSectionsLayout,
@@ -46,6 +47,8 @@ interface Props {
   activeSection?: PageSectionKey;
   site?: string;
   onUpdatePageLayout: (page: string, layout: PageSectionsLayout) => void;
+  appConfig?: any;
+  onSaveConfig?: (config: Partial<AppConfig>) => void;
 }
 
 export default function PagesSectionPage({
@@ -69,6 +72,8 @@ export default function PagesSectionPage({
   activeSection,
   site,
   previewUrl,
+  appConfig,
+  onSaveConfig,
 }: Props) {
   const [showAddPage, setShowAddPage] = useState(false);
   const theme = useTheme();
@@ -181,6 +186,8 @@ export default function PagesSectionPage({
             site={site}
             previewUrl={previewUrl}
             onUpdatePageLayout={onUpdatePageLayout}
+            appConfig={appConfig}
+            onSaveConfig={onSaveConfig}
           />
         </Box>
       </Stack>
