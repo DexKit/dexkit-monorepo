@@ -91,7 +91,7 @@
     "formik-mui-x-date-pickers": "^0.0.1",
     "html-react-parser": "^3.0.4",
     "mui-color-input": "2.0.3",
-    "next": "15.5.5",
+    "next": "15.5.7",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
     "next-seo": "^5.4.0",

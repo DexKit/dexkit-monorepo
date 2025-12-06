@@ -78,8 +78,8 @@
     "notistack": "^2.0.8",
     "openai": "^6.1.0",
     "optics-ts": "^2.4.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.1.2",
+    "react-dom": "19.1.2",
     "react-intl": "^5.24.8",
     "uint8arrays": "3.1.1"
   },
