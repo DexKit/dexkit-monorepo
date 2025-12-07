@@ -1,5 +1,12 @@
 # @dexkit/ui
 
+## 2.1.0
+
+### Minor Changes
+
+- 3324504: Add multimedia compatibility for NFTs and increased upload size for media
+- 9549dfb: Add multimedia support. Media uploading and media NFT creation and handling
+
 ## 2.0.0
 
 ### Major Changes
