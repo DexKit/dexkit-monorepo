@@ -1,5 +1,18 @@
 # @dexkit/web3forms
 
+## 2.1.0
+
+### Minor Changes
+
+- 9df5d92: fix split contract page not showing up
+- 9549dfb: Add multimedia support. Media uploading and media NFT creation and handling
+
+### Patch Changes
+
+- Updated dependencies [3324504]
+- Updated dependencies [9549dfb]
+  - @dexkit/ui@2.1.0
+
 ## 2.0.0
 
 ### Major Changes
