@@ -11,7 +11,7 @@
     "release": "changeset publish"
   },
   "devDependencies": {
-    "@types/react": "19.1.0",
+    "@types/react": "19.1.2",
     "@types/ua-parser-js": "^0.7.36",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
@@ -23,7 +23,7 @@
     "@mui/material": "^7.0.0",
     "axios": "0.30.0",
     "eth-url-parser": "^1.0.4",
-    "react": "19.1.0",
+    "react": "19.1.2",
     "ua-parser-js": "^1.0.35"
   },
   "publishConfig": {
