@@ -103,6 +103,7 @@ export type DexkitExchangeSettings = {
     [key: number]: { quoteTokens: Token[]; baseTokens: Token[] };
   };
   buyTokenPercentageFee?: number;
+  onlyMyTokensOnSearch?: boolean;
   feeRecipientAddress?: string;
   affiliateAddress?: string;
   availNetworks: ChainId[];
@@ -114,6 +115,7 @@ export type DexkitExchangeSettings = {
 
 export type DexkitExchangeContextState = {
   container?: boolean;
+  onlyMyTokensOnSearch?: boolean;
   zrxApiKey?: string;
   quoteToken?: Token;
   baseToken?: Token;
@@ -188,6 +190,7 @@ export const ExchangeSettingsSchema = Yup.object({
   defaultPairs: Yup.object().required(),
   defaultSlippage: Yup.object(),
   buyTokenPercentageFee: Yup.number().required(),
+  onlyMyTokensOnSearch: Yup.boolean().optional(),
   feeRecipientAddress: Yup.string().test("address", (value) => {
     return value !== undefined ? isAddress(value) : true;
   }),

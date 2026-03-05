@@ -6,6 +6,7 @@ export const DexkitExchangeContext =
   React.createContext<DexkitExchangeContextState>({
     setPair: () => {},
     onSwitchNetwork: async (chainId: ChainId) => {},
+    onlyMyTokensOnSearch: false,
     defaultSlippage: {},
     baseTokens: [],
     quoteTokens: [],

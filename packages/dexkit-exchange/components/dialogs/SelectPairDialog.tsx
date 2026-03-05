@@ -9,12 +9,11 @@ import {
   DialogContent,
   DialogProps,
   Divider,
-  Grid,
   InputAdornment,
   Stack,
-  useMediaQuery,
-  useTheme,
   useColorScheme,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -70,7 +69,7 @@ export default function SelectPairDialog({
   const { mode } = useColorScheme();
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const { variant, glassSettings } = useExchangeContext();
+  const { variant, glassSettings, onlyMyTokensOnSearch } = useExchangeContext();
   const isGlassVariant = variant === "glass";
   const isDarkMode = mode === 'dark';
   const textColor = glassSettings?.textColor || (isDarkMode ? '#ffffff' : theme.palette.text.primary);
@@ -124,13 +123,17 @@ export default function SelectPairDialog({
   const [query, setQuery] = useState("");
 
   const handleChange = useCallback((value: string) => {
+    // if useOnlyMyTokensOnSearch is true, set query to empty string
+    // otherwise, set query to the value
     setQuery(value);
   }, []);
 
   const searchQuery = usePlatformCoinSearch({
     keyword: query,
     network: chainId && NETWORKS[chainId] ? NETWORKS[chainId].slug : undefined,
+    enabled: !onlyMyTokensOnSearch,
   });
+  console.log("onlyMyTokensOnSearch", onlyMyTokensOnSearch);
 
   const filteredTokens = useMemo(() => {
     if (searchQuery.data) {
@@ -212,8 +215,8 @@ export default function SelectPairDialog({
             position: 'sticky',
             top: 0,
             zIndex: theme.zIndex.modal + 1,
-            backgroundColor: isGlassVariant 
-              ? 'rgba(255, 255, 255, 0.1)' 
+            backgroundColor: isGlassVariant
+              ? 'rgba(255, 255, 255, 0.1)'
               : (isDarkMode ? theme.palette.grey[900] : theme.palette.background.paper),
             ...(isGlassVariant && {
               backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',

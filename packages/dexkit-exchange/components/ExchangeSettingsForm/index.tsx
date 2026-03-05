@@ -1718,6 +1718,7 @@ export default function ExchangeSettingsForm({
 
   const handleValidate = async (values: DexkitExchangeSettings) => {
     let errors: any = {};
+    console.log("values", values.onlyMyTokensOnSearch);
 
     if (values.buyTokenPercentageFee && values.buyTokenPercentageFee > 10) {
       errors["buyTokenPercentageFee"] = formatMessage({
@@ -1983,6 +1984,7 @@ export default function ExchangeSettingsForm({
                   buyTokenPercentageFee: 0.0,
                   availNetworks: networks.map((n: any) => n.chainId),
                   variant: "default" as ExchangeVariant,
+                  onlyMyTokensOnSearch: false,
                   glassSettings: getDefaultGlassSettings(theme),
                   customVariantSettings: {
                     showPairInfo: true,
@@ -2355,6 +2357,27 @@ export default function ExchangeSettingsForm({
                       p: { xs: 1.5, sm: 2, md: 3 },
                       mr: { xs: 1, sm: 1.5, md: 2 }
                     }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          mb: { xs: 1.5, sm: 2 },
+                          fontSize: { xs: '1rem', sm: '1.25rem' }
+                        }}
+                      >
+                        <FormattedMessage
+                          id="exchange.search.configuration"
+                          defaultMessage="Exchange Search Configuration"
+                        />
+                      </Typography>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={values.onlyMyTokensOnSearch}
+                            onChange={(e) => setFieldValue("onlyMyTokensOnSearch", e.target.checked)}
+                          />
+                        }
+                        label={<FormattedMessage id="only.my.tokens.on.search" defaultMessage="Only my tokens on search" />}
+                      />
                       <Typography
                         variant="h6"
                         sx={{

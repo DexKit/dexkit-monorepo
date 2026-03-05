@@ -8,9 +8,11 @@ export const COIN_PLATFORM_SEARCH_QUERY = "COIN_PLATFORM_SEARCH_QUERY";
 export function usePlatformCoinSearch({
   keyword,
   network,
+  enabled = true,
 }: {
   keyword?: string;
   network?: string;
+  enabled?: boolean;
 }) {
   return useQuery(
     [COIN_PLATFORM_SEARCH_QUERY, keyword, network],
@@ -22,5 +24,6 @@ export function usePlatformCoinSearch({
 
       return [...req.data];
     }
-  );
+  ,{enabled}
+);
 }

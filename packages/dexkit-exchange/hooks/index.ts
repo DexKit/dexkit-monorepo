@@ -220,5 +220,6 @@ export function useExchangeContextState(params: {
     variant: settings?.variant || "default",
     customVariantSettings: settings?.customVariantSettings,
     glassSettings: settings?.glassSettings,
+    onlyMyTokensOnSearch: settings?.onlyMyTokensOnSearch,
   };
 }
