@@ -438,11 +438,17 @@ export function useFavoriteAssets() {
   };
   const isFavorite = useCallback(
     (asset?: Asset) => {
+      if (
+        asset === undefined ||
+        assets === undefined ||
+        asset?.contractAddress === undefined
+      ) {
+        return false;
+      }
+
       return (
-        asset !== undefined &&
-        assets !== undefined &&
         assets[
-        `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
+          `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
         ] !== undefined
       );
     },
@@ -482,7 +488,7 @@ export function useAccountAssetsBalance(
       const query = JSON.stringify(accounts);
       if (
         accountAssets?.lastTimeFetched &&
-        accountAssets?.lastTimeFetched.time < atualDate + 86400000 &&
+        atualDate - accountAssets.lastTimeFetched.time < 86400000 &&
         accountAssets?.lastTimeFetched.query === query
       ) {
         return false;
