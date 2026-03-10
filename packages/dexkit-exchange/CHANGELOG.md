@@ -1,5 +1,18 @@
 # @dexkit/ui
 
+## 2.1.0
+
+### Minor Changes
+
+- 2fef362: Added support to only use listed tokens on component search
+
+### Patch Changes
+
+- Updated dependencies [3324504]
+- Updated dependencies [9549dfb]
+- Updated dependencies [2fef362]
+  - @dexkit/ui@2.1.0
+
 ## 2.0.0
 
 ### Major Changes
