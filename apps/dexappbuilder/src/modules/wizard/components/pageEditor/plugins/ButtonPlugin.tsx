@@ -1,4 +1,3 @@
-import type { CellPlugin } from '@react-page/editor';
 
 import { PagesPicker } from '../components/ActionsPicker';
 
@@ -7,13 +6,13 @@ import ButtonPluginViewer from '@dexkit/dexappbuilder-viewer/components/page-edi
 type Data = {
   variant: 'text' | 'contained' | 'outlined';
   color:
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'inherit'
-    | 'primary'
-    | 'info'
-    | 'warning';
+  | 'secondary'
+  | 'success'
+  | 'error'
+  | 'inherit'
+  | 'primary'
+  | 'info'
+  | 'warning';
   size: 'small' | 'medium' | 'large';
   href: string;
   text: string;
@@ -77,7 +76,7 @@ const ButtonPlugin = {
         },
         action: {
           type: 'string',
-          enum: ['Open page', 'Open link'],
+          enum: ['Open page', 'Open link', 'Open Vibecoder'],
           title: 'Choose action on click',
         },
         href: {

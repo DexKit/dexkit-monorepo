@@ -20,6 +20,7 @@ import { AppMarketplaceProvider } from '../src/AppMarketplaceProvider';
 import { PageProps } from '../src/PageProps';
 import createEmotionCache from '../src/createEmotionCache';
 import { getTheme } from '../src/getTheme';
+import VibecoderDialogProvider from '../src/components/VibecoderDialogProvider';
 
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import SiteProvider from '@dexkit/ui/providers/SiteProvider';
@@ -137,6 +138,7 @@ export default function MyApp(props: MyAppProps) {
                             <CircularProgress color="inherit" size={80} />
                           </Backdrop>
                           {getLayout(<Component {...pageProps} />)}
+                          <VibecoderDialogProvider />
                         </AppMarketplaceProvider>
                       </LocalizationProvider>
                     </Hydrate>

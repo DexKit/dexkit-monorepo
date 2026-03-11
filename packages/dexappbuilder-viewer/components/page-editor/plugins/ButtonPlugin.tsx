@@ -35,6 +35,24 @@ const ButtonPlugin: CellPlugin<Data> = {
 
     const href = data.pageUri || data.href;
     //    const openInNewWindow = data?.targetBlank;
+
+    const handleClick = (e: React.MouseEvent) => {
+      if (isEditMode) {
+        e.preventDefault();
+        return;
+      }
+
+      if (data.action === 'Open Vibecoder') {
+        e.preventDefault();
+        const event = new CustomEvent('openVibecoder', {
+          detail: {},
+          bubbles: true,
+        });
+        window.dispatchEvent(event);
+        return;
+      }
+    };
+
     const position = useMemo(() => {
       if (isMobile && data.forceCenterOnMobile) {
         return "center";
@@ -77,12 +95,12 @@ const ButtonPlugin: CellPlugin<Data> = {
     };
 
     return (
-      <Box 
-        sx={{ 
+      <Box
+        sx={{
           p: data.padding,
           width: '100%'
-        }} 
-        display={"flex"} 
+        }}
+        display={"flex"}
         justifyContent={position}
       >
         {data.targetBlank ? (
@@ -112,11 +130,35 @@ const ButtonPlugin: CellPlugin<Data> = {
                   boxShadow: isMobile ? theme.shadows[4] : theme.shadows[2],
                 }
               }}
-              onClick={isEditMode ? (e: any) => e.preventDefault() : undefined}
+              onClick={handleClick}
             >
               {data.text ? data.text : "Button"}
             </Button>
           </Link>
+        ) : data.action === 'Open Vibecoder' ? (
+          <Button
+            variant={data.variant ? data.variant : undefined}
+            color={data.color ? data.color : undefined}
+            size={data.size ? data.size : undefined}
+            fullWidth={isMobile ? true : data.fullWidth}
+            sx={{
+              minWidth: getMinWidth(),
+              px: getHorizontalPadding(),
+              py: isMobile ? 1.5 : 1,
+              whiteSpace: 'nowrap',
+              fontSize: isMobile ? '1rem' : '0.875rem',
+              fontWeight: 500,
+              borderRadius: 2,
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: isMobile ? 'translateY(-1px)' : 'none',
+                boxShadow: isMobile ? theme.shadows[4] : theme.shadows[2],
+              }
+            }}
+            onClick={handleClick}
+          >
+            {data.text ? data.text : "Button"}
+          </Button>
         ) : (
           <Button
             variant={data.variant ? data.variant : undefined}
@@ -138,7 +180,7 @@ const ButtonPlugin: CellPlugin<Data> = {
                 boxShadow: isMobile ? theme.shadows[4] : theme.shadows[2],
               }
             }}
-              onClick={isEditMode ? (e: any) => e.preventDefault() : undefined}
+            onClick={handleClick}
           >
             {data.text ? data.text : "Button"}
           </Button>
@@ -188,7 +230,7 @@ const ButtonPlugin: CellPlugin<Data> = {
         action: {
           type: 'string',
           title: 'Action',
-          enum: ['Open page', 'Open link', 'Submit form', 'Custom'],
+          enum: ['Open page', 'Open link', 'Submit form', 'Custom', 'Open Vibecoder'],
           default: 'Open page',
         },
         fullWidth: {
