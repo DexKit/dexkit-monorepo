@@ -88,7 +88,7 @@ export const getStaticProps = async ({
   if (params !== undefined) {
     const { address, network, site } = params;
 
-    const configResponse = await getAppConfig(site, 'home');
+    const configResponse = await getAppConfig(site, '');
 
     const queryClient = new QueryClient();
 
