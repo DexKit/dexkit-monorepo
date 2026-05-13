@@ -1,20 +1,16 @@
 import Container from '@mui/material/Container';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { Grid, Skeleton } from '@mui/material';
 import MainLayout from '../../../../../../src/components/layouts/main';
 
-import { fetchAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query';
 
 import AssetHead from '@dexkit/ui/modules/nft/components/AssetHead';
 
-import { ChainId } from '@dexkit/core/constants';
 import { ipfsUriToUrl, truncateAddress } from '@dexkit/core/utils';
 import {
-  getChainIdFromSlug,
-  getNetworkSlugFromChainId,
+  getNetworkSlugFromChainId
 } from '@dexkit/core/utils/blockchain';
 import { NextSeo } from 'next-seo';
 import { FormattedMessage } from 'react-intl';
@@ -23,16 +19,9 @@ import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import AssetSection from '@dexkit/dexappbuilder-viewer/components/sections/AssetSection';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import {
-  IS_SUPPORTED_BY_RARIBLE,
-  MAP_NETWORK_TO_RARIBLE,
-  SUPPORTED_RARIBLE_NETWORKS,
-} from '@dexkit/ui/modules/nft/constants/marketplaces';
-import {
-  BEST_SELL_ORDER_RARIBLE,
   useAsset,
-  useAssetMetadata,
+  useAssetMetadata
 } from '@dexkit/ui/modules/nft/hooks';
-import { getRariAsset } from '@dexkit/ui/modules/nft/services/rarible';
 import { truncateErc1155TokenId } from '@dexkit/ui/modules/nft/utils';
 
 import { getAppConfig } from '../../../../../../src/services/app';
@@ -128,39 +117,39 @@ export const getStaticProps: GetStaticProps = async ({
   if (params !== undefined) {
     const { address, id, network, site } = params;
 
-    const configResponse = await getAppConfig(site, 'home');
+    const configResponse = await getAppConfig(site, '');
 
-    const queryClient = new QueryClient();
-    const item = {
-      contractAddress: address || '',
-      tokenId: id || '',
-      chainId: getChainIdFromSlug(network || '')?.chainId as ChainId,
-    };
-    await fetchAssetForQueryClient({ queryClient, item });
-
-    try {
-      if (
-        network &&
-        IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
-      ) {
-        const { data } = await getRariAsset(
-          `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
-          }:${address}:${id}`,
-        );
-        await queryClient.prefetchQuery(
-          [BEST_SELL_ORDER_RARIBLE, network, address, id],
-          async () => {
-            return data;
-          },
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    /* const queryClient = new QueryClient();
+     const item = {
+       contractAddress: address || '',
+       tokenId: id || '',
+       chainId: getChainIdFromSlug(network || '')?.chainId as ChainId,
+     };
+     await fetchAssetForQueryClient({ queryClient, item });
+ 
+     try {
+       if (
+         network &&
+         IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
+       ) {
+         const { data } = await getRariAsset(
+           `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+           }:${address}:${id}`,
+         );
+         await queryClient.prefetchQuery(
+           [BEST_SELL_ORDER_RARIBLE, network, address, id],
+           async () => {
+             return data;
+           },
+         );
+       }
+     } catch (e) {
+       console.log(e);
+     }*/
 
     return {
       props: {
-        dehydratedState: dehydrate(queryClient),
+        // dehydratedState: dehydrate(queryClient),
         ...configResponse,
       },
       revalidate: REVALIDATE_PAGE_TIME,
