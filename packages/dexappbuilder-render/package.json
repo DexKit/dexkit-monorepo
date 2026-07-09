@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@dexkit/dexappbuilder-viewer": "*",
-    "@dexkit/evm-chains": "^1.15.2",
+    "@dexkit/evm-chains": "1.16.0",
     "@dexkit/ui": "*",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.10.5",

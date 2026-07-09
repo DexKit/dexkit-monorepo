@@ -37,6 +37,14 @@ export const GECKOTERMINAL_NETWORK: { [key: number]: string } = {
   [ChainId.Mantle]: "mantle",
   [ChainId.Mode]: "mode",
   [ChainId.Cronos]: "cro",
+  [ChainId.Unichain]: "unichain",
+  [ChainId.WorldChain]: "world-chain",
+  [ChainId.Abstract]: "abstract",
+  [ChainId.Berachain]: "berachain",
+  [ChainId.Ink]: "ink",
+  [ChainId.Monad]: "monad",
+  [ChainId.Plasma]: "plasma",
+  [ChainId.Sonic]: "sonic",
 };
 
 export const GET_GECKOTERMINAL_NETWORK = (chainId?: ChainId) => {
@@ -55,11 +63,20 @@ export const ZEROX_SUPPORTED_NETWORKS = [
   ChainId.Base,
   ChainId.Arbitrum,
   ChainId.Avax,
-  ChainId.Linea,
   ChainId.Scroll,
   ChainId.Mantle,
   ChainId.Blast,
   ChainId.Mode,
+  ChainId.Unichain,
+  ChainId.WorldChain,
+  ChainId.HyperEVM,
+  ChainId.Abstract,
+  ChainId.Tempo,
+  ChainId.Plasma,
+  ChainId.Sonic,
+  ChainId.Monad,
+  ChainId.Ink,
+  ChainId.Berachain,
 ];
 
 export const DEFAULT_ZRX_NETWORKS = ZEROX_SUPPORTED_NETWORKS;

@@ -45,7 +45,7 @@
     "@dexkit/core": "*",
     "@dexkit/dexappbuilder-render": "*",
     "@dexkit/dexappbuilder-viewer": "*",
-    "@dexkit/evm-chains": "1.15.2",
+    "@dexkit/evm-chains": "1.16.0",
     "@dexkit/ui": "*",
     "@dexkit/wallet-connectors": "*",
     "@dexkit/web3forms": "*",

@@ -20,6 +20,16 @@ export enum ChainId {
   Mantle = 5000,
   Linea = 59144,
   Scroll = 534352,
+  Unichain = 130,
+  WorldChain = 480,
+  HyperEVM = 999,
+  Abstract = 2741,
+  Tempo = 4217,
+  Plasma = 9745,
+  Sonic = 146,
+  Monad = 143,
+  Ink = 57073,
+  Berachain = 80094,
 }
 
 export enum TransactionStatus {

@@ -1957,7 +1957,7 @@ export default function ExchangeSettingsForm({
             <Typography variant="body2" color="text.secondary">
               <FormattedMessage
                 id="exchange.requires.0x.compatible.networks"
-                defaultMessage="Exchange requires compatible networks with 0x API. Please enable at least one of the following networks: Ethereum, Optimism, BSC, Polygon, Base, Arbitrum, Avalanche, Linea, Scroll, Mantle, Blast or Mode."
+                defaultMessage="Exchange requires compatible networks with 0x API. Please enable at least one of the following networks: Ethereum, Optimism, BSC, Polygon, Base, Arbitrum, Avalanche, Scroll, Mantle, Blast, Mode, Unichain, World Chain, HyperEVM, Abstract, Tempo, Plasma, Sonic, Monad, Ink or Berachain."
               />
             </Typography>
           </Paper>
