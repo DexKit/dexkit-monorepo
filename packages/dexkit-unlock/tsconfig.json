@@ -1,14 +1,13 @@
 {
   "extends": "tsconfig/react-library.json",
   "include": ["src/**/*"],
-  "exclude": ["dist", "build", "node_modules"],
+  "exclude": ["dist", "build", "node_modules", ".turbo", "coverage"],
   "compilerOptions": {
     "outDir": "./dist",
     "moduleResolution": "Bundler",
     "rootDir": ".",
     "resolveJsonModule": true,
     "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include", "ES2021.String"],
-    "typeRoots": ["./node_modules/@types"],
-    "types": []
+    "types": ["react", "react-dom"]
   }
 }

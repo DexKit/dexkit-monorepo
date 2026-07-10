@@ -10,6 +10,8 @@
     "postinstall": "yarn build:packages",
     "setup": "yarn install && yarn build:packages",
     "verify": "node scripts/verify-setup.js",
+    "check:nested-node-modules": "node scripts/check-nested-node-modules.js",
+    "remove-node-modules:nested": "bash scripts/bash/remove-nested-node-modules.sh",
     "clean-daemon": "turbo daemon clean",
     "build": "turbo run build",
     "release": "turbo run release --filter=@dexkit/ui,@dexkit/web3forms,@dexkit/widgets,@dexkit/dexappbuilder-viewer,@dexkit/core",
@@ -56,7 +58,7 @@
     "next-transpile-modules": "^10.0.0",
     "prettier": "latest",
     "turbo": "^1.11.3",
-    "typescript": "^5"
+    "typescript": "5.8.3"
   },
   "engines": {
     "node": "22.x"
@@ -84,6 +86,11 @@
     "uint8arrays": "3.1.1"
   },
   "resolutions": {
+    "typescript": "5.8.3",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
+    "@types/node": "20.19.23",
+    "yup": "0.32.11",
     "ethereumjs-abi": "0.6.8",
     "@mui/styled-engine": "7.3.3",
     "@mui/material": "7.3.2",

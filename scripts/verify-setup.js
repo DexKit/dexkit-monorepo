@@ -100,6 +100,29 @@ function main() {
     console.error('❌ turbo.json not found');
     allGood = false;
   }
+
+  // Nested node_modules inflate tsserver memory
+  console.log('\n📁 Verifying Yarn hoisting (no nested node_modules)...');
+  const nested = [];
+  for (const workspaceRoot of ['apps', 'packages']) {
+    const workspacePath = path.resolve(__dirname, '..', workspaceRoot);
+    if (!fs.existsSync(workspacePath)) continue;
+    for (const entry of fs.readdirSync(workspacePath, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const nestedPath = path.join(workspacePath, entry.name, 'node_modules');
+      if (fs.existsSync(nestedPath)) {
+        nested.push(path.relative(path.resolve(__dirname, '..'), nestedPath));
+      }
+    }
+  }
+  if (nested.length === 0) {
+    console.log('✅ No nested node_modules under apps/* or packages/*');
+  } else {
+    console.error(`❌ Found ${nested.length} nested node_modules directories:`);
+    nested.forEach((dir) => console.error(`   - ${dir}`));
+    console.error('   Run: yarn remove-node-modules:nested && yarn install');
+    allGood = false;
+  }
   
   if (allGood) {
     console.log('\n🎉 All checks passed! The monorepo is set up correctly.');

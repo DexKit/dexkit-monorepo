@@ -1,17 +1,12 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
-    "allowJs": true,
-    "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "downlevelIteration": true,
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
@@ -33,12 +28,26 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "pages/**/*.ts",
+    "pages/**/*.tsx",
     "types/**/*.d.ts",
     "next-sitemap.config.js",
     "scripts/local-diff.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "**/node_modules/json-stable-stringify", "**/node_modules/minimatch"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next/cache",
+    ".turbo",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "__tests__/**",
+    "**/node_modules/json-stable-stringify",
+    "**/node_modules/minimatch"
+  ]
 }

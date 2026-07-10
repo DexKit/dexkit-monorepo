@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "tsconfig": "*",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@dexkit/dexappbuilder-viewer": "*",

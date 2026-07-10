@@ -8,16 +8,8 @@
     "resolveJsonModule": true,
     "target": "es2021",
     "skipLibCheck": true,
-    "noImplicitAny": false,
-    "strict": false,
-    "noImplicitReturns": false,
-    "noImplicitThis": false,
-    "exactOptionalPropertyTypes": false,
-    "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "noUncheckedIndexedAccess": false,
     "ignoreDeprecations": "5.0",
-    "typeRoots": ["./node_modules/@types"],
+    "types": ["react", "react-dom"],
     "lib": [
       "DOM",
       "ES6",
@@ -27,5 +19,5 @@
       "ES2021.String"
     ]
   },
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["dist", "build", "node_modules", ".turbo", "coverage"]
 }

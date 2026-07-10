@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -7,30 +8,13 @@
       "esnext",
       "ES2021.String"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "types": [],
     "noLib": false,
-    "strict": false,
     "strictNullChecks": false,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "noImplicitThis": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "exactOptionalPropertyTypes": false,
-    "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "noUncheckedIndexedAccess": false,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "downlevelIteration": true,
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
@@ -54,16 +38,25 @@
   "include": [
     "next-env.d.ts",
     "global.d.ts",
-    "src/types/react-hooks.d.ts",
-    "src/types/next.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "middleware.ts",
+    "next-seo.config.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "pages/**/*.ts",
+    "pages/**/*.tsx",
     "next-sitemap.config.js",
     "scripts/local-diff.js",
-    ".next/types/**/*.ts",
-    "../../packages/dexkit-ui/components/AddCredits.tsx"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    "build",
+    ".next/cache",
+    ".turbo",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "__tests__/**"
   ]
 }

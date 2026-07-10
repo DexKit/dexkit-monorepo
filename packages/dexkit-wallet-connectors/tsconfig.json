@@ -1,10 +1,22 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
-  "outDir": "./dist",
-  "exclude": ["dist", "build", "node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".turbo",
+    "coverage",
+    "storybook-static",
+    "stories",
+    ".storybook",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "./dist",
     "lib": [
       "DOM",
       "ES6",

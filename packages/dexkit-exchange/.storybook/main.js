@@ -11,6 +11,13 @@ module.exports = {
   core: {
     builder: "@storybook/builder-vite",
   },
+  typescript: {
+    check: true,
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: "../tsconfig.storybook.json",
+    },
+  },
   async viteFinal(config, { configType }) {
     if (configType === "DEVELOPMENT") {
       // Your development configuration goes here

@@ -1,6 +1,6 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
@@ -14,5 +14,17 @@
       "ES2021.String"
     ]
   },
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".turbo",
+    "coverage",
+    "storybook-static",
+    "stories",
+    ".storybook",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }

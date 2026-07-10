@@ -1,6 +1,6 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tsup.config.ts"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -8,5 +8,14 @@
     "lib": ["ES5", "ES6", "ESNext", "ES2016", "DOM", "es2017"],
     "target": "ES6"
   },
-  "exclude": ["dist", "build"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".turbo",
+    "coverage",
+    "storybook-static",
+    "stories",
+    ".storybook"
+  ]
 }

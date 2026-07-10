@@ -1,37 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "noImplicitThis": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "exactOptionalPropertyTypes": false,
-    "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "noUncheckedIndexedAccess": false,
-    "allowSyntheticDefaultImports": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "files": [],
+  "references": [
+    { "path": "./apps/coinleague" },
+    { "path": "./apps/dexappadmin" },
+    { "path": "./apps/dexappbuilder" },
+    { "path": "./apps/wallet" },
+    { "path": "./apps/widget" },
+    { "path": "./packages/dexappbuilder-render" },
+    { "path": "./packages/dexappbuilder-viewer" },
+    { "path": "./packages/dexkit-core" },
+    { "path": "./packages/dexkit-exchange" },
+    { "path": "./packages/dexkit-ui" },
+    { "path": "./packages/dexkit-unlock" },
+    { "path": "./packages/dexkit-wallet-connectors" },
+    { "path": "./packages/dexkit-widgets" },
+    { "path": "./packages/web3forms" }
+  ]
 }

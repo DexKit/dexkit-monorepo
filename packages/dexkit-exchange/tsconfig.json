@@ -1,13 +1,25 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".turbo",
+    "coverage",
+    "storybook-static",
+    "stories",
+    ".storybook",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
   "compilerOptions": {
-    "baseUrl": ".", // This must be specified if "paths" is.
+    "baseUrl": ".",
     "moduleResolution": "Bundler",
     "typeRoots": [
-      "node_modules/@0x/typescript-typings/types",
-      "node_modules/@types"
+      "../../node_modules/@0x/typescript-typings/types",
+      "../../node_modules/@types"
     ]
   }
 }

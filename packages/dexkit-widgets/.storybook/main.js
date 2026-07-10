@@ -10,6 +10,13 @@ module.exports = {
   ],
   framework: "@storybook/react",
   staticDirs: ["../assets"],
+  typescript: {
+    check: true,
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: "../tsconfig.storybook.json",
+    },
+  },
   env: (config) => ({
     ...config,
   }),

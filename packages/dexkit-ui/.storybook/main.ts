@@ -21,6 +21,13 @@ const config: StorybookConfig = {
 
 
   },
+  typescript: {
+    check: true,
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: "../tsconfig.storybook.json",
+    },
+  },
   docs: {
     autodocs: "tag",
   },
