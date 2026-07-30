@@ -24,6 +24,8 @@ export function useConnectWalletDialog() {
   return useConnectWalletDialogV2();
 }
 
+export { useVibecoderDialog } from './app/useVibecoderDialog';
+
 export function useCollections() {
   const appConfig = useAppConfig();
   return appConfig?.collections;
