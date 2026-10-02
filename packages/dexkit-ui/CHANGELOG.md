@@ -1,5 +1,24 @@
 # @dexkit/ui
 
+## 2.1.0
+
+### Minor Changes
+
+- ee0884a: Bump `@dexkit/evm-chains` to `1.16.0` and expand 0x swap/exchange chain support.
+
+  **Swap:** add Abstract (2741), Berachain (80094), HyperEVM (999), Ink (57073), Monad (143), Plasma (9745), Sonic (146), Tempo (4217), and World Chain (480). Unichain (130) was already supported.
+
+  **Exchange:** add the same mainnets to `ZEROX_SUPPORTED_NETWORKS`, except Linea (59144) which stays swap-only. Add matching `ChainId` enum values and GeckoTerminal slugs where applicable.
+
+- 3324504: Add multimedia compatibility for NFTs and increased upload size for media
+- 9549dfb: Add multimedia support. Media uploading and media NFT creation and handling
+- 2fef362: Added support to only use listed tokens on component search
+
+### Patch Changes
+
+- Updated dependencies [ee0884a]
+  - @dexkit/core@2.1.0
+
 ## 2.0.0
 
 ### Major Changes

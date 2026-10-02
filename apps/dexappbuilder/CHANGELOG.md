@@ -1,5 +1,30 @@
 # dexappbuilder
 
+## 2.1.0
+
+### Minor Changes
+
+- 9549dfb: Add multimedia support. Media uploading and media NFT creation and handling
+
+### Patch Changes
+
+- ee0884a: Bump `@dexkit/evm-chains` to `1.16.0` and expand 0x swap/exchange chain support.
+
+  **Swap:** add Abstract (2741), Berachain (80094), HyperEVM (999), Ink (57073), Monad (143), Plasma (9745), Sonic (146), Tempo (4217), and World Chain (480). Unichain (130) was already supported.
+
+  **Exchange:** add the same mainnets to `ZEROX_SUPPORTED_NETWORKS`, except Linea (59144) which stays swap-only. Add matching `ChainId` enum values and GeckoTerminal slugs where applicable.
+
+- Updated dependencies [ee0884a]
+- Updated dependencies [9df5d92]
+- Updated dependencies [3324504]
+- Updated dependencies [9549dfb]
+- Updated dependencies [2fef362]
+  - @dexkit/ui@2.1.0
+  - @dexkit/core@2.1.0
+  - @dexkit/dexappbuilder-render@2.0.1
+  - @dexkit/web3forms@2.1.0
+  - @dexkit/dexappbuilder-viewer@2.1.0
+
 ## 2.0.0
 
 ### Major Changes
