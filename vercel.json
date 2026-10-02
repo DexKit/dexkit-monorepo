@@ -1,0 +1,4 @@
+{
+  "installCommand": "bash scripts/yarn-install-with-retry.sh",
+  "buildCommand": "yarn build:vercel"
+}
