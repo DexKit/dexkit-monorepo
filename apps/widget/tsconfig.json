@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "ES2021.String"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -23,7 +28,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/modules/*": ["src/modules/*"]
+      "@/modules/*": [
+        "src/modules/*"
+      ]
     },
     "plugins": [
       {
@@ -40,5 +47,7 @@
     "scripts/local-diff.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -9,6 +9,7 @@ import { myAppsApi } from 'src/services/whitelabel';
 import { holdsKitDialogAtom } from 'src/state/atoms';
 
 
+import { getNormalizedUrl } from '@dexkit/core/utils';
 import { isIpfsUri } from '@dexkit/core/utils/ipfs';
 import { useAuth, useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
 import { getMultipleAssetDexKitApi } from '@dexkit/ui/modules/nft/services';
@@ -390,8 +391,7 @@ export function useCollectionMetadataQuery(address?: string) {
     let contractURI: string = await contract.contractURI();
 
     if (isIpfsUri(contractURI)) {
-      let cleanImageHash = new URL(contractURI).pathname.replace('//', '');
-      contractURI = `https://ipfs.io/ipfs/${cleanImageHash}`;
+      contractURI = getNormalizedUrl(contractURI);
     }
 
     let metadata: { name: string; description: string; image: string } =
@@ -400,8 +400,7 @@ export function useCollectionMetadataQuery(address?: string) {
     let contractImage = metadata.image;
 
     if (isIpfsUri(contractImage)) {
-      let cleanImageHash = new URL(contractImage).pathname.replace('//', '');
-      contractImage = `https://ipfs.io/ipfs/${cleanImageHash}`;
+      contractImage = getNormalizedUrl(contractImage);
     }
 
     return {

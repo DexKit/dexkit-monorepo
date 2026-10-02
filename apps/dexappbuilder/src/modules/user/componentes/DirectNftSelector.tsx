@@ -1,3 +1,4 @@
+import { getNormalizedUrl } from '@dexkit/core/utils';
 import { getNetworkSlugFromChainId } from '@dexkit/core/utils/blockchain';
 import { AssetAPI } from '@dexkit/ui/modules/nft/types';
 import { ExtendedAsset } from '@dexkit/ui/types/ai';
@@ -133,11 +134,11 @@ function NftCard({ nft, isSelected, onClick }: NftCardProps) {
     if (!url || !isValidImageUrl(url)) return '';
 
     if (url.startsWith('ipfs://')) {
-      return url.replace('ipfs://', 'https://ipfs.io/ipfs/');
+      return getNormalizedUrl(url);
     }
 
     if (url.startsWith('/') && !url.startsWith('//')) {
-      let domain = 'ipfs.io';
+      let domain = 'gateway.pinata.cloud';
       if (nft.tokenURI) {
         try {
           const urlParts = nft.tokenURI.split('/');
@@ -398,10 +399,7 @@ export function DirectNftSelector({
             }
 
             if (asset.imageUrl && asset.imageUrl.startsWith('ipfs://')) {
-              asset.imageUrl = asset.imageUrl.replace(
-                'ipfs://',
-                'https://ipfs.io/ipfs/',
-              );
+              asset.imageUrl = getNormalizedUrl(asset.imageUrl);
             }
 
             if (asset.chainId && !asset.networkId) {

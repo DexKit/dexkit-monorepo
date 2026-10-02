@@ -534,14 +534,13 @@ export default function useThirdwebContractMetadataQuery({
       .getLatest(publisher, id);
 
     if (contract) {
+      // Keep Pinata (IPFS_GATEWAY). Public ipfs.io rate-limits / blocks
+      // browser origins (CORS + 403/429), which breaks deploy submit.
       const normalizedUrl = getNormalizedUrl(contract.metadataUri);
 
       const result = (
-        await axios.get<ThirdwebMetadata>(
-          normalizedUrl.replace("gateway.pinata.cloud", "ipfs.io")
-        )
+        await axios.get<ThirdwebMetadata>(normalizedUrl)
       ).data;
-
 
       return result;
     }

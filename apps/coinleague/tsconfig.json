@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "ES2021.String"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -24,8 +29,12 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/modules/*": ["src/modules/*"],
-      "@/hooks/*": ["src/hooks/*"]
+      "@/modules/*": [
+        "src/modules/*"
+      ],
+      "@/hooks/*": [
+        "src/hooks/*"
+      ]
     },
     "plugins": [
       {
@@ -46,5 +55,8 @@
     "../../packages/dexkit-ui/hooks/useColumns.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "**/node_modules/json-stable-stringify"]
+  "exclude": [
+    "node_modules",
+    "**/node_modules/json-stable-stringify"
+  ]
 }
