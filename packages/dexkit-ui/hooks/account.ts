@@ -42,3 +42,21 @@ export function useAccountHoldDexkitQuery() {
     return hasKit > 0;
   })
 }
+
+
+export function useHoldDexkitQuery({ account }: { account?: string }) {
+
+  return useQuery([account], async () => {
+    if (!account) {
+      return;
+    }
+    if (WHITELISTED_AI_ACCOUNTS.map(a => a.toLowerCase()).includes(account.toLowerCase())) {
+      return true;
+    }
+
+
+    const minHolding = MIN_KIT_HOLDING_AI_GENERATION;
+    const hasKit = await getKitBalanceOfThreshold(account, minHolding)
+    return hasKit > 0;
+  })
+}
